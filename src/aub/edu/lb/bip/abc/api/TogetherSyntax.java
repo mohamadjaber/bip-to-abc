@@ -31,20 +31,6 @@ public class TogetherSyntax {
 	public final static String lessEqual = "<=";
 
 
-
-
-
-
-
-
-	
-	public static String ifElse(String condition, String ifCode, String elseCode) {
-		return if_condition + "(" + condition + ") {\n"  +
-				ifCode + "\n" +
-				"} " + else_condition + " {\n" +
-				elseCode + "\n" +
-				"}";
-	}
 	
 	public static String declareWire(String type, String wireName) {
 		return wire + " " + type + " " + wireName + ";";

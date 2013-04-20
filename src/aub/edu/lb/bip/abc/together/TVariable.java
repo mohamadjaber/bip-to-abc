@@ -4,14 +4,13 @@ import aub.edu.lb.bip.abc.api.Parser;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import ujf.verimag.bip.Core.Behaviors.Expression;
 import ujf.verimag.bip.Core.Behaviors.Variable;
-import ujf.verimag.bip.Core.Interactions.Component;
 
 public class TVariable extends TNamedElement{
 	
 	private Variable variable; 
-	private Component component;
+	private TComponent component;
 	
-	public TVariable(Variable var, Component comp) {
+	public TVariable(Variable var, TComponent comp) {
 		variable = var;
 		component = comp;
 		setName();
@@ -32,6 +31,8 @@ public class TVariable extends TNamedElement{
 				component.getName() + "_" + 
 				variable.getName();
 	}
+	
+
 
 
 }
