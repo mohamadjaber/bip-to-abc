@@ -48,9 +48,4 @@ public class TInteraction extends TNamedElement{
 	}
 	
 
-	
-
-	
-	
-
 }
