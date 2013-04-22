@@ -2,14 +2,14 @@ package aub.edu.lb.bip.abc.together;
 
 public class TPortInteractionEnable extends TNamedElement{
 
-	private TPort port; 
+	private TPort tPort; 
 	
 	public TPortInteractionEnable(String n, TPort p) {
 		name = n; 
-		port = p; 
+		tPort = p; 
 	}
 	
-	public TPort getPort() {
-		return port; 
+	public TPort getTPort() {
+		return tPort; 
 	}
 }

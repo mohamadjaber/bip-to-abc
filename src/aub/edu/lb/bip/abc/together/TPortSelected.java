@@ -2,14 +2,14 @@ package aub.edu.lb.bip.abc.together;
 
 public class TPortSelected extends TNamedElement{
 
-	private TPort port; 
+	private TPort tPort; 
 	
 	public TPortSelected(String n, TPort p) {
 		name = n; 
-		port = p; 
+		tPort = p; 
 	}
 	
 	public TPort getPort() {
-		return port; 
+		return tPort; 
 	}
 }

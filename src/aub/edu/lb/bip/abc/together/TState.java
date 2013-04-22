@@ -19,13 +19,13 @@ public class TState extends TNamedElement{
 	private static int constStateID = 0; 
 	
 	private State state; 
-	private TComponent component;
+	private TComponent tComponent;
 	private final Integer value; 
 	
 	public TState(State s, TComponent comp) {
 		state = s; 
 		value = constStateID++;
-		component = comp;
+		tComponent = comp;
 		setName();
 	}
 	
@@ -44,17 +44,16 @@ public class TState extends TNamedElement{
 		// generate upper condition--> if(currentState == value)
 		nextStateFunc.setCondition(new TBinaryExpression(
 						BinaryOperator.EQUALITY,
-						component.getCurrentState(), 
+						tComponent.getCurrentState(), 
 						new TNamedElement("" + value)
 					)
 				);
 
 		// generate upper else case --> currentState = currentState;
 		nextStateFunc.setElseCase(new TAssignmentAction(
-						component.getCurrentState(), 
-						component.getCurrentState()
-					)
-				);
+				tComponent.getCurrentState(), 
+				tComponent.getCurrentState()
+			));
 		
 		// for each transition generate nested if and else cases
 		TIfAction currentAction = nextStateFunc;
@@ -74,10 +73,9 @@ public class TState extends TNamedElement{
 			}
 			else { // last transition
 				currentAction.setElseCase(new TAssignmentAction(
-								component.getCurrentState(), 
-								component.getCurrentState()
-							)
-						);
+						tComponent.getCurrentState(), 
+						tComponent.getCurrentState()
+					));
 			}
 		}
 		return nextStateFunc;
@@ -86,15 +84,15 @@ public class TState extends TNamedElement{
 	private TAction nextStateFunctionTransition(Transition t) {
 		TIfAction transAction = null;
 		if(t.getDestination().size() == 1) { 
-			TState next = component.getState(t.getDestination().get(0));
-			TPort port = component.getPort(TransformationFunction.getPort(t.getTrigger()));
+			TState next = tComponent.getState(t.getDestination().get(0));
+			TPort port = tComponent.getPort(TransformationFunction.getPort(t.getTrigger()));
 			transAction = new TIfAction();
 			transAction.setCondition(port.getSelected());
-			TAction fAction = new TNamedElement(Parser.decompile(t.getAction(), component));
+			TAction fAction = new TNamedElement(Parser.decompile(t.getAction(), tComponent));
 			TAction updateStateAction = new TAssignmentAction(
-						component.getCurrentState(), 
-						new TNamedElement("" + next.value)
-					);
+					tComponent.getCurrentState(), 
+					new TNamedElement("" + next.value)
+				);
 			TCompositeAction ca = new TCompositeAction();
 			ca.getContents().add(fAction);
 			ca.getContents().add(updateStateAction);
@@ -105,7 +103,7 @@ public class TState extends TNamedElement{
 
 	private void setName() {
 		name = TogetherSyntax.state + "_" + 
-				component.getName() + "_" +
+				tComponent.getName() + "_" +
 				state.getName();
 	}
 	

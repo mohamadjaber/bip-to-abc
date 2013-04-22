@@ -14,7 +14,7 @@ import aub.edu.lb.bip.abc.expression.TUnaryExpression;
 
 public class TPortLocalEnable extends TNamedElement{
 	
-	private TPort port; 
+	private TPort tPort; 
 	
 	// Enablement expression
 	// ((state1 /\ guard1) \/ (state2 /\ guard2) ... ) /\ (!portSelected)
@@ -22,20 +22,20 @@ public class TPortLocalEnable extends TNamedElement{
 	
 	public TPortLocalEnable(String n, TPort p) {
 		name = n; 
-		port = p; 
+		tPort = p; 
 		setExpression();
 	}
 	
 	// Enablement expression
 	// ((state1 /\ guard1) \/ (state2 /\ guard2) ... ) /\ (!portSelected)
 	private void setExpression() {
-		List<Transition> transitions = TransformationFunction.getTransitions(port.getPort());
+		List<Transition> transitions = TransformationFunction.getTransitions(tPort.getPort());
 		expression = new TNamedElement(TogetherSyntax.true_condition);
 		for(Transition t: transitions) {
 			TExpression andTransition = new TBinaryExpression(
 					BinaryOperator.LOGICAL_AND, 
-					port.getComponent().getState(t.getOrigin().get(0)),
-					new TNamedElement(Parser.decompile(t.getGuard(), port.getComponent()))
+					tPort.getTComponent().getState(t.getOrigin().get(0)),
+					new TNamedElement(Parser.decompile(t.getGuard(), tPort.getTComponent()))
 				);
 			expression = new TBinaryExpression(
 					BinaryOperator.LOGICAL_OR,
@@ -48,12 +48,12 @@ public class TPortLocalEnable extends TNamedElement{
 				BinaryOperator.LOGICAL_OR,
 				expression,
 				new TUnaryExpression(UnaryOperator.LOGICAL_NOT, 
-						new TNamedElement(port.getSelected().getName()))
+						new TNamedElement(tPort.getSelected().getName()))
 			); 	
 	}
 
 	public TPort getPort() {
-		return port; 
+		return tPort; 
 	}
 	
 }

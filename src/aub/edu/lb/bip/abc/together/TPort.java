@@ -5,7 +5,7 @@ import ujf.verimag.bip.Core.Behaviors.Port;
 
 public class TPort extends TNamedElement {
 	private Port port;
-	private TComponent component;
+	private TComponent tComponent;
 	
 	private TPortLocalEnable localEnable;
 	private TPortInteractionEnable interactionEnable; 
@@ -15,7 +15,7 @@ public class TPort extends TNamedElement {
 	
 	public TPort(Port p, TComponent comp) {
 		port = p; 
-		component = comp; 
+		tComponent = comp; 
 		setName();
 		setPorts();
 	}
@@ -27,7 +27,7 @@ public class TPort extends TNamedElement {
 	}
 
 	public void setName() {
-		name += component.getName() + "_" + port.getName();
+		name += tComponent.getName() + "_" + port.getName();
 	}
 	
 	
@@ -35,7 +35,7 @@ public class TPort extends TNamedElement {
 	private void setLocalEnable() {
 		localEnable = new TPortLocalEnable(TogetherSyntax.port + "_" + 
 				TogetherSyntax.port_local_enable + "_" +
-				component.getName() + "_" +
+				tComponent.getName() + "_" +
 				port.getName()
 			, this);
 	}
@@ -43,7 +43,7 @@ public class TPort extends TNamedElement {
 	private void setSelected() {
 		selected = new TPortSelected(TogetherSyntax.port + "_" + 
 				TogetherSyntax.port_selected + "_" +
-				component.getName() + "_" +
+				tComponent.getName() + "_" +
 				port.getName()
 			, this);
 	}
@@ -52,7 +52,7 @@ public class TPort extends TNamedElement {
 	private void setInteractionEnable() {
 		interactionEnable = new TPortInteractionEnable(TogetherSyntax.port + "_" + 
 				TogetherSyntax.port_inter_enable+ "_" +
-				component.getName() + "_" +
+				tComponent.getName() + "_" +
 				port.getName()
 			, this);
 	}
@@ -70,8 +70,8 @@ public class TPort extends TNamedElement {
 		return selected; 
 	}
 	
-	public TComponent getComponent() {
-		return component; 
+	public TComponent getTComponent() {
+		return tComponent; 
 	}
 	
 	public Port getPort() {
