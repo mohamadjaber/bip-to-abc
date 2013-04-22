@@ -37,7 +37,7 @@ public class TPort extends TNamedElement {
 				TogetherSyntax.port_local_enable + "_" +
 				component.getName() + "_" +
 				port.getName()
-			);
+			, this);
 	}
 	
 	private void setSelected() {
@@ -45,7 +45,7 @@ public class TPort extends TNamedElement {
 				TogetherSyntax.port_selected + "_" +
 				component.getName() + "_" +
 				port.getName()
-			);
+			, this);
 	}
 	
 	
@@ -54,7 +54,7 @@ public class TPort extends TNamedElement {
 				TogetherSyntax.port_inter_enable+ "_" +
 				component.getName() + "_" +
 				port.getName()
-			);
+			, this);
 	}
 	
 	public TPortLocalEnable getLocalEnable() {
@@ -68,6 +68,14 @@ public class TPort extends TNamedElement {
 	
 	public TPortSelected getSelected() {
 		return selected; 
+	}
+	
+	public TComponent getComponent() {
+		return component; 
+	}
+	
+	public Port getPort() {
+		return port; 
 	}
 
 

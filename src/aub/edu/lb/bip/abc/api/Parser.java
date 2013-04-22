@@ -86,7 +86,7 @@ public class Parser {
 
 		for(Expression exp: per.getIndex()) {
 			s += "[" ;
-			decompile(exp, false, component) ;
+			s += decompile(exp, false, component) ;
 			s += "]" ;
 		}
 		return s; 
@@ -144,7 +144,7 @@ public class Parser {
 			if (ipr==null) {
 	             throw new Error("Unimplemented");
 			} else {
-				decompile(ipr.getTargetInstance(), component) ;
+				s += decompile(ipr.getTargetInstance(), component) ;
 			}
 			s += "." + name(ipr.getTargetPort(), component) ;
 		} else if (exp instanceof DataParameterSpecification) {
@@ -155,17 +155,17 @@ public class Parser {
 			String name = fce.getFunctionName() ;
 			Expression dr = fce.getNavigated() ;
 			if (dr!=null) {
-				decompile(dr, true, component) ;
+				s += decompile(dr, true, component) ;
 				if (fce.isIsOnRef()) s += "->";
 				else s += "." ;
 			}
 			if (name==null)
 			    throw new Error("Unimplemented");
 			else s += name ;
-			decompileParam(fce.getActualData(), true, component) ;
+			s += decompileParam(fce.getActualData(), true, component) ;
 		} else if (exp instanceof FieldNavigationExpression) {
 			FieldNavigationExpression fne = (FieldNavigationExpression) exp;
-			decompile(fne.getNavigated(), true, component) ;
+			s += decompile(fne.getNavigated(), true, component) ;
 			String field = fne.getFieldName() ;
 			if (field==null) 
 			    throw new Error("Unimplemented");
@@ -177,18 +177,18 @@ public class Parser {
 			}
 		} else if (exp instanceof ArrayNavigationExpression) {
 			ArrayNavigationExpression ane = (ArrayNavigationExpression) exp;
-			decompile(ane.getNavigated(), true, component) ;
+			s += decompile(ane.getNavigated(), true, component) ;
 			s += "[" ;
-			decompile(ane.getIndex(), false, component) ;
+			s += decompile(ane.getIndex(), false, component) ;
 			s += "]" ;
 		} else if (exp instanceof BinaryExpression) {
 			BinaryExpression be = (BinaryExpression) exp;
 			if (inExp) s += "(" ;
-			decompile(be.getLeftOperand(), true, component) ;
+			s += decompile(be.getLeftOperand(), true, component) ;
 						
 			s += decompile(be.getOperator());
 
-			decompile(be.getRightOperand(), true, component) ;			
+			s += decompile(be.getRightOperand(), true, component) ;			
 			if (inExp) s += ")" ;
 
 		} else if (exp instanceof UnaryExpression) {
@@ -197,46 +197,46 @@ public class Parser {
 			switch(ue.getOperator().getValue()) {
 			case UnaryOperator.POSITIVE_VALUE : 
 				s += "+" ;
-				decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component) ;
 				break ;
 			case UnaryOperator.NEGATIVE_VALUE : 
 				s += "-" ;
-				decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component) ;
 				break ;
 			case UnaryOperator.LOGICAL_NOT_VALUE:
 				s += "!" ;
-				decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component) ;
 				break ;
 			case UnaryOperator.BITWISE_NOT_VALUE:
 				s += "~" ;
-				decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component) ;
 				break ;
 			case UnaryOperator.DEREFERENCE_VALUE : 
 				s += "*" ;
-				decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component) ;
 				break ;
 			case UnaryOperator.REFERENCE_VALUE:
 				s += "&" ;
-				decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component) ;
 				break ;
 			case UnaryOperator.DECREMENT_VALUE : 
 				if (ue.isPostfix()) {
-					decompile(ue.getOperand(), true, component) ;
+					s += decompile(ue.getOperand(), true, component) ;
 					s += "--" ;
 				}
 				else {
 					s += "--" ; 
-					decompile(ue.getOperand(), true, component) ;
+					s += decompile(ue.getOperand(), true, component) ;
 				}
 				break ; 
 			case UnaryOperator.INCREMENT_VALUE :
 				if (ue.isPostfix()) {
-					decompile(ue.getOperand(), true, component) ;
+					s += decompile(ue.getOperand(), true, component) ;
 					s += "++" ;
 				}
 				else {
 					s += "++" ; 
-					decompile(ue.getOperand(), true, component) ;
+					s += decompile(ue.getOperand(), true, component) ;
 				}
 				break ; 
 			}		

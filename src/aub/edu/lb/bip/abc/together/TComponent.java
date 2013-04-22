@@ -75,4 +75,8 @@ public class TComponent extends TNamedElement{
 	public TPort getPort(Port p) {
 		return mapPorts.get(p);
 	}
+	
+	public Component getComponent() {
+		return component; 
+	}
 }

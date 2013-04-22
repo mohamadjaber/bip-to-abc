@@ -23,6 +23,9 @@ public class TogetherSyntax {
 	public final static String const_var = "const";
 	public final static String if_condition = "if";
 	public final static String else_condition = "else";
+	public final static String while_loop = "if";
+	public final static String true_condition = "true";
+
 	public final static String assignment = "=";
 	public final static String equal = "==";
 	public final static String greater = ">";
