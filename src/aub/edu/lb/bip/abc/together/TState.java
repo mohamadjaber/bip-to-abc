@@ -20,7 +20,7 @@ public class TState extends TNamedElement{
 	
 	private State state; 
 	private TComponent tComponent;
-	private final Integer value; 
+	private final int value; 
 	
 	public TState(State s, TComponent comp) {
 		state = s; 
@@ -108,7 +108,7 @@ public class TState extends TNamedElement{
 	}
 	
 
-	public Integer getValue() {
+	public int getValue() {
 		return value; 
 	}
 	

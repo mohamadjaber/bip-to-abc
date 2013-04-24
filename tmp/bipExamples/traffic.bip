@@ -28,7 +28,7 @@ end
 
 // Atomic Type Timer
 atomic type Timer
-   data int t
+   data int t = 0
    data int n
 
    export port Port    timer

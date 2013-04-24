@@ -14,7 +14,7 @@ public class TComponent extends TNamedElement{
 	
 	private Component component; 
 	private Map<State, TState> mapStates = new HashMap<State, TState>();
-	private Map<Variable, TVariable> mapVariables = new HashMap<Variable, TVariable>(); 
+	private Map<Variable, TVariableComp> mapVariables = new HashMap<Variable, TVariableComp>(); 
 	private Map<Port, TPort> mapPorts = new HashMap<Port, TPort>(); 
 
 	private TCurrentState currentState;
@@ -44,7 +44,7 @@ public class TComponent extends TNamedElement{
 	private void setMapVariable() {
 		AtomType at = (AtomType) component.getType();
 		for(Variable v: at.getVariable()) {
-			mapVariables.put(v, new TVariable(v,this));
+			mapVariables.put(v, new TVariableComp(v,this));
 		}
 	}
 	
@@ -68,7 +68,7 @@ public class TComponent extends TNamedElement{
 		return mapStates.get(s);
 	}
 	
-	public TVariable getVariable(Variable v) {
+	public TVariableComp getVariable(Variable v) {
 		return mapVariables.get(v);
 	}
 	

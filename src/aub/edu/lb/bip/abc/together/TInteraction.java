@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 
 import ujf.verimag.bip.Core.Behaviors.Port;
@@ -11,11 +12,13 @@ import ujf.verimag.bip.Core.Interactions.Component;
 import ujf.verimag.bip.Core.Interactions.Connector;
 import ujf.verimag.bip.Core.Interactions.InnerPortReference;
 
-public class TInteraction extends TNamedElement{
-	
+public class TInteraction extends TVariable {
+	private static int constInteractionID = 0; 
 	private Connector connector; 
 	private Map<Component, Port> mapCompPort = new HashMap<Component, Port>();
-	int size; 
+	private int size; 
+	private final int id; 
+
 	
 	public TInteraction(Connector conn) {
 		connector = conn;
@@ -30,14 +33,19 @@ public class TInteraction extends TNamedElement{
 			Port p = ipr.getTargetPort();
 			mapCompPort.put(comp, p);
 		}
-		
 		setName();
+		setType();
+		id = constInteractionID++;
 	}
 	
-	public String initialize() {
-		return TogetherSyntax.declareWire(TogetherSyntax.boolean_type, toString());
-	}
 	
+	
+	private void setType() {
+		type = TEnumType.BOOLEAN;
+	}
+
+
+
 	public String temporary() {
 		return toString() + "_" + TogetherSyntax.temporary;
 	}
@@ -45,6 +53,14 @@ public class TInteraction extends TNamedElement{
 	private void setName() {
 		name = TogetherSyntax.interaction + "_" +
 				connector.getName();
+	}
+	
+	public int getId() {
+		return id; 
+	}
+	
+	public int getSize() {
+		return size; 
 	}
 	
 

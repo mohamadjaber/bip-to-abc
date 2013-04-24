@@ -16,11 +16,7 @@ public class TogetherSyntax {
 	public final static String temporary = "tmp";
 
 	
-	
-	public final static String wire = "wire";
-	public final static String boolean_type = "boolean";
-	public final static String int_type = "int";
-	public final static String const_var = "const";
+
 	public final static String if_condition = "if";
 	public final static String else_condition = "else";
 	public final static String while_loop = "if";
@@ -35,21 +31,6 @@ public class TogetherSyntax {
 
 
 	
-	public static String declareWire(String type, String wireName) {
-		return wire + " " + type + " " + wireName + ";";
-	}
-	
-	public static String declareVar(String type, String varName) {
-		return type + " " + varName + ";";
-	}
-	
-	public static String initializeVar(String varName, String initialValue) {
-		return varName + " = " + initialValue + ";";
-	}
-
-	public static String createInitializeConstVar(String type, String varName, String initialValue) {
-		return const_var + " " + type + " " + varName + " = " + initialValue + ";";
-	}
 	
 
 

@@ -10,6 +10,7 @@ import ujf.verimag.bip.Core.Behaviors.PortDefinition;
 import ujf.verimag.bip.Core.Behaviors.PortDefinitionReference;
 import ujf.verimag.bip.Core.Behaviors.State;
 import ujf.verimag.bip.Core.Behaviors.Transition;
+import ujf.verimag.bip.Core.Behaviors.Variable;
 import ujf.verimag.bip.Core.Interactions.Component;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
 
@@ -21,23 +22,11 @@ public class Test {
 		Component c = ct.getSubcomponent().get(0);
 		System.out.println(c);
 		AtomType at = (AtomType)c.getType();
-		PetriNet pn = (PetriNet) at.getBehavior();
-		Expression e;
-		BinaryExpression be;
-		AssignmentAction a; 
-		State s = pn.getInitialState().get(0);
-		Transition t = (Transition) s.getOutgoing().get(0);
-		PortDefinitionReference pdr = (PortDefinitionReference) t.getTrigger();
 		
-		Port p = at.getPort().get(0);
-		DefinitionBinding db = (DefinitionBinding) p.getBinding();
-		System.out.println(db.getDefinition());
-		//System.out.println(p.getBinding());
-		PortDefinition p1 = at.getPortDefinition().get(0);
-		System.out.println(p1);
-		//Port p1; 
-		//Port p = (Port) pdr.getTarget();
-		//System.out.println(t.getTrigger());
+		Variable v = at.getVariable().get(0);
+		System.out.println(v.getType());
+		
+		
 		
 	}
 

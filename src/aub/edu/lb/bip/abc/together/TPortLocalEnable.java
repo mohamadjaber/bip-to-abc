@@ -7,12 +7,13 @@ import ujf.verimag.bip.Core.ActionLanguage.Expressions.UnaryOperator;
 import ujf.verimag.bip.Core.Behaviors.Transition;
 import BIPTransformation.TransformationFunction;
 import aub.edu.lb.bip.abc.api.Parser;
+import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TBinaryExpression;
 import aub.edu.lb.bip.abc.expression.TExpression;
 import aub.edu.lb.bip.abc.expression.TUnaryExpression;
 
-public class TPortLocalEnable extends TNamedElement{
+public class TPortLocalEnable extends TVariable{
 	
 	private TPort tPort; 
 	
@@ -23,6 +24,7 @@ public class TPortLocalEnable extends TNamedElement{
 	public TPortLocalEnable(String n, TPort p) {
 		name = n; 
 		tPort = p; 
+		type = TEnumType.WIRE_BOOLEAN;
 		setExpression();
 	}
 	
