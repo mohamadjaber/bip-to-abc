@@ -12,6 +12,7 @@ import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TBinaryExpression;
 import aub.edu.lb.bip.abc.expression.TExpression;
 import aub.edu.lb.bip.abc.expression.TUnaryExpression;
+import aub.edu.lb.bip.abc.expression.TVariable;
 
 public class TPortLocalEnable extends TVariable{
 	
@@ -36,7 +37,7 @@ public class TPortLocalEnable extends TVariable{
 		for(Transition t: transitions) {
 			TExpression andTransition = new TBinaryExpression(
 					BinaryOperator.LOGICAL_AND, 
-					tPort.getTComponent().getState(t.getOrigin().get(0)),
+					tPort.getTComponent().getTState(t.getOrigin().get(0)),
 					new TNamedElement(Parser.decompile(t.getGuard(), tPort.getTComponent()))
 				);
 			expression = new TBinaryExpression(

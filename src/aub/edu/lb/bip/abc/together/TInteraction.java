@@ -1,26 +1,39 @@
 package aub.edu.lb.bip.abc.together;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 
+import aub.edu.lb.bip.abc.api.Parser;
 import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
+import aub.edu.lb.bip.abc.expression.TBinaryExpression;
+import aub.edu.lb.bip.abc.expression.TExpression;
+import aub.edu.lb.bip.abc.expression.TVariable;
 
+import ujf.verimag.bip.Core.ActionLanguage.Expressions.BinaryOperator;
 import ujf.verimag.bip.Core.Behaviors.Port;
 import ujf.verimag.bip.Core.Interactions.Component;
 import ujf.verimag.bip.Core.Interactions.Connector;
 import ujf.verimag.bip.Core.Interactions.InnerPortReference;
+import ujf.verimag.bip.Core.Interactions.InteractionSpecification;
 
 public class TInteraction extends TVariable {
 	private static int constInteractionID = 0; 
 	private Connector connector; 
+	private List<Component> components = new LinkedList<Component>(); 
 	private Map<Component, Port> mapCompPort = new HashMap<Component, Port>();
+	
+	private TCompound tCompound; 
+	
 	private int size; 
 	private final int id; 
 
 	
-	public TInteraction(Connector conn) {
+	public TInteraction(Connector conn, TCompound tCompound) {
+		this.tCompound = tCompound; 
 		connector = conn;
 		size = conn.getActualPort().size();
 		for(Object o : conn.getActualPort()) {
@@ -32,6 +45,7 @@ public class TInteraction extends TVariable {
 			Component comp = (Component) ipr.getTargetInstance().getTargetPart();
 			Port p = ipr.getTargetPort();
 			mapCompPort.put(comp, p);
+			components.add(comp);
 		}
 		setName();
 		setType();
@@ -39,12 +53,36 @@ public class TInteraction extends TVariable {
 	}
 	
 	
-	
-	private void setType() {
-		type = TEnumType.BOOLEAN;
+	public TExpression getExpressionEnablement() {
+		//FIXME -> add guard done but check.
+		TExpression expressionEnablement = new TNamedElement(TogetherSyntax.true_condition);
+
+		if(connector.getType().getInteractionSpecification().size() == 1) {
+			InteractionSpecification interactionSpec = connector.getType().getInteractionSpecification().get(0);
+			String guard = Parser.decompile(interactionSpec.getGuard(), true, null, connector, tCompound); 
+			if(!guard.equals(""))
+				expressionEnablement = new TNamedElement(guard);
+			else 
+				expressionEnablement = new TNamedElement(TogetherSyntax.true_condition);
+
+		}
+		else 
+			expressionEnablement = new TNamedElement(TogetherSyntax.true_condition);
+
+		for(Component comp: mapCompPort.keySet()) {
+			TComponent tComponent = tCompound.getTComponent(comp);
+			TPort p = tComponent.getTPort(mapCompPort.get(comp));
+			expressionEnablement = new TBinaryExpression(BinaryOperator.LOGICAL_AND, 
+					expressionEnablement, p.getInteractionEnable()
+				);
+		}
+		return expressionEnablement;
 	}
 
 
+	private void setType() {
+		type = TEnumType.BOOLEAN;
+	}
 
 	public String temporary() {
 		return toString() + "_" + TogetherSyntax.temporary;
@@ -63,5 +101,17 @@ public class TInteraction extends TVariable {
 		return size; 
 	}
 	
+	public List<Component> getComponents() {
+		return components; 
+	}
+	
+	public Port getPort(Component comp) {
+		return mapCompPort.get(comp);
+	}
+	
+	public Connector getConnector() {
+		return connector;
+	}
 
+	
 }

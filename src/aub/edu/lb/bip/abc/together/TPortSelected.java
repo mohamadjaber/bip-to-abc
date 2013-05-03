@@ -1,6 +1,7 @@
 package aub.edu.lb.bip.abc.together;
 
 import aub.edu.lb.bip.abc.api.TEnumType;
+import aub.edu.lb.bip.abc.expression.TVariable;
 
 public class TPortSelected extends TVariable {
 

@@ -9,7 +9,9 @@ public class TIfAction implements TAction{
 	private TAction elseCase; 
 	
 	public TIfAction() {
-		
+		condition = null;
+		ifCase = null;
+		elseCase = null; 
 	}
 	
 	public TIfAction(TExpression cond, TAction ifC, TAction elseC) {
@@ -41,6 +43,15 @@ public class TIfAction implements TAction{
 	
 	public TAction getElseCase() {
 		return elseCase; 
+	}
+	
+	public void setLastElseCase(TAction a) {
+		if(condition == null || ifCase == null)
+			return;
+		if(elseCase == null)
+			elseCase = a;
+		else
+			setLastElseCase(elseCase);
 	}
 	
 	

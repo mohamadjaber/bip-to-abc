@@ -6,6 +6,12 @@ public class TogetherSyntax {
 	public final static String variable = "var";
 	public final static String port = "port";
 	public final static String interaction = "interaction";
+	public final static String interactions = "interactions_enablement";
+	public final static String interactions_tmp = "interactions_tmp";
+	public final static String priority = "priority";
+
+
+
 	public final static String currentState = "currentState";
 
 
@@ -21,6 +27,8 @@ public class TogetherSyntax {
 	public final static String else_condition = "else";
 	public final static String while_loop = "if";
 	public final static String true_condition = "true";
+	public final static String false_condition = "false";
+
 
 	public final static String assignment = "=";
 	public final static String equal = "==";
@@ -29,12 +37,9 @@ public class TogetherSyntax {
 	public final static String less = "<";
 	public final static String lessEqual = "<=";
 
-
+	public final static String doTogether = "@do_together";
+	public static String tabSpace = "   "; 
 	
-	
-
-
-
 
 
 

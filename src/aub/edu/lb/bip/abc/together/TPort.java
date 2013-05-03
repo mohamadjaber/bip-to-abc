@@ -21,8 +21,8 @@ public class TPort extends TNamedElement {
 	}
 	
 	private void setPorts() {
-		setLocalEnable();
 		setSelected();
+		setLocalEnable();
 		setInteractionEnable();
 	}
 

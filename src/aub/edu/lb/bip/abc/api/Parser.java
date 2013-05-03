@@ -1,8 +1,10 @@
 package aub.edu.lb.bip.abc.api;
 
 import java.util.List;
+import java.util.Map;
 
 import aub.edu.lb.bip.abc.together.TComponent;
+import aub.edu.lb.bip.abc.together.TCompound;
 
 import ujf.verimag.bip.Core.ActionLanguage.Actions.AssignmentAction;
 import ujf.verimag.bip.Core.ActionLanguage.Actions.CompositeAction;
@@ -30,19 +32,24 @@ import ujf.verimag.bip.Core.Behaviors.Action;
 import ujf.verimag.bip.Core.Behaviors.Expression;
 import ujf.verimag.bip.Core.Behaviors.NamedElement;
 import ujf.verimag.bip.Core.Behaviors.Variable;
+import ujf.verimag.bip.Core.Interactions.Component;
+import ujf.verimag.bip.Core.Interactions.Connector;
 import ujf.verimag.bip.Core.Interactions.InnerPortReference;
 import ujf.verimag.bip.Core.Interactions.PartElementReference;
 import ujf.verimag.bip.Core.Interactions.PortParameterReference;
 import ujf.verimag.bip.Core.Modules.OpaqueElement;
 
+import BIPTransformation.TransformationFunction;
+
+
 public class Parser {
 	private static String indent = "";
 	private static void indent() {
-		indent += "  " ;
+		//indent += TogetherSyntax.tabSpace ;
 	}
 	
 	private static void deindent() {
-		indent = indent.substring(2) ;
+		//indent = indent.substring(2) ;
 	}
 	
 	private static String name(NamedElement ne, TComponent component) {
@@ -54,6 +61,7 @@ public class Parser {
 	    if(ne instanceof Variable) {
 	    	n = component.getVariable((Variable) ne).getName();
 	    }
+	   
 	    
 	    if (n==null)          
 	        throw new Error("Unimplemented");
@@ -61,9 +69,21 @@ public class Parser {
 	    return n ;
 	}
 	
+	private static String name(RequiredDataParameterReference rdpr, TComponent component, Connector c, TCompound compound) {
+		Map<Variable, Component> mapVarComp = TransformationFunction.getVariable(c, rdpr);
+		if(mapVarComp.size() == 0)
+	        throw new Error("Unimplemented");
+		for(Variable v : mapVarComp.keySet()) {
+			return name(v, compound.getTComponent(mapVarComp.get(v)));
+		}
+        throw new Error("Unimplemented"); 
+		
+	}
+	
+
 
 	
-	public static String decompileParam(List<Expression> actualDatas, boolean alwayPar, TComponent component) {
+	public static String decompileParam(List<Expression> actualDatas, boolean alwayPar, TComponent component, Connector c, TCompound compound) {
 		String s = "";
 		if (alwayPar || actualDatas.size()>0) s += "(" ;
 		boolean first = true ;
@@ -73,26 +93,31 @@ public class Parser {
 			} else {
 				s += ", " ;
 			}
-			decompile(exp, false, component) ; 
+			decompile(exp, false, component, c, compound) ; 
 		}
 		if (alwayPar || actualDatas.size()>0) s += ")" ;
 		return s; 
 		
 	}
 	
-	public static String decompile(PartElementReference per, TComponent component) {
+	public static String decompile(PartElementReference per, TComponent component, Connector c, TCompound compound) {
 		String s = "";
-		s += name(per.getTargetPart(), component ) ;
+		s += name(per.getTargetPart(), component) ;
 
 		for(Expression exp: per.getIndex()) {
 			s += "[" ;
-			s += decompile(exp, false, component) ;
+			s += decompile(exp, false, component, c, compound) ;
 			s += "]" ;
 		}
 		return s; 
 	}
 	
 	public static String decompile(Expression exp, boolean inExp, TComponent component) {
+		return decompile(exp, inExp, component, null, null);
+	}
+
+	
+	public static String decompile(Expression exp, boolean inExp, TComponent component, Connector c, TCompound compound) {
 		String s = "";
 		if (exp==null) {
             throw new Error("Unimplemented");
@@ -135,16 +160,16 @@ public class Parser {
 			PortParameterReference ppr = rdpr.getPortReference() ;
 			if (ppr==null) 
 	            throw new Error("Unimplemented");
-			else s += name(ppr.getTarget(), component) ;
-			s += "." ;
-			s += name(rdpr.getTargetParameter(), component) ;
+			else s += name(rdpr, component, c, compound) ;
+			//s += "." ;
+			//s += name(rdpr.getTargetParameter(), component) ;
 		} else if (exp instanceof InnerDataParameterReference) {
 			InnerDataParameterReference idpr = (InnerDataParameterReference) exp;
 			InnerPortReference ipr = idpr.getPortReference() ;
 			if (ipr==null) {
 	             throw new Error("Unimplemented");
 			} else {
-				s += decompile(ipr.getTargetInstance(), component) ;
+				s += decompile(ipr.getTargetInstance(), component, c, compound) ;
 			}
 			s += "." + name(ipr.getTargetPort(), component) ;
 		} else if (exp instanceof DataParameterSpecification) {
@@ -155,17 +180,17 @@ public class Parser {
 			String name = fce.getFunctionName() ;
 			Expression dr = fce.getNavigated() ;
 			if (dr!=null) {
-				s += decompile(dr, true, component) ;
+				s += decompile(dr, true, component, c, compound) ;
 				if (fce.isIsOnRef()) s += "->";
 				else s += "." ;
 			}
 			if (name==null)
 			    throw new Error("Unimplemented");
 			else s += name ;
-			s += decompileParam(fce.getActualData(), true, component) ;
+			s += decompileParam(fce.getActualData(), true, component, c, compound) ;
 		} else if (exp instanceof FieldNavigationExpression) {
 			FieldNavigationExpression fne = (FieldNavigationExpression) exp;
-			s += decompile(fne.getNavigated(), true, component) ;
+			s += decompile(fne.getNavigated(), true, component, c, compound) ;
 			String field = fne.getFieldName() ;
 			if (field==null) 
 			    throw new Error("Unimplemented");
@@ -177,18 +202,18 @@ public class Parser {
 			}
 		} else if (exp instanceof ArrayNavigationExpression) {
 			ArrayNavigationExpression ane = (ArrayNavigationExpression) exp;
-			s += decompile(ane.getNavigated(), true, component) ;
+			s += decompile(ane.getNavigated(), true, component, c, compound) ;
 			s += "[" ;
-			s += decompile(ane.getIndex(), false, component) ;
+			s += decompile(ane.getIndex(), false, component, c, compound) ;
 			s += "]" ;
 		} else if (exp instanceof BinaryExpression) {
 			BinaryExpression be = (BinaryExpression) exp;
 			if (inExp) s += "(" ;
-			s += decompile(be.getLeftOperand(), true, component) ;
+			s += decompile(be.getLeftOperand(), true, component, c, compound) ;
 						
 			s += decompile(be.getOperator());
 
-			s += decompile(be.getRightOperand(), true, component) ;			
+			s += decompile(be.getRightOperand(), true, component, c, compound) ;			
 			if (inExp) s += ")" ;
 
 		} else if (exp instanceof UnaryExpression) {
@@ -197,46 +222,46 @@ public class Parser {
 			switch(ue.getOperator().getValue()) {
 			case UnaryOperator.POSITIVE_VALUE : 
 				s += "+" ;
-				s += decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component, c, compound) ;
 				break ;
 			case UnaryOperator.NEGATIVE_VALUE : 
 				s += "-" ;
-				s += decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component, c, compound) ;
 				break ;
 			case UnaryOperator.LOGICAL_NOT_VALUE:
 				s += "!" ;
-				s += decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component, c, compound) ;
 				break ;
 			case UnaryOperator.BITWISE_NOT_VALUE:
 				s += "~" ;
-				s += decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component, c, compound) ;
 				break ;
 			case UnaryOperator.DEREFERENCE_VALUE : 
 				s += "*" ;
-				s += decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component, c, compound) ;
 				break ;
 			case UnaryOperator.REFERENCE_VALUE:
 				s += "&" ;
-				s += decompile(ue.getOperand(), true, component) ;
+				s += decompile(ue.getOperand(), true, component, c, compound) ;
 				break ;
 			case UnaryOperator.DECREMENT_VALUE : 
 				if (ue.isPostfix()) {
-					s += decompile(ue.getOperand(), true, component) ;
+					s += decompile(ue.getOperand(), true, component, c, compound) ;
 					s += "--" ;
 				}
 				else {
 					s += "--" ; 
-					s += decompile(ue.getOperand(), true, component) ;
+					s += decompile(ue.getOperand(), true, component, c, compound) ;
 				}
 				break ; 
 			case UnaryOperator.INCREMENT_VALUE :
 				if (ue.isPostfix()) {
-					s += decompile(ue.getOperand(), true, component) ;
+					s += decompile(ue.getOperand(), true, component, c, compound) ;
 					s += "++" ;
 				}
 				else {
 					s += "++" ; 
-					s += decompile(ue.getOperand(), true, component) ;
+					s += decompile(ue.getOperand(), true, component, c, compound) ;
 				}
 				break ; 
 			}		
@@ -344,9 +369,12 @@ public class Parser {
 		return s;
 	}
 	
+	public static String decompile(Action act, TComponent component) {
+		return 	decompile(act, component, null, null);
+	}
 	
 
-	public static String decompile(Action act, TComponent component) {
+	public static String decompile(Action act, TComponent component, Connector c, TCompound compound) {
 		String s = "";
 		if (act==null) {
 	          throw new Error("Unimplemented");
@@ -355,11 +383,11 @@ public class Parser {
 			s += oe.getBody();
 		} else if (act instanceof Expression) {
 			Expression exp = (Expression) act;
-			s += decompile(exp, false, component) ;
+			s += decompile(exp, false, component, c, compound) ;
 			s += ";" ;
 		} else if (act instanceof AssignmentAction) {
 			AssignmentAction aa = (AssignmentAction) act;
-			s += decompile(aa.getAssignedTarget(), false, component) ;
+			s += decompile(aa.getAssignedTarget(), false, component, c, compound) ;
 			switch (aa.getType()) {
 			case ASSIGN:       s += " = "  ; break;
 			case PLUS_ASSIGN:  s += " += " ; break;
@@ -368,30 +396,30 @@ public class Parser {
 			case MULT_ASSIGN:  s += " *= " ; break;
 			case MOD_ASSIGN:   s += " %= " ; break;
 			}
-			s += decompile(aa.getAssignedValue(), false, component) ;
+			s += decompile(aa.getAssignedValue(), false, component, c, compound) ;
 			s += ";" ;
 		} else if (act instanceof CompositeAction) {
 			CompositeAction ca = (CompositeAction) act;
-			s += "{" ;
+			s += "" ; // "{" ;
 			indent() ;
 			for(Action a: ca.getContent()) {
 				s += indent ;
-				s += decompile(a, component) ;
+				s += decompile(a, component, c, compound) ;
 			}
 			deindent() ;
-			s += indent + "}" ;
+			s += indent + "" ; // + "}" ;
 			
 		} else if (act instanceof IfAction) {
 			IfAction ia = (IfAction) act;
 			s += "if (" ;
-			s += decompile(ia.getCondition(), false, component) ;
+			s += decompile(ia.getCondition(), false, component, c, compound) ;
 			s += ") " ;
-			s += decompile(ia.getIfCase(), component) ;
+			s += decompile(ia.getIfCase(), component, c, compound) ;
 			s += "\n";
 			Action a = ia.getElseCase() ;
 			if (a!=null) {
 				s += indent ;
-				s += decompile(a, component) ;
+				s += decompile(a, component, c, compound) ;
 				s += "\n";
 			}
 		} else {
