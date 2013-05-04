@@ -12,6 +12,7 @@ import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.T2DArrayVariable;
 import aub.edu.lb.bip.abc.expression.TCompositeAction;
 import aub.edu.lb.bip.abc.expression.TExpression;
+import aub.edu.lb.bip.abc.expression.TNamedElement;
 
 public class TPriorities extends T2DArrayVariable {
 	private TCompound tCompound; 

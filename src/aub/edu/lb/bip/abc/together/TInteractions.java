@@ -27,6 +27,7 @@ public class TInteractions extends TArrayVariable {
 		size = tCompound.getCompoundType().getConnector().size();
 		
 		tInteractions = new ArrayList<TInteraction>(size);
+		TInteraction.constInteractionID = 0; 
 		for(Connector connector: tCompound.getCompoundType().getConnector()) {
 			TInteraction tInteraction = new TInteraction(connector, tCompound);
 			mapInteractions.put(connector, tInteraction);

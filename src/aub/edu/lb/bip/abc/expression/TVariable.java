@@ -1,7 +1,6 @@
 package aub.edu.lb.bip.abc.expression;
 
 import aub.edu.lb.bip.abc.api.TEnumType;
-import aub.edu.lb.bip.abc.together.TNamedElement;
 
 public class TVariable extends TNamedElement {
 	

@@ -12,6 +12,7 @@ import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TBinaryExpression;
 import aub.edu.lb.bip.abc.expression.TExpression;
 import aub.edu.lb.bip.abc.expression.TIfAction;
+import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TVariable;
 import ujf.verimag.bip.Core.ActionLanguage.Actions.AssignmentAction;
 import ujf.verimag.bip.Core.ActionLanguage.Expressions.BinaryOperator;

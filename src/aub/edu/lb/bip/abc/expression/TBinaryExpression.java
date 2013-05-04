@@ -1,7 +1,6 @@
 package aub.edu.lb.bip.abc.expression;
 
 import aub.edu.lb.bip.abc.api.Parser;
-import aub.edu.lb.bip.abc.together.TNamedElement;
 import ujf.verimag.bip.Core.ActionLanguage.Expressions.BinaryOperator;
 
 public class TBinaryExpression implements TExpression {

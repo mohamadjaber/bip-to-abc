@@ -16,7 +16,7 @@ import aub.edu.lb.bip.abc.expression.TWhileAction;
 
 import ujf.verimag.bip.Core.Interactions.CompoundType;
 
-public class TGenerator {
+public class TGenerator {	
 	private static String indent = "";
 	private TCompound tCompound; 
 	

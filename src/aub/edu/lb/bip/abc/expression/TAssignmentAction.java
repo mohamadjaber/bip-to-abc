@@ -1,8 +1,5 @@
 package aub.edu.lb.bip.abc.expression;
 
-
-import aub.edu.lb.bip.abc.together.TNamedElement;
-
 public class TAssignmentAction implements TAction {
     private TVariable assignedTarget;
     private TExpression assignedValue; 

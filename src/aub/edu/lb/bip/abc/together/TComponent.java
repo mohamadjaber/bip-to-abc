@@ -11,6 +11,7 @@ import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TAction;
 import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TCompositeAction;
+import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
 import ujf.verimag.bip.Core.Behaviors.AtomType;

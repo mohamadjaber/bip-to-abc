@@ -11,6 +11,7 @@ import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TBinaryExpression;
 import aub.edu.lb.bip.abc.expression.TExpression;
+import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
 import ujf.verimag.bip.Core.ActionLanguage.Expressions.BinaryOperator;
@@ -21,7 +22,7 @@ import ujf.verimag.bip.Core.Interactions.InnerPortReference;
 import ujf.verimag.bip.Core.Interactions.InteractionSpecification;
 
 public class TInteraction extends TVariable {
-	private static int constInteractionID = 0; 
+	public static int constInteractionID = 0; 
 	private Connector connector; 
 	private List<Component> components = new LinkedList<Component>(); 
 	private Map<Component, Port> mapCompPort = new HashMap<Component, Port>();

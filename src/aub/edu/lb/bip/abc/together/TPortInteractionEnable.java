@@ -8,6 +8,7 @@ import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TBinaryExpression;
 import aub.edu.lb.bip.abc.expression.TExpression;
+import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
 public class TPortInteractionEnable extends TVariable {

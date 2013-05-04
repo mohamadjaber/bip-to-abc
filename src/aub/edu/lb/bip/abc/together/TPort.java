@@ -1,6 +1,7 @@
 package aub.edu.lb.bip.abc.together;
 
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
+import aub.edu.lb.bip.abc.expression.TNamedElement;
 import ujf.verimag.bip.Core.Behaviors.Port;
 
 public class TPort extends TNamedElement {

@@ -11,6 +11,7 @@ import aub.edu.lb.bip.abc.expression.TCompositeAction;
 import aub.edu.lb.bip.abc.expression.TDoTogetherAction;
 import aub.edu.lb.bip.abc.expression.TExpression;
 import aub.edu.lb.bip.abc.expression.TFunctionCall;
+import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TWhileAction;
 
 import ujf.verimag.bip.Core.Interactions.Component;
