@@ -15,8 +15,8 @@ boolean port_s_light_done;
 wire boolean interactions_enablement[2];
 wire boolean priority[2][2];
 const int state_timer_s1 = 0;
-const int state_light_green = 1;
 const int state_light_red = 2;
+const int state_light_green = 1;
 const int state_light_yellow = 3;
 @do_together {
   port_s_timer_done = false;
@@ -64,14 +64,14 @@ while(true) {
     else {
       var_timer_n = var_timer_n;
     }
-    if(((light_currentState) == (1)) && (port_s_light_done)) {
-      light_currentState = 2;
+    if(((light_currentState) == (2)) && (port_s_light_done)) {
+      light_currentState = 3;
     }
     else {
       light_currentState = light_currentState;
     }
-    if(((light_currentState) == (2)) && (port_s_light_done)) {
-      light_currentState = 3;
+    if(((light_currentState) == (1)) && (port_s_light_done)) {
+      light_currentState = 2;
     }
     else {
       light_currentState = light_currentState;
@@ -101,8 +101,8 @@ while(true) {
     port_le_timer_done = ((false) || ((state_timer_s1) && (var_timer_t==var_timer_n))) && ((! port_s_timer_done) );
     port_le_timer_timer = ((false) || ((state_timer_s1) && (var_timer_t<var_timer_n))) && ((! port_s_timer_timer) );
     port_le_light_done = ((((false) || ((state_light_green) && (true))) || ((state_light_red) && (true))) || ((state_light_yellow) && (true))) && ((! port_s_light_done) );
-    interactions_enablement[0] = (true) && (port_ie_timer_timer);
     interactions_enablement[1] = ((true) && (port_ie_timer_done)) && (port_ie_light_done);
+    interactions_enablement[0] = (true) && (port_ie_timer_timer);
     filter_Interaction(interactions_tmp, interactions_enablement, priority);
     port_ie_timer_done = (false) || (interaction_c2);
     port_ie_timer_timer = (false) || (interaction_c1);
