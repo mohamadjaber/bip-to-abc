@@ -18,8 +18,7 @@ import BIPTransformation.TransformationFunction;
 public class Test1 {
 	public static void main(String[] args) throws FileNotFoundException {
 		CompoundType ct = TransformationFunction.ParseBIPFile("tmp/bipExamples/traffic.bip");
-		TCompound t = new TCompound(ct);
-		//TGenerator t = new TGenerator(ct, "output.c");
+		TGenerator tg = new TGenerator(ct, "output.c");
 	
 	}
 	

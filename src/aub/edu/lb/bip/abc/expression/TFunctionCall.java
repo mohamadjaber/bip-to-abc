@@ -20,5 +20,18 @@ public class TFunctionCall implements TExpression {
 	public List<TExpression> getActualData() {
 		return actualData; 
 	}
+	
+	public String toString() {
+		String s = "";
+		int i = 0; 
+		for(TExpression e: actualData) {
+			if(i < actualData.size() - 1)
+				s += e + ", ";
+			else 
+				s += e;
+			i++;
+		}
+		return functionName + "("+ s + ");";
+	}
 
 }

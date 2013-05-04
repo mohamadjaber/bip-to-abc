@@ -2,7 +2,7 @@ package aub.edu.lb.bip.abc.together;
 
 import aub.edu.lb.bip.abc.expression.TExpression;
 
-public class TNamedElement implements TExpression{
+public class TNamedElement implements TExpression {
 	protected String name; 
 	
 	public TNamedElement() {

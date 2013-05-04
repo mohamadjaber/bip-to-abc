@@ -30,7 +30,7 @@ public class TPortLocalEnable extends TVariable{
 	// ((state1 /\ guard1) \/ (state2 /\ guard2) ... ) /\ (!portSelected)
 	public TExpression getEnablementExpression() {
 		List<Transition> transitions = TransformationFunction.getTransitions(tPort.getPort());
-		TExpression expression = new TNamedElement(TogetherSyntax.true_condition);
+		TExpression expression = new TNamedElement(TogetherSyntax.false_condition);
 		for(Transition t: transitions) {
 			TExpression andTransition = new TBinaryExpression(
 					BinaryOperator.LOGICAL_AND, 
@@ -45,7 +45,7 @@ public class TPortLocalEnable extends TVariable{
 			
 		}
 		expression = new TBinaryExpression(
-				BinaryOperator.LOGICAL_OR,
+				BinaryOperator.LOGICAL_AND,
 				expression,
 				new TUnaryExpression(UnaryOperator.LOGICAL_NOT, 
 						new TNamedElement(tPort.getSelected().getName()))

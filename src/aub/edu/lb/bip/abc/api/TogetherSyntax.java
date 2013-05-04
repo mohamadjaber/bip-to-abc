@@ -11,17 +11,13 @@ public class TogetherSyntax {
 	public final static String priority = "priority";
 	public final static String filter_Interaction = "filter_Interaction";
 
-
 	public final static String currentState = "currentState";
-
 
 	public final static String port_local_enable = "le";
 	public final static String port_inter_enable = "ie";
 	public final static String port_selected = "s";
 
 	public final static String temporary = "tmp";
-
-	
 
 	public final static String if_condition = "if";
 	public final static String else_condition = "else";
@@ -38,10 +34,5 @@ public class TogetherSyntax {
 	public final static String lessEqual = "<=";
 
 	public final static String doTogether = "@do_together";
-	public static String tabSpace = "   "; 
-	
-
-
-
-
+	public static String tabSpace = "  "; 
 }

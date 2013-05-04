@@ -57,8 +57,11 @@ public class TCompound {
 	}
 
 	private void mainWhileLoopAction() {
+		TDoTogetherAction doTogether = new TDoTogetherAction();	
 		TCompositeAction ca = new TCompositeAction();
+		doTogether.setAction(ca);
 		TWhileAction whileLoop = new TWhileAction(ca, new TNamedElement(TogetherSyntax.true_condition));
+		whileLoop.setAction(doTogether);
 		togetherAction.getContents().add(whileLoop);
 		setTransitionEnablementDelay(ca);
 		setNextStateFunctionState(ca);
@@ -123,9 +126,9 @@ public class TCompound {
 			TComponent tComp = this.getTComponent(comp);
 			action.getContents().add(tComp.initialize());
 		}
+		action.getContents().add(getTPriorities().initialize());
 		tDoTogether.setAction(action);
 		togetherAction.getContents().add(tDoTogether);
-		togetherAction.getContents().add(getTPriorities().initialize());
 	}
 
 	private void createStateEnum() {
@@ -138,20 +141,20 @@ public class TCompound {
 	}
 
 	private void createPriorities() {
-		togetherAction.getContents().add(this.getTPriorities());		
+		togetherAction.getContents().add(this.getTPriorities().create());		
 	}
 
 	private void createInteractions() {
-		togetherAction.getContents().add(this.getTInteractions());		
+		togetherAction.getContents().add(this.getTInteractions().create());		
 	}
 
 	private void createPorts() {
 		for(Component comp: compoundType.getSubcomponent()) {
 			TComponent tComp = this.getTComponent(comp);
 			for(TPort tPort: tComp.getTPorts()) {
-				togetherAction.getContents().add(tPort.getLocalEnable());
-				togetherAction.getContents().add(tPort.getInteractionEnable());
-				togetherAction.getContents().add(tPort.getSelected());
+				togetherAction.getContents().add(tPort.getLocalEnable().create());
+				togetherAction.getContents().add(tPort.getInteractionEnable().create());
+				togetherAction.getContents().add(tPort.getSelected().create());
 			}
 		}			
 	}
@@ -159,7 +162,7 @@ public class TCompound {
 	private void createCurrentStates() {
 		for(Component comp: compoundType.getSubcomponent()) {
 			TComponent tComp = this.getTComponent(comp);
-			togetherAction.getContents().add(tComp.getCurrentState());
+			togetherAction.getContents().add(tComp.getCurrentState().create());
 		}			
 	}
 
@@ -167,7 +170,7 @@ public class TCompound {
 		for(Component comp: compoundType.getSubcomponent()) {
 			TComponent tComp = this.getTComponent(comp);
 			for(TVariableComp var: tComp.getTVariables()) {
-				togetherAction.getContents().add(var);
+				togetherAction.getContents().add(var.create());
 			}
 		}		
 	}

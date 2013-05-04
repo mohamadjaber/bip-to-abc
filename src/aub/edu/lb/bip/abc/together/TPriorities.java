@@ -10,7 +10,6 @@ import ujf.verimag.bip.Core.Interactions.PartElementReference;
 import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.T2DArrayVariable;
-import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TCompositeAction;
 import aub.edu.lb.bip.abc.expression.TExpression;
 
@@ -66,7 +65,7 @@ public class TPriorities extends T2DArrayVariable {
 		TCompositeAction action = new TCompositeAction();
 		for(int i = 0; i < nbOfInteractions; i++) {
 			for(int j = 0; j < nbOfInteractions; j++) {
-				action.getContents().add(new TAssignmentAction(new TNamedElement(this + "["+i+"]["+j+"]"), priorityValues[i][j], false));
+				action.getContents().add(this.set(priorityValues[i][j], i, j));
 			}
 		}
 		return action;

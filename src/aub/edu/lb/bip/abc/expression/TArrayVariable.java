@@ -14,9 +14,4 @@ public class TArrayVariable extends TVariable {
 	public int getSize() {
 		return size; 
 	}
-	
-	
-	
-
-
 }

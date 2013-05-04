@@ -60,8 +60,4 @@ public class TInteractions extends TArrayVariable {
 	public int size() {
 		return size;
 	}
-	
-	
-	
-
 }

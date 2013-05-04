@@ -35,9 +35,4 @@ public class TVariable extends TNamedElement {
 	public TAssignmentAction set(TExpression e, int i, int j) {
 		return new TAssignmentAction(this, e, false, i, j);
 	}
-
-	
-
-
-
 }

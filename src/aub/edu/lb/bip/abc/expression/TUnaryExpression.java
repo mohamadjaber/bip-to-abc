@@ -21,7 +21,7 @@ public class TUnaryExpression implements TExpression {
 	}
 	
 	public String toString() {
-		return "(" + Parser.decompile(operator) + " " + expression.toString() + ") ";
+		return "(" + Parser.decompile(operator) + " " + expression + ") ";
 	}
 
 }

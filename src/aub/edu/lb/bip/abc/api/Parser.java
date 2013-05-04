@@ -76,8 +76,7 @@ public class Parser {
 		for(Variable v : mapVarComp.keySet()) {
 			return name(v, compound.getTComponent(mapVarComp.get(v)));
 		}
-        throw new Error("Unimplemented"); 
-		
+        throw new Error("Unimplemented"); 	
 	}
 	
 
@@ -384,7 +383,7 @@ public class Parser {
 		} else if (act instanceof Expression) {
 			Expression exp = (Expression) act;
 			s += decompile(exp, false, component, c, compound) ;
-			s += ";" ;
+			s += "" ; // ;
 		} else if (act instanceof AssignmentAction) {
 			AssignmentAction aa = (AssignmentAction) act;
 			s += decompile(aa.getAssignedTarget(), false, component, c, compound) ;
@@ -397,7 +396,7 @@ public class Parser {
 			case MOD_ASSIGN:   s += " %= " ; break;
 			}
 			s += decompile(aa.getAssignedValue(), false, component, c, compound) ;
-			s += ";" ;
+			s += "" ; // ;
 		} else if (act instanceof CompositeAction) {
 			CompositeAction ca = (CompositeAction) act;
 			s += "" ; // "{" ;
