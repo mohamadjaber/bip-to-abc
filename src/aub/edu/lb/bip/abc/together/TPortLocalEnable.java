@@ -18,22 +18,19 @@ public class TPortLocalEnable extends TVariable{
 	
 	private TPort tPort; 
 	
-	// Enablement expression
-	// ((state1 /\ guard1) \/ (state2 /\ guard2) ... ) /\ (!portSelected)
-	private TExpression expression; 
+	
 	
 	public TPortLocalEnable(String n, TPort p) {
 		name = n; 
 		tPort = p; 
 		type = TEnumType.WIRE_BOOLEAN;
-		setExpression();
 	}
 	
 	// Enablement expression
 	// ((state1 /\ guard1) \/ (state2 /\ guard2) ... ) /\ (!portSelected)
-	private void setExpression() {
+	public TExpression getEnablementExpression() {
 		List<Transition> transitions = TransformationFunction.getTransitions(tPort.getPort());
-		expression = new TNamedElement(TogetherSyntax.true_condition);
+		TExpression expression = new TNamedElement(TogetherSyntax.true_condition);
 		for(Transition t: transitions) {
 			TExpression andTransition = new TBinaryExpression(
 					BinaryOperator.LOGICAL_AND, 
@@ -53,6 +50,7 @@ public class TPortLocalEnable extends TVariable{
 				new TUnaryExpression(UnaryOperator.LOGICAL_NOT, 
 						new TNamedElement(tPort.getSelected().getName()))
 			); 	
+		return expression; 
 	}
 
 	public TPort getPort() {

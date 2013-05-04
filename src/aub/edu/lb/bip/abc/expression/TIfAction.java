@@ -7,7 +7,6 @@ public class TIfAction implements TAction{
 	private TExpression condition;
 	private TAction ifCase; 
 	private TAction elseCase; 
-	
 	public TIfAction() {
 		condition = null;
 		ifCase = null;
@@ -45,13 +44,20 @@ public class TIfAction implements TAction{
 		return elseCase; 
 	}
 	
-	public void setLastElseCase(TAction a) {
-		if(condition == null || ifCase == null)
+	private void setLastElseCase(TIfAction ifAction, TAction a) {
+		if(ifAction.condition == null || ifAction.ifCase == null)
 			return;
-		if(elseCase == null)
-			elseCase = a;
-		else
-			setLastElseCase(elseCase);
+		if(ifAction.elseCase == null) {
+			ifAction.elseCase = a;
+		}
+		else {
+			if(ifAction.elseCase instanceof TIfAction)
+				setLastElseCase((TIfAction)ifAction.elseCase, a);
+		}
+	}
+	
+	public void setLastElseCase(TAction a) {
+		setLastElseCase(this, a);
 	}
 	
 	
@@ -62,5 +68,5 @@ public class TIfAction implements TAction{
 				elseCase + "\n" +
 				"}";
 	}
-
+	
 }

@@ -103,7 +103,7 @@ public class TVariableComp extends TVariable{
 				currentAction = interactionFunction; 
 			}
 		}
-		TAssignmentAction autoAssingment = new TAssignmentAction(this, this); 
+		TAssignmentAction autoAssingment = new TAssignmentAction(this, this, false); 
 		if(interactionFunction != null) {
 			interactionFunction.setElseCase(autoAssingment);
 			return interactionFunction;
@@ -118,6 +118,7 @@ public class TVariableComp extends TVariable{
 		TIfAction interactionAction = new TIfAction();
 		interactionAction.setCondition(tComponent.getTCompound().getTInteractions().getTInteraction(connector));
 		interactionAction.setIfCase(new TNamedElement(Parser.decompile(assignmentAction, null, connector, tComponent.getTCompound())));
+		interactionAction.setElseCase(null);
 		return interactionAction;		
 	}
 
@@ -144,17 +145,13 @@ public class TVariableComp extends TVariable{
 		
 			TAction updateFunction = new TAssignmentAction(
 					this, 
-					new TNamedElement("" + Parser.decompile(assignAction.getAssignedTarget(), tComponent))
+					new TNamedElement("" + Parser.decompile(assignAction.getAssignedTarget(), tComponent)), false
 				);
 			transAction.setIfCase(updateFunction);
 		}
 		return transAction;
 	}
 
-
-	
-   
-	
 	
 	private void setName() {
 		name = TogetherSyntax.variable + "_" + 

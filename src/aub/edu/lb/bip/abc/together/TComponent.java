@@ -8,6 +8,7 @@ import java.util.Map;
 
 import aub.edu.lb.bip.abc.api.Parser;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
+import aub.edu.lb.bip.abc.expression.TAction;
 import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TCompositeAction;
 import aub.edu.lb.bip.abc.expression.TVariable;
@@ -107,14 +108,14 @@ public class TComponent extends TNamedElement{
 		if(!variables.contains(currentState)) {
 			compositeAction.getContents().add(new TAssignmentAction(
 					currentState, 
-					currentState
+					currentState, false
 				));
 		}
 		for(TVariableComp tVar: mapVariables.values()) {
 			if(!variables.contains(tVar)) {
 				compositeAction.getContents().add(new TAssignmentAction(
 						tVar, 
-						tVar
+						tVar, false
 					));
 			}
 		}
@@ -151,14 +152,34 @@ public class TComponent extends TNamedElement{
 		return tCompound;
 	}
 	
-	public String initialize() {
+	public TCompositeAction initialize() {
+		TCompositeAction initializeAction = new TCompositeAction();
 		AtomType at = (AtomType) getComponent().getType(); 
 		PetriNet pn = (PetriNet) at.getBehavior();
 		
 		State initialState = pn.getInitialState().get(0);
 		
-		
-		return TogetherSyntax.tabSpace + Parser.decompile(pn.getInitialization(), this) + "\n" +
-			TogetherSyntax.tabSpace + currentState.initialize(new TNamedElement(getTState(initialState).getValue() + ""));
+		for(TPort tPort : mapPorts.values()) {
+			initializeAction.getContents().add(tPort.getSelected().set(new TNamedElement(TogetherSyntax.false_condition)));
+		}
+		initializeAction.getContents().add(new TNamedElement(Parser.decompile(pn.getInitialization(), this)));
+		initializeAction.getContents().add(currentState.set(new TNamedElement(getTState(initialState).getValue() + "")));
+
+		return initializeAction;
 	}
+	
+	public TAction nextStateFunction() {
+		TCompositeAction action = new TCompositeAction();
+		for(TState state : mapStates.values()) {
+			action.getContents().add(state.nextStateFunction());
+		}
+		
+		for(TVariableComp variable : mapVariables.values()) {
+			action.getContents().add(variable.nextStateFunction());
+		}
+		
+		return action; 
+	}
+	
+	
 } 

@@ -51,6 +51,7 @@ public class Test {
 		
 		
 		InnerPortReference ipr = (InnerPortReference) ct.getConnector().get(1).getActualPort().get(0);
+		
 		System.out.println(((PortDefinition)((DefinitionBinding)ipr.getTargetPort().getBinding()).getDefinition()).getExposedVariable().get(0));
 		
 		System.out.println(connType.getPortParameter().get(0));

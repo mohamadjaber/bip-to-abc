@@ -1,6 +1,8 @@
 package aub.edu.lb.bip.abc.together;
 
 import aub.edu.lb.bip.abc.api.TEnumType;
+import aub.edu.lb.bip.abc.api.TogetherSyntax;
+import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
 public class TPortSelected extends TVariable {
@@ -15,5 +17,9 @@ public class TPortSelected extends TVariable {
 	
 	public TPort getPort() {
 		return tPort; 
+	}
+	
+	public TAssignmentAction initialize() {
+		return super.set(new TNamedElement(TogetherSyntax.false_condition));
 	}
 }

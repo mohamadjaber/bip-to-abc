@@ -31,11 +31,8 @@ public class TState extends TVariable {
 		type = TEnumType.CONST_INT;
 	}
 	
-	public String create() {
-		return type.getName() + " "+ new TAssignmentAction(
-					this, 
-					new TNamedElement("" + value)
-				).toString() + ";\n";
+	public TAssignmentAction create() {
+		return super.create(new TNamedElement("" + value));
 	}
 
 	
@@ -60,7 +57,7 @@ public class TState extends TVariable {
 				((TIfAction) currentAction).setElseCase(transitionFunc);
 				currentAction = transitionFunc; 
 			}
-			transitionFunc.setElseCase(new TAssignmentAction(tComponent.getCurrentState(), tComponent.getCurrentState()));
+			transitionFunc.setElseCase(new TAssignmentAction(tComponent.getCurrentState(), tComponent.getCurrentState(), false));
 		}
 		
 		return nextStateFunc;
@@ -87,7 +84,7 @@ public class TState extends TVariable {
 		
 			TAction updateStateAction = new TAssignmentAction(
 					tComponent.getCurrentState(), 
-					new TNamedElement("" + next.value)
+					new TNamedElement("" + next.value), false
 				);
 			transAction.setIfCase(updateStateAction);
 		}
@@ -105,5 +102,4 @@ public class TState extends TVariable {
 		return value; 
 	}
 	
-
 }

@@ -15,10 +15,6 @@ public class TCurrentState extends TVariable {
 		type = TEnumType.INT;
 	}
 	
-	public String create() {
-		return type.getName() + " " + this + ";";
-	}
-	
 
 	public Component getComponent() {
 		return component; 

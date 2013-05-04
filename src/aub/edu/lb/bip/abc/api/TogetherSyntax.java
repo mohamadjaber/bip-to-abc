@@ -9,7 +9,7 @@ public class TogetherSyntax {
 	public final static String interactions = "interactions_enablement";
 	public final static String interactions_tmp = "interactions_tmp";
 	public final static String priority = "priority";
-
+	public final static String filter_Interaction = "filter_Interaction";
 
 
 	public final static String currentState = "currentState";
@@ -25,7 +25,7 @@ public class TogetherSyntax {
 
 	public final static String if_condition = "if";
 	public final static String else_condition = "else";
-	public final static String while_loop = "if";
+	public final static String while_loop = "while";
 	public final static String true_condition = "true";
 	public final static String false_condition = "false";
 

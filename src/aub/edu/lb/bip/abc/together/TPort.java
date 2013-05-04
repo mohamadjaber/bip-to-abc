@@ -4,12 +4,12 @@ import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import ujf.verimag.bip.Core.Behaviors.Port;
 
 public class TPort extends TNamedElement {
-	private Port port;
-	private TComponent tComponent;
+	protected Port port;
+	protected TComponent tComponent;
 	
-	private TPortLocalEnable localEnable;
-	private TPortInteractionEnable interactionEnable; 
-	private TPortSelected selected; 
+	protected TPortLocalEnable localEnable;
+	protected TPortInteractionEnable interactionEnable; 
+	protected TPortSelected selected; 
 	
 	
 	
@@ -77,9 +77,5 @@ public class TPort extends TNamedElement {
 	public Port getPort() {
 		return port; 
 	}
-
-
-
-	
 
 }
