@@ -14,5 +14,4 @@ public class TCompositeAction implements TAction {
 	public List<TAction> getContents() {
 		return actions; 
 	}
-
 }

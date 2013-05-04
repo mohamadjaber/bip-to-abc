@@ -70,7 +70,4 @@ public class TPriorities extends T2DArrayVariable {
 		}
 		return action;
 	}
-	
-	
-
 }

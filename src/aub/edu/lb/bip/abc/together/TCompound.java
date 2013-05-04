@@ -194,7 +194,4 @@ public class TCompound {
 	public TAction getTogetherAction() {
 		return togetherAction;
 	}
-	
-	
-	
 }

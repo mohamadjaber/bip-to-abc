@@ -12,13 +12,13 @@ boolean port_s_timer_timer;
 wire boolean port_le_light_done;
 wire boolean port_ie_light_done;
 boolean port_s_light_done;
-wire boolean interactions_enablement;
-wire boolean priority;
+wire boolean interactions_enablement[2];
+wire boolean priority[2][2];
 const int state_timer_s1 = 0;
 const int state_light_green = 1;
 const int state_light_red = 2;
 const int state_light_yellow = 3;
-@do_together{
+@do_together {
   port_s_timer_done = false;
   port_s_timer_timer = false;
   var_timer_t = 0var_timer_n = 10
@@ -31,67 +31,69 @@ const int state_light_yellow = 3;
   priority[1][0] = true;
   priority[1][1] = false;
 }
-while(true){
-  @do_together{
+while(true) {
+  @do_together {
     port_s_timer_done = port_ie_timer_done;
     port_s_timer_timer = port_ie_timer_timer;
     port_s_light_done = port_ie_light_done;
     if(((timer_currentState) == (0)) && (port_s_timer_timer)) {
       timer_currentState = 0;
     }
-    else{
+    else {
       if(((timer_currentState) == (0)) && (port_s_timer_done)) {
         timer_currentState = 0;
       }
-      else{
+      else {
         timer_currentState = timer_currentState;
       }
     }
     if(((timer_currentState) == (state_timer_s1)) && (port_s_timer_timer)) {
-      var_timer_t = var_timer_t;
+      var_timer_t = var_timer_t+1;
     }
-    else{
+    else {
       if(((timer_currentState) == (state_timer_s1)) && (port_s_timer_done)) {
-        var_timer_t = var_timer_t;
+        var_timer_t = 0;
       }
-      else{
+      else {
         var_timer_t = var_timer_t;
       }
     }
-    if(null) {
+    if(interaction_c2) {
+      var_timer_n = var_light_m
     }
-    else{
+    else {
+      var_timer_n = var_timer_n;
     }
     if(((light_currentState) == (1)) && (port_s_light_done)) {
       light_currentState = 2;
     }
-    else{
+    else {
       light_currentState = light_currentState;
     }
     if(((light_currentState) == (2)) && (port_s_light_done)) {
       light_currentState = 3;
     }
-    else{
+    else {
       light_currentState = light_currentState;
     }
     if(((light_currentState) == (3)) && (port_s_light_done)) {
       light_currentState = 1;
     }
-    else{
+    else {
       light_currentState = light_currentState;
     }
     if(((light_currentState) == (state_light_green)) && (port_s_light_done)) {
-      var_light_m = var_light_m;
+      var_light_m = 3;
     }
-    else{
+    else {
       if(((light_currentState) == (state_light_red)) && (port_s_light_done)) {
-        var_light_m = var_light_m;
+        var_light_m = 10;
       }
-      else{
+      else {
         if(((light_currentState) == (state_light_yellow)) && (port_s_light_done)) {
-          var_light_m = var_light_m;
+          var_light_m = 5;
         }
-        else{
+        else {
           var_light_m = var_light_m;
         }
       }

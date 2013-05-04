@@ -49,8 +49,9 @@ public class TVariableComp extends TVariable{
 	
 	public TAction nextStateFunction() {
 		TAction action = nextStateFunctionVariableTransition(); 
-		if(action == null)
+		if(action == null) {
 			return nextStateFunctionVariableInteraction();
+		}
 		else {
 			TIfAction ifAction = (TIfAction) action; 
 			ifAction.setLastElseCase(nextStateFunctionVariableInteraction());
@@ -60,8 +61,10 @@ public class TVariableComp extends TVariable{
 	
 	public TAction nextStateFunctionVariableTransition() {
 		List<Transition> transitionsUpdateVariable = TransformationFunction.getTransitionsUpdateVariable(variable);
-		TIfAction nextStateFunc = new TIfAction();
+		if(transitionsUpdateVariable.size() == 0)
+			return null;
 		
+		TIfAction nextStateFunc = new TIfAction();
 		// for each transition generate nested if and else cases
 		TAction currentAction = nextStateFunc;
 		boolean firstTransition = true; 
@@ -145,7 +148,7 @@ public class TVariableComp extends TVariable{
 		
 			TAction updateFunction = new TAssignmentAction(
 					this, 
-					new TNamedElement("" + Parser.decompile(assignAction.getAssignedTarget(), tComponent)), false
+					new TNamedElement("" + Parser.decompile(assignAction.getAssignedValue(), tComponent)), false
 				);
 			transAction.setIfCase(updateFunction);
 		}
@@ -158,8 +161,5 @@ public class TVariableComp extends TVariable{
 				tComponent.getName() + "_" + 
 				variable.getName();
 	}
-	
-
-
 
 }

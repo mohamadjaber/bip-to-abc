@@ -33,5 +33,4 @@ public class TFunctionCall implements TExpression {
 		}
 		return functionName + "("+ s + ");";
 	}
-
 }

@@ -54,7 +54,7 @@ public class TGenerator {
 			output.print(indent + TogetherSyntax.while_loop + "(");
 			output.print(action.getCondition());
 			output.print(")");
-			output.println(indent + "{");
+			output.println(indent + " {");
 			indent();
 			decompile(action.getAction());
 			deindent();
@@ -62,7 +62,7 @@ public class TGenerator {
 		}
 		else if(act instanceof TDoTogetherAction) {
 			TDoTogetherAction action = (TDoTogetherAction) act;
-			output.println(indent + TogetherSyntax.doTogether + "{");
+			output.println(indent + TogetherSyntax.doTogether + " {");
 			indent();
 			decompile(action.getAction());
 			deindent();
@@ -77,16 +77,14 @@ public class TGenerator {
 			decompile(action.getIfCase());
 			deindent();
 			output.println(indent + "}");
-			output.println(indent + TogetherSyntax.else_condition + "{");
+			output.println(indent + TogetherSyntax.else_condition + " {");
 			indent();
 			decompile(action.getElseCase());
 			deindent();
 			output.println(indent + "}");
 		}
 		else {
-			if(act == null)
-				System.out.println(act);
-	        //throw new Error("Unimplemented");
+	        throw new Error("Unimplemented");
 		}
 	}
 	
