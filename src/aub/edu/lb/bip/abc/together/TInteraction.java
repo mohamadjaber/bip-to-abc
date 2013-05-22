@@ -74,7 +74,7 @@ public class TInteraction extends TVariable {
 			TComponent tComponent = tCompound.getTComponent(comp);
 			TPort p = tComponent.getTPort(mapCompPort.get(comp));
 			expressionEnablement = new TBinaryExpression(BinaryOperator.LOGICAL_AND, 
-					expressionEnablement, p.getInteractionEnable()
+					expressionEnablement, p.getLocalEnable()
 				);
 		}
 		return expressionEnablement;

@@ -66,7 +66,8 @@ public class TPriorities extends T2DArrayVariable {
 		TCompositeAction action = new TCompositeAction();
 		for(int i = 0; i < nbOfInteractions; i++) {
 			for(int j = 0; j < nbOfInteractions; j++) {
-				action.getContents().add(this.set(priorityValues[i][j], i, j));
+				T2DArrayVariable arrayVariable = new T2DArrayVariable(this.name, this.type, i, j);
+				action.getContents().add(arrayVariable.set(priorityValues[i][j]));
 			}
 		}
 		return action;

@@ -3,20 +3,28 @@ package aub.edu.lb.bip.abc.expression;
 import aub.edu.lb.bip.abc.api.TEnumType;
 
 public class T2DArrayVariable extends TVariable {
-	private int nbOfLines;
-	private int nbOfColumns; 
+	private int line;
+	private int column; 
 	
 	public T2DArrayVariable(String n, TEnumType t, int line, int column) {
 		super(n,t);
-		nbOfLines = line; 
-		nbOfColumns = column; 
+		this.line = line; 
+		this.column = column; 
 	}
 	
 	public int getNbOfLines() {
-		return nbOfLines;
+		return line;
 	}
 	
 	public int getNbOfColumns() {
-		return nbOfColumns;
+		return line;
+	}
+	
+	public String toString() {
+		return name + "[" + line + "][" + column + "]";
+	}
+	
+	public TVariable getInstance() {
+		return new TVariable(name, type);
 	}
 }

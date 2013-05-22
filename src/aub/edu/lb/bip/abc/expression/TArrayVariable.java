@@ -4,14 +4,22 @@ import aub.edu.lb.bip.abc.api.TEnumType;
 
 public class TArrayVariable extends TVariable {
 	
-	private int size; 
+	private int index; 
 	
-	public TArrayVariable(String n, TEnumType t, int size) {
+	public TArrayVariable(String n, TEnumType t, int index) {
 		super(n,t);
-		this.size = size; 
+		this.index = index; 
 	}
 	
-	public int getSize() {
-		return size; 
+	public int getIndex() {
+		return index; 
+	}
+	
+	public String toString() {
+		return name + "[" + index + "]";
+	}
+	
+	public TVariable getInstance() {
+		return new TVariable(name, type);
 	}
 }

@@ -41,7 +41,8 @@ public class TInteractions extends TArrayVariable {
 	public TCompositeAction getIntermediateInteractionEnablement() {
 		TCompositeAction action = new TCompositeAction();
 		for(TInteraction tInteraction: mapInteractions.values()) {
-			action.getContents().add(this.set(tInteraction.getExpressionEnablement(), tInteraction.getId()));
+			TArrayVariable arrayVariable = new TArrayVariable(tInteractionsTMP.getName(), tInteractionsTMP.getType(), tInteraction.getId());
+			action.getContents().add(arrayVariable.set(tInteraction.getExpressionEnablement()));
 		}
 		return action; 
 	}

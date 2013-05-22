@@ -8,6 +8,7 @@ import aub.edu.lb.bip.abc.api.Parser;
 import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TAction;
+import aub.edu.lb.bip.abc.expression.TArrayVariable;
 import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TBinaryExpression;
 import aub.edu.lb.bip.abc.expression.TExpression;
@@ -120,7 +121,11 @@ public class TVariableComp extends TVariable{
    
 	private TIfAction nextStateFunctionInteraction(Connector connector, AssignmentAction assignmentAction) {
 		TIfAction interactionAction = new TIfAction();
-		interactionAction.setCondition(tComponent.getTCompound().getTInteractions().getTInteraction(connector));
+		TInteraction tInteraction = tComponent.getTCompound().getTInteractions().getTInteraction(connector);
+		TInteractions tInteractions = tComponent.getTCompound().getTInteractions();
+
+		TArrayVariable condition = new TArrayVariable(tInteractions.getName(), tInteractions.getType(), tInteraction.getId());
+		interactionAction.setCondition(condition);
 		interactionAction.setIfCase(new TNamedElement(Parser.decompile(assignmentAction, null, connector, tComponent.getTCompound())));
 		interactionAction.setElseCase(null);
 		return interactionAction;		

@@ -15,6 +15,10 @@ public class TVariable extends TNamedElement {
 		type = t; 
 	}
 	
+	public TEnumType getType() {
+		return type;
+	}
+	
 	public TAssignmentAction create() {
 		return new TAssignmentAction(this, null, true);
 	}
@@ -26,12 +30,5 @@ public class TVariable extends TNamedElement {
 	public TAssignmentAction set(TExpression e) {
 		return new TAssignmentAction(this, e, false);
 	}
-	
-	public TAssignmentAction set(TExpression e, int i) {
-		return new TAssignmentAction(this, e, false, i);
-	}
-	
-	public TAssignmentAction set(TExpression e, int i, int j) {
-		return new TAssignmentAction(this, e, false, i, j);
-	}
+
 }

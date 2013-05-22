@@ -6,6 +6,7 @@ import ujf.verimag.bip.Core.Interactions.Connector;
 import ujf.verimag.bip.Core.Interactions.InnerPortReference;
 import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
+import aub.edu.lb.bip.abc.expression.TArrayVariable;
 import aub.edu.lb.bip.abc.expression.TBinaryExpression;
 import aub.edu.lb.bip.abc.expression.TExpression;
 import aub.edu.lb.bip.abc.expression.TNamedElement;
@@ -31,9 +32,14 @@ public class TPortInteractionEnable extends TVariable {
 			for(ActualPortParameter app : connector.getActualPort()) {
 				InnerPortReference ipr = (InnerPortReference) app;
 				if(ipr.getTargetPort().equals(tPort.port) && ipr.getTargetInstance().getTargetPart().equals(tPort.tComponent.getComponent())) {
+					TInteractions interactions = tPort.getTComponent().getTCompound().getTInteractions(); 
+					TArrayVariable arrayVariable = new TArrayVariable(
+							interactions.getName(),interactions.getType(), 
+							interactions.getTInteraction(connector).getId());
 					expressionEnablement = new TBinaryExpression(BinaryOperator.LOGICAL_OR,
 							expressionEnablement, 
-							tPort.getTComponent().getTCompound().getTInteractions().getTInteraction(connector));
+							arrayVariable);
+
 					break;
 				}
 			}

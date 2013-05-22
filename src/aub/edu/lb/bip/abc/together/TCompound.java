@@ -7,6 +7,7 @@ import java.util.Map;
 
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TAction;
+import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TCompositeAction;
 import aub.edu.lb.bip.abc.expression.TDoTogetherAction;
 import aub.edu.lb.bip.abc.expression.TExpression;
@@ -84,10 +85,14 @@ public class TCompound {
 
 	private void setFilerInteraction(TCompositeAction ca) {
 		List<TExpression> parameters = new LinkedList<TExpression>();
-		parameters.add(getTInteractions().getTInteractionsTMP());
-		parameters.add(getTInteractions());
-		parameters.add(getTPriorities());
-		ca.getContents().add(new TFunctionCall(TogetherSyntax.filter_Interaction, parameters));
+		parameters.add(getTInteractions().getTInteractionsTMP().getInstance());
+		parameters.add(getTInteractions().getInstance());
+		parameters.add(getTPriorities().getInstance());
+		ca.getContents().add(
+				new TAssignmentAction(getTInteractions().getInstance(),
+						new TFunctionCall(TogetherSyntax.filter_Interaction, parameters),
+						false
+				));
 	}
 
 	private void setIntermediateInteractionEnablement(TCompositeAction ca) {
@@ -146,7 +151,9 @@ public class TCompound {
 	}
 
 	private void createInteractions() {
-		togetherAction.getContents().add(this.getTInteractions().create());		
+		togetherAction.getContents().add(this.getTInteractions().create());	
+		togetherAction.getContents().add(this.getTInteractions().getTInteractionsTMP().create());		
+
 	}
 
 	private void createPorts() {
