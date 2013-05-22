@@ -396,7 +396,7 @@ public class Parser {
 			case MOD_ASSIGN:   s += " %= " ; break;
 			}
 			s += decompile(aa.getAssignedValue(), false, component, c, compound) ;
-			s += "" ; // ;
+			s += "; " ; // ;
 		} else if (act instanceof CompositeAction) {
 			CompositeAction ca = (CompositeAction) act;
 			s += "" ; // "{" ;
