@@ -35,7 +35,7 @@ public class TPortInteractionEnable extends TVariable {
 					TInteractions interactions = tPort.getTComponent().getTCompound().getTInteractions(); 
 					TArrayVariable arrayVariable = new TArrayVariable(
 							interactions.getName(),interactions.getType(), 
-							interactions.getTInteraction(connector).getId());
+							new TNamedElement("" + interactions.getTInteraction(connector).getId()));
 					expressionEnablement = new TBinaryExpression(BinaryOperator.LOGICAL_OR,
 							expressionEnablement, 
 							arrayVariable);

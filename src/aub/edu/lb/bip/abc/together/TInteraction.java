@@ -9,12 +9,17 @@ import java.util.Map;
 import aub.edu.lb.bip.abc.api.Parser;
 import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
+import aub.edu.lb.bip.abc.expression.T2DArrayVariable;
+import aub.edu.lb.bip.abc.expression.TArrayVariable;
+import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TBinaryExpression;
 import aub.edu.lb.bip.abc.expression.TExpression;
 import aub.edu.lb.bip.abc.expression.TNamedElement;
+import aub.edu.lb.bip.abc.expression.TUnaryExpression;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
 import ujf.verimag.bip.Core.ActionLanguage.Expressions.BinaryOperator;
+import ujf.verimag.bip.Core.ActionLanguage.Expressions.UnaryOperator;
 import ujf.verimag.bip.Core.Behaviors.Port;
 import ujf.verimag.bip.Core.Interactions.Component;
 import ujf.verimag.bip.Core.Interactions.Connector;
@@ -78,6 +83,98 @@ public class TInteraction extends TVariable {
 				);
 		}
 		return expressionEnablement;
+	}
+	
+	//interactions_filter_priority[id] = interaction_first_enable[id] /\ (\forall_{j \neq id}  interactions_first_enable[j] => !priority[id][j])
+	public TAssignmentAction getFilterInteractionPriority() {
+		TInteractions tInteractions = tCompound.getTInteractions();
+		TPriorities tPriorities = tCompound.getTPriorities(); 
+		TArrayVariable tInteractionFilterPriority = tInteractions.getTInteractionsFilterPriority(); 
+		TArrayVariable tInteractionsFirstEnable = tInteractions.getTInteractionsFirstEnable(); 
+		TArrayVariable assignedTarget = new TArrayVariable(tInteractionFilterPriority.getName(), tInteractionFilterPriority.getType(), new TNamedElement("" + this.id));
+		TExpression expression = new TNamedElement(TogetherSyntax.true_condition);
+		for(int j = 0; j < tInteractions.size(); j++) {
+			if(id != j) {
+				TExpression notInteractionFirstEnable = new TUnaryExpression(UnaryOperator.LOGICAL_NOT, 
+						new TArrayVariable(tInteractionsFirstEnable.getName(), tInteractionsFirstEnable.getType(), new TNamedElement("" + j)));
+				
+				TExpression notPriorityIdJ = new TUnaryExpression(
+						UnaryOperator.LOGICAL_NOT, 
+						new T2DArrayVariable(tPriorities.getName(), tPriorities.getType(), 
+								new TNamedElement("" + this.id),
+								new TNamedElement("" + j)));
+
+				expression = new TBinaryExpression(
+						BinaryOperator.LOGICAL_AND,
+						expression,
+						new TBinaryExpression(
+							BinaryOperator.LOGICAL_OR,
+							notInteractionFirstEnable, notPriorityIdJ
+						)
+					);
+			}
+		}
+		expression = new TBinaryExpression(BinaryOperator.LOGICAL_AND,
+				new TArrayVariable(tInteractionsFirstEnable.getName(), tInteractionsFirstEnable.getType(), new TNamedElement("" + this.id)),
+				expression
+				);
+		return assignedTarget.set(expression);
+	}
+	
+	  
+	// interactions_enablement[id] = interactions_intermediate[i] /\ ( s == id || !interactions_intermediate[selecter] && \forall_{j \neq id} interactions_intermediate[j] => j > id )
+	public TAssignmentAction getSelectOneInteraction() {
+		TInteractions tInteractions = tCompound.getTInteractions();
+		TArrayVariable tInteractionFilterPriority = tInteractions.getTInteractionsFilterPriority(); 
+		TArrayVariable assignedTarget = new TArrayVariable(tInteractions.getName(), tInteractions.getType(), new TNamedElement("" + this.id));
+		TExpression expression = new TNamedElement(TogetherSyntax.true_condition);
+		for(int j = 0; j < tInteractions.size(); j++) {
+			if(id != j) {
+				TExpression notInteractionFilterPriority = new TUnaryExpression(UnaryOperator.LOGICAL_NOT, 
+						new TArrayVariable(tInteractionFilterPriority.getName(), tInteractionFilterPriority.getType(), new TNamedElement("" + this.id)));
+				
+				TExpression nearestSelecter = new TBinaryExpression(
+						BinaryOperator.GREATER_THAN,
+						new TVariable("" + j, TEnumType.INT),
+						new TVariable("" + id, TEnumType.INT)
+					);
+
+				expression = new TBinaryExpression(
+						BinaryOperator.LOGICAL_AND,
+						expression,
+						new TBinaryExpression(
+							BinaryOperator.LOGICAL_OR,
+							notInteractionFilterPriority, nearestSelecter
+						)
+					);
+			}
+		}
+		
+		expression = new TBinaryExpression(BinaryOperator.LOGICAL_AND,
+				new TUnaryExpression(UnaryOperator.LOGICAL_NOT,
+						new TArrayVariable(
+								tInteractionFilterPriority.getName(), 
+								tInteractionFilterPriority.getType(), 
+								tCompound.getSelecter())),
+				expression);
+						
+		
+		expression = new TBinaryExpression(BinaryOperator.LOGICAL_OR,
+				new TBinaryExpression(
+						BinaryOperator.EQUALITY,
+						tCompound.getSelecter(),
+						new TVariable("" + id , TEnumType.INT)
+					), 
+					expression
+				);
+		
+		
+		expression = new TBinaryExpression(BinaryOperator.LOGICAL_AND,
+				new TArrayVariable(tInteractionFilterPriority.getName(), tInteractionFilterPriority.getType(), 
+						new TNamedElement("" + this.id)),
+				expression
+				);
+		return assignedTarget.set(expression);
 	}
 
 

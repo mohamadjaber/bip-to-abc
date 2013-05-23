@@ -9,20 +9,23 @@ import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TArrayVariable;
 import aub.edu.lb.bip.abc.expression.TCompositeAction;
+import aub.edu.lb.bip.abc.expression.TNamedElement;
 
 import ujf.verimag.bip.Core.Interactions.Connector;
 
 public class TInteractions extends TArrayVariable {	
 	private List<TInteraction> tInteractions; 
 	private TCompound tCompound; 
-	private TArrayVariable tInteractionsTMP; 
+	private TArrayVariable tInteractionsFirstEnable; 
+	private TArrayVariable tInteractionsFilterPriority; 
+
 	private Map<Connector, TInteraction> mapInteractions = new HashMap<Connector, TInteraction>(); 
 	
 	private int size; 
 	
 	public TInteractions(TCompound tCompound) {
 		super(TogetherSyntax.interactions, TEnumType.ARRAY_WIRE_BOOLEAN, 
-				tCompound.getCompoundType().getConnector().size());
+				new TNamedElement("" + tCompound.getCompoundType().getConnector().size()));
 		this.tCompound = tCompound; 
 		size = tCompound.getCompoundType().getConnector().size();
 		
@@ -34,14 +37,17 @@ public class TInteractions extends TArrayVariable {
 			tInteractions.add(tInteraction); 
 		}
 
-		tInteractionsTMP = new TArrayVariable(TogetherSyntax.interactions_tmp,
-				TEnumType.ARRAY_WIRE_BOOLEAN, size);		
+		tInteractionsFirstEnable = new TArrayVariable(TogetherSyntax.interactions_first_enable,
+				TEnumType.ARRAY_WIRE_BOOLEAN, new TNamedElement("" + size));
+		
+		tInteractionsFilterPriority = new TArrayVariable(TogetherSyntax.interactions_filtered_priority,
+				TEnumType.ARRAY_WIRE_BOOLEAN, new TNamedElement("" + size));	
 	}
 	
-	public TCompositeAction getIntermediateInteractionEnablement() {
+	public TCompositeAction getFirstInteractionEnablement() {
 		TCompositeAction action = new TCompositeAction();
 		for(TInteraction tInteraction: mapInteractions.values()) {
-			TArrayVariable arrayVariable = new TArrayVariable(tInteractionsTMP.getName(), tInteractionsTMP.getType(), tInteraction.getId());
+			TArrayVariable arrayVariable = new TArrayVariable(tInteractionsFirstEnable.getName(), tInteractionsFirstEnable.getType(), new TNamedElement("" + tInteraction.getId()));
 			action.getContents().add(arrayVariable.set(tInteraction.getExpressionEnablement()));
 		}
 		return action; 
@@ -51,8 +57,16 @@ public class TInteractions extends TArrayVariable {
 		return tCompound;
 	}
 	
-	public TArrayVariable getTInteractionsTMP() {
-		return tInteractionsTMP; 
+	public TArrayVariable getTInteractionsFirstEnable() {
+		return tInteractionsFirstEnable; 
+	}
+	
+	public List<TInteraction> getTInteractions() {
+		return tInteractions; 
+	}
+	
+	public TArrayVariable getTInteractionsFilterPriority() {
+		return tInteractionsFilterPriority; 
 	}
 	
 	public TInteraction getTInteraction(Connector con) {

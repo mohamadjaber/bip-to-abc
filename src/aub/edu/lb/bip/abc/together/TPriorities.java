@@ -23,8 +23,8 @@ public class TPriorities extends T2DArrayVariable {
 	
 	public TPriorities(TCompound tCompound) {
 		super(TogetherSyntax.priority, TEnumType.TwoD_ARRAY_WIRE_BOOLEAN, 
-				tCompound.getCompoundType().getConnector().size(), 
-				tCompound.getCompoundType().getConnector().size());
+				new TNamedElement("" + tCompound.getCompoundType().getConnector().size()), 
+				new TNamedElement("" + tCompound.getCompoundType().getConnector().size()));
 		
 		this.tCompound = tCompound;
 		
@@ -52,7 +52,9 @@ public class TPriorities extends T2DArrayVariable {
 					Connector lower = (Connector)((PartElementReference) ((Interaction) priority.getLower()).getConnector()).getTargetPart();
 					int idLower = tCompound.getTInteractions().getTInteraction(lower).getId();
 					int idGreater =  tCompound.getTInteractions().getTInteraction(con).getId();
-					priorityValues[idGreater][idLower] = new TNamedElement(TogetherSyntax.true_condition);
+					//priorityValues[idGreater][idLower] = new TNamedElement(TogetherSyntax.true_condition);
+					priorityValues[idLower][idGreater] = new TNamedElement(TogetherSyntax.true_condition);
+
 				}
 			}
 		}		
@@ -66,7 +68,9 @@ public class TPriorities extends T2DArrayVariable {
 		TCompositeAction action = new TCompositeAction();
 		for(int i = 0; i < nbOfInteractions; i++) {
 			for(int j = 0; j < nbOfInteractions; j++) {
-				T2DArrayVariable arrayVariable = new T2DArrayVariable(this.name, this.type, i, j);
+				T2DArrayVariable arrayVariable = new T2DArrayVariable(this.name, this.type, 
+						new TNamedElement("" + i), 
+						new TNamedElement("" + j));
 				action.getContents().add(arrayVariable.set(priorityValues[i][j]));
 			}
 		}

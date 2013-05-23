@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TAction;
 import aub.edu.lb.bip.abc.expression.TAssignmentAction;
@@ -13,6 +14,7 @@ import aub.edu.lb.bip.abc.expression.TDoTogetherAction;
 import aub.edu.lb.bip.abc.expression.TExpression;
 import aub.edu.lb.bip.abc.expression.TFunctionCall;
 import aub.edu.lb.bip.abc.expression.TNamedElement;
+import aub.edu.lb.bip.abc.expression.TVariable;
 import aub.edu.lb.bip.abc.expression.TWhileAction;
 
 import ujf.verimag.bip.Core.Interactions.Component;
@@ -22,7 +24,7 @@ public class TCompound {
 	private Map<Component, TComponent> mapComponents;
 	private TInteractions tInteractions;
 	private TPriorities tPriorities;
-	
+	private TVariable selecter; 
 	private TCompositeAction togetherAction;
 
 
@@ -32,6 +34,7 @@ public class TCompound {
 		compoundType = compound; 
 		tInteractions = new TInteractions(this);
 		tPriorities = new TPriorities(this);
+		selecter = new TVariable(TogetherSyntax.selecter, TEnumType.WIRE_INT);
 		
 		mapComponents = new HashMap<Component, TComponent>(compound.getSubcomponent().size());
 
@@ -68,9 +71,27 @@ public class TCompound {
 		setTransitionEnablementDelay(ca);
 		setNextStateFunctionState(ca);
 		setPortEnablement(ca);
-		setIntermediateInteractionEnablement(ca);
-		setFilerInteraction(ca);
+		setInteractionEnablement(ca);
+		// setFilerInteraction(ca);
 		setPortInteractionEnablement(ca);
+	}
+
+	private void setInteractionEnablement(TCompositeAction ca) {
+		setFirstInteractionEnablement(ca);
+		setFilterInteractionPriority(ca);
+		setSelectOneInteraction(ca);
+	}
+
+	private void setSelectOneInteraction(TCompositeAction ca) {
+		for(TInteraction tInteraction: tInteractions.getTInteractions()) {
+			ca.getContents().add(tInteraction.getSelectOneInteraction());
+		}	
+	}
+
+	private void setFilterInteractionPriority(TCompositeAction ca) {
+		for(TInteraction tInteraction: tInteractions.getTInteractions()) {
+			ca.getContents().add(tInteraction.getFilterInteractionPriority());
+		}
 	}
 
 	private void setPortInteractionEnablement(TCompositeAction action) {
@@ -83,9 +104,10 @@ public class TCompound {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void setFilerInteraction(TCompositeAction ca) {
 		List<TExpression> parameters = new LinkedList<TExpression>();
-		parameters.add(getTInteractions().getTInteractionsTMP().getInstance());
+		parameters.add(getTInteractions().getTInteractionsFirstEnable().getInstance());
 		parameters.add(getTInteractions().getInstance());
 		parameters.add(getTPriorities().getInstance());
 		ca.getContents().add(
@@ -95,8 +117,8 @@ public class TCompound {
 				));
 	}
 
-	private void setIntermediateInteractionEnablement(TCompositeAction ca) {
-		ca.getContents().add(getTInteractions().getIntermediateInteractionEnablement());
+	private void setFirstInteractionEnablement(TCompositeAction ca) {
+		ca.getContents().add(getTInteractions().getFirstInteractionEnablement());
 	}
 
 	private void setPortEnablement(TCompositeAction action) {
@@ -152,8 +174,8 @@ public class TCompound {
 
 	private void createInteractions() {
 		togetherAction.getContents().add(this.getTInteractions().create());	
-		togetherAction.getContents().add(this.getTInteractions().getTInteractionsTMP().create());		
-
+		togetherAction.getContents().add(this.getTInteractions().getTInteractionsFirstEnable().create());
+		togetherAction.getContents().add(this.getTInteractions().getTInteractionsFilterPriority().create());		
 	}
 
 	private void createPorts() {
@@ -180,7 +202,8 @@ public class TCompound {
 			for(TVariableComp var: tComp.getTVariables()) {
 				togetherAction.getContents().add(var.create());
 			}
-		}		
+		}	
+		togetherAction.getContents().add(selecter.create());
 	}
 
 	public TComponent getTComponent(Component comp) {
@@ -201,5 +224,9 @@ public class TCompound {
 	
 	public TAction getTogetherAction() {
 		return togetherAction;
+	}
+	
+	public TVariable getSelecter() {
+		return selecter; 
 	}
 }

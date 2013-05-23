@@ -124,7 +124,9 @@ public class TVariableComp extends TVariable{
 		TInteraction tInteraction = tComponent.getTCompound().getTInteractions().getTInteraction(connector);
 		TInteractions tInteractions = tComponent.getTCompound().getTInteractions();
 
-		TArrayVariable condition = new TArrayVariable(tInteractions.getName(), tInteractions.getType(), tInteraction.getId());
+		TArrayVariable condition = new TArrayVariable(tInteractions.getName(), 
+				tInteractions.getType(), 
+				new TNamedElement("" + tInteraction.getId()));
 		interactionAction.setCondition(condition);
 		interactionAction.setIfCase(new TNamedElement(Parser.decompile(assignmentAction, null, connector, tComponent.getTCompound())));
 		interactionAction.setElseCase(null);

@@ -30,5 +30,10 @@ public class TVariable extends TNamedElement {
 	public TAssignmentAction set(TExpression e) {
 		return new TAssignmentAction(this, e, false);
 	}
+	
+	
+	public TVariable getInstance() {
+		return new TVariable(name, type);
+	}
 
 }

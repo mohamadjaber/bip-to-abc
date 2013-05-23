@@ -7,10 +7,14 @@ public class TogetherSyntax {
 	public final static String port = "port";
 	public final static String interaction = "interaction";
 	public final static String interactions = "interactions_enablement";
-	public final static String interactions_tmp = "interactions_tmp";
+	public final static String interactions_first_enable = "interactions_first_enable";
+	public final static String interactions_filtered_priority = "interactions_filtered_priority";
+
 	public final static String priority = "priority";
 	public final static String filter_Interaction = "filter_Interaction";
+	public final static String selecter = "selecter";
 
+	
 	public final static String currentState = "currentState";
 
 	public final static String port_local_enable = "loc_en";
