@@ -40,8 +40,8 @@ public class TBinaryExpression implements TExpression {
 	}
 
 	public String toString() {
-		return "(" + rightOperand.toString() + " " + " " + 
-				Parser.decompile(operator) + " " +
+		return "(" + rightOperand.toString() + 
+				Parser.decompile(operator)  +
 				leftOperand.toString() + ")";
 	}
 	
