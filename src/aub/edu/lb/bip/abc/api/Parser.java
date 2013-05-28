@@ -276,7 +276,7 @@ public class Parser {
 	
 	public static String decompile(BinaryOperator bo) {
 	//switch(be.getOperator().getValue()) {
-		String s = "";
+		String s = " ";
 		switch(bo.getValue()) {
 			case BinaryOperator.ADDITION_VALUE : 
 				s += "+" ;
@@ -333,7 +333,7 @@ public class Parser {
 				s += "-" ;
 				break ;
 			}
-		return s; 
+		return s + " "; 
 	}
 	
 	

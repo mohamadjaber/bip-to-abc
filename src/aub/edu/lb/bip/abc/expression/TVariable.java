@@ -40,9 +40,6 @@ public class TVariable extends TNamedElement {
 		return type.getName();
 	}
 	
-	public String createAssignedValue() {
-		return name;
-	}
 	
 	public String toString() {
 		return name;
