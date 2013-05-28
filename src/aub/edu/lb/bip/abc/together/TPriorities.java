@@ -22,7 +22,7 @@ public class TPriorities extends T2DArrayVariable {
 	private int nbOfInteractions; 
 	
 	public TPriorities(TCompound tCompound) {
-		super(TogetherSyntax.priority, TEnumType.TwoD_ARRAY_WIRE_BOOLEAN, 
+		super(TogetherSyntax.priority, TEnumType.TwoD_ARRAY_BOOLEAN, 
 				new TNamedElement("" + tCompound.getCompoundType().getConnector().size()), 
 				new TNamedElement("" + tCompound.getCompoundType().getConnector().size()));
 		

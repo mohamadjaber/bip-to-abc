@@ -8,7 +8,8 @@ public enum TEnumType {
 	BOOLEAN(3, "boolean"),
 	WIRE_BOOLEAN(4, "wire boolean"),
 	ARRAY_WIRE_BOOLEAN(5, "wire boolean"),
-	TwoD_ARRAY_WIRE_BOOLEAN(6, "wire boolean");
+	TwoD_ARRAY_WIRE_BOOLEAN(6, "wire boolean"),
+	TwoD_ARRAY_BOOLEAN(7, "boolean");
 
 	private int value; 
 	private String type; 
@@ -20,6 +21,8 @@ public enum TEnumType {
 	public static final int WIRE_BOOLEAN_VALUE = 4;
 	public static final int ARRAY_WIRE_BOOLEAN_VALUE = 5;
 	public static final int TwoD_ARRAY_WIRE_BOOLEAN_VALUE = 6;
+	public static final int TwoD_ARRAY_BOOLEAN_VALUE = 7;
+
 	
 	TEnumType(int v, String t) {
 		value = v;

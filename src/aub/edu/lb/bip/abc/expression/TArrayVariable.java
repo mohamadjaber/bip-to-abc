@@ -15,7 +15,13 @@ public class TArrayVariable extends TVariable {
 		return index; 
 	}
 	
-	public String toString() {
+	public String createType() {
+		return type.getName() + "[" + index + "]";
+	}
+	
+	public String createAssignedValue() {
 		return name + "[" + index + "]";
 	}
+	
+	
 }

@@ -35,7 +35,10 @@ public class TPortLocalEnable extends TVariable{
 		for(Transition t: transitions) {
 			TExpression andTransition = new TBinaryExpression(
 					BinaryOperator.LOGICAL_AND, 
-					tPort.getTComponent().getTState(t.getOrigin().get(0)),
+					new TBinaryExpression(BinaryOperator.EQUALITY,
+							tPort.getTComponent().getTState(t.getOrigin().get(0)),
+							tPort.getTComponent().getCurrentState()
+						),
 					new TNamedElement(Parser.decompile(t.getGuard(), tPort.getTComponent()))
 				);
 			expression = new TBinaryExpression(

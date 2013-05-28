@@ -35,5 +35,19 @@ public class TVariable extends TNamedElement {
 	public TVariable getInstance() {
 		return new TVariable(name, type);
 	}
+	
+	public String createType() {
+		return type.getName();
+	}
+	
+	public String createAssignedValue() {
+		return name;
+	}
+	
+	public String toString() {
+		return name;
+	}
+	
+	
 
 }

@@ -11,5 +11,4 @@ public class Test1 {
 		CompoundType ct = TransformationFunction.ParseBIPFile("tmp/bipExamples/traffic.bip");
 		new TGenerator(ct, "output1.c");
 	}
-	
 }

@@ -20,7 +20,11 @@ public class T2DArrayVariable extends TVariable {
 		return line;
 	}
 	
-	public String toString() {
+	public String createType() {
+		return type.getName() + "[" + line + "][" + column + "]";
+	}
+	
+	public String createAssignedValue() {
 		return name + "[" + line + "][" + column + "]";
 	}
 }

@@ -13,13 +13,10 @@ public class TAssignmentAction implements TAction {
 		this.create = create; 	
     }
 	        
-	
-	
 	public boolean getCreate() {
 		return create; 
 	}
 	
-
 	
 	public TNamedElement getAssignedTarget() {
 		return assignedTarget;
@@ -31,12 +28,17 @@ public class TAssignmentAction implements TAction {
 	
 	public String toString() {
 		String s = "";
-		if(create) s += assignedTarget.type.getName() + " ";
-		s += assignedTarget;
+		if(create) {
+			s += assignedTarget.createType() + " ";
+			s += assignedTarget.getName();
+		}
+		else
+			s += assignedTarget.createAssignedValue();
 		if(assignedValue == null)
 			s += ";";
-		else 
+		else {
 			s += " = " + assignedValue + ";";
+		}
 		return s;
 	}
 }
