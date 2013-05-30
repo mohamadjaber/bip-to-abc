@@ -29,6 +29,7 @@ import ujf.verimag.bip.Core.ActionLanguage.Expressions.UnaryExpression;
 import ujf.verimag.bip.Core.ActionLanguage.Expressions.UnaryOperator;
 import ujf.verimag.bip.Core.ActionLanguage.Expressions.VariableReference;
 import ujf.verimag.bip.Core.Behaviors.Action;
+import ujf.verimag.bip.Core.Behaviors.DataParameter;
 import ujf.verimag.bip.Core.Behaviors.Expression;
 import ujf.verimag.bip.Core.Behaviors.NamedElement;
 import ujf.verimag.bip.Core.Behaviors.Variable;
@@ -61,10 +62,14 @@ public class Parser {
 	    if(ne instanceof Variable) {
 	    	n = component.getVariable((Variable) ne).getName();
 	    }
+	    else if(ne instanceof DataParameter) {
+	    	n = component.getVariable((DataParameter) ne).getName();
+	    }
 	   
 	    
-	    if (n==null)          
-	        throw new Error("Unimplemented");
+	    if (n==null) {         
+	   	    	throw new Error("Unimplemented");
+	    }
 
 	    return n ;
 	}
@@ -119,7 +124,7 @@ public class Parser {
 	public static String decompile(Expression exp, boolean inExp, TComponent component, Connector c, TCompound compound) {
 		String s = "";
 		if (exp==null) {
-            throw new Error("Unimplemented");
+           //throw new Error("Unimplemented");
 		} else if (exp instanceof IntegerLiteral) {
 			IntegerLiteral il = (IntegerLiteral) exp;
 			s += il.getIValue() ;
@@ -376,7 +381,7 @@ public class Parser {
 	public static String decompile(Action act, TComponent component, Connector c, TCompound compound) {
 		String s = "";
 		if (act==null) {
-	          throw new Error("Unimplemented");
+	       //   throw new Error("Unimplemented");
 		} else if (act instanceof OpaqueElement) {
 			OpaqueElement oe = (OpaqueElement)act ;
 			s += oe.getBody();

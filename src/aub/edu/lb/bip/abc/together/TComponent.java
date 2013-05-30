@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BIPTransformation.TransformationFunction;
 import aub.edu.lb.bip.abc.api.Parser;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TAction;
@@ -15,6 +16,7 @@ import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
 import ujf.verimag.bip.Core.Behaviors.AtomType;
+import ujf.verimag.bip.Core.Behaviors.DataParameter;
 import ujf.verimag.bip.Core.Behaviors.PetriNet;
 import ujf.verimag.bip.Core.Behaviors.Port;
 import ujf.verimag.bip.Core.Behaviors.State;
@@ -27,6 +29,9 @@ public class TComponent extends TNamedElement{
 	private TCompound tCompound; 
 	private Map<State, TState> mapStates = new HashMap<State, TState>();
 	private Map<Variable, TVariableComp> mapVariables = new HashMap<Variable, TVariableComp>(); 
+	
+	private Map<DataParameter, TVariableComp> mapDataParameters = new HashMap<DataParameter, TVariableComp>(); 
+
 	private Map<Port, TPort> mapPorts = new HashMap<Port, TPort>(); 
 
 	private TCurrentState currentState;
@@ -44,6 +49,7 @@ public class TComponent extends TNamedElement{
 	private void setMaps() {
 		setMapState();
 		setMapVariable();
+		setMapDataParameters();
 		setMapPort();
 	}
 	
@@ -59,6 +65,16 @@ public class TComponent extends TNamedElement{
 		for(Variable v: at.getVariable()) {
 			mapVariables.put(v, new TVariableComp(v,this));
 		}
+	}
+	private void setMapDataParameters() {
+		// Data Parameter Variable
+		AtomType at = (AtomType) component.getType();
+		for(DataParameter dp: at.getDataParameter()) {
+			String actualData = Parser.decompile(component.getActualData().get(at.getDataParameter().indexOf(dp)), false, this);
+			Variable v = TransformationFunction.CreateIntVariable(dp.getName(), Integer.parseInt(actualData));
+			mapDataParameters.put(dp, new TVariableComp(v,this));
+		}
+		
 	}
 	
 	private void setMapState() {
@@ -91,6 +107,10 @@ public class TComponent extends TNamedElement{
 	
 	public TVariableComp getVariable(Variable v) {
 		return mapVariables.get(v);
+	}
+	
+	public TVariableComp getVariable(DataParameter dp) {
+		return mapDataParameters.get(dp);
 	}
 	
 	public TPort getTPort(Port p) {
@@ -165,6 +185,14 @@ public class TComponent extends TNamedElement{
 		}
 		initializeAction.getContents().add(new TNamedElement(Parser.decompile(pn.getInitialization(), this)));
 		initializeAction.getContents().add(currentState.set(new TNamedElement(getTState(initialState).getValue() + "")));
+		
+		// DataParameter
+		
+		for(TVariableComp tVar : mapDataParameters.values()) {
+			initializeAction.getContents().add(new TAssignmentAction(tVar, new TNamedElement(Parser.decompile(tVar.getVariable().getInitialValue(), false, this)), false));
+			
+			
+		}
 
 		return initializeAction;
 	}
