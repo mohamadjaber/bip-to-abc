@@ -70,8 +70,7 @@ public class TVariableComp extends TVariable{
 		// for each transition generate nested if and else cases
 		TAction currentAction = nextStateFunc;
 		boolean firstTransition = true; 
-		for(Object o : transitionsUpdateVariable) {
-			Transition t = (Transition) o; 
+		for(Transition t : transitionsUpdateVariable) {
 			TIfAction transitionFunc = nextStateFunctionTransition(t);
 			
 			if(firstTransition) {
@@ -86,6 +85,9 @@ public class TVariableComp extends TVariable{
 		}
 		return nextStateFunc;
 	}
+	
+
+	
 	
 	public TAction nextStateFunctionVariableInteraction() {
 		Map<Connector, AssignmentAction> mapInteractionAction = TransformationFunction.getAssignmentActions(tComponent.getComponent(), variable);
