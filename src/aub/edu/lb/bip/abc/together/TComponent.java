@@ -188,11 +188,8 @@ public class TComponent extends TNamedElement{
 		initializeAction.getContents().add(currentState.set(new TNamedElement(getTState(initialState).getValue() + "")));
 		
 		// DataParameter
-		
 		for(TVariableComp tVar : mapDataParameters.values()) {
 			initializeAction.getContents().add(new TAssignmentAction(tVar, new TNamedElement(Parser.decompile(tVar.getVariable().getInitialValue(), false, this)), false));
-			
-			
 		}
 
 		return initializeAction;
