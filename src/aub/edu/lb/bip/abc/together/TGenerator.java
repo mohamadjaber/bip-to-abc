@@ -84,7 +84,7 @@ public class TGenerator {
 			output.println(indent + "}");
 		}
 		else {
-	        throw new Error("Unimplemented");
+			// throw new Error("Unimplemented");
 		}
 	}
 	

@@ -171,5 +171,9 @@ public class TVariableComp extends TVariable{
 				tComponent.getName() + "_" + 
 				variable.getName();
 	}
+	
+	public Variable getVariable() {
+		return variable; 
+	}
 
 }
