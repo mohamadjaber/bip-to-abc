@@ -1,0 +1,103 @@
+model traffic
+
+// Port Types
+port type IntPort(int x)
+
+// Connector Types
+connector type Syn2Port(Port p1, Port p2)
+   define [p1 p2]
+   on p1 p2 provided true
+      up   {}
+      down {}
+end
+
+connector type Syn1Port(Port p)
+   define [p]
+   on p provided true 
+      up   {}
+      down {}
+end
+
+connector type Syn2IntPort(IntPort p1, IntPort p2)
+   define [p1 p2]
+   on p1 p2 provided true
+      up   {}
+      down { p1.x = p2.x; }
+end
+
+
+// Atomic Type Timer
+atomic type Timer
+   data int t = 0
+   data int n
+
+   export port Port    timer
+   export port IntPort done(n)
+
+   place s1
+
+   initial to s1 do { t = 0; n = 10; }
+
+   on timer from s1 to s1 
+      provided (t < n)  
+      do { 
+         t = t + 1; 
+         printf("Timer increments t by 1: %d\n", t);
+      }
+
+   on done from s1 to s1
+      provided (t == n)
+      do {
+          t = 0; 
+          printf("Timer reset t to 0\n");
+      }
+end
+
+
+
+// Atomic type traffic
+atomic type Light
+   data int m
+
+   export port IntPort done(m)
+
+   place green, red, yellow
+
+   initial to green do { m = 5; }
+
+   on done from green to red 
+      provided true 
+      do {
+         m = 3; 
+	 printf("light switches from green to red\n"); 
+      }
+ 
+   on done from red to yellow 
+      provided true 
+      do { 
+         m = 10; 
+	 printf("light switches from red to yellow\n"); 
+      }
+
+   on done from yellow to green 
+      provided true 
+      do { 
+         m = 5;
+	 printf("light switches from yellow to green\n"); 
+      }
+end
+
+
+// Compound type
+compound type Traffic
+   component Timer timer
+   component Light light
+
+   connector Syn1Port   c1(timer.timer)
+   connector Syn2IntPort c2(timer.done, light.done)
+   priority p c1 < c2
+end
+
+component Traffic top
+
+end
