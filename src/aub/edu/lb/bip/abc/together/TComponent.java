@@ -12,6 +12,7 @@ import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TAction;
 import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TCompositeAction;
+import aub.edu.lb.bip.abc.expression.TIfAction;
 import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
@@ -187,21 +188,18 @@ public class TComponent extends TNamedElement{
 		initializeAction.getContents().add(currentState.set(new TNamedElement(getTState(initialState).getValue() + "")));
 		
 		// DataParameter
-		
 		for(TVariableComp tVar : mapDataParameters.values()) {
 			initializeAction.getContents().add(new TAssignmentAction(tVar, new TNamedElement(Parser.decompile(tVar.getVariable().getInitialValue(), false, this)), false));
-			
-			
 		}
 
 		return initializeAction;
 	}
 	
+	// For Location and variables
 	public TAction nextStateFunction() {
 		TCompositeAction action = new TCompositeAction();
-		for(TState state : mapStates.values()) {
-			action.getContents().add(state.nextStateFunction());
-		}
+
+		action.getContents().add(nextLocationFunction());
 		
 		for(TVariableComp variable : mapVariables.values()) {
 			action.getContents().add(variable.nextStateFunction());
@@ -210,5 +208,24 @@ public class TComponent extends TNamedElement{
 		return action; 
 	}
 	
+	// for each location generate nested if and else cases
+	private TIfAction nextLocationFunction() {		
+		TIfAction nextStateAction = new TIfAction();
+		TAction currentAction = nextStateAction; 
+		boolean firstState = true; 
+		for(TState state : mapStates.values()) {
+			TIfAction stateAction = state.nextStateFunction();
+			if(firstState) {
+				nextStateAction = stateAction; 
+				currentAction = nextStateAction; 
+				firstState = false;
+			}
+			else {
+				((TIfAction) currentAction).setElseCase(stateAction);
+				currentAction = stateAction; 
+			}			
+		}
+		return nextStateAction;
+	}
 	
 } 

@@ -37,7 +37,7 @@ public class TState extends TVariable {
 	}
 
 	
-	public TAction nextStateFunction() {
+	public TIfAction nextStateFunction() {
 		List<AbstractTransition> outTransitions = state.getOutgoing();
 		TIfAction nextStateFunc = new TIfAction();
 		
@@ -48,7 +48,7 @@ public class TState extends TVariable {
 		for(Object o : outTransitions) {
 			Transition t = (Transition) o; 
 			TIfAction transitionFunc = nextStateFunctionTransition(t);
-			
+						
 			if(firstTransition) {
 				nextStateFunc = transitionFunc; 
 				currentAction = nextStateFunc; 
@@ -60,7 +60,6 @@ public class TState extends TVariable {
 			}
 			transitionFunc.setElseCase(new TAssignmentAction(tComponent.getCurrentState(), tComponent.getCurrentState(), false));
 		}
-		
 		return nextStateFunc;
 	}
 	

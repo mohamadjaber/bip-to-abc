@@ -69,7 +69,7 @@ public class TCompound {
 		whileLoop.setAction(doTogether);
 		togetherAction.getContents().add(whileLoop);
 		setTransitionEnablementDelay(ca);
-		setNextStateFunctionState(ca);
+		setNextStateFunction(ca);
 		setPortEnablement(ca);
 		setInteractionEnablement(ca);
 		// setFilerInteraction(ca);
@@ -131,7 +131,7 @@ public class TCompound {
 		}		
 	}
 
-	private void setNextStateFunctionState(TCompositeAction action) {
+	private void setNextStateFunction(TCompositeAction action) {
 		for(Component comp: compoundType.getSubcomponent()) {
 			TComponent tComp = this.getTComponent(comp);
 			action.getContents().add(tComp.nextStateFunction());

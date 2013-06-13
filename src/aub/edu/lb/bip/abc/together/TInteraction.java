@@ -84,7 +84,7 @@ public class TInteraction extends TVariable {
 		}
 		return expressionEnablement;
 	}
-	
+
 	//interactions_filter_priority[id] = interaction_first_enable[id] /\ (\forall_{j \neq id}  interactions_first_enable[j] => !priority[id][j])
 	public TAssignmentAction getFilterInteractionPriority() {
 		TInteractions tInteractions = tCompound.getTInteractions();
@@ -121,8 +121,7 @@ public class TInteraction extends TVariable {
 		return assignedTarget.set(expression);
 	}
 	
-	  
-	// interactions_enablement[id] = interactions_intermediate[i] /\ ( s == id || !interactions_intermediate[selecter] && \forall_{j \neq id} interactions_intermediate[j] => j > id )
+    // interactions_enablement[id] = interactions_filtered_priority[id] && (selecter == id || ( ! interactions_filtered_priority[selecter]  && \forall_{j \neq id} interactions_filtered_priority[j]  => j > id))
 	public TAssignmentAction getSelectOneInteraction() {
 		TInteractions tInteractions = tCompound.getTInteractions();
 		TArrayVariable tInteractionFilterPriority = tInteractions.getTInteractionsFilterPriority(); 
@@ -131,7 +130,7 @@ public class TInteraction extends TVariable {
 		for(int j = 0; j < tInteractions.size(); j++) {
 			if(id != j) {
 				TExpression notInteractionFilterPriority = new TUnaryExpression(UnaryOperator.LOGICAL_NOT, 
-						new TArrayVariable(tInteractionFilterPriority.getName(), tInteractionFilterPriority.getType(), new TNamedElement("" + this.id)));
+						new TArrayVariable(tInteractionFilterPriority.getName(), tInteractionFilterPriority.getType(), new TNamedElement("" + j)));
 				
 				TExpression nearestSelecter = new TBinaryExpression(
 						BinaryOperator.GREATER_THAN,
