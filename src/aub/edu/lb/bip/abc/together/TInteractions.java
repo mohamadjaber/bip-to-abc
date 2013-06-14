@@ -40,7 +40,8 @@ public class TInteractions extends TArrayVariable {
 		tInteractionsFirstEnable = new TArrayVariable(TogetherSyntax.interactions_first_enable,
 				TEnumType.ARRAY_WIRE_BOOLEAN, new TNamedElement("" + size));
 		
-		tInteractionsFilterPriority = new TArrayVariable(TogetherSyntax.interactions_filtered_priority,
+		if(tCompound.containsPriority())
+			tInteractionsFilterPriority = new TArrayVariable(TogetherSyntax.interactions_filtered_priority,
 				TEnumType.ARRAY_WIRE_BOOLEAN, new TNamedElement("" + size));	
 	}
 	

@@ -121,10 +121,20 @@ public class TInteraction extends TVariable {
 		return assignedTarget.set(expression);
 	}
 	
-    // interactions_enablement[id] = interactions_filtered_priority[id] && (selecter == id || ( ! interactions_filtered_priority[selecter]  && \forall_{j \neq id} interactions_filtered_priority[j]  => j > id))
-	public TAssignmentAction getSelectOneInteraction() {
+    /** IF withpriority is equal to true THEN
+	 * interactions_enablement[id] = interactions_filtered_priority[id] && (selecter == id || ( ! interactions_filtered_priority[selecter]  && \forall_{j \neq id} interactions_filtered_priority[j]  => j > id))
+     * Else 
+     * interactions_enablement[id] = interactions_first_enable[id] && (selecter == id || ( ! interactions_first_enable[selecter]  && \forall_{j \neq id} interactions_first_enable[j]  => j > id))
+	 */
+	public TAssignmentAction getSelectOneInteraction(boolean withPriority) {
 		TInteractions tInteractions = tCompound.getTInteractions();
-		TArrayVariable tInteractionFilterPriority = tInteractions.getTInteractionsFilterPriority(); 
+		TArrayVariable tInteractionFilterPriority = null;
+		if(withPriority) {
+			tInteractionFilterPriority = tInteractions.getTInteractionsFilterPriority(); 
+		}
+		else {
+			tInteractionFilterPriority = tInteractions.getTInteractionsFirstEnable();
+		}
 		TArrayVariable assignedTarget = new TArrayVariable(tInteractions.getName(), tInteractions.getType(), new TNamedElement("" + this.id));
 		TExpression expression = new TNamedElement(TogetherSyntax.true_condition);
 		for(int j = 0; j < tInteractions.size(); j++) {

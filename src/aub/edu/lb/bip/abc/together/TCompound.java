@@ -27,13 +27,18 @@ public class TCompound {
 	private TVariable selecter; 
 	private TCompositeAction togetherAction;
 
-
 	private CompoundType compoundType; 
+	
+	private boolean withPriority; 
+	
 	
 	public TCompound(CompoundType compound) {
 		compoundType = compound; 
+		withPriority = compoundType.getPriorityRule().size() > 0;
+
 		tInteractions = new TInteractions(this);
-		tPriorities = new TPriorities(this);
+		if(withPriority)
+			tPriorities = new TPriorities(this);
 		selecter = new TVariable(TogetherSyntax.selecter, TEnumType.WIRE_INT);
 		
 		mapComponents = new HashMap<Component, TComponent>(compound.getSubcomponent().size());
@@ -53,7 +58,8 @@ public class TCompound {
 		createCurrentStates();
 		createPorts();
 		createInteractions();
-		createPriorities();
+		if(withPriority)
+			createPriorities();
 		createStateEnum();
 		
 		initializeComponentsVariables();
@@ -72,19 +78,19 @@ public class TCompound {
 		setNextStateFunction(ca);
 		setPortEnablement(ca);
 		setInteractionEnablement(ca);
-		// setFilerInteraction(ca);
 		setPortInteractionEnablement(ca);
 	}
 
 	private void setInteractionEnablement(TCompositeAction ca) {
 		setFirstInteractionEnablement(ca);
-		setFilterInteractionPriority(ca);
-		setSelectOneInteraction(ca);
+		if(withPriority)
+			setFilterInteractionPriority(ca);
+		setSelectOneInteraction(ca, withPriority);
 	}
 
-	private void setSelectOneInteraction(TCompositeAction ca) {
+	private void setSelectOneInteraction(TCompositeAction ca, boolean withPriority) {
 		for(TInteraction tInteraction: tInteractions.getTInteractions()) {
-			ca.getContents().add(tInteraction.getSelectOneInteraction());
+			ca.getContents().add(tInteraction.getSelectOneInteraction(withPriority));
 		}	
 	}
 
@@ -154,7 +160,8 @@ public class TCompound {
 			TComponent tComp = this.getTComponent(comp);
 			action.getContents().add(tComp.initialize());
 		}
-		action.getContents().add(getTPriorities().initialize());
+		if(withPriority)
+			action.getContents().add(getTPriorities().initialize());
 		tDoTogether.setAction(action);
 		togetherAction.getContents().add(tDoTogether);
 	}
@@ -175,7 +182,8 @@ public class TCompound {
 	private void createInteractions() {
 		togetherAction.getContents().add(this.getTInteractions().create());	
 		togetherAction.getContents().add(this.getTInteractions().getTInteractionsFirstEnable().create());
-		togetherAction.getContents().add(this.getTInteractions().getTInteractionsFilterPriority().create());		
+		if(withPriority)
+			togetherAction.getContents().add(this.getTInteractions().getTInteractionsFilterPriority().create());		
 	}
 
 	private void createPorts() {
@@ -228,5 +236,9 @@ public class TCompound {
 	
 	public TVariable getSelecter() {
 		return selecter; 
+	}
+	
+	public boolean containsPriority() {
+		return withPriority; 
 	}
 }

@@ -28,11 +28,12 @@ public class TPriorities extends T2DArrayVariable {
 		
 		this.tCompound = tCompound;
 		
+		
+		
 		nbOfInteractions = tCompound.getCompoundType().getConnector().size();
 		priorityValues = new TExpression[nbOfInteractions][nbOfInteractions];
 		
 		setPriorityValues();
-	
 	}
 	
 	
@@ -52,9 +53,7 @@ public class TPriorities extends T2DArrayVariable {
 					Connector lower = (Connector)((PartElementReference) ((Interaction) priority.getLower()).getConnector()).getTargetPart();
 					int idLower = tCompound.getTInteractions().getTInteraction(lower).getId();
 					int idGreater =  tCompound.getTInteractions().getTInteraction(con).getId();
-					//priorityValues[idGreater][idLower] = new TNamedElement(TogetherSyntax.true_condition);
 					priorityValues[idLower][idGreater] = new TNamedElement(TogetherSyntax.true_condition);
-
 				}
 			}
 		}		
