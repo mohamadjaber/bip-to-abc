@@ -12,7 +12,7 @@ public class TogetherSyntax {
 
 	public final static String priority = "priority";
 	public final static String filter_Interaction = "filter_Interaction";
-	public final static String selecter = "selecter";
+	public final static String selecter = "selector";
 
 	
 	public final static String currentState = "currentState";
