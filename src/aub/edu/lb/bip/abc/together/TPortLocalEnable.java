@@ -29,6 +29,7 @@ public class TPortLocalEnable extends TVariable{
 	
 	// Enablement expression
 	// ((state1 /\ guard1) \/ (state2 /\ guard2) ... ) /\ (!portSelected)
+	// if guard1 == null then ((state1) \/ (state2 /\ guard2) ...) /\ !(portSelected) 
 	public TExpression getEnablementExpression() {
 		List<Transition> transitions = TransformationFunction.getTransitions(tPort.getPort());
 		TExpression expression = new TNamedElement(TogetherSyntax.false_condition);
