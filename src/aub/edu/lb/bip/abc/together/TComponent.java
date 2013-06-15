@@ -21,6 +21,7 @@ import ujf.verimag.bip.Core.Behaviors.DataParameter;
 import ujf.verimag.bip.Core.Behaviors.PetriNet;
 import ujf.verimag.bip.Core.Behaviors.Port;
 import ujf.verimag.bip.Core.Behaviors.State;
+import ujf.verimag.bip.Core.Behaviors.Transition;
 import ujf.verimag.bip.Core.Behaviors.Variable;
 import ujf.verimag.bip.Core.Interactions.Component;
 
@@ -208,24 +209,32 @@ public class TComponent extends TNamedElement{
 		return action; 
 	}
 	
-	// for each location generate nested if and else cases
+	
+	// for each location, for each outgoing transition of that location
+	// generate nested if and else cases
 	private TIfAction nextLocationFunction() {		
 		TIfAction nextStateAction = new TIfAction();
-		TAction currentAction = nextStateAction; 
+		TIfAction currentAction = nextStateAction; 
 		boolean firstState = true; 
 		for(TState state : mapStates.values()) {
-			TIfAction stateAction = state.nextStateFunction();
-			if(firstState) {
-				nextStateAction = stateAction; 
-				currentAction = nextStateAction; 
-				firstState = false;
+			for(Object o : state.getState().getOutgoing()) {
+				Transition t = (Transition) o;
+				TIfAction stateAction = state.nextStateFunctionTransition(t);
+				if(firstState) {
+					nextStateAction = stateAction; 
+					currentAction = nextStateAction; 
+					firstState = false;
+				}
+				else {
+					((TIfAction) currentAction).setElseCase(stateAction);
+					currentAction = stateAction; 
+				}	
 			}
-			else {
-				((TIfAction) currentAction).setElseCase(stateAction);
-				currentAction = stateAction; 
-			}			
+					
 		}
+		currentAction.setElseCase(new TAssignmentAction(getCurrentState(), getCurrentState(), false));
+
 		return nextStateAction;
 	}
-	
+
 } 

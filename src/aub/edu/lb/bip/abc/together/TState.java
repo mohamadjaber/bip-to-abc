@@ -1,6 +1,5 @@
 package aub.edu.lb.bip.abc.together;
 
-import java.util.List;
 
 import BIPTransformation.TransformationFunction;
 import aub.edu.lb.bip.abc.api.TEnumType;
@@ -13,7 +12,6 @@ import aub.edu.lb.bip.abc.expression.TIfAction;
 import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TVariable;
 import ujf.verimag.bip.Core.ActionLanguage.Expressions.BinaryOperator;
-import ujf.verimag.bip.Core.Behaviors.AbstractTransition;
 import ujf.verimag.bip.Core.Behaviors.State;
 import ujf.verimag.bip.Core.Behaviors.Transition;
 
@@ -37,33 +35,8 @@ public class TState extends TVariable {
 	}
 
 	
-	public TIfAction nextStateFunction() {
-		List<AbstractTransition> outTransitions = state.getOutgoing();
-		TIfAction nextStateFunc = new TIfAction();
-		
-		
-		// for each transition generate nested if and else cases
-		TAction currentAction = nextStateFunc;
-		boolean firstTransition = true; 
-		for(Object o : outTransitions) {
-			Transition t = (Transition) o; 
-			TIfAction transitionFunc = nextStateFunctionTransition(t);
-						
-			if(firstTransition) {
-				nextStateFunc = transitionFunc; 
-				currentAction = nextStateFunc; 
-				firstTransition = false;
-			}
-			else {
-				((TIfAction) currentAction).setElseCase(transitionFunc);
-				currentAction = transitionFunc; 
-			}
-			transitionFunc.setElseCase(new TAssignmentAction(tComponent.getCurrentState(), tComponent.getCurrentState(), false));
-		}
-		return nextStateFunc;
-	}
 	
-	private TIfAction nextStateFunctionTransition(Transition t) {
+	public TIfAction nextStateFunctionTransition(Transition t) {
 		TIfAction transAction = null;
 		if(t.getDestination().size() == 1) { 
 			TState next = tComponent.getTState(t.getDestination().get(0));
@@ -100,6 +73,10 @@ public class TState extends TVariable {
 
 	public int getValue() {
 		return value; 
+	}
+	
+	public State getState() {
+		return state;
 	}
 	
 }
