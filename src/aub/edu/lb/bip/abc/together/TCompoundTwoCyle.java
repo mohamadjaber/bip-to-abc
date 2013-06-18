@@ -105,7 +105,7 @@ public class TCompoundTwoCyle extends TCompound {
 			TComponent tComp = this.getTComponent(comp);
 			for(TPort tPort: tComp.getTPorts()) {
 				action.getContents().add(
-						tPort.getInteractionEnable().set(tPort.getInteractionEnable().getInteractionEnablement()));
+						tPort.getEnable().set(tPort.getEnable().getInteractionEnablement()));
 			}
 		}
 	}
@@ -178,8 +178,8 @@ public class TCompoundTwoCyle extends TCompound {
 			TComponent tComp = this.getTComponent(comp);
 			for(TPort tPort: tComp.getTPorts()) {
 				togetherAction.getContents().add(tPort.getLocalEnable().create());
-				togetherAction.getContents().add(tPort.getInteractionEnable().create());
-				togetherAction.getContents().add(tPort.getSelected().create());
+				togetherAction.getContents().add(tPort.getEnable().create());
+				//togetherAction.getContents().add(tPort.getSelected().create());
 			}
 		}			
 	}

@@ -183,7 +183,7 @@ public class TComponent extends TNamedElement{
 		State initialState = pn.getInitialState().get(0);
 		
 		for(TPort tPort : mapPorts.values()) {
-			initializeAction.getContents().add(tPort.getSelected().set(new TNamedElement(TogetherSyntax.false_condition)));
+			initializeAction.getContents().add(tPort.getEnable().set(new TNamedElement(TogetherSyntax.false_condition)));
 		}
 		initializeAction.getContents().add(new TNamedElement(Parser.decompile(pn.getInitialization(), this)));
 		initializeAction.getContents().add(currentState.set(new TNamedElement(getTState(initialState).getValue() + "")));

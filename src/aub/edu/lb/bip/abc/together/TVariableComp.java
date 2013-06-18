@@ -158,7 +158,7 @@ public class TVariableComp extends TVariable{
 			transAction.setCondition(new TBinaryExpression(
 					BinaryOperator.LOGICAL_AND,
 					checkCurrentState, 
-					port.getSelected()
+					port.getEnable()
 				));
 		
 			TAction updateFunction = new TAssignmentAction(

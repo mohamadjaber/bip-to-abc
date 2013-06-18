@@ -52,7 +52,7 @@ public class TState extends TVariable {
 			transAction.setCondition(new TBinaryExpression(
 					BinaryOperator.LOGICAL_AND,
 					checkCurrentState, 
-					port.getSelected()
+					port.getEnable()
 				));
 		
 			TAction updateStateAction = new TAssignmentAction(
