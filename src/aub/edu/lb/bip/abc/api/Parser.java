@@ -5,7 +5,6 @@ import java.util.Map;
 
 import aub.edu.lb.bip.abc.together.TComponent;
 import aub.edu.lb.bip.abc.together.TCompound;
-import aub.edu.lb.bip.abc.together.TCompoundTwoCyle;
 
 import ujf.verimag.bip.Core.ActionLanguage.Actions.AssignmentAction;
 import ujf.verimag.bip.Core.ActionLanguage.Actions.CompositeAction;
