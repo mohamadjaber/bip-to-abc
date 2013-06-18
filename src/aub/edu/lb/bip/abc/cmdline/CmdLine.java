@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 
 import ujf.verimag.bip.Core.Interactions.CompoundType;
 import BIPTransformation.TransformationFunction;
+import aub.edu.lb.bip.abc.together.TCompound;
+import aub.edu.lb.bip.abc.together.TCompoundTwoCyle;
 import aub.edu.lb.bip.abc.together.TGenerator;
 
 public class CmdLine {
@@ -20,7 +22,8 @@ public class CmdLine {
 			try {
 				CompoundType ct = TransformationFunction.ParseBIPFile(args[0]);
 				if(ct != null) {
-					new TGenerator(ct, args[1]);
+					TCompound tCompound = new TCompoundTwoCyle(ct);
+					new TGenerator(tCompound, args[1]);
 					System.out.println(args[1] + " has been generated.");
 				}
 				else

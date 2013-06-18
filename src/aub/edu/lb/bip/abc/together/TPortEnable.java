@@ -12,20 +12,23 @@ import aub.edu.lb.bip.abc.expression.TExpression;
 import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
-public class TPortInteractionEnable extends TVariable {
+public class TPortEnable extends TVariable {
 
 	private TPort tPort; 
 	
-	public TPortInteractionEnable(String n, TPort p) {
+	public TPortEnable(String n, TPort p) {
 		name = n; 
 		tPort = p; 
-		type = TEnumType.WIRE_BOOLEAN;
+		// type = TEnumType.WIRE_BOOLEAN;
+		type = TEnumType.BOOLEAN;
+
 	}
 	
 	public TPort getTPort() {
 		return tPort; 
 	}
 	
+	// port_en = (false || interactions_enablement[1] || ...);
 	public TExpression getInteractionEnablement() {
 		TExpression expressionEnablement = new TNamedElement(TogetherSyntax.false_condition);
 		for(Connector connector : tPort.getTComponent().getTCompound().getCompoundType().getConnector()) {

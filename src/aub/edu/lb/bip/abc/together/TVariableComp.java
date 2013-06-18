@@ -48,7 +48,11 @@ public class TVariableComp extends TVariable{
 			//TODO
 		}
 	}
-	
+
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public TAction nextStateFunction() {
 		TAction action = nextStateFunctionVariableTransition(); 
 		if(action == null) {
@@ -61,6 +65,7 @@ public class TVariableComp extends TVariable{
 		}
 	}
 	
+	
 	public TAction nextStateFunctionVariableTransition() {
 		List<Transition> transitionsUpdateVariable = TransformationFunction.getTransitionsUpdateVariable(variable);
 		if(transitionsUpdateVariable.size() == 0)
@@ -68,7 +73,7 @@ public class TVariableComp extends TVariable{
 		
 		TIfAction nextStateFunc = new TIfAction();
 		// for each transition generate nested if and else cases
-		TAction currentAction = nextStateFunc;
+		TIfAction currentAction = nextStateFunc;
 		boolean firstTransition = true; 
 		for(Transition t : transitionsUpdateVariable) {
 			TIfAction transitionFunc = nextStateFunctionTransition(t);
@@ -82,6 +87,9 @@ public class TVariableComp extends TVariable{
 				((TIfAction) currentAction).setElseCase(transitionFunc);
 				currentAction = transitionFunc; 
 			}
+		}
+		if(currentAction != null) {
+			currentAction.setElseCase(new TAssignmentAction(this, this, false));
 		}
 		return nextStateFunc;
 	}
@@ -110,13 +118,10 @@ public class TVariableComp extends TVariable{
 				currentAction = interactionFunction; 
 			}
 		}
-		TAssignmentAction autoAssingment = new TAssignmentAction(this, this, false); 
 		if(interactionFunction != null) {
-			interactionFunction.setElseCase(autoAssingment);
-			return interactionFunction;
+			interactionFunction.setElseCase(new TAssignmentAction(this, this, false));
 		}
-		else 
-			return autoAssingment;
+		return interactionFunction;
 	}
 
 	

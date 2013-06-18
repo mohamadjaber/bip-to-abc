@@ -9,8 +9,9 @@ public class TPort extends TNamedElement {
 	protected TComponent tComponent;
 	
 	protected TPortLocalEnable localEnable;
-	protected TPortInteractionEnable interactionEnable; 
-	protected TPortSelected selected; 
+	protected TPortEnable interactionEnable; 
+	@SuppressWarnings("deprecation")
+	protected TPortEnableDelayed selected; 
 	
 	
 	
@@ -22,9 +23,9 @@ public class TPort extends TNamedElement {
 	}
 	
 	private void setPorts() {
-		setSelected();
+		setEnableDelayed();
 		setLocalEnable();
-		setInteractionEnable();
+		setEnable();
 	}
 
 	public void setName() {
@@ -41,18 +42,19 @@ public class TPort extends TNamedElement {
 			, this);
 	}
 	
-	private void setSelected() {
-		selected = new TPortSelected(TogetherSyntax.port + "_" + 
-				TogetherSyntax.port_selected + "_" +
+	@SuppressWarnings("deprecation")
+	private void setEnableDelayed() {
+		selected = new TPortEnableDelayed(TogetherSyntax.port + "_" + 
+				TogetherSyntax.port_enable_delayed + "_" +
 				tComponent.getName() + "_" +
 				port.getName()
 			, this);
 	}
 	
 	
-	private void setInteractionEnable() {
-		interactionEnable = new TPortInteractionEnable(TogetherSyntax.port + "_" + 
-				TogetherSyntax.port_inter_enable+ "_" +
+	private void setEnable() {
+		interactionEnable = new TPortEnable(TogetherSyntax.port + "_" + 
+				TogetherSyntax.port_enable + "_" +
 				tComponent.getName() + "_" +
 				port.getName()
 			, this);
@@ -63,11 +65,12 @@ public class TPort extends TNamedElement {
 	
 	}
 		
-	public TPortInteractionEnable getInteractionEnable() {
+	public TPortEnable getInteractionEnable() {
 		return interactionEnable; 
 	}
 	
-	public TPortSelected getSelected() {
+	@SuppressWarnings("deprecation")
+	public TPortEnableDelayed getSelected() {
 		return selected; 
 	}
 	

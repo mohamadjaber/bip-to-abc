@@ -14,7 +14,6 @@ import aub.edu.lb.bip.abc.expression.TIfAction;
 import aub.edu.lb.bip.abc.expression.TWhileAction;
 
 
-import ujf.verimag.bip.Core.Interactions.CompoundType;
 
 public class TGenerator {	
 	private static String indent = "";
@@ -30,8 +29,8 @@ public class TGenerator {
 		indent = indent.substring(TogetherSyntax.tabSpace.length()) ;
 	}
 	
-	public TGenerator(CompoundType compound, String fileName) throws FileNotFoundException {
-		tCompound = new TCompound(compound);
+	public TGenerator(TCompound tCompound, String fileName) throws FileNotFoundException {
+		this.tCompound = tCompound;
 		output = new PrintStream(new File(fileName));
 		decompile(tCompound.getTogetherAction());
 	}

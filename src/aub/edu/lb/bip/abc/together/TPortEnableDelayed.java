@@ -6,11 +6,12 @@ import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
-public class TPortSelected extends TVariable {
+@Deprecated
+public class TPortEnableDelayed extends TVariable {
 
 	private TPort tPort; 
 	
-	public TPortSelected(String n, TPort p) {
+	public TPortEnableDelayed(String n, TPort p) {
 		name = n; 
 		tPort = p; 
 		type = TEnumType.BOOLEAN;

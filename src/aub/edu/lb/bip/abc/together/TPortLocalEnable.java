@@ -27,10 +27,46 @@ public class TPortLocalEnable extends TVariable{
 		type = TEnumType.WIRE_BOOLEAN;
 	}
 	
-	// Enablement expression
-	// ((state1 /\ guard1) \/ (state2 /\ guard2) ... ) /\ (!portSelected)
-	// if guard1 == null then ((state1) \/ (state2 /\ guard2) ...) /\ !(portSelected) 
+	/**
+	 * Enablement expression
+	 * ((state1 /\ guard1) \/ (state2 /\ guard2) ... ) 
+	 * if guard1 == null then ((state1) \/ (state2 /\ guard2) ...) 
+	 **/
 	public TExpression getEnablementExpression() {
+		List<Transition> transitions = TransformationFunction.getTransitions(tPort.getPort());
+		TExpression expression = new TNamedElement(TogetherSyntax.false_condition);
+		for(Transition t: transitions) {
+			TExpression andTransition = new TBinaryExpression(BinaryOperator.EQUALITY,
+					tPort.getTComponent().getTState(t.getOrigin().get(0)),
+					tPort.getTComponent().getCurrentState()
+				);
+			if(t.getGuard() != null) {
+				andTransition = new TBinaryExpression(
+						BinaryOperator.LOGICAL_AND, 
+						andTransition,
+						new TNamedElement(Parser.decompile(t.getGuard(), tPort.getTComponent()))
+					);
+			}
+			
+			
+			expression = new TBinaryExpression(
+					BinaryOperator.LOGICAL_OR,
+					expression,
+					andTransition
+				);
+			
+		}
+		return expression; 
+	}
+	
+	/**
+	 * @deprecated
+	 * FIXME.
+	 * ((state1 /\ guard1) \/ (state2 /\ guard2) ... ) /\ (!port_en_delayed)
+	 * if guard1 == null then ((state1) \/ (state2 /\ guard2) ...) /\ !(port_en_delayed) 
+	 * This should be fixed read TCompoundOLD
+	 */
+	public TExpression getEnablementExpressionBefore() {
 		List<Transition> transitions = TransformationFunction.getTransitions(tPort.getPort());
 		TExpression expression = new TNamedElement(TogetherSyntax.false_condition);
 		for(Transition t: transitions) {

@@ -10,6 +10,11 @@ public class TWhileAction implements TAction {
 		this.action = action; 
 		this.condition = condition; 
 	}
+	
+	public TWhileAction(TExpression condition) {
+			this.condition = condition; 
+	}
+	
 	public TWhileAction() { 
 	}
 	

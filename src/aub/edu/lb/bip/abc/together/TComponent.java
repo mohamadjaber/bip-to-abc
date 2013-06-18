@@ -196,7 +196,35 @@ public class TComponent extends TNamedElement{
 		return initializeAction;
 	}
 	
-	// For Location and variables
+	// For Location and variables modified through transition action
+	public TAction nextStateFunctionLocationVariable() {
+		TCompositeAction action = new TCompositeAction();
+
+		action.getContents().add(nextLocationFunction());
+		
+		for(TVariableComp variable : mapVariables.values()) {
+			action.getContents().add(variable.nextStateFunctionVariableTransition());
+		}
+		
+		return action; 
+	}
+	
+	// For variables modified through an interaction action
+	public TAction nextStateFunctionInteraction() {
+		TCompositeAction action = new TCompositeAction();
+		
+		for(TVariableComp variable : mapVariables.values()) {
+			action.getContents().add(variable.nextStateFunctionVariableInteraction());
+		}	
+		return action; 
+	}
+	
+	
+	
+	/**
+	 * @deprecated 
+	 * @return
+	 */
 	public TAction nextStateFunction() {
 		TCompositeAction action = new TCompositeAction();
 

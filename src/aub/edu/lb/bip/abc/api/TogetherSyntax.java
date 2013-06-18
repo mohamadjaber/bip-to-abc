@@ -18,8 +18,8 @@ public class TogetherSyntax {
 	public final static String currentState = "currentState";
 
 	public final static String port_local_enable = "loc_en";
-	public final static String port_inter_enable = "en";
-	public final static String port_selected = "delayed_en";
+	public final static String port_enable = "en";
+	public final static String port_enable_delayed = "delayed_en";
 
 	public final static String temporary = "tmp";
 
