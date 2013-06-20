@@ -12,10 +12,10 @@ import BIPTransformation.TransformationFunction;
 public class Test1 {
 	public static void main(String[] args) throws FileNotFoundException {
 		//CompoundType ct = TransformationFunction.ParseBIPFile("/home/jaberm/work/bipExamples/QuorumBackupDFinder2b.bip");
-		CompoundType ct = TransformationFunction.ParseBIPFile("examples/atm50.bip");
+		CompoundType ct = TransformationFunction.ParseBIPFile("/home/jaberm/work/bipExamples/abc/quorum.bip");
 		TCompound tCompound = new TCompoundTwoCyle(ct);
 		
 		
-		new TGenerator(tCompound, "output/atm50.abc");
+		new TGenerator(tCompound, "output/quorum.abc");
 	}
 }
