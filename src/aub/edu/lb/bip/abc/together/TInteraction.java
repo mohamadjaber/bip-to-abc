@@ -9,7 +9,6 @@ import java.util.Map;
 import aub.edu.lb.bip.abc.api.Parser;
 import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
-import aub.edu.lb.bip.abc.expression.T2DArrayVariable;
 import aub.edu.lb.bip.abc.expression.TArrayVariable;
 import aub.edu.lb.bip.abc.expression.TAssignmentAction;
 import aub.edu.lb.bip.abc.expression.TBinaryExpression;
@@ -85,32 +84,29 @@ public class TInteraction extends TVariable {
 		return expressionEnablement;
 	}
 
-	//interactions_filter_priority[id] = interaction_first_enable[id] /\ (\forall_{j \neq id}  interactions_first_enable[j] => !priority[id][j])
+	/**
+	 * FIXME
+	 * interactions_filter_priority[id] = interaction_first_enable[id] /\ (\forall_{j \neq id}  interactions_first_enable[j] => !priority[id][j])
+	 * priority variable can be remove. As priorities are static we can replace the (\forall_{j \neq id}) by for all j such that interactions[j] has more
+	 * priority than id. E.g.,
+	 * interactions_filter_priority[0] = interaction_first_enable[0] /\ (!interactions_first_enable[1] /\ !interactions_first_enable[7])
+	 * where interaction 1 and 7 have more priority than interaction 0. 
+	 */
 	public TAssignmentAction getFilterInteractionPriority() {
 		TInteractions tInteractions = tCompound.getTInteractions();
-		TPriorities tPriorities = tCompound.getTPriorities(); 
 		TArrayVariable tInteractionFilterPriority = tInteractions.getTInteractionsFilterPriority(); 
 		TArrayVariable tInteractionsFirstEnable = tInteractions.getTInteractionsFirstEnable(); 
 		TArrayVariable assignedTarget = new TArrayVariable(tInteractionFilterPriority.getName(), tInteractionFilterPriority.getType(), new TNamedElement("" + this.id));
 		TExpression expression = new TNamedElement(TogetherSyntax.true_condition);
-		for(int j = 0; j < tInteractions.size(); j++) {
+		for(int j : TPriorities.morePriority(this)) {
 			if(id != j) {
 				TExpression notInteractionFirstEnable = new TUnaryExpression(UnaryOperator.LOGICAL_NOT, 
 						new TArrayVariable(tInteractionsFirstEnable.getName(), tInteractionsFirstEnable.getType(), new TNamedElement("" + j)));
-				
-				TExpression notPriorityIdJ = new TUnaryExpression(
-						UnaryOperator.LOGICAL_NOT, 
-						new T2DArrayVariable(tPriorities.getName(), tPriorities.getType(), 
-								new TNamedElement("" + this.id),
-								new TNamedElement("" + j)));
 
 				expression = new TBinaryExpression(
 						BinaryOperator.LOGICAL_AND,
 						expression,
-						new TBinaryExpression(
-							BinaryOperator.LOGICAL_OR,
-							notInteractionFirstEnable, notPriorityIdJ
-						)
+						notInteractionFirstEnable
 					);
 			}
 		}
@@ -120,6 +116,8 @@ public class TInteraction extends TVariable {
 				);
 		return assignedTarget.set(expression);
 	}
+	
+	
 	
     /** IF withpriority is equal to true THEN
 	 * interactions_enablement[id] = interactions_filtered_priority[id] && (selecter == id || ( ! interactions_filtered_priority[selecter]  && \forall_{j \neq id} interactions_filtered_priority[j]  => j > id))
@@ -218,6 +216,10 @@ public class TInteraction extends TVariable {
 	
 	public Connector getConnector() {
 		return connector;
+	}
+	
+	public TCompound getTCompound() {
+		return tCompound;
 	}
 
 	

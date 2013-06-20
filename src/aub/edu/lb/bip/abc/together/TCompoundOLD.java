@@ -45,8 +45,6 @@ public class TCompoundOLD extends TCompound {
 		createCurrentStates();
 		createPorts();
 		createInteractions();
-		if(withPriority)
-			createPriorities();
 		createStateEnum();
 		
 		initializeComponentsVariables();
@@ -102,7 +100,6 @@ public class TCompoundOLD extends TCompound {
 		List<TExpression> parameters = new LinkedList<TExpression>();
 		parameters.add(getTInteractions().getTInteractionsFirstEnable().getInstance());
 		parameters.add(getTInteractions().getInstance());
-		parameters.add(getTPriorities().getInstance());
 		ca.getContents().add(
 				new TAssignmentAction(getTInteractions().getInstance(),
 						new TFunctionCall(TogetherSyntax.filter_Interaction, parameters),
@@ -147,8 +144,7 @@ public class TCompoundOLD extends TCompound {
 			TComponent tComp = this.getTComponent(comp);
 			action.getContents().add(tComp.initialize());
 		}
-		if(withPriority)
-			action.getContents().add(getTPriorities().initialize());
+		
 		tDoTogether.setAction(action);
 		togetherAction.getContents().add(tDoTogether);
 	}
@@ -162,9 +158,7 @@ public class TCompoundOLD extends TCompound {
 		}			
 	}
 
-	private void createPriorities() {
-		togetherAction.getContents().add(this.getTPriorities().create());		
-	}
+
 
 	private void createInteractions() {
 		togetherAction.getContents().add(this.getTInteractions().create());	

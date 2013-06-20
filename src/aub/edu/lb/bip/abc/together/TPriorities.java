@@ -2,77 +2,38 @@ package aub.edu.lb.bip.abc.together;
 
 
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ujf.verimag.bip.Core.Interactions.Connector;
 import ujf.verimag.bip.Core.Priorities.PriorityRule;
 import ujf.verimag.bip.Core.Interactions.Interaction;
 import ujf.verimag.bip.Core.Interactions.PartElementReference;
 
-import aub.edu.lb.bip.abc.api.TEnumType;
-import aub.edu.lb.bip.abc.api.TogetherSyntax;
-import aub.edu.lb.bip.abc.expression.T2DArrayVariable;
-import aub.edu.lb.bip.abc.expression.TCompositeAction;
-import aub.edu.lb.bip.abc.expression.TExpression;
-import aub.edu.lb.bip.abc.expression.TNamedElement;
 
-public class TPriorities extends T2DArrayVariable {
-	private TCompound tCompound; 
-	private TExpression[][] priorityValues; 
+public class TPriorities  {
+
 	
 	
-	private int nbOfInteractions; 
-	
-	public TPriorities(TCompound tCompound) {
-		super(TogetherSyntax.priority, TEnumType.TwoD_ARRAY_BOOLEAN, 
-				new TNamedElement("" + tCompound.getCompoundType().getConnector().size()), 
-				new TNamedElement("" + tCompound.getCompoundType().getConnector().size()));
-		
-		this.tCompound = tCompound;
-		
-		
-		
-		nbOfInteractions = tCompound.getCompoundType().getConnector().size();
-		priorityValues = new TExpression[nbOfInteractions][nbOfInteractions];
-		
-		setPriorityValues();
-	}
-	
-	
-	
-	
-	private void setPriorityValues() {
-		for(int i = 0; i < nbOfInteractions; i++) {
-			for(int j = 0; j < nbOfInteractions; j++) {
-				priorityValues[i][j] = new TNamedElement(TogetherSyntax.false_condition);
+	/**
+	 * Return the ids of the interactions that have more priority than than interaction 
+	 * given as input.
+	 */
+	public static List<Integer> morePriority(TInteraction tInteraction) {
+		List<Integer> idInteraction = new LinkedList<Integer>();
+		TCompound tCompound = tInteraction.getTCompound();
+		for(PriorityRule priority: tCompound.getCompoundType().getPriorityRule()) {
+			Connector greater = (Connector)((PartElementReference) ((Interaction) priority.getGreater()).getConnector()).getTargetPart();
+			Connector lower = (Connector)((PartElementReference) ((Interaction) priority.getLower()).getConnector()).getTargetPart();
+
+			if(lower.equals(tInteraction.getConnector())) {
+				int idGreater =  tCompound.getTInteractions().getTInteraction(greater).getId();
+				idInteraction.add(idGreater);
 			}
 		}
-		
-		for(Connector con: tCompound.getCompoundType().getConnector()) {
-			for(PriorityRule priority: tCompound.getCompoundType().getPriorityRule()) {
-				Connector greater = (Connector)((PartElementReference) ((Interaction) priority.getGreater()).getConnector()).getTargetPart();
-				if(greater.equals(con)) {
-					Connector lower = (Connector)((PartElementReference) ((Interaction) priority.getLower()).getConnector()).getTargetPart();
-					int idLower = tCompound.getTInteractions().getTInteraction(lower).getId();
-					int idGreater =  tCompound.getTInteractions().getTInteraction(con).getId();
-					priorityValues[idLower][idGreater] = new TNamedElement(TogetherSyntax.true_condition);
-				}
-			}
-		}		
-	}
-
-	public TCompound getTCompound() {
-		return tCompound; 
+		return idInteraction;
 	}
 	
-	public TCompositeAction initialize() {
-		TCompositeAction action = new TCompositeAction();
-		for(int i = 0; i < nbOfInteractions; i++) {
-			for(int j = 0; j < nbOfInteractions; j++) {
-				T2DArrayVariable arrayVariable = new T2DArrayVariable(this.name, this.type, 
-						new TNamedElement("" + i), 
-						new TNamedElement("" + j));
-				action.getContents().add(arrayVariable.set(priorityValues[i][j]));
-			}
-		}
-		return action;
-	}
+	
+	
 }

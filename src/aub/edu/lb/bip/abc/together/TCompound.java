@@ -27,8 +27,7 @@ public abstract class TCompound {
 		withPriority = compoundType.getPriorityRule().size() > 0;
 
 		tInteractions = new TInteractions(this);
-		if(withPriority)
-			tPriorities = new TPriorities(this);
+		
 		selecter = new TVariable(TogetherSyntax.selecter, TEnumType.WIRE_INT);
 		
 		mapComponents = new HashMap<Component, TComponent>(compound.getSubcomponent().size());
