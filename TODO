@@ -1,0 +1,11 @@
+In the two cycle version we consider that the following case exists:
+interaction a with action p1.x1 = p2.y1 ...
+and there exists a transition labelled with the port p1 with action x1 = f(...). 
+That is, we need to execute the action on the interaction first the the action on the transition.
+
+However, this case barely appears in BIP. Note that, if the action on the transition is x2 = x1, it is OK. 
+
+In the one cycle version we assume that if an action modifies a variable the transition will not modify that variable, which is not a big restriction, 
+and that should be the case. 
+
+
