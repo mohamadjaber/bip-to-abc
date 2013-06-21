@@ -52,7 +52,7 @@ public class TCompoundOLD extends TCompound {
 		mainWhileLoopAction();
 	}
 
-	private void mainWhileLoopAction() {
+	protected void mainWhileLoopAction() {
 		TDoTogetherAction doTogether = new TDoTogetherAction();	
 		TCompositeAction ca = new TCompositeAction();
 		doTogether.setAction(ca);
@@ -66,26 +66,26 @@ public class TCompoundOLD extends TCompound {
 		setPortInteractionEnablement(ca);
 	}
 
-	private void setInteractionEnablement(TCompositeAction ca) {
+	protected void setInteractionEnablement(TCompositeAction ca) {
 		setFirstInteractionEnablement(ca);
 		if(withPriority)
 			setFilterInteractionPriority(ca);
 		setSelectOneInteraction(ca, withPriority);
 	}
 
-	private void setSelectOneInteraction(TCompositeAction ca, boolean withPriority) {
+	protected void setSelectOneInteraction(TCompositeAction ca, boolean withPriority) {
 		for(TInteraction tInteraction: tInteractions.getTInteractions()) {
 			ca.getContents().add(tInteraction.getSelectOneInteraction(withPriority));
 		}	
 	}
 
-	private void setFilterInteractionPriority(TCompositeAction ca) {
+	protected void setFilterInteractionPriority(TCompositeAction ca) {
 		for(TInteraction tInteraction: tInteractions.getTInteractions()) {
 			ca.getContents().add(tInteraction.getFilterInteractionPriority());
 		}
 	}
 
-	private void setPortInteractionEnablement(TCompositeAction action) {
+	protected void setPortInteractionEnablement(TCompositeAction action) {
 		for(Component comp: compoundType.getSubcomponent()) {
 			TComponent tComp = this.getTComponent(comp);
 			for(TPort tPort: tComp.getTPorts()) {
@@ -137,7 +137,7 @@ public class TCompoundOLD extends TCompound {
 		}		
 	}
 
-	private void initializeComponentsVariables() {
+	protected void initializeComponentsVariables() {
 		TDoTogetherAction tDoTogether = new TDoTogetherAction();
 		TCompositeAction action = new TCompositeAction();
 		for(Component comp: compoundType.getSubcomponent()) {
@@ -149,7 +149,7 @@ public class TCompoundOLD extends TCompound {
 		togetherAction.getContents().add(tDoTogether);
 	}
 
-	private void createStateEnum() {
+	protected void createStateEnum() {
 		for(Component comp: compoundType.getSubcomponent()) {
 			TComponent tComp = this.getTComponent(comp);
 			for(TState state: tComp.getTStates()) {
@@ -160,14 +160,14 @@ public class TCompoundOLD extends TCompound {
 
 
 
-	private void createInteractions() {
+	protected void createInteractions() {
 		togetherAction.getContents().add(this.getTInteractions().create());	
 		togetherAction.getContents().add(this.getTInteractions().getTInteractionsFirstEnable().create());
 		if(withPriority)
 			togetherAction.getContents().add(this.getTInteractions().getTInteractionsFilterPriority().create());		
 	}
 
-	private void createPorts() {
+	protected void createPorts() {
 		for(Component comp: compoundType.getSubcomponent()) {
 			TComponent tComp = this.getTComponent(comp);
 			for(TPort tPort: tComp.getTPorts()) {
@@ -178,14 +178,14 @@ public class TCompoundOLD extends TCompound {
 		}			
 	}
 
-	private void createCurrentStates() {
+	protected void createCurrentStates() {
 		for(Component comp: compoundType.getSubcomponent()) {
 			TComponent tComp = this.getTComponent(comp);
 			togetherAction.getContents().add(tComp.getCurrentState().create());
 		}			
 	}
 
-	private void createVariables() {
+	protected void createVariables() {
 		for(Component comp: compoundType.getSubcomponent()) {
 			TComponent tComp = this.getTComponent(comp);
 			for(TVariableComp var: tComp.getTVariables()) {

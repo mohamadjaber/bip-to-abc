@@ -9,6 +9,7 @@ import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TAction;
 import aub.edu.lb.bip.abc.expression.TCompositeAction;
+import aub.edu.lb.bip.abc.expression.TDoTogetherAction;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
 public abstract class TCompound {
@@ -40,6 +41,20 @@ public abstract class TCompound {
 		setTogetherAction();
 	}
 	
+	protected void setTogetherAction() {
+		togetherAction = new TCompositeAction();
+		createVariables();
+		createCurrentStates();
+		createPorts();
+		createInteractions();
+		
+		createStateEnum();
+		
+		initializeComponentsVariables();
+		
+		mainWhileLoopAction();
+	}
+	
 	public TComponent getTComponent(Component comp) {
 		return mapComponents.get(comp);
 	}
@@ -68,5 +83,122 @@ public abstract class TCompound {
 		return withPriority; 
 	}
 	
-	protected abstract void setTogetherAction();
+	protected abstract void mainWhileLoopAction();
+	
+
+	protected void setInteractionEnablement(TCompositeAction ca) {
+		setFirstInteractionEnablement(ca);
+		if(withPriority)
+			setFilterInteractionPriority(ca);
+		setSelectOneInteraction(ca, withPriority);
+	}
+
+	protected void setSelectOneInteraction(TCompositeAction ca, boolean withPriority) {
+		for(TInteraction tInteraction: tInteractions.getTInteractions()) {
+			ca.getContents().add(tInteraction.getSelectOneInteraction(withPriority));
+		}	
+	}
+
+	protected void setFilterInteractionPriority(TCompositeAction ca) {
+		for(TInteraction tInteraction: tInteractions.getTInteractions()) {
+			ca.getContents().add(tInteraction.getFilterInteractionPriority());
+		}
+	}
+
+	protected void setPortInteractionEnablement(TCompositeAction action) {
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			for(TPort tPort: tComp.getTPorts()) {
+				action.getContents().add(
+						tPort.getEnable().set(tPort.getEnable().getInteractionEnablement()));
+			}
+		}
+	}
+
+	private void setFirstInteractionEnablement(TCompositeAction ca) {
+		ca.getContents().add(getTInteractions().getFirstInteractionEnablement());
+	}
+
+	protected void setLocalPortEnablement(TCompositeAction action) {
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			for(TPort tPort: tComp.getTPorts()) {
+				action.getContents().add(
+						tPort.getLocalEnable().set(tPort.getLocalEnable().getEnablementExpression()));
+			}
+		}		
+	}
+
+	protected void setNextStateFunctionLocationVariable(TCompositeAction action) {
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			action.getContents().add(tComp.nextStateFunctionLocationVariable());
+		}			
+	}
+	
+	protected void setNextStateFunctionInteraction(TCompositeAction action) {
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			action.getContents().add(tComp.nextStateFunctionInteraction());
+		}			
+	}
+
+	
+
+	protected void initializeComponentsVariables() {
+		TDoTogetherAction tDoTogether = new TDoTogetherAction();
+		TCompositeAction action = new TCompositeAction();
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			action.getContents().add(tComp.initialize());
+		}
+		
+		tDoTogether.setAction(action);
+		togetherAction.getContents().add(tDoTogether);
+	}
+
+	protected void createStateEnum() {
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			for(TState state: tComp.getTStates()) {
+				togetherAction.getContents().add(state.create());
+			}
+		}			
+	}
+
+	
+
+	protected void createInteractions() {
+		togetherAction.getContents().add(this.getTInteractions().create());	
+		togetherAction.getContents().add(this.getTInteractions().getTInteractionsFirstEnable().create());
+		if(withPriority)
+			togetherAction.getContents().add(this.getTInteractions().getTInteractionsFilterPriority().create());		
+	}
+
+	protected void createPorts() {
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			for(TPort tPort: tComp.getTPorts()) {
+				togetherAction.getContents().add(tPort.getLocalEnable().create());
+				togetherAction.getContents().add(tPort.getEnable().create());
+			}
+		}			
+	}
+
+	protected void createCurrentStates() {
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			togetherAction.getContents().add(tComp.getCurrentState().create());
+		}			
+	}
+
+	protected void createVariables() {
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			for(TVariableComp var: tComp.getTVariables()) {
+				togetherAction.getContents().add(var.create());
+			}
+		}	
+		togetherAction.getContents().add(selecter.create());
+	}
 }
