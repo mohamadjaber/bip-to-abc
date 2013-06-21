@@ -1,3 +1,4 @@
+[DONE]
 In the two cycle version we consider that the following case exists:
 interaction a with action p1.x1 = p2.y1 ...
 and there exists a transition labelled with the port p1 with action x1 = f(...). 
