@@ -23,7 +23,6 @@ public class CmdLine {
 	public static void main(String[] args) {
 
 		int cmdLen = args.length;
-		System.out.println(cmdLen);
 		if(cmdLen != 2 && cmdLen != 3) {
 			System.err.println(cmdLineHelp);
 		}
