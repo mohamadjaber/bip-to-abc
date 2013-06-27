@@ -48,7 +48,7 @@ public class CmdLine {
 					else 
 						 tCompound = new TCompoundTwoCycle(ct);
 					new TGenerator(tCompound, outputFileName);
-					System.out.println(args[1] + " has been generated.");
+					System.out.println(outputFileName + " has been generated.");
 				}
 				else
 					throw new FileNotFoundException();
