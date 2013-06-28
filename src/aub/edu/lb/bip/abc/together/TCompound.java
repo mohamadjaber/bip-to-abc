@@ -22,11 +22,17 @@ public abstract class TCompound {
 	protected CompoundType compoundType; 
 	
 	protected boolean withPriority; 
+	protected boolean optmized; 
 	
-	public TCompound(CompoundType compound) {
+	/**
+	 * When optimized is set to true we create port enable as wires (one cycle execution), otherwise as normal boolean. 
+	 * @param compound
+	 * @param optmized
+	 */
+	public TCompound(CompoundType compound, boolean optmized) {
 		compoundType = compound; 
 		withPriority = compoundType.getPriorityRule().size() > 0;
-
+		this.optmized = optmized; 
 		tInteractions = new TInteractions(this);
 		
 		selecter = new TVariable(TogetherSyntax.selecter, TEnumType.WIRE_INT);

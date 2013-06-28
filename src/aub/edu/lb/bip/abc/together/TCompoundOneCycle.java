@@ -34,7 +34,7 @@ public class TCompoundOneCycle extends TCompound {
 	
 	
 	public TCompoundOneCycle(CompoundType compound) {
-		super(compound);
+		super(compound, true);
 	}
 	
 

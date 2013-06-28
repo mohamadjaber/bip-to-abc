@@ -19,8 +19,10 @@ public class TPortEnable extends TVariable {
 	public TPortEnable(String n, TPort p) {
 		name = n; 
 		tPort = p; 
-		// type = TEnumType.WIRE_BOOLEAN;
-		type = TEnumType.BOOLEAN;
+		if(tPort.getTComponent().getTCompound().optmized)
+			type = TEnumType.WIRE_BOOLEAN;
+		else
+			type = TEnumType.BOOLEAN;
 
 	}
 	

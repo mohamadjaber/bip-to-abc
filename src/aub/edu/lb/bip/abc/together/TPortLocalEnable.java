@@ -20,7 +20,6 @@ public class TPortLocalEnable extends TVariable{
 	private TPort tPort; 
 	
 	
-	
 	public TPortLocalEnable(String n, TPort p) {
 		name = n; 
 		tPort = p; 
