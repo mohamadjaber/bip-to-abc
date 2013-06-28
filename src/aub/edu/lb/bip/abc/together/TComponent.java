@@ -163,6 +163,11 @@ public class TComponent extends TNamedElement{
 	}
 	
 	
+	public Collection<TVariableComp> getTDataParameterVariables() {
+		return mapDataParameters.values();
+	}
+	
+	
 	public Collection<TPort> getTPorts() {
 		return mapPorts.values();
 	}

@@ -198,6 +198,9 @@ public abstract class TCompound {
 			for(TVariableComp var: tComp.getTVariables()) {
 				togetherAction.getContents().add(var.create());
 			}
+			for(TVariableComp var: tComp.getTDataParameterVariables()) {
+				togetherAction.getContents().add(var.create());
+			}
 		}	
 		togetherAction.getContents().add(selecter.create());
 	}
