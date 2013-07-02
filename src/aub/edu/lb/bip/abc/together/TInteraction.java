@@ -85,7 +85,7 @@ public class TInteraction extends TVariable {
 	}
 
 	/**
-	 * FIXME
+	 * FIXME - DONE
 	 * interactions_filter_priority[id] = interaction_first_enable[id] /\ (\forall_{j \neq id}  interactions_first_enable[j] => !priority[id][j])
 	 * priority variable can be remove. As priorities are static we can replace the (\forall_{j \neq id}) by for all j such that interactions[j] has more
 	 * priority than id. E.g.,

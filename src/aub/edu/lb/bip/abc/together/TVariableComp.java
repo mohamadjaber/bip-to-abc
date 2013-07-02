@@ -41,7 +41,7 @@ public class TVariableComp extends TVariable{
 		if(t.equals("int")) {
 			type = TEnumType.INT;
 		}
-		else if(t.equals("boolean")) {
+		else if(t.equals("bool")) {
 			type = TEnumType.BOOLEAN;
 		}
 		else {
