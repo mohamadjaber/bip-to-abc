@@ -1,0 +1,32 @@
+-- specification AG ((plug1.Nuplace = NuSS7 & plug2.Nuplace = NuSS8) -> plug1.NuVdecidedValue = plug2.NuVdecidedValue)  is false
+-- as demonstrated by the following execution sequence
+Trace Description: CTL Counterexample 
+Trace Type: Counterexample 
+
+PlugToPlugConn1
+PlugToPlugConn2
+plugConn2Toserv1Conn
+serverConnToServer
+c71
+server1ToserverC1
+serverC1ToplugC2
+plugConn1Toserv2Conn
+serverConn2ToServer2
+c81
+server2ToserverC2
+serverC2ToplugC1
+plugC1Toplug1
+c51
+plugC2Toplug2
+c61
+c10
+c6
+plugConn1Toserv1Conn
+serverConnToServer
+c71
+server1ToserverC1
+serverC1ToplugC1
+plugC1Toplug1
+c52
+c1
+c9
