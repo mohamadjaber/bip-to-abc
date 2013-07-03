@@ -192,7 +192,7 @@ public class TCompoundOLD extends TCompound {
 				togetherAction.getContents().add(var.create());
 			}
 		}	
-		togetherAction.getContents().add(selecter.create());
+		togetherAction.getContents().add(selector.create());
 	}
 
 }

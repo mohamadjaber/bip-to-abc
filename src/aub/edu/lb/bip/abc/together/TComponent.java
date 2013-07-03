@@ -180,6 +180,16 @@ public class TComponent extends TNamedElement{
 		return tCompound;
 	}
 	
+	public TCompositeAction initializeDataParameter() {
+		TCompositeAction initializeAction = new TCompositeAction();
+
+			for(TVariableComp tVar : mapDataParameters.values()) {
+				initializeAction.getContents().add(new TAssignmentAction(tVar, new TNamedElement(Parser.decompile(tVar.getVariable().getInitialValue(), false, this)), false));
+			}
+
+			return initializeAction;
+	}
+	
 	public TCompositeAction initialize() {
 		TCompositeAction initializeAction = new TCompositeAction();
 		AtomType at = (AtomType) getComponent().getType(); 
@@ -194,13 +204,7 @@ public class TComponent extends TNamedElement{
 		}
 		initializeAction.getContents().add(new TNamedElement(Parser.decompile(pn.getInitialization(), this)));
 		initializeAction.getContents().add(currentState.set(new TNamedElement(getTState(initialState).getValue() + "")));
-		
-		// DataParameter
-		for(TVariableComp tVar : mapDataParameters.values()) {
-			initializeAction.getContents().add(new TAssignmentAction(tVar, new TNamedElement(Parser.decompile(tVar.getVariable().getInitialValue(), false, this)), false));
-		}
-
-		return initializeAction;
+		return initializeAction; 
 	}
 	
 	// For Location and variables modified through transition action

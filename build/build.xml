@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project bip-to-abc">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/home/jaberm/work/tools/bip-to-abc/build/bip-to-abc.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="aub.edu.lb.bip.abc.cmdline.CmdLine"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="/home/jaberm/work/tools/bip-to-abc/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jaberm/work/tools/bip-code/Compiler/Frontend/ujf.verimag.bip.metamodel/externals/org.eclipse.emf_2.6.0.v20100614-1136.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jaberm/work/tools/bip-code/Compiler/Frontend/ujf.verimag.bip.metamodel/externals/org.eclipse.emf.common_2.6.0.v20100614-1136.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jaberm/work/tools/bip-code/Compiler/Frontend/ujf.verimag.bip.metamodel/externals/org.eclipse.emf.ecore_2.6.0.v20100614-1136.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jaberm/work/tools/bip-code/Compiler/Frontend/ujf.verimag.bip.metamodel/externals/org.eclipse.emf.ecore.xmi_2.5.0.v20100521-1846.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jaberm/work/tools/bip-code/Compiler/Frontend/ujf.verimag.bip.metamodel/externals/org.eclipse.emf.mapping.ecore2xml_2.5.0.v20100521-1847.jar"/>
+            <fileset dir="/home/jaberm/work/tools/bip-code/Source2Source/bin"/>
+            <fileset dir="/home/jaberm/work/tools/bip-code/Compiler/Frontend/ujf.verimag.bip.metamodel/build/classes"/>
+            <fileset dir="/home/jaberm/work/tools/bip-code/Compiler/Frontend/ujf.verimag.bip.parser/build/classes"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jaberm/work/tools/bip-code/Compiler/Frontend/ujf.verimag.bip.parser/externals/antlr-runtime-3.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jaberm/work/tools/bip-code/Source2Source/lib/jdom.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jaberm/work/tools/bip-code/Source2Source/lib/model.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/jaberm/work/tools/bip-code/Source2Source/lib/xstream-1.3.1.jar"/>
+        </jar>
+    </target>
+</project>

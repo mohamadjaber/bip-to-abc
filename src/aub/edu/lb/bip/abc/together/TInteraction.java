@@ -136,23 +136,14 @@ public class TInteraction extends TVariable {
 		TArrayVariable assignedTarget = new TArrayVariable(tInteractions.getName(), tInteractions.getType(), new TNamedElement("" + this.id));
 		TExpression expression = new TNamedElement(TogetherSyntax.true_condition);
 		for(int j = 0; j < tInteractions.size(); j++) {
-			if(id != j) {
+			if(id < j) {
 				TExpression notInteractionFilterPriority = new TUnaryExpression(UnaryOperator.LOGICAL_NOT, 
 						new TArrayVariable(tInteractionFilterPriority.getName(), tInteractionFilterPriority.getType(), new TNamedElement("" + j)));
-				
-				TExpression nearestSelecter = new TBinaryExpression(
-						BinaryOperator.GREATER_THAN,
-						new TVariable("" + j, TEnumType.INT),
-						new TVariable("" + id, TEnumType.INT)
-					);
 
 				expression = new TBinaryExpression(
 						BinaryOperator.LOGICAL_AND,
 						expression,
-						new TBinaryExpression(
-							BinaryOperator.LOGICAL_OR,
-							notInteractionFilterPriority, nearestSelecter
-						)
+						notInteractionFilterPriority
 					);
 			}
 		}

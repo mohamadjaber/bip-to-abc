@@ -46,7 +46,7 @@ public class TState extends TVariable {
 			TExpression checkCurrentState = new TBinaryExpression(
 					BinaryOperator.EQUALITY,
 					tComponent.getCurrentState(), 
-					new TNamedElement("" + value)
+					new TNamedElement("" + this)
 				);
 	
 			transAction.setCondition(new TBinaryExpression(
@@ -57,7 +57,7 @@ public class TState extends TVariable {
 		
 			TAction updateStateAction = new TAssignmentAction(
 					tComponent.getCurrentState(), 
-					new TNamedElement("" + next.value), false
+					new TNamedElement("" + next), false
 				);
 			transAction.setIfCase(updateStateAction);
 		}

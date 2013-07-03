@@ -16,7 +16,7 @@ public abstract class TCompound {
 	protected Map<Component, TComponent> mapComponents;
 	protected TInteractions tInteractions;
 	protected TPriorities tPriorities;
-	protected TVariable selecter; 
+	protected TVariable selector; 
 	protected TCompositeAction togetherAction; 
 
 	protected CompoundType compoundType; 
@@ -35,7 +35,7 @@ public abstract class TCompound {
 		this.optmized = optmized; 
 		tInteractions = new TInteractions(this);
 		
-		selecter = new TVariable(TogetherSyntax.selecter, TEnumType.WIRE_INT);
+		selector = new TVariable(TogetherSyntax.selecter, TEnumType.WIRE_INT);
 		
 		mapComponents = new HashMap<Component, TComponent>(compound.getSubcomponent().size());
 
@@ -55,6 +55,9 @@ public abstract class TCompound {
 		createInteractions();
 		
 		createStateEnum();
+		// This should be done before initializing component variables because initializing components variables may use
+		// data parameters. So we should initialize data parameters first in one cycle. 
+		initializeComponentsDataParameters();
 		
 		initializeComponentsVariables();
 		
@@ -82,7 +85,7 @@ public abstract class TCompound {
 	}
 	
 	public TVariable getSelecter() {
-		return selecter; 
+		return selector; 
 	}
 	
 	public boolean containsPriority() {
@@ -149,7 +152,17 @@ public abstract class TCompound {
 		}			
 	}
 
-	
+	protected void initializeComponentsDataParameters() {
+		TDoTogetherAction tDoTogether = new TDoTogetherAction();
+		TCompositeAction action = new TCompositeAction();
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			action.getContents().add(tComp.initializeDataParameter());
+		}
+		
+		tDoTogether.setAction(action);
+		togetherAction.getContents().add(tDoTogether);
+	}
 
 	protected void initializeComponentsVariables() {
 		TDoTogetherAction tDoTogether = new TDoTogetherAction();
@@ -208,6 +221,6 @@ public abstract class TCompound {
 				togetherAction.getContents().add(var.create());
 			}
 		}	
-		togetherAction.getContents().add(selecter.create());
+		togetherAction.getContents().add(selector.create());
 	}
 }
