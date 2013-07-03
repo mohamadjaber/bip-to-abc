@@ -76,7 +76,7 @@ model Quorum42
 	end
 
 	atomic type plugConnector(int id)
-	//without message duplication
+//without message duplication
 
 		data int clientId   // 4
 		data int serverId   // 2
@@ -211,13 +211,11 @@ model Quorum42
 
 		component CustomerPlugQuorum plug1(1)
 		component CustomerPlugQuorum plug2(2)
-		component CustomerPlugQuorum plug3(3) 
-		component CustomerPlugQuorum plug4(4)
+
 
 		component plugConnector plugC1(1)
 		component plugConnector plugC2(2)
-		component plugConnector plugC3(3)
-		component plugConnector plugC4(4)
+	
 
 		component ServerConnector serverC1(1)
 		component ServerConnector serverC2(2)
@@ -229,18 +227,14 @@ model Quorum42
 		
 		connector Singleton c1(plug1.sendToClient)
 		connector Singleton c2(plug2.sendToClient)
-		connector Singleton c3(plug3.sendToClient)
-		connector Singleton c4(plug4.sendToClient)
+		
 
 		connector Singleton c5(plug1.switchB)
 		connector Singleton c6(plug2.switchB)
-		connector Singleton c7(plug3.switchB)
-		connector Singleton c8(plug4.switchB)
-
+	
 		connector Singleton c9(plug1.ticker)
 		connector Singleton c10(plug2.ticker)
-		connector Singleton c11(plug3.ticker)
-		connector Singleton c12(plug4.ticker)
+	
 
 		//connector Singleton c13(plugC1.Back)
 		//connector Singleton c14(plugC2.Back)
@@ -254,20 +248,16 @@ model Quorum42
 
 		connector Singleton c51(plug1.singleton1)
 		connector Singleton c61(plug2.singleton1)
-		connector Singleton c71(plug3.singleton1)
-		connector Singleton c81(plug4.singleton1)
+	
+		connector Singleton c71(s1.singleton1)
+		connector Singleton c81(s2.singleton1)
 
 		connector Singleton c52(plug1.singleton2)
 		connector Singleton c62(plug2.singleton2)
-		connector Singleton c72(plug3.singleton2)
-		connector Singleton c82(plug4.singleton2)
+	
+		connector Singleton c72(s1.singleton2)
+		connector Singleton c82(s2.singleton2)
 
-
-		connector Singleton c91(s1.singleton1)
-		connector Singleton c92(s2.singleton1)
-
-		connector Singleton c93(s1.singleton2)
-		connector Singleton c94(s2.singleton2)
 
 		//END SINGLETON
 
@@ -295,23 +285,6 @@ model Quorum42
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		connector SendFromPlugToPlugConnector PlugToPlugConn3 (plug3.sendToChannel,plugC3.rcvPlug)
-		connector SendFromPlugConToServerCon plugConn3Toserv1Conn (plugC3.SendS1,serverC1.rcvPlugC)
-		connector SendFromPlugConToServerCon plugConn3Toserv2Conn (plugC3.SendS2,serverC2.rcvPlugC)
-
-		connector ServerCPlugC serverC1ToplugC3 (serverC1.sendPlug,plugC3.rcvServer)
-		connector ServerCPlugC serverC1ToplugC4 (serverC1.sendPlug,plugC4.rcvServer)
-		connector PlugCToPlug plugC3Toplug3 (plugC3.sendClient,plug3.recieveFromServer)
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		connector SendFromPlugToPlugConnector PlugToPlugConn4 (plug4.sendToChannel,plugC4.rcvPlug)
-		connector SendFromPlugConToServerCon plugConn4Toserv1Conn (plugC4.SendS1,serverC1.rcvPlugC)
-		connector SendFromPlugConToServerCon plugConn4Toserv2Conn (plugC4.SendS2,serverC2.rcvPlugC)
-
-		connector ServerCPlugC serverC2ToplugC3 (serverC2.sendPlug,plugC3.rcvServer)
-		connector ServerCPlugC serverC2ToplugC4 (serverC2.sendPlug,plugC4.rcvServer)
-		connector PlugCToPlug plugC4Toplug4 (plugC4.sendClient,plug4.recieveFromServer)
 
 	end
 

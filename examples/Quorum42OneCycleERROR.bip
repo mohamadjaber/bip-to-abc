@@ -21,7 +21,8 @@ model Quorum42
 		export port FirstType sendToClient // MODIFIED
 		export port FirstType switchB // MODIFIED
 		export port FirstType ticker // MODIFIED
-		export port FirstType singleton // MODIFIED
+		export port FirstType singleton1 // MODIFIED
+		export port FirstType singleton2 // MODIFIED
 
 		place S1,S2,S3,S4,S5,S6,S7,S8,S5temp, S3temp, S6temp
 
@@ -29,17 +30,17 @@ model Quorum42
 		
 		on sendToChannel from S1 to S2
 		on recieveFromServer from S2 to S3temp
-		on singleton from S3temp to S3 do {decidedValue=decidedValueS;}
+		on singleton1 from S3temp to S3 do {decidedValue=decidedValueS;}
 	
 
 		on ticker from S2 to S4
 		on recieveFromServer from S4 to S6temp
-		on singleton from S6temp to S6 do {decidedValue=decidedValueS;}
+		on singleton1 from S6temp to S6 do {decidedValue=decidedValueS;}
 
 		on recieveFromServer from S3 to S5temp  
 		
-		on singleton from S5temp to S5 provided (decidedValue != decidedValueS) do {trigger=false; decidedValue=proposedValue;}
-		on singleton from S5temp to S5 provided (decidedValue == decidedValueS) do trigger = true;
+		on singleton1 from S5temp to S5 provided (decidedValue != decidedValueS) do {trigger=false; decidedValue=proposedValue;}
+		on singleton2 from S5temp to S5 provided (decidedValue == decidedValueS) do trigger = true;
 
 
 		on ticker from S3 to S6
@@ -60,7 +61,7 @@ model Quorum42
 
 		export port ThirdType RcvFromChannel(ClientId,proposedValue)
 		export port ThirdType SendToServerC(ClientId,decidedValue)
-		export port FirstType singleton // MODIFIED
+		export port FirstType singleton1 // MODIFIED
 		
 		place RECEIVE,SEND, SEND_TEMP
 		initial to RECEIVE do { serverId=id; decidedValue=0;}
@@ -68,7 +69,7 @@ model Quorum42
 		on RcvFromChannel from RECEIVE to SEND_TEMP
 	
 		// MODIFIED		
-		on singleton from SEND_TEMP to SEND provided true do decidedValue=proposedValue;
+		on singleton1 from SEND_TEMP to SEND provided true do decidedValue=proposedValue;
 
 		//on RcvFromChannel from RECEIVE to SEND provided decidedValue == 0 do decidedValue=proposedValue;
 		//on RcvFromChannel from RECEIVE to SEND provided decidedValue != 0
@@ -210,24 +211,23 @@ model Quorum42
 
 	compound type Root
 
-		component CustomerPlugQuorum plug1(0)
-		component CustomerPlugQuorum plug2(1)
-		component CustomerPlugQuorum plug3(2) 
-		component CustomerPlugQuorum plug4(3)
+		component CustomerPlugQuorum plug1(1)
+		component CustomerPlugQuorum plug2(2)
+		component CustomerPlugQuorum plug3(3) 
+		component CustomerPlugQuorum plug4(4)
 
-		component plugConnector plugC1(0)
-		component plugConnector plugC2(1)
-		component plugConnector plugC3(2)
-		component plugConnector plugC4(3)
+		component plugConnector plugC1(1)
+		component plugConnector plugC2(2)
+		component plugConnector plugC3(3)
+		component plugConnector plugC4(4)
 
-		component ServerConnector serverC1(0)
-		component ServerConnector serverC2(1)
-		component Server s1(0)
-		component Server s2(1)
+		component ServerConnector serverC1(1)
+		component ServerConnector serverC2(2)
+		component Server s1(1)
+		component Server s2(2)
 
 		//SINGLETON
 
-		
 		connector Singleton c1(plug1.sendToClient)
 		connector Singleton c2(plug2.sendToClient)
 		connector Singleton c3(plug3.sendToClient)
@@ -253,14 +253,19 @@ model Quorum42
 		connector Singleton c19(serverC2.loose)
 		connector Singleton c20(serverC2.msglost)
 
-		connector Singleton c51(plug1.singleton)
-		connector Singleton c61(plug2.singleton)
-		connector Singleton c71(plug3.singleton)
-		connector Singleton c81(plug4.singleton)
+		connector Singleton c51(plug1.singleton1)
+		connector Singleton c61(plug2.singleton1)
+		connector Singleton c71(plug3.singleton1)
+		connector Singleton c81(plug4.singleton1)
 
-		connector Singleton c91(s1.singleton)
-		connector Singleton c92(s2.singleton)
+		connector Singleton c52(plug1.singleton2)
+		connector Singleton c62(plug2.singleton2)
+		connector Singleton c72(plug3.singleton2)
+		connector Singleton c82(plug4.singleton2)
 
+
+		connector Singleton c91(s1.singleton1)
+		connector Singleton c92(s2.singleton1)
 
 		//END SINGLETON
 
