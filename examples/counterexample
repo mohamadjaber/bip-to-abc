@@ -30,3 +30,34 @@ plugC1Toplug1
 c52
 c1
 c9
+
+-------------------------------------
+corresponding abc sequence: interactions_enablement[i] --> i on the left:
+
+PlugToPlugConn1 - 16
+PlugToPlugConn2 - 24
+plugConn2Toserv1Conn - 25
+serverConnToServer - 19
+c71 - 12
+server1ToserverC1 - 20
+serverC1ToplugC2 - 22
+plugConn1Toserv2Conn - 18
+serverConn2ToServer2 - 27
+c81 - 13
+server2ToserverC2 - 28
+serverC2ToplugC1 - 29
+plugC1Toplug1 - 23
+c51 - 10
+plugC2Toplug2 - 31
+c61 - 11
+c10 - 5
+c6 - 3
+plugConn1Toserv1Conn - 17
+serverConnToServer - 19
+c71 - 12
+server1ToserverC1 - 20
+serverC1ToplugC1 - 21
+plugC1Toplug1 - 23
+c52 - 14
+c1 - 0
+c9 -4
