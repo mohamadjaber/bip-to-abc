@@ -227,14 +227,14 @@ model Quorum42
 		//SINGLETON
 
 		
-		connector Singleton c1(plug1.sendToClient)
-		connector Singleton c2(plug2.sendToClient)
+		connector Singleton c1(plug1.sendToClient) // 0
+		connector Singleton c2(plug2.sendToClient) // 1
 	
-		connector Singleton c5(plug1.switchB)
-		connector Singleton c6(plug2.switchB)
+		connector Singleton c5(plug1.switchB) // 2
+		connector Singleton c6(plug2.switchB) // 3
 	
-		connector Singleton c9(plug1.ticker)
-		connector Singleton c10(plug2.ticker)
+		connector Singleton c9(plug1.ticker) // 4
+		connector Singleton c10(plug2.ticker) // 5
 	
 
 		//connector Singleton c13(plugC1.Back)
@@ -242,44 +242,44 @@ model Quorum42
 		//connector Singleton c15(plugC3.Back)
 		//connector Singleton c16(plugC4.Back)
 
-		connector Singleton c17(serverC1.loose)
-		connector Singleton c18(serverC1.msglost)
-		connector Singleton c19(serverC2.loose)
-		connector Singleton c20(serverC2.msglost)
+		connector Singleton c17(serverC1.loose) // 6
+		connector Singleton c18(serverC1.msglost) // 7
+		connector Singleton c19(serverC2.loose) // 8
+		connector Singleton c20(serverC2.msglost) // 9
 
-		connector Singleton c51(plug1.singleton1)
-		connector Singleton c61(plug2.singleton1)
+		connector Singleton c51(plug1.singleton1) // 10
+		connector Singleton c61(plug2.singleton1) // 11
 	
-		connector Singleton c71(s1.singleton1)
-		connector Singleton c81(s2.singleton1)
+		connector Singleton c71(s1.singleton1) // 12
+		connector Singleton c81(s2.singleton1) // 13
 
-		connector Singleton c52(plug1.singleton2)
-		connector Singleton c62(plug2.singleton2)
+		connector Singleton c52(plug1.singleton2) //14
+		connector Singleton c62(plug2.singleton2) //15
 
 
 		//END SINGLETON
 
-		connector SendFromPlugToPlugConnector PlugToPlugConn1 (plug1.sendToChannel,plugC1.rcvPlug)
-		connector SendFromPlugConToServerCon plugConn1Toserv1Conn (plugC1.SendS1,serverC1.rcvPlugC)
-		connector SendFromPlugConToServerCon plugConn1Toserv2Conn (plugC1.SendS2,serverC2.rcvPlugC)
-		connector SendFromServerConnToServer serverConnToServer (serverC1.sendServer,s1.RcvFromChannel)
+		connector SendFromPlugToPlugConnector PlugToPlugConn1 (plug1.sendToChannel,plugC1.rcvPlug) //16
+		connector SendFromPlugConToServerCon plugConn1Toserv1Conn (plugC1.SendS1,serverC1.rcvPlugC)//17
+		connector SendFromPlugConToServerCon plugConn1Toserv2Conn (plugC1.SendS2,serverC2.rcvPlugC)//18
+		connector SendFromServerConnToServer serverConnToServer (serverC1.sendServer,s1.RcvFromChannel)//19
 		
-		connector SendFromServerToServerC server1ToserverC1 (s1.SendToServerC,serverC1.rcvServer)
-		connector ServerCPlugC serverC1ToplugC1 (serverC1.sendPlug,plugC1.rcvServer)
-		connector ServerCPlugC serverC1ToplugC2 (serverC1.sendPlug,plugC2.rcvServer)
-		connector PlugCToPlug plugC1Toplug1 (plugC1.sendClient,plug1.recieveFromServer)
+		connector SendFromServerToServerC server1ToserverC1 (s1.SendToServerC,serverC1.rcvServer) //20
+		connector ServerCPlugC serverC1ToplugC1 (serverC1.sendPlug,plugC1.rcvServer)//21
+		connector ServerCPlugC serverC1ToplugC2 (serverC1.sendPlug,plugC2.rcvServer)//22
+		connector PlugCToPlug plugC1Toplug1 (plugC1.sendClient,plug1.recieveFromServer)//23
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		connector SendFromPlugToPlugConnector PlugToPlugConn2 (plug2.sendToChannel,plugC2.rcvPlug)
-		connector SendFromPlugConToServerCon plugConn2Toserv1Conn (plugC2.SendS1,serverC1.rcvPlugC)
-		connector SendFromPlugConToServerCon plugConn2Toserv2Conn (plugC2.SendS2,serverC2.rcvPlugC)
-		connector SendFromServerConnToServer serverConn2ToServer2 (serverC2.sendServer,s2.RcvFromChannel)
+		connector SendFromPlugToPlugConnector PlugToPlugConn2 (plug2.sendToChannel,plugC2.rcvPlug) //24
+		connector SendFromPlugConToServerCon plugConn2Toserv1Conn (plugC2.SendS1,serverC1.rcvPlugC) //25
+		connector SendFromPlugConToServerCon plugConn2Toserv2Conn (plugC2.SendS2,serverC2.rcvPlugC)//26
+		connector SendFromServerConnToServer serverConn2ToServer2 (serverC2.sendServer,s2.RcvFromChannel)//27
 
-		connector SendFromServerToServerC server2ToserverC2 (s2.SendToServerC,serverC2.rcvServer)
-		connector ServerCPlugC serverC2ToplugC1 (serverC2.sendPlug,plugC1.rcvServer)
-		connector ServerCPlugC serverC2ToplugC2 (serverC2.sendPlug,plugC2.rcvServer)
-		connector PlugCToPlug plugC2Toplug2 (plugC2.sendClient,plug2.recieveFromServer)
+		connector SendFromServerToServerC server2ToserverC2 (s2.SendToServerC,serverC2.rcvServer)//28
+		connector ServerCPlugC serverC2ToplugC1 (serverC2.sendPlug,plugC1.rcvServer)//29
+		connector ServerCPlugC serverC2ToplugC2 (serverC2.sendPlug,plugC2.rcvServer)//30
+		connector PlugCToPlug plugC2Toplug2 (plugC2.sendClient,plug2.recieveFromServer)//31
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
