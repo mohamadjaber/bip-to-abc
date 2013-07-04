@@ -1,0 +1,1093 @@
+int var_plug1_decidedValueS;
+int var_plug1_serverId;
+int var_plug1_proposedValue;
+int var_plug1_decidedValue;
+boolean var_plug1_trigger;
+int var_plug1_id;
+int var_plug2_decidedValueS;
+int var_plug2_serverId;
+int var_plug2_proposedValue;
+int var_plug2_decidedValue;
+boolean var_plug2_trigger;
+int var_plug2_id;
+boolean var_plugC1_server1;
+int var_plugC1_serverId;
+boolean var_plugC1_server2;
+int var_plugC1_decidedValue;
+int var_plugC1_proposedValue;
+int var_plugC1_clientId;
+int var_plugC1_id;
+boolean var_plugC2_server1;
+int var_plugC2_serverId;
+boolean var_plugC2_server2;
+int var_plugC2_decidedValue;
+int var_plugC2_proposedValue;
+int var_plugC2_clientId;
+int var_plugC2_id;
+int var_serverC1_clientIdRcv;
+int var_serverC1_decided;
+int var_serverC1_serverId;
+int var_serverC1_clientIdSend;
+int var_serverC1_proposed;
+int var_serverC1_id;
+int var_serverC2_clientIdRcv;
+int var_serverC2_decided;
+int var_serverC2_serverId;
+int var_serverC2_clientIdSend;
+int var_serverC2_proposed;
+int var_serverC2_id;
+int var_s1_proposedValue;
+int var_s1_decidedValue;
+int var_s1_ClientId;
+int var_s1_serverId;
+int var_s1_id;
+int var_s2_proposedValue;
+int var_s2_decidedValue;
+int var_s2_ClientId;
+int var_s2_serverId;
+int var_s2_id;
+wire int wire_selector;
+int plug1_currentState;
+int plug2_currentState;
+int plugC1_currentState;
+int plugC2_currentState;
+int serverC1_currentState;
+int serverC2_currentState;
+int s1_currentState;
+int s2_currentState;
+wire boolean wire_port_loc_en_plug1_ticker;
+wire boolean wire_port_en_plug1_ticker;
+wire boolean wire_port_loc_en_plug1_switchB;
+wire boolean wire_port_en_plug1_switchB;
+wire boolean wire_port_loc_en_plug1_sendToChannel;
+wire boolean wire_port_en_plug1_sendToChannel;
+wire boolean wire_port_loc_en_plug1_singleton1;
+wire boolean wire_port_en_plug1_singleton1;
+wire boolean wire_port_loc_en_plug1_sendToClient;
+wire boolean wire_port_en_plug1_sendToClient;
+wire boolean wire_port_loc_en_plug1_singleton2;
+wire boolean wire_port_en_plug1_singleton2;
+wire boolean wire_port_loc_en_plug1_recieveFromServer;
+wire boolean wire_port_en_plug1_recieveFromServer;
+wire boolean wire_port_loc_en_plug2_ticker;
+wire boolean wire_port_en_plug2_ticker;
+wire boolean wire_port_loc_en_plug2_switchB;
+wire boolean wire_port_en_plug2_switchB;
+wire boolean wire_port_loc_en_plug2_sendToChannel;
+wire boolean wire_port_en_plug2_sendToChannel;
+wire boolean wire_port_loc_en_plug2_singleton1;
+wire boolean wire_port_en_plug2_singleton1;
+wire boolean wire_port_loc_en_plug2_sendToClient;
+wire boolean wire_port_en_plug2_sendToClient;
+wire boolean wire_port_loc_en_plug2_singleton2;
+wire boolean wire_port_en_plug2_singleton2;
+wire boolean wire_port_loc_en_plug2_recieveFromServer;
+wire boolean wire_port_en_plug2_recieveFromServer;
+wire boolean wire_port_loc_en_plugC1_rcvServer;
+wire boolean wire_port_en_plugC1_rcvServer;
+wire boolean wire_port_loc_en_plugC1_SendS1;
+wire boolean wire_port_en_plugC1_SendS1;
+wire boolean wire_port_loc_en_plugC1_SendS2;
+wire boolean wire_port_en_plugC1_SendS2;
+wire boolean wire_port_loc_en_plugC1_rcvPlug;
+wire boolean wire_port_en_plugC1_rcvPlug;
+wire boolean wire_port_loc_en_plugC1_sendClient;
+wire boolean wire_port_en_plugC1_sendClient;
+wire boolean wire_port_loc_en_plugC2_rcvServer;
+wire boolean wire_port_en_plugC2_rcvServer;
+wire boolean wire_port_loc_en_plugC2_SendS1;
+wire boolean wire_port_en_plugC2_SendS1;
+wire boolean wire_port_loc_en_plugC2_SendS2;
+wire boolean wire_port_en_plugC2_SendS2;
+wire boolean wire_port_loc_en_plugC2_rcvPlug;
+wire boolean wire_port_en_plugC2_rcvPlug;
+wire boolean wire_port_loc_en_plugC2_sendClient;
+wire boolean wire_port_en_plugC2_sendClient;
+wire boolean wire_port_loc_en_serverC1_sendPlug;
+wire boolean wire_port_en_serverC1_sendPlug;
+wire boolean wire_port_loc_en_serverC1_msglost;
+wire boolean wire_port_en_serverC1_msglost;
+wire boolean wire_port_loc_en_serverC1_loose;
+wire boolean wire_port_en_serverC1_loose;
+wire boolean wire_port_loc_en_serverC1_sendServer;
+wire boolean wire_port_en_serverC1_sendServer;
+wire boolean wire_port_loc_en_serverC1_rcvPlugC;
+wire boolean wire_port_en_serverC1_rcvPlugC;
+wire boolean wire_port_loc_en_serverC1_rcvServer;
+wire boolean wire_port_en_serverC1_rcvServer;
+wire boolean wire_port_loc_en_serverC2_sendPlug;
+wire boolean wire_port_en_serverC2_sendPlug;
+wire boolean wire_port_loc_en_serverC2_msglost;
+wire boolean wire_port_en_serverC2_msglost;
+wire boolean wire_port_loc_en_serverC2_loose;
+wire boolean wire_port_en_serverC2_loose;
+wire boolean wire_port_loc_en_serverC2_sendServer;
+wire boolean wire_port_en_serverC2_sendServer;
+wire boolean wire_port_loc_en_serverC2_rcvPlugC;
+wire boolean wire_port_en_serverC2_rcvPlugC;
+wire boolean wire_port_loc_en_serverC2_rcvServer;
+wire boolean wire_port_en_serverC2_rcvServer;
+wire boolean wire_port_loc_en_s1_singleton1;
+wire boolean wire_port_en_s1_singleton1;
+wire boolean wire_port_loc_en_s1_SendToServerC;
+wire boolean wire_port_en_s1_SendToServerC;
+wire boolean wire_port_loc_en_s1_singleton2;
+wire boolean wire_port_en_s1_singleton2;
+wire boolean wire_port_loc_en_s1_RcvFromChannel;
+wire boolean wire_port_en_s1_RcvFromChannel;
+wire boolean wire_port_loc_en_s2_singleton1;
+wire boolean wire_port_en_s2_singleton1;
+wire boolean wire_port_loc_en_s2_SendToServerC;
+wire boolean wire_port_en_s2_SendToServerC;
+wire boolean wire_port_loc_en_s2_singleton2;
+wire boolean wire_port_en_s2_singleton2;
+wire boolean wire_port_loc_en_s2_RcvFromChannel;
+wire boolean wire_port_en_s2_RcvFromChannel;
+wire boolean[34] interactions_enablement;
+wire boolean[34] interactions_first_enable;
+const int state_plug1_S5temp = 8;
+const int state_plug1_S6temp = 10;
+const int state_plug1_S8 = 7;
+const int state_plug1_S5 = 4;
+const int state_plug1_S4 = 3;
+const int state_plug1_S2 = 1;
+const int state_plug1_S6 = 5;
+const int state_plug1_S7 = 6;
+const int state_plug1_S3 = 2;
+const int state_plug1_S1 = 0;
+const int state_plug1_S3temp = 9;
+const int state_plug2_S5temp = 19;
+const int state_plug2_S6temp = 21;
+const int state_plug2_S8 = 18;
+const int state_plug2_S5 = 15;
+const int state_plug2_S4 = 14;
+const int state_plug2_S2 = 12;
+const int state_plug2_S6 = 16;
+const int state_plug2_S7 = 17;
+const int state_plug2_S3 = 13;
+const int state_plug2_S1 = 11;
+const int state_plug2_S3temp = 20;
+const int state_plugC1_sendServer_rcvFServer = 23;
+const int state_plugC1_start_rcvFServer = 22;
+const int state_plugC1_start_sendTClient = 24;
+const int state_plugC1_sendServer_sendTClient = 25;
+const int state_plugC2_sendServer_rcvFServer = 27;
+const int state_plugC2_start_rcvFServer = 26;
+const int state_plugC2_start_sendTClient = 28;
+const int state_plugC2_sendServer_sendTClient = 29;
+const int state_serverC1_rcvPlug_sendPlugC = 33;
+const int state_serverC1_crash_sendPlugC = 35;
+const int state_serverC1_sendTServer_rcvFServer = 31;
+const int state_serverC1_rcvPlug_rcvFServer = 30;
+const int state_serverC1_crash_rcvFServer = 32;
+const int state_serverC1_sendTServer_sendPlugC = 34;
+const int state_serverC2_rcvPlug_sendPlugC = 39;
+const int state_serverC2_crash_sendPlugC = 41;
+const int state_serverC2_sendTServer_rcvFServer = 37;
+const int state_serverC2_rcvPlug_rcvFServer = 36;
+const int state_serverC2_crash_rcvFServer = 38;
+const int state_serverC2_sendTServer_sendPlugC = 40;
+const int state_s1_RECEIVE = 42;
+const int state_s1_SEND_TEMP = 44;
+const int state_s1_SEND = 43;
+const int state_s2_RECEIVE = 45;
+const int state_s2_SEND_TEMP = 47;
+const int state_s2_SEND = 46;
+@do_together {
+  var_plug1_id = 1;
+  var_plug2_id = 2;
+  var_plugC1_id = 1;
+  var_plugC2_id = 2;
+  var_serverC1_id = 1;
+  var_serverC2_id = 2;
+  var_s1_id = 1;
+  var_s2_id = 2;
+}
+@do_together {
+  var_plug1_proposedValue = var_plug1_id; var_plug1_decidedValue = 0; var_plug1_trigger = false; var_plug1_serverId = 0; 
+  plug1_currentState = 0;
+  var_plug2_proposedValue = var_plug2_id; var_plug2_decidedValue = 0; var_plug2_trigger = false; var_plug2_serverId = 0; 
+  plug2_currentState = 11;
+  var_plugC1_server1 = false; var_plugC1_server2 = false; var_plugC1_clientId = var_plugC1_id; 
+  plugC1_currentState = 22;
+  var_plugC2_server1 = false; var_plugC2_server2 = false; var_plugC2_clientId = var_plugC2_id; 
+  plugC2_currentState = 26;
+  var_serverC1_serverId = var_serverC1_id; 
+  serverC1_currentState = 30;
+  var_serverC2_serverId = var_serverC2_id; 
+  serverC2_currentState = 36;
+  var_s1_serverId = var_s1_id; var_s1_decidedValue = 0; 
+  s1_currentState = 42;
+  var_s2_serverId = var_s2_id; var_s2_decidedValue = 0; 
+  s2_currentState = 45;
+}
+while(true) {
+  @do_together {
+    wire_port_loc_en_plug1_ticker = (((((false || (state_plug1_S2 == plug1_currentState)) || (state_plug1_S3 == plug1_currentState)) || (state_plug1_S7 == plug1_currentState)) || (state_plug1_S8 == plug1_currentState)) || (state_plug1_S4 == plug1_currentState));
+    wire_port_loc_en_plug1_switchB = ((false || (state_plug1_S6 == plug1_currentState)) || ((state_plug1_S5 == plug1_currentState) && !var_plug1_trigger));
+    wire_port_loc_en_plug1_sendToChannel = (false || (state_plug1_S1 == plug1_currentState));
+    wire_port_loc_en_plug1_singleton1 = (((false || (state_plug1_S3temp == plug1_currentState)) || (state_plug1_S6temp == plug1_currentState)) || ((state_plug1_S5temp == plug1_currentState) && var_plug1_decidedValue != var_plug1_decidedValueS));
+    wire_port_loc_en_plug1_sendToClient = (false || ((state_plug1_S5 == plug1_currentState) && var_plug1_trigger));
+    wire_port_loc_en_plug1_singleton2 = (false || ((state_plug1_S5temp == plug1_currentState) && var_plug1_decidedValue == var_plug1_decidedValueS));
+    wire_port_loc_en_plug1_recieveFromServer = (((false || (state_plug1_S2 == plug1_currentState)) || (state_plug1_S4 == plug1_currentState)) || (state_plug1_S3 == plug1_currentState));
+    wire_port_loc_en_plug2_ticker = (((((false || (state_plug2_S2 == plug2_currentState)) || (state_plug2_S3 == plug2_currentState)) || (state_plug2_S7 == plug2_currentState)) || (state_plug2_S8 == plug2_currentState)) || (state_plug2_S4 == plug2_currentState));
+    wire_port_loc_en_plug2_switchB = ((false || (state_plug2_S6 == plug2_currentState)) || ((state_plug2_S5 == plug2_currentState) && !var_plug2_trigger));
+    wire_port_loc_en_plug2_sendToChannel = (false || (state_plug2_S1 == plug2_currentState));
+    wire_port_loc_en_plug2_singleton1 = (((false || (state_plug2_S3temp == plug2_currentState)) || (state_plug2_S6temp == plug2_currentState)) || ((state_plug2_S5temp == plug2_currentState) && var_plug2_decidedValue != var_plug2_decidedValueS));
+    wire_port_loc_en_plug2_sendToClient = (false || ((state_plug2_S5 == plug2_currentState) && var_plug2_trigger));
+    wire_port_loc_en_plug2_singleton2 = (false || ((state_plug2_S5temp == plug2_currentState) && var_plug2_decidedValue == var_plug2_decidedValueS));
+    wire_port_loc_en_plug2_recieveFromServer = (((false || (state_plug2_S2 == plug2_currentState)) || (state_plug2_S4 == plug2_currentState)) || (state_plug2_S3 == plug2_currentState));
+    wire_port_loc_en_plugC1_rcvServer = ((false || (state_plugC1_start_rcvFServer == plugC1_currentState)) || (state_plugC1_sendServer_rcvFServer == plugC1_currentState));
+    wire_port_loc_en_plugC1_SendS1 = ((false || ((state_plugC1_sendServer_rcvFServer == plugC1_currentState) && !var_plugC1_server1)) || ((state_plugC1_sendServer_sendTClient == plugC1_currentState) && !var_plugC1_server1));
+    wire_port_loc_en_plugC1_SendS2 = ((false || ((state_plugC1_sendServer_rcvFServer == plugC1_currentState) && !var_plugC1_server2)) || ((state_plugC1_sendServer_sendTClient == plugC1_currentState) && !var_plugC1_server2));
+    wire_port_loc_en_plugC1_rcvPlug = ((false || (state_plugC1_start_rcvFServer == plugC1_currentState)) || (state_plugC1_start_sendTClient == plugC1_currentState));
+    wire_port_loc_en_plugC1_sendClient = ((false || (state_plugC1_start_sendTClient == plugC1_currentState)) || (state_plugC1_sendServer_sendTClient == plugC1_currentState));
+    wire_port_loc_en_plugC2_rcvServer = ((false || (state_plugC2_start_rcvFServer == plugC2_currentState)) || (state_plugC2_sendServer_rcvFServer == plugC2_currentState));
+    wire_port_loc_en_plugC2_SendS1 = ((false || ((state_plugC2_sendServer_rcvFServer == plugC2_currentState) && !var_plugC2_server1)) || ((state_plugC2_sendServer_sendTClient == plugC2_currentState) && !var_plugC2_server1));
+    wire_port_loc_en_plugC2_SendS2 = ((false || ((state_plugC2_sendServer_rcvFServer == plugC2_currentState) && !var_plugC2_server2)) || ((state_plugC2_sendServer_sendTClient == plugC2_currentState) && !var_plugC2_server2));
+    wire_port_loc_en_plugC2_rcvPlug = ((false || (state_plugC2_start_rcvFServer == plugC2_currentState)) || (state_plugC2_start_sendTClient == plugC2_currentState));
+    wire_port_loc_en_plugC2_sendClient = ((false || (state_plugC2_start_sendTClient == plugC2_currentState)) || (state_plugC2_sendServer_sendTClient == plugC2_currentState));
+    wire_port_loc_en_serverC1_sendPlug = (((false || (state_serverC1_rcvPlug_sendPlugC == serverC1_currentState)) || (state_serverC1_sendTServer_sendPlugC == serverC1_currentState)) || (state_serverC1_crash_sendPlugC == serverC1_currentState));
+    wire_port_loc_en_serverC1_msglost = ((false || (state_serverC1_sendTServer_rcvFServer == serverC1_currentState)) || (state_serverC1_sendTServer_sendPlugC == serverC1_currentState));
+    wire_port_loc_en_serverC1_loose = ((false || (state_serverC1_sendTServer_rcvFServer == serverC1_currentState)) || (state_serverC1_sendTServer_sendPlugC == serverC1_currentState));
+    wire_port_loc_en_serverC1_sendServer = ((false || (state_serverC1_sendTServer_rcvFServer == serverC1_currentState)) || (state_serverC1_sendTServer_sendPlugC == serverC1_currentState));
+    wire_port_loc_en_serverC1_rcvPlugC = ((((false || (state_serverC1_rcvPlug_rcvFServer == serverC1_currentState)) || (state_serverC1_rcvPlug_sendPlugC == serverC1_currentState)) || (state_serverC1_crash_rcvFServer == serverC1_currentState)) || (state_serverC1_crash_sendPlugC == serverC1_currentState));
+    wire_port_loc_en_serverC1_rcvServer = (((false || (state_serverC1_rcvPlug_rcvFServer == serverC1_currentState)) || (state_serverC1_sendTServer_rcvFServer == serverC1_currentState)) || (state_serverC1_crash_rcvFServer == serverC1_currentState));
+    wire_port_loc_en_serverC2_sendPlug = (((false || (state_serverC2_rcvPlug_sendPlugC == serverC2_currentState)) || (state_serverC2_sendTServer_sendPlugC == serverC2_currentState)) || (state_serverC2_crash_sendPlugC == serverC2_currentState));
+    wire_port_loc_en_serverC2_msglost = ((false || (state_serverC2_sendTServer_rcvFServer == serverC2_currentState)) || (state_serverC2_sendTServer_sendPlugC == serverC2_currentState));
+    wire_port_loc_en_serverC2_loose = ((false || (state_serverC2_sendTServer_rcvFServer == serverC2_currentState)) || (state_serverC2_sendTServer_sendPlugC == serverC2_currentState));
+    wire_port_loc_en_serverC2_sendServer = ((false || (state_serverC2_sendTServer_rcvFServer == serverC2_currentState)) || (state_serverC2_sendTServer_sendPlugC == serverC2_currentState));
+    wire_port_loc_en_serverC2_rcvPlugC = ((((false || (state_serverC2_rcvPlug_rcvFServer == serverC2_currentState)) || (state_serverC2_rcvPlug_sendPlugC == serverC2_currentState)) || (state_serverC2_crash_rcvFServer == serverC2_currentState)) || (state_serverC2_crash_sendPlugC == serverC2_currentState));
+    wire_port_loc_en_serverC2_rcvServer = (((false || (state_serverC2_rcvPlug_rcvFServer == serverC2_currentState)) || (state_serverC2_sendTServer_rcvFServer == serverC2_currentState)) || (state_serverC2_crash_rcvFServer == serverC2_currentState));
+    wire_port_loc_en_s1_singleton1 = (false || ((state_s1_SEND_TEMP == s1_currentState) && var_s1_decidedValue == 0));
+    wire_port_loc_en_s1_SendToServerC = (false || (state_s1_SEND == s1_currentState));
+    wire_port_loc_en_s1_singleton2 = (false || ((state_s1_SEND_TEMP == s1_currentState) && var_s1_decidedValue != 0));
+    wire_port_loc_en_s1_RcvFromChannel = (false || (state_s1_RECEIVE == s1_currentState));
+    wire_port_loc_en_s2_singleton1 = (false || ((state_s2_SEND_TEMP == s2_currentState) && var_s2_decidedValue == 0));
+    wire_port_loc_en_s2_SendToServerC = (false || (state_s2_SEND == s2_currentState));
+    wire_port_loc_en_s2_singleton2 = (false || ((state_s2_SEND_TEMP == s2_currentState) && var_s2_decidedValue != 0));
+    wire_port_loc_en_s2_RcvFromChannel = (false || (state_s2_RECEIVE == s2_currentState));
+    interactions_first_enable = (true && wire_port_loc_en_plug1_ticker);
+    interactions_first_enable = ((true && wire_port_loc_en_plug1_sendToChannel) && wire_port_loc_en_plugC1_rcvPlug);
+    interactions_first_enable = (((var_serverC2_clientIdSend == var_plugC2_clientId) && wire_port_loc_en_serverC2_sendPlug) && wire_port_loc_en_plugC2_rcvServer);
+    interactions_first_enable = (true && wire_port_loc_en_plug1_singleton1);
+    interactions_first_enable = ((true && wire_port_loc_en_serverC2_rcvPlugC) && wire_port_loc_en_plugC2_SendS2);
+    interactions_first_enable = (true && wire_port_loc_en_plug2_ticker);
+    interactions_first_enable = (true && wire_port_loc_en_plug1_sendToClient);
+    interactions_first_enable = (((var_serverC1_clientIdSend == var_plugC2_clientId) && wire_port_loc_en_plugC2_rcvServer) && wire_port_loc_en_serverC1_sendPlug);
+    interactions_first_enable = (true && wire_port_loc_en_serverC2_msglost);
+    interactions_first_enable = (true && wire_port_loc_en_plug2_sendToClient);
+    interactions_first_enable = ((true && wire_port_loc_en_plugC2_SendS1) && wire_port_loc_en_serverC1_rcvPlugC);
+    interactions_first_enable = ((true && wire_port_loc_en_serverC2_rcvPlugC) && wire_port_loc_en_plugC1_SendS2);
+    interactions_first_enable = (true && wire_port_loc_en_serverC1_loose);
+    interactions_first_enable = ((true && wire_port_loc_en_plugC2_rcvPlug) && wire_port_loc_en_plug2_sendToChannel);
+    interactions_first_enable = ((true && wire_port_loc_en_s1_SendToServerC) && wire_port_loc_en_serverC1_rcvServer);
+    interactions_first_enable = (true && wire_port_loc_en_s1_singleton2);
+    interactions_first_enable = (true && wire_port_loc_en_plug1_switchB);
+    interactions_first_enable = ((true && wire_port_loc_en_serverC2_sendServer) && wire_port_loc_en_s2_RcvFromChannel);
+    interactions_first_enable = (true && wire_port_loc_en_s2_singleton2);
+    interactions_first_enable = ((true && wire_port_loc_en_s1_RcvFromChannel) && wire_port_loc_en_serverC1_sendServer);
+    interactions_first_enable = (true && wire_port_loc_en_plug2_singleton2);
+    interactions_first_enable = (true && wire_port_loc_en_plug2_switchB);
+    interactions_first_enable = (((var_serverC2_clientIdSend == var_plugC1_clientId) && wire_port_loc_en_serverC2_sendPlug) && wire_port_loc_en_plugC1_rcvServer);
+    interactions_first_enable = (true && wire_port_loc_en_serverC1_msglost);
+    interactions_first_enable = (true && wire_port_loc_en_s2_singleton1);
+    interactions_first_enable = (true && wire_port_loc_en_plug1_singleton2);
+    interactions_first_enable = (((var_serverC1_clientIdSend == var_plugC1_clientId) && wire_port_loc_en_serverC1_sendPlug) && wire_port_loc_en_plugC1_rcvServer);
+    interactions_first_enable = (true && wire_port_loc_en_plug2_singleton1);
+    interactions_first_enable = ((true && wire_port_loc_en_plug1_recieveFromServer) && wire_port_loc_en_plugC1_sendClient);
+    interactions_first_enable = ((true && wire_port_loc_en_serverC2_rcvServer) && wire_port_loc_en_s2_SendToServerC);
+    interactions_first_enable = (true && wire_port_loc_en_s1_singleton1);
+    interactions_first_enable = ((true && wire_port_loc_en_plugC2_sendClient) && wire_port_loc_en_plug2_recieveFromServer);
+    interactions_first_enable = ((true && wire_port_loc_en_serverC1_rcvPlugC) && wire_port_loc_en_plugC1_SendS1);
+    interactions_first_enable = (true && wire_port_loc_en_serverC2_loose);
+    interactions_enablement = (interactions_first_enable[0] && ((wire_selector == 0) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[1]) ) && ( ! interactions_first_enable[2]) ) && ( ! interactions_first_enable[3]) ) && ( ! interactions_first_enable[4]) ) && ( ! interactions_first_enable[5]) ) && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[1] && ((wire_selector == 1) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[2]) ) && ( ! interactions_first_enable[3]) ) && ( ! interactions_first_enable[4]) ) && ( ! interactions_first_enable[5]) ) && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[2] && ((wire_selector == 2) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[3]) ) && ( ! interactions_first_enable[4]) ) && ( ! interactions_first_enable[5]) ) && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[3] && ((wire_selector == 3) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[4]) ) && ( ! interactions_first_enable[5]) ) && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[4] && ((wire_selector == 4) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((((((true && ( ! interactions_first_enable[5]) ) && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[5] && ((wire_selector == 5) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((((((true && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[6] && ((wire_selector == 6) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((((true && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[7] && ((wire_selector == 7) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((((true && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[8] && ((wire_selector == 8) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((true && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[9] && ((wire_selector == 9) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((true && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[10] && ((wire_selector == 10) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((true && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[11] && ((wire_selector == 11) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((true && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[12] && ((wire_selector == 12) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((true && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[13] && ((wire_selector == 13) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((true && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[14] && ((wire_selector == 14) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((true && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[15] && ((wire_selector == 15) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((true && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[16] && ((wire_selector == 16) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((true && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[17] && ((wire_selector == 17) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((true && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[18] && ((wire_selector == 18) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((true && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[19] && ((wire_selector == 19) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((true && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[20] && ((wire_selector == 20) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((true && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[21] && ((wire_selector == 21) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((true && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[22] && ((wire_selector == 22) || (( ! interactions_first_enable[wire_selector])  && (((((((((((true && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[23] && ((wire_selector == 23) || (( ! interactions_first_enable[wire_selector])  && ((((((((((true && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[24] && ((wire_selector == 24) || (( ! interactions_first_enable[wire_selector])  && (((((((((true && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[25] && ((wire_selector == 25) || (( ! interactions_first_enable[wire_selector])  && ((((((((true && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[26] && ((wire_selector == 26) || (( ! interactions_first_enable[wire_selector])  && (((((((true && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[27] && ((wire_selector == 27) || (( ! interactions_first_enable[wire_selector])  && ((((((true && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[28] && ((wire_selector == 28) || (( ! interactions_first_enable[wire_selector])  && (((((true && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[29] && ((wire_selector == 29) || (( ! interactions_first_enable[wire_selector])  && ((((true && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[30] && ((wire_selector == 30) || (( ! interactions_first_enable[wire_selector])  && (((true && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[31] && ((wire_selector == 31) || (( ! interactions_first_enable[wire_selector])  && ((true && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[32] && ((wire_selector == 32) || (( ! interactions_first_enable[wire_selector])  && (true && ( ! interactions_first_enable[33]) ))));
+    interactions_enablement = (interactions_first_enable[33] && ((wire_selector == 33) || (( ! interactions_first_enable[wire_selector])  && true)));
+    wire_port_en_plug1_ticker = (false || interactions_enablement[4]);
+    wire_port_en_plug1_switchB = (false || interactions_enablement[2]);
+    wire_port_en_plug1_sendToChannel = (false || interactions_enablement[18]);
+    wire_port_en_plug1_singleton1 = (false || interactions_enablement[10]);
+    wire_port_en_plug1_sendToClient = (false || interactions_enablement[0]);
+    wire_port_en_plug1_singleton2 = (false || interactions_enablement[14]);
+    wire_port_en_plug1_recieveFromServer = (false || interactions_enablement[25]);
+    wire_port_en_plug2_ticker = (false || interactions_enablement[5]);
+    wire_port_en_plug2_switchB = (false || interactions_enablement[3]);
+    wire_port_en_plug2_sendToChannel = (false || interactions_enablement[26]);
+    wire_port_en_plug2_singleton1 = (false || interactions_enablement[11]);
+    wire_port_en_plug2_sendToClient = (false || interactions_enablement[1]);
+    wire_port_en_plug2_singleton2 = (false || interactions_enablement[15]);
+    wire_port_en_plug2_recieveFromServer = (false || interactions_enablement[33]);
+    wire_port_en_plugC1_rcvServer = ((false || interactions_enablement[23]) || interactions_enablement[31]);
+    wire_port_en_plugC1_SendS1 = (false || interactions_enablement[19]);
+    wire_port_en_plugC1_SendS2 = (false || interactions_enablement[20]);
+    wire_port_en_plugC1_rcvPlug = (false || interactions_enablement[18]);
+    wire_port_en_plugC1_sendClient = (false || interactions_enablement[25]);
+    wire_port_en_plugC2_rcvServer = ((false || interactions_enablement[24]) || interactions_enablement[32]);
+    wire_port_en_plugC2_SendS1 = (false || interactions_enablement[27]);
+    wire_port_en_plugC2_SendS2 = (false || interactions_enablement[28]);
+    wire_port_en_plugC2_rcvPlug = (false || interactions_enablement[26]);
+    wire_port_en_plugC2_sendClient = (false || interactions_enablement[33]);
+    wire_port_en_serverC1_sendPlug = ((false || interactions_enablement[23]) || interactions_enablement[24]);
+    wire_port_en_serverC1_msglost = (false || interactions_enablement[7]);
+    wire_port_en_serverC1_loose = (false || interactions_enablement[6]);
+    wire_port_en_serverC1_sendServer = (false || interactions_enablement[21]);
+    wire_port_en_serverC1_rcvPlugC = ((false || interactions_enablement[19]) || interactions_enablement[27]);
+    wire_port_en_serverC1_rcvServer = (false || interactions_enablement[22]);
+    wire_port_en_serverC2_sendPlug = ((false || interactions_enablement[31]) || interactions_enablement[32]);
+    wire_port_en_serverC2_msglost = (false || interactions_enablement[9]);
+    wire_port_en_serverC2_loose = (false || interactions_enablement[8]);
+    wire_port_en_serverC2_sendServer = (false || interactions_enablement[29]);
+    wire_port_en_serverC2_rcvPlugC = ((false || interactions_enablement[20]) || interactions_enablement[28]);
+    wire_port_en_serverC2_rcvServer = (false || interactions_enablement[30]);
+    wire_port_en_s1_singleton1 = (false || interactions_enablement[12]);
+    wire_port_en_s1_SendToServerC = (false || interactions_enablement[22]);
+    wire_port_en_s1_singleton2 = (false || interactions_enablement[16]);
+    wire_port_en_s1_RcvFromChannel = (false || interactions_enablement[21]);
+    wire_port_en_s2_singleton1 = (false || interactions_enablement[13]);
+    wire_port_en_s2_SendToServerC = (false || interactions_enablement[30]);
+    wire_port_en_s2_singleton2 = (false || interactions_enablement[17]);
+    wire_port_en_s2_RcvFromChannel = (false || interactions_enablement[29]);
+    if(interactions_enablement[25]) {
+      var_plug1_decidedValueS = var_plugC1_decidedValue; 
+    }
+    else {
+      var_plug1_decidedValueS = var_plug1_decidedValueS;
+    }
+    if(interactions_enablement[25]) {
+      var_plug1_serverId = var_plugC1_serverId; 
+    }
+    else {
+      var_plug1_serverId = var_plug1_serverId;
+    }
+    if(interactions_enablement[33]) {
+      var_plug2_decidedValueS = var_plugC2_decidedValue; 
+    }
+    else {
+      var_plug2_decidedValueS = var_plug2_decidedValueS;
+    }
+    if(interactions_enablement[33]) {
+      var_plug2_serverId = var_plugC2_serverId; 
+    }
+    else {
+      var_plug2_serverId = var_plug2_serverId;
+    }
+    if(interactions_enablement[23]) {
+      var_plugC1_serverId = var_serverC1_serverId; 
+    }
+    else {
+      var_plugC1_serverId = var_plugC1_serverId;
+    }
+    if(interactions_enablement[23]) {
+      var_plugC1_decidedValue = var_serverC1_decided; 
+    }
+    else {
+      var_plugC1_decidedValue = var_plugC1_decidedValue;
+    }
+    if(interactions_enablement[18]) {
+      var_plugC1_proposedValue = var_plug1_proposedValue; 
+    }
+    else {
+      var_plugC1_proposedValue = var_plugC1_proposedValue;
+    }
+    if(interactions_enablement[24]) {
+      var_plugC2_serverId = var_serverC1_serverId; 
+    }
+    else {
+      var_plugC2_serverId = var_plugC2_serverId;
+    }
+    if(interactions_enablement[24]) {
+      var_plugC2_decidedValue = var_serverC1_decided; 
+    }
+    else {
+      var_plugC2_decidedValue = var_plugC2_decidedValue;
+    }
+    if(interactions_enablement[26]) {
+      var_plugC2_proposedValue = var_plug2_proposedValue; 
+    }
+    else {
+      var_plugC2_proposedValue = var_plugC2_proposedValue;
+    }
+    if(interactions_enablement[19]) {
+      var_serverC1_clientIdRcv = var_plugC1_clientId; 
+    }
+    else {
+      var_serverC1_clientIdRcv = var_serverC1_clientIdRcv;
+    }
+    if(interactions_enablement[22]) {
+      var_serverC1_decided = var_s1_decidedValue; 
+    }
+    else {
+      var_serverC1_decided = var_serverC1_decided;
+    }
+    if(interactions_enablement[22]) {
+      var_serverC1_clientIdSend = var_s1_ClientId; 
+    }
+    else {
+      var_serverC1_clientIdSend = var_serverC1_clientIdSend;
+    }
+    if(interactions_enablement[19]) {
+      var_serverC1_proposed = var_plugC1_proposedValue; 
+    }
+    else {
+      var_serverC1_proposed = var_serverC1_proposed;
+    }
+    if(interactions_enablement[20]) {
+      var_serverC2_clientIdRcv = var_plugC1_clientId; 
+    }
+    else {
+      var_serverC2_clientIdRcv = var_serverC2_clientIdRcv;
+    }
+    if(interactions_enablement[30]) {
+      var_serverC2_decided = var_s2_decidedValue; 
+    }
+    else {
+      var_serverC2_decided = var_serverC2_decided;
+    }
+    if(interactions_enablement[30]) {
+      var_serverC2_clientIdSend = var_s2_ClientId; 
+    }
+    else {
+      var_serverC2_clientIdSend = var_serverC2_clientIdSend;
+    }
+    if(interactions_enablement[20]) {
+      var_serverC2_proposed = var_plugC1_proposedValue; 
+    }
+    else {
+      var_serverC2_proposed = var_serverC2_proposed;
+    }
+    if(interactions_enablement[21]) {
+      var_s1_proposedValue = var_serverC1_proposed; 
+    }
+    else {
+      var_s1_proposedValue = var_s1_proposedValue;
+    }
+    if(interactions_enablement[21]) {
+      var_s1_ClientId = var_serverC1_clientIdRcv; 
+    }
+    else {
+      var_s1_ClientId = var_s1_ClientId;
+    }
+    if(interactions_enablement[29]) {
+      var_s2_proposedValue = var_serverC2_proposed; 
+    }
+    else {
+      var_s2_proposedValue = var_s2_proposedValue;
+    }
+    if(interactions_enablement[29]) {
+      var_s2_ClientId = var_serverC2_clientIdRcv; 
+    }
+    else {
+      var_s2_ClientId = var_s2_ClientId;
+    }
+    if(((plug1_currentState == state_plug1_S5temp) && wire_port_en_plug1_singleton1)) {
+      plug1_currentState = state_plug1_S5;
+    }
+    else {
+      if(((plug1_currentState == state_plug1_S5temp) && wire_port_en_plug1_singleton2)) {
+        plug1_currentState = state_plug1_S5;
+      }
+      else {
+        if(((plug1_currentState == state_plug1_S6temp) && wire_port_en_plug1_singleton1)) {
+          plug1_currentState = state_plug1_S6;
+        }
+        else {
+          if(((plug1_currentState == state_plug1_S8) && wire_port_en_plug1_ticker)) {
+            plug1_currentState = state_plug1_S8;
+          }
+          else {
+            if(((plug1_currentState == state_plug1_S5) && wire_port_en_plug1_switchB)) {
+              plug1_currentState = state_plug1_S8;
+            }
+            else {
+              if(((plug1_currentState == state_plug1_S5) && wire_port_en_plug1_sendToClient)) {
+                plug1_currentState = state_plug1_S7;
+              }
+              else {
+                if(((plug1_currentState == state_plug1_S4) && wire_port_en_plug1_recieveFromServer)) {
+                  plug1_currentState = state_plug1_S6temp;
+                }
+                else {
+                  if(((plug1_currentState == state_plug1_S4) && wire_port_en_plug1_ticker)) {
+                    plug1_currentState = state_plug1_S4;
+                  }
+                  else {
+                    if(((plug1_currentState == state_plug1_S2) && wire_port_en_plug1_recieveFromServer)) {
+                      plug1_currentState = state_plug1_S3temp;
+                    }
+                    else {
+                      if(((plug1_currentState == state_plug1_S2) && wire_port_en_plug1_ticker)) {
+                        plug1_currentState = state_plug1_S4;
+                      }
+                      else {
+                        if(((plug1_currentState == state_plug1_S6) && wire_port_en_plug1_switchB)) {
+                          plug1_currentState = state_plug1_S8;
+                        }
+                        else {
+                          if(((plug1_currentState == state_plug1_S7) && wire_port_en_plug1_ticker)) {
+                            plug1_currentState = state_plug1_S7;
+                          }
+                          else {
+                            if(((plug1_currentState == state_plug1_S3) && wire_port_en_plug1_recieveFromServer)) {
+                              plug1_currentState = state_plug1_S5temp;
+                            }
+                            else {
+                              if(((plug1_currentState == state_plug1_S3) && wire_port_en_plug1_ticker)) {
+                                plug1_currentState = state_plug1_S6;
+                              }
+                              else {
+                                if(((plug1_currentState == state_plug1_S1) && wire_port_en_plug1_sendToChannel)) {
+                                  plug1_currentState = state_plug1_S2;
+                                }
+                                else {
+                                  if(((plug1_currentState == state_plug1_S3temp) && wire_port_en_plug1_singleton1)) {
+                                    plug1_currentState = state_plug1_S3;
+                                  }
+                                  else {
+                                    plug1_currentState = plug1_currentState;
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if(((plug1_currentState == state_plug1_S3temp) && wire_port_en_plug1_singleton1)) {
+      var_plug1_decidedValue = var_plug1_decidedValueS;
+    }
+    else {
+      if(((plug1_currentState == state_plug1_S6temp) && wire_port_en_plug1_singleton1)) {
+        var_plug1_decidedValue = var_plug1_decidedValueS;
+      }
+      else {
+        if(((plug1_currentState == state_plug1_S5temp) && wire_port_en_plug1_singleton1)) {
+          var_plug1_decidedValue = var_plug1_proposedValue;
+        }
+        else {
+          var_plug1_decidedValue = var_plug1_decidedValue;
+        }
+      }
+    }
+    if(((plug1_currentState == state_plug1_S5temp) && wire_port_en_plug1_singleton1)) {
+      var_plug1_trigger = false;
+    }
+    else {
+      if(((plug1_currentState == state_plug1_S5temp) && wire_port_en_plug1_singleton2)) {
+        var_plug1_trigger = true;
+      }
+      else {
+        var_plug1_trigger = var_plug1_trigger;
+      }
+    }
+    if(((plug2_currentState == state_plug2_S5temp) && wire_port_en_plug2_singleton1)) {
+      plug2_currentState = state_plug2_S5;
+    }
+    else {
+      if(((plug2_currentState == state_plug2_S5temp) && wire_port_en_plug2_singleton2)) {
+        plug2_currentState = state_plug2_S5;
+      }
+      else {
+        if(((plug2_currentState == state_plug2_S6temp) && wire_port_en_plug2_singleton1)) {
+          plug2_currentState = state_plug2_S6;
+        }
+        else {
+          if(((plug2_currentState == state_plug2_S8) && wire_port_en_plug2_ticker)) {
+            plug2_currentState = state_plug2_S8;
+          }
+          else {
+            if(((plug2_currentState == state_plug2_S5) && wire_port_en_plug2_switchB)) {
+              plug2_currentState = state_plug2_S8;
+            }
+            else {
+              if(((plug2_currentState == state_plug2_S5) && wire_port_en_plug2_sendToClient)) {
+                plug2_currentState = state_plug2_S7;
+              }
+              else {
+                if(((plug2_currentState == state_plug2_S4) && wire_port_en_plug2_recieveFromServer)) {
+                  plug2_currentState = state_plug2_S6temp;
+                }
+                else {
+                  if(((plug2_currentState == state_plug2_S4) && wire_port_en_plug2_ticker)) {
+                    plug2_currentState = state_plug2_S4;
+                  }
+                  else {
+                    if(((plug2_currentState == state_plug2_S2) && wire_port_en_plug2_recieveFromServer)) {
+                      plug2_currentState = state_plug2_S3temp;
+                    }
+                    else {
+                      if(((plug2_currentState == state_plug2_S2) && wire_port_en_plug2_ticker)) {
+                        plug2_currentState = state_plug2_S4;
+                      }
+                      else {
+                        if(((plug2_currentState == state_plug2_S6) && wire_port_en_plug2_switchB)) {
+                          plug2_currentState = state_plug2_S8;
+                        }
+                        else {
+                          if(((plug2_currentState == state_plug2_S7) && wire_port_en_plug2_ticker)) {
+                            plug2_currentState = state_plug2_S7;
+                          }
+                          else {
+                            if(((plug2_currentState == state_plug2_S3) && wire_port_en_plug2_recieveFromServer)) {
+                              plug2_currentState = state_plug2_S5temp;
+                            }
+                            else {
+                              if(((plug2_currentState == state_plug2_S3) && wire_port_en_plug2_ticker)) {
+                                plug2_currentState = state_plug2_S6;
+                              }
+                              else {
+                                if(((plug2_currentState == state_plug2_S1) && wire_port_en_plug2_sendToChannel)) {
+                                  plug2_currentState = state_plug2_S2;
+                                }
+                                else {
+                                  if(((plug2_currentState == state_plug2_S3temp) && wire_port_en_plug2_singleton1)) {
+                                    plug2_currentState = state_plug2_S3;
+                                  }
+                                  else {
+                                    plug2_currentState = plug2_currentState;
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if(((plug2_currentState == state_plug2_S3temp) && wire_port_en_plug2_singleton1)) {
+      var_plug2_decidedValue = var_plug2_decidedValueS;
+    }
+    else {
+      if(((plug2_currentState == state_plug2_S6temp) && wire_port_en_plug2_singleton1)) {
+        var_plug2_decidedValue = var_plug2_decidedValueS;
+      }
+      else {
+        if(((plug2_currentState == state_plug2_S5temp) && wire_port_en_plug2_singleton1)) {
+          var_plug2_decidedValue = var_plug2_proposedValue;
+        }
+        else {
+          var_plug2_decidedValue = var_plug2_decidedValue;
+        }
+      }
+    }
+    if(((plug2_currentState == state_plug2_S5temp) && wire_port_en_plug2_singleton1)) {
+      var_plug2_trigger = false;
+    }
+    else {
+      if(((plug2_currentState == state_plug2_S5temp) && wire_port_en_plug2_singleton2)) {
+        var_plug2_trigger = true;
+      }
+      else {
+        var_plug2_trigger = var_plug2_trigger;
+      }
+    }
+    if(((plugC1_currentState == state_plugC1_sendServer_rcvFServer) && wire_port_en_plugC1_SendS1)) {
+      plugC1_currentState = state_plugC1_sendServer_rcvFServer;
+    }
+    else {
+      if(((plugC1_currentState == state_plugC1_sendServer_rcvFServer) && wire_port_en_plugC1_SendS2)) {
+        plugC1_currentState = state_plugC1_sendServer_rcvFServer;
+      }
+      else {
+        if(((plugC1_currentState == state_plugC1_sendServer_rcvFServer) && wire_port_en_plugC1_rcvServer)) {
+          plugC1_currentState = state_plugC1_sendServer_sendTClient;
+        }
+        else {
+          if(((plugC1_currentState == state_plugC1_start_rcvFServer) && wire_port_en_plugC1_rcvPlug)) {
+            plugC1_currentState = state_plugC1_sendServer_rcvFServer;
+          }
+          else {
+            if(((plugC1_currentState == state_plugC1_start_rcvFServer) && wire_port_en_plugC1_rcvServer)) {
+              plugC1_currentState = state_plugC1_start_sendTClient;
+            }
+            else {
+              if(((plugC1_currentState == state_plugC1_start_sendTClient) && wire_port_en_plugC1_rcvPlug)) {
+                plugC1_currentState = state_plugC1_sendServer_sendTClient;
+              }
+              else {
+                if(((plugC1_currentState == state_plugC1_start_sendTClient) && wire_port_en_plugC1_sendClient)) {
+                  plugC1_currentState = state_plugC1_start_rcvFServer;
+                }
+                else {
+                  if(((plugC1_currentState == state_plugC1_sendServer_sendTClient) && wire_port_en_plugC1_SendS1)) {
+                    plugC1_currentState = state_plugC1_sendServer_sendTClient;
+                  }
+                  else {
+                    if(((plugC1_currentState == state_plugC1_sendServer_sendTClient) && wire_port_en_plugC1_SendS2)) {
+                      plugC1_currentState = state_plugC1_sendServer_sendTClient;
+                    }
+                    else {
+                      if(((plugC1_currentState == state_plugC1_sendServer_sendTClient) && wire_port_en_plugC1_sendClient)) {
+                        plugC1_currentState = state_plugC1_sendServer_rcvFServer;
+                      }
+                      else {
+                        plugC1_currentState = plugC1_currentState;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if(((plugC1_currentState == state_plugC1_sendServer_rcvFServer) && wire_port_en_plugC1_SendS1)) {
+      var_plugC1_server1 = true;
+    }
+    else {
+      if(((plugC1_currentState == state_plugC1_sendServer_sendTClient) && wire_port_en_plugC1_SendS1)) {
+        var_plugC1_server1 = true;
+      }
+      else {
+        var_plugC1_server1 = var_plugC1_server1;
+      }
+    }
+    if(((plugC1_currentState == state_plugC1_sendServer_rcvFServer) && wire_port_en_plugC1_SendS2)) {
+      var_plugC1_server2 = true;
+    }
+    else {
+      if(((plugC1_currentState == state_plugC1_sendServer_sendTClient) && wire_port_en_plugC1_SendS2)) {
+        var_plugC1_server2 = true;
+      }
+      else {
+        var_plugC1_server2 = var_plugC1_server2;
+      }
+    }
+    if(((plugC2_currentState == state_plugC2_sendServer_rcvFServer) && wire_port_en_plugC2_SendS1)) {
+      plugC2_currentState = state_plugC2_sendServer_rcvFServer;
+    }
+    else {
+      if(((plugC2_currentState == state_plugC2_sendServer_rcvFServer) && wire_port_en_plugC2_SendS2)) {
+        plugC2_currentState = state_plugC2_sendServer_rcvFServer;
+      }
+      else {
+        if(((plugC2_currentState == state_plugC2_sendServer_rcvFServer) && wire_port_en_plugC2_rcvServer)) {
+          plugC2_currentState = state_plugC2_sendServer_sendTClient;
+        }
+        else {
+          if(((plugC2_currentState == state_plugC2_start_rcvFServer) && wire_port_en_plugC2_rcvPlug)) {
+            plugC2_currentState = state_plugC2_sendServer_rcvFServer;
+          }
+          else {
+            if(((plugC2_currentState == state_plugC2_start_rcvFServer) && wire_port_en_plugC2_rcvServer)) {
+              plugC2_currentState = state_plugC2_start_sendTClient;
+            }
+            else {
+              if(((plugC2_currentState == state_plugC2_start_sendTClient) && wire_port_en_plugC2_rcvPlug)) {
+                plugC2_currentState = state_plugC2_sendServer_sendTClient;
+              }
+              else {
+                if(((plugC2_currentState == state_plugC2_start_sendTClient) && wire_port_en_plugC2_sendClient)) {
+                  plugC2_currentState = state_plugC2_start_rcvFServer;
+                }
+                else {
+                  if(((plugC2_currentState == state_plugC2_sendServer_sendTClient) && wire_port_en_plugC2_SendS1)) {
+                    plugC2_currentState = state_plugC2_sendServer_sendTClient;
+                  }
+                  else {
+                    if(((plugC2_currentState == state_plugC2_sendServer_sendTClient) && wire_port_en_plugC2_SendS2)) {
+                      plugC2_currentState = state_plugC2_sendServer_sendTClient;
+                    }
+                    else {
+                      if(((plugC2_currentState == state_plugC2_sendServer_sendTClient) && wire_port_en_plugC2_sendClient)) {
+                        plugC2_currentState = state_plugC2_sendServer_rcvFServer;
+                      }
+                      else {
+                        plugC2_currentState = plugC2_currentState;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if(((plugC2_currentState == state_plugC2_sendServer_rcvFServer) && wire_port_en_plugC2_SendS1)) {
+      var_plugC2_server1 = true;
+    }
+    else {
+      if(((plugC2_currentState == state_plugC2_sendServer_sendTClient) && wire_port_en_plugC2_SendS1)) {
+        var_plugC2_server1 = true;
+      }
+      else {
+        var_plugC2_server1 = var_plugC2_server1;
+      }
+    }
+    if(((plugC2_currentState == state_plugC2_sendServer_rcvFServer) && wire_port_en_plugC2_SendS2)) {
+      var_plugC2_server2 = true;
+    }
+    else {
+      if(((plugC2_currentState == state_plugC2_sendServer_sendTClient) && wire_port_en_plugC2_SendS2)) {
+        var_plugC2_server2 = true;
+      }
+      else {
+        var_plugC2_server2 = var_plugC2_server2;
+      }
+    }
+    if(((serverC1_currentState == state_serverC1_rcvPlug_sendPlugC) && wire_port_en_serverC1_rcvPlugC)) {
+      serverC1_currentState = state_serverC1_sendTServer_sendPlugC;
+    }
+    else {
+      if(((serverC1_currentState == state_serverC1_rcvPlug_sendPlugC) && wire_port_en_serverC1_sendPlug)) {
+        serverC1_currentState = state_serverC1_rcvPlug_rcvFServer;
+      }
+      else {
+        if(((serverC1_currentState == state_serverC1_crash_sendPlugC) && wire_port_en_serverC1_rcvPlugC)) {
+          serverC1_currentState = state_serverC1_crash_sendPlugC;
+        }
+        else {
+          if(((serverC1_currentState == state_serverC1_crash_sendPlugC) && wire_port_en_serverC1_sendPlug)) {
+            serverC1_currentState = state_serverC1_crash_rcvFServer;
+          }
+          else {
+            if(((serverC1_currentState == state_serverC1_sendTServer_rcvFServer) && wire_port_en_serverC1_loose)) {
+              serverC1_currentState = state_serverC1_crash_rcvFServer;
+            }
+            else {
+              if(((serverC1_currentState == state_serverC1_sendTServer_rcvFServer) && wire_port_en_serverC1_msglost)) {
+                serverC1_currentState = state_serverC1_rcvPlug_rcvFServer;
+              }
+              else {
+                if(((serverC1_currentState == state_serverC1_sendTServer_rcvFServer) && wire_port_en_serverC1_sendServer)) {
+                  serverC1_currentState = state_serverC1_rcvPlug_rcvFServer;
+                }
+                else {
+                  if(((serverC1_currentState == state_serverC1_sendTServer_rcvFServer) && wire_port_en_serverC1_rcvServer)) {
+                    serverC1_currentState = state_serverC1_sendTServer_sendPlugC;
+                  }
+                  else {
+                    if(((serverC1_currentState == state_serverC1_rcvPlug_rcvFServer) && wire_port_en_serverC1_rcvPlugC)) {
+                      serverC1_currentState = state_serverC1_sendTServer_rcvFServer;
+                    }
+                    else {
+                      if(((serverC1_currentState == state_serverC1_rcvPlug_rcvFServer) && wire_port_en_serverC1_rcvServer)) {
+                        serverC1_currentState = state_serverC1_rcvPlug_sendPlugC;
+                      }
+                      else {
+                        if(((serverC1_currentState == state_serverC1_crash_rcvFServer) && wire_port_en_serverC1_rcvPlugC)) {
+                          serverC1_currentState = state_serverC1_crash_rcvFServer;
+                        }
+                        else {
+                          if(((serverC1_currentState == state_serverC1_crash_rcvFServer) && wire_port_en_serverC1_rcvServer)) {
+                            serverC1_currentState = state_serverC1_crash_sendPlugC;
+                          }
+                          else {
+                            if(((serverC1_currentState == state_serverC1_sendTServer_sendPlugC) && wire_port_en_serverC1_loose)) {
+                              serverC1_currentState = state_serverC1_crash_sendPlugC;
+                            }
+                            else {
+                              if(((serverC1_currentState == state_serverC1_sendTServer_sendPlugC) && wire_port_en_serverC1_msglost)) {
+                                serverC1_currentState = state_serverC1_rcvPlug_sendPlugC;
+                              }
+                              else {
+                                if(((serverC1_currentState == state_serverC1_sendTServer_sendPlugC) && wire_port_en_serverC1_sendServer)) {
+                                  serverC1_currentState = state_serverC1_rcvPlug_sendPlugC;
+                                }
+                                else {
+                                  if(((serverC1_currentState == state_serverC1_sendTServer_sendPlugC) && wire_port_en_serverC1_sendPlug)) {
+                                    serverC1_currentState = state_serverC1_sendTServer_rcvFServer;
+                                  }
+                                  else {
+                                    serverC1_currentState = serverC1_currentState;
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if(((serverC2_currentState == state_serverC2_rcvPlug_sendPlugC) && wire_port_en_serverC2_rcvPlugC)) {
+      serverC2_currentState = state_serverC2_sendTServer_sendPlugC;
+    }
+    else {
+      if(((serverC2_currentState == state_serverC2_rcvPlug_sendPlugC) && wire_port_en_serverC2_sendPlug)) {
+        serverC2_currentState = state_serverC2_rcvPlug_rcvFServer;
+      }
+      else {
+        if(((serverC2_currentState == state_serverC2_crash_sendPlugC) && wire_port_en_serverC2_rcvPlugC)) {
+          serverC2_currentState = state_serverC2_crash_sendPlugC;
+        }
+        else {
+          if(((serverC2_currentState == state_serverC2_crash_sendPlugC) && wire_port_en_serverC2_sendPlug)) {
+            serverC2_currentState = state_serverC2_crash_rcvFServer;
+          }
+          else {
+            if(((serverC2_currentState == state_serverC2_sendTServer_rcvFServer) && wire_port_en_serverC2_loose)) {
+              serverC2_currentState = state_serverC2_crash_rcvFServer;
+            }
+            else {
+              if(((serverC2_currentState == state_serverC2_sendTServer_rcvFServer) && wire_port_en_serverC2_msglost)) {
+                serverC2_currentState = state_serverC2_rcvPlug_rcvFServer;
+              }
+              else {
+                if(((serverC2_currentState == state_serverC2_sendTServer_rcvFServer) && wire_port_en_serverC2_sendServer)) {
+                  serverC2_currentState = state_serverC2_rcvPlug_rcvFServer;
+                }
+                else {
+                  if(((serverC2_currentState == state_serverC2_sendTServer_rcvFServer) && wire_port_en_serverC2_rcvServer)) {
+                    serverC2_currentState = state_serverC2_sendTServer_sendPlugC;
+                  }
+                  else {
+                    if(((serverC2_currentState == state_serverC2_rcvPlug_rcvFServer) && wire_port_en_serverC2_rcvPlugC)) {
+                      serverC2_currentState = state_serverC2_sendTServer_rcvFServer;
+                    }
+                    else {
+                      if(((serverC2_currentState == state_serverC2_rcvPlug_rcvFServer) && wire_port_en_serverC2_rcvServer)) {
+                        serverC2_currentState = state_serverC2_rcvPlug_sendPlugC;
+                      }
+                      else {
+                        if(((serverC2_currentState == state_serverC2_crash_rcvFServer) && wire_port_en_serverC2_rcvPlugC)) {
+                          serverC2_currentState = state_serverC2_crash_rcvFServer;
+                        }
+                        else {
+                          if(((serverC2_currentState == state_serverC2_crash_rcvFServer) && wire_port_en_serverC2_rcvServer)) {
+                            serverC2_currentState = state_serverC2_crash_sendPlugC;
+                          }
+                          else {
+                            if(((serverC2_currentState == state_serverC2_sendTServer_sendPlugC) && wire_port_en_serverC2_loose)) {
+                              serverC2_currentState = state_serverC2_crash_sendPlugC;
+                            }
+                            else {
+                              if(((serverC2_currentState == state_serverC2_sendTServer_sendPlugC) && wire_port_en_serverC2_msglost)) {
+                                serverC2_currentState = state_serverC2_rcvPlug_sendPlugC;
+                              }
+                              else {
+                                if(((serverC2_currentState == state_serverC2_sendTServer_sendPlugC) && wire_port_en_serverC2_sendServer)) {
+                                  serverC2_currentState = state_serverC2_rcvPlug_sendPlugC;
+                                }
+                                else {
+                                  if(((serverC2_currentState == state_serverC2_sendTServer_sendPlugC) && wire_port_en_serverC2_sendPlug)) {
+                                    serverC2_currentState = state_serverC2_sendTServer_rcvFServer;
+                                  }
+                                  else {
+                                    serverC2_currentState = serverC2_currentState;
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if(((s1_currentState == state_s1_RECEIVE) && wire_port_en_s1_RcvFromChannel)) {
+      s1_currentState = state_s1_SEND_TEMP;
+    }
+    else {
+      if(((s1_currentState == state_s1_SEND_TEMP) && wire_port_en_s1_singleton1)) {
+        s1_currentState = state_s1_SEND;
+      }
+      else {
+        if(((s1_currentState == state_s1_SEND_TEMP) && wire_port_en_s1_singleton2)) {
+          s1_currentState = state_s1_SEND;
+        }
+        else {
+          if(((s1_currentState == state_s1_SEND) && wire_port_en_s1_SendToServerC)) {
+            s1_currentState = state_s1_RECEIVE;
+          }
+          else {
+            s1_currentState = s1_currentState;
+          }
+        }
+      }
+    }
+    if(((s1_currentState == state_s1_SEND_TEMP) && wire_port_en_s1_singleton1)) {
+      var_s1_decidedValue = var_s1_proposedValue;
+    }
+    else {
+      var_s1_decidedValue = var_s1_decidedValue;
+    }
+    if(((s2_currentState == state_s2_RECEIVE) && wire_port_en_s2_RcvFromChannel)) {
+      s2_currentState = state_s2_SEND_TEMP;
+    }
+    else {
+      if(((s2_currentState == state_s2_SEND_TEMP) && wire_port_en_s2_singleton1)) {
+        s2_currentState = state_s2_SEND;
+      }
+      else {
+        if(((s2_currentState == state_s2_SEND_TEMP) && wire_port_en_s2_singleton2)) {
+          s2_currentState = state_s2_SEND;
+        }
+        else {
+          if(((s2_currentState == state_s2_SEND) && wire_port_en_s2_SendToServerC)) {
+            s2_currentState = state_s2_RECEIVE;
+          }
+          else {
+            s2_currentState = s2_currentState;
+          }
+        }
+      }
+    }
+    if(((s2_currentState == state_s2_SEND_TEMP) && wire_port_en_s2_singleton1)) {
+      var_s2_decidedValue = var_s2_proposedValue;
+    }
+    else {
+      var_s2_decidedValue = var_s2_decidedValue;
+    }
+  }
+}
