@@ -1,6 +1,7 @@
 package aub.edu.lb.bip.abc.expression;
 
 import aub.edu.lb.bip.abc.api.TEnumType;
+import aub.edu.lb.bip.abc.api.TogetherSyntax;
 
 public class TVariable extends TNamedElement {
 	
@@ -40,11 +41,19 @@ public class TVariable extends TNamedElement {
 		return type.getName();
 	}
 	
-	
-	public String toString() {
-		return name;
+	@Override
+	public String getName() {
+		if(type.equals(TEnumType.WIRE_BOOLEAN) || type.equals(TEnumType.WIRE_INT)) {
+			return TogetherSyntax.wire_prefix + name;
+		}
+		else return name; 
 	}
 	
-	
-
+	@Override
+	public String toString() {
+		if(type.equals(TEnumType.WIRE_BOOLEAN) || type.equals(TEnumType.WIRE_INT)) {
+			return TogetherSyntax.wire_prefix + name;
+		}
+		else return name; 
+	}
 }

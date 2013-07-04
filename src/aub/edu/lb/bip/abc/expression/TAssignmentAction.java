@@ -33,7 +33,7 @@ public class TAssignmentAction implements TAction {
 			s += assignedTarget.getName();
 		}
 		else
-			s += assignedTarget;
+			s += assignedTarget.getName();
 		if(assignedValue == null)
 			s += ";";
 		else {

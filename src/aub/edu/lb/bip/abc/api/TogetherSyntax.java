@@ -36,6 +36,8 @@ public class TogetherSyntax {
 	public final static String greaterEqual = ">=";
 	public final static String less = "<";
 	public final static String lessEqual = "<=";
+	
+	public final static String wire_prefix = "wire_";
 
 	public final static String doTogether = "@do_together";
 	public static String tabSpace = "  "; 
