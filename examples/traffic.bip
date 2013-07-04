@@ -95,7 +95,11 @@ compound type Traffic
 
    connector Syn1Port   c1(timer.timer)
    connector Syn2IntPort c2(timer.done, light.done)
+   connector Syn2IntPort c3(timer.done, light.done)
+
    priority p c1 < c2
+   priority p c1 < c3
+
 end
 
 component Traffic top
