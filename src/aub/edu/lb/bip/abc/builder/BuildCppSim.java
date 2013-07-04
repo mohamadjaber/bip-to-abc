@@ -20,6 +20,12 @@ public class BuildCppSim {
 	private int nbInteractions = 0;
 	private String interactionsArray = "__interactionsArray__";
 	
+	/**
+	 * 
+	 * @param fileName the name of a dotogether file generated from BIP. 
+	 * @param limit: number of cycles [default -1, that is, infinitely run]
+	 * @param interactions: selector guidance. [default null]
+	 */
 	public BuildCppSim(String fileName, int limit, int[] interactions) {
 		try {
 			output = new PrintStream(new File(fileName + suffixOutput));
@@ -141,8 +147,9 @@ public class BuildCppSim {
 		}
 	}
 	
+	
 	public static void main(String[] args) {
-		int[] interactions = {16,24,25,19,12,20,22,18,27,13,28,29,23,10,31,11,5,3,17,19,12,20,21,23,14,0,4};
+		int[] interactions = {16,24,25,19,12,20,22,18,27,13,28,29,23,10,31,11,5,3,17,19,12,20,21,23,14,0,4};		
 		new BuildCppSim("output/Quorum22OneCycleERROR.abc", interactions.length, interactions);
 	}
 }
