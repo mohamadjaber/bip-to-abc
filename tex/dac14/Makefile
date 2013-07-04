@@ -1,8 +1,11 @@
-all: *.tex *.bib
-	pdflatex main 
-#	bibtex main
-#	pdflatex main
-	pdflatex main
+name=main
+all:
+	pdflatex ${name}
+#	bibtex ${name}
+#	pdflatex ${name}
+	pdflatex ${name}
 clean:
-	rm -f *.aux *.bbl main.pdf
+	-rm -rf *.log *.aux *.dvi *.bbl *.blg *.tfm 
+
+
 
