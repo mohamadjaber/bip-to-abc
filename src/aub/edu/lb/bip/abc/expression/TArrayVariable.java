@@ -22,8 +22,4 @@ public class TArrayVariable extends TVariable {
 	public String toString() {
 		return name + "[" + index + "]";
 	}
-	
-
-	
-	
 }
