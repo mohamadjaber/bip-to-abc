@@ -101,14 +101,16 @@ public class TVariableComp extends TVariable{
 	
 	public TAction nextStateFunctionVariableInteraction() {
 		Map<Connector, AssignmentAction> mapInteractionAction = TransformationFunction.getAssignmentActions(tComponent.getComponent(), variable);
+		if(mapInteractionAction.keySet().size() == 0)
+			return null;
+		
 		TIfAction nextStateFunc = new TIfAction();
 		
 		// for each transition generate nested if and else cases
-		TAction currentAction = nextStateFunc;
-		TIfAction interactionFunction = null;
+		TIfAction currentAction = nextStateFunc;
 		boolean firstTransition = true; 
 		for(Connector connector : mapInteractionAction.keySet()) {
-			interactionFunction = nextStateFunctionInteraction(connector, mapInteractionAction.get(connector));
+			TIfAction interactionFunction = nextStateFunctionInteraction(connector, mapInteractionAction.get(connector));
 			if(firstTransition) {
 				nextStateFunc = interactionFunction; 
 				currentAction = nextStateFunc; 
@@ -119,12 +121,14 @@ public class TVariableComp extends TVariable{
 				currentAction = interactionFunction; 
 			}
 		}
-		if(interactionFunction != null) {
-			interactionFunction.setElseCase(new TAssignmentAction(this, this, false));
+		if(currentAction != null) {
+			currentAction.setElseCase(new TAssignmentAction(this, this, false));
 		}
-		return interactionFunction;
+		return nextStateFunc;
 	}
 
+	
+	
 	
    /**
     * 

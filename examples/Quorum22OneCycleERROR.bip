@@ -225,7 +225,6 @@ model Quorum42
 		component Server s2(2)
 
 		//SINGLETON
-
 		
 		connector Singleton c1(plug1.sendToClient) // 0
 		connector Singleton c2(plug2.sendToClient) // 1
@@ -236,7 +235,6 @@ model Quorum42
 		connector Singleton c9(plug1.ticker) // 4
 		connector Singleton c10(plug2.ticker) // 5
 	
-
 		//connector Singleton c13(plugC1.Back)
 		//connector Singleton c14(plugC2.Back)
 		//connector Singleton c15(plugC3.Back)
@@ -255,7 +253,6 @@ model Quorum42
 
 		connector Singleton c52(plug1.singleton2) //14
 		connector Singleton c62(plug2.singleton2) //15
-
 
 		//END SINGLETON
 
