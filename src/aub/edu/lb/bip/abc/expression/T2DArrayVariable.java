@@ -24,8 +24,6 @@ public class T2DArrayVariable extends TVariable {
 		return type.getName() + "[" + line + "][" + column + "]";
 	}
 	
-
-	
 	public String toString() {
 		return name + "[" + line + "][" + column + "]";
 	}
