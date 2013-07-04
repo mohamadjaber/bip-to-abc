@@ -94,7 +94,7 @@ public class TPortLocalEnable extends TVariable{
 				expression,
 				new TUnaryExpression(UnaryOperator.LOGICAL_NOT, 
 						new TNamedElement(tPort.getEnableDelayed().getName()))
-			); 			
+			); 	
 		return expression; 
 	}
 
