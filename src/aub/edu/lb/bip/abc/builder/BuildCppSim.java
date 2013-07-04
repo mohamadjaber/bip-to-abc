@@ -159,11 +159,11 @@ public class BuildCppSim {
 	
 	
 	public static void main(String[] args) {
-		//int[] interactions = {16, 24, 25, 19, 12, 20, 22, 18, 27, 13, 28, 29, 23, 10, 31, 11, 5, 3, 17, 19, 12, 20, 21, 23, 14, 0, 4};
-		//new BuildCppSim("output/Quorum22OneCycleERROR.abc", interactions.length, interactions);
+		int[] interactions = {16, 24, 25, 19, 12, 20, 22, 18, 27, 13, 28, 29, 23, 10, 31, 11, 5, 3, 17, 19, 12, 20, 21, 23, 14, 0, 4};
+		new BuildCppSim("output/Quorum22OneCycleERROR.abc", interactions.length, interactions);
 		
 		//int[] interactions = {18, 26, 27, 21, 12-16, 22, 24, 20, 29, 13-17, 30, 31, 25, 10, 33, 11, 5, 3, 19, 21, 12-16, 22, 23, 25, 14, 0, 4};
-		int[] interactions = {18, 26, 27, 21, 12, 22, 24, 20, 29, 13, 30, 31, 25, 10, 33, 11, 5, 3, 19, 21, 12, 22, 23, 25, 14, 0, 4};
-		new BuildCppSim("output/Quorum22OneCycle.abc", interactions.length, interactions);
+		//int[] interactions = {18, 26, 27, 21, 12, 22, 24, 20, 29, 13, 30, 31, 25, 10, 33, 11, 5, 3, 19, 21, 12, 22, 23, 25, 14, 0, 4};
+		//new BuildCppSim("output/Quorum22OneCycle.abc", interactions.length, interactions);
 	}
 }
