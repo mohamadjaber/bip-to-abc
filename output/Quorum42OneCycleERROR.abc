@@ -613,11 +613,16 @@ while(true) {
     else {
       var_plug4_decidedValueS = var_plug4_decidedValueS;
     }
-    if(interactions_enablement[31]) {
-      var_plugC1_decidedValue = var_serverC1_decided; 
+    if(interactions_enablement[39]) {
+      var_plugC1_decidedValue = var_serverC2_decided; 
     }
     else {
-      var_plugC1_decidedValue = var_plugC1_decidedValue;
+      if(interactions_enablement[31]) {
+        var_plugC1_decidedValue = var_serverC1_decided; 
+      }
+      else {
+        var_plugC1_decidedValue = var_plugC1_decidedValue;
+      }
     }
     if(interactions_enablement[26]) {
       var_plugC1_proposedValue = var_plug1_proposedValue; 
@@ -625,17 +630,27 @@ while(true) {
     else {
       var_plugC1_proposedValue = var_plugC1_proposedValue;
     }
-    if(interactions_enablement[31]) {
-      var_plugC1_serverId = var_serverC1_serverId; 
+    if(interactions_enablement[39]) {
+      var_plugC1_serverId = var_serverC2_serverId; 
     }
     else {
-      var_plugC1_serverId = var_plugC1_serverId;
+      if(interactions_enablement[31]) {
+        var_plugC1_serverId = var_serverC1_serverId; 
+      }
+      else {
+        var_plugC1_serverId = var_plugC1_serverId;
+      }
     }
-    if(interactions_enablement[32]) {
-      var_plugC2_decidedValue = var_serverC1_decided; 
+    if(interactions_enablement[40]) {
+      var_plugC2_decidedValue = var_serverC2_decided; 
     }
     else {
-      var_plugC2_decidedValue = var_plugC2_decidedValue;
+      if(interactions_enablement[32]) {
+        var_plugC2_decidedValue = var_serverC1_decided; 
+      }
+      else {
+        var_plugC2_decidedValue = var_plugC2_decidedValue;
+      }
     }
     if(interactions_enablement[34]) {
       var_plugC2_proposedValue = var_plug2_proposedValue; 
@@ -643,17 +658,27 @@ while(true) {
     else {
       var_plugC2_proposedValue = var_plugC2_proposedValue;
     }
-    if(interactions_enablement[32]) {
-      var_plugC2_serverId = var_serverC1_serverId; 
+    if(interactions_enablement[40]) {
+      var_plugC2_serverId = var_serverC2_serverId; 
     }
     else {
-      var_plugC2_serverId = var_plugC2_serverId;
+      if(interactions_enablement[32]) {
+        var_plugC2_serverId = var_serverC1_serverId; 
+      }
+      else {
+        var_plugC2_serverId = var_plugC2_serverId;
+      }
     }
-    if(interactions_enablement[45]) {
-      var_plugC3_decidedValue = var_serverC1_decided; 
+    if(interactions_enablement[51]) {
+      var_plugC3_decidedValue = var_serverC2_decided; 
     }
     else {
-      var_plugC3_decidedValue = var_plugC3_decidedValue;
+      if(interactions_enablement[45]) {
+        var_plugC3_decidedValue = var_serverC1_decided; 
+      }
+      else {
+        var_plugC3_decidedValue = var_plugC3_decidedValue;
+      }
     }
     if(interactions_enablement[42]) {
       var_plugC3_proposedValue = var_plug3_proposedValue; 
@@ -661,17 +686,27 @@ while(true) {
     else {
       var_plugC3_proposedValue = var_plugC3_proposedValue;
     }
-    if(interactions_enablement[45]) {
-      var_plugC3_serverId = var_serverC1_serverId; 
+    if(interactions_enablement[51]) {
+      var_plugC3_serverId = var_serverC2_serverId; 
     }
     else {
-      var_plugC3_serverId = var_plugC3_serverId;
+      if(interactions_enablement[45]) {
+        var_plugC3_serverId = var_serverC1_serverId; 
+      }
+      else {
+        var_plugC3_serverId = var_plugC3_serverId;
+      }
     }
-    if(interactions_enablement[46]) {
-      var_plugC4_decidedValue = var_serverC1_decided; 
+    if(interactions_enablement[52]) {
+      var_plugC4_decidedValue = var_serverC2_decided; 
     }
     else {
-      var_plugC4_decidedValue = var_plugC4_decidedValue;
+      if(interactions_enablement[46]) {
+        var_plugC4_decidedValue = var_serverC1_decided; 
+      }
+      else {
+        var_plugC4_decidedValue = var_plugC4_decidedValue;
+      }
     }
     if(interactions_enablement[48]) {
       var_plugC4_proposedValue = var_plug4_proposedValue; 
@@ -679,11 +714,16 @@ while(true) {
     else {
       var_plugC4_proposedValue = var_plugC4_proposedValue;
     }
-    if(interactions_enablement[46]) {
-      var_plugC4_serverId = var_serverC1_serverId; 
+    if(interactions_enablement[52]) {
+      var_plugC4_serverId = var_serverC2_serverId; 
     }
     else {
-      var_plugC4_serverId = var_plugC4_serverId;
+      if(interactions_enablement[46]) {
+        var_plugC4_serverId = var_serverC1_serverId; 
+      }
+      else {
+        var_plugC4_serverId = var_plugC4_serverId;
+      }
     }
     if(interactions_enablement[30]) {
       var_serverC1_decided = var_s1_decidedValue; 
@@ -697,17 +737,47 @@ while(true) {
     else {
       var_serverC1_clientIdSend = var_serverC1_clientIdSend;
     }
-    if(interactions_enablement[49]) {
-      var_serverC1_proposed = var_plugC4_proposedValue; 
+    if(interactions_enablement[43]) {
+      var_serverC1_proposed = var_plugC3_proposedValue; 
     }
     else {
-      var_serverC1_proposed = var_serverC1_proposed;
+      if(interactions_enablement[27]) {
+        var_serverC1_proposed = var_plugC1_proposedValue; 
+      }
+      else {
+        if(interactions_enablement[35]) {
+          var_serverC1_proposed = var_plugC2_proposedValue; 
+        }
+        else {
+          if(interactions_enablement[49]) {
+            var_serverC1_proposed = var_plugC4_proposedValue; 
+          }
+          else {
+            var_serverC1_proposed = var_serverC1_proposed;
+          }
+        }
+      }
     }
-    if(interactions_enablement[49]) {
-      var_serverC1_clientIdRcv = var_plugC4_clientId; 
+    if(interactions_enablement[43]) {
+      var_serverC1_clientIdRcv = var_plugC3_clientId; 
     }
     else {
-      var_serverC1_clientIdRcv = var_serverC1_clientIdRcv;
+      if(interactions_enablement[27]) {
+        var_serverC1_clientIdRcv = var_plugC1_clientId; 
+      }
+      else {
+        if(interactions_enablement[35]) {
+          var_serverC1_clientIdRcv = var_plugC2_clientId; 
+        }
+        else {
+          if(interactions_enablement[49]) {
+            var_serverC1_clientIdRcv = var_plugC4_clientId; 
+          }
+          else {
+            var_serverC1_clientIdRcv = var_serverC1_clientIdRcv;
+          }
+        }
+      }
     }
     if(interactions_enablement[38]) {
       var_serverC2_decided = var_s2_decidedValue; 
@@ -721,17 +791,47 @@ while(true) {
     else {
       var_serverC2_clientIdSend = var_serverC2_clientIdSend;
     }
-    if(interactions_enablement[36]) {
-      var_serverC2_proposed = var_plugC2_proposedValue; 
+    if(interactions_enablement[28]) {
+      var_serverC2_proposed = var_plugC1_proposedValue; 
     }
     else {
-      var_serverC2_proposed = var_serverC2_proposed;
+      if(interactions_enablement[50]) {
+        var_serverC2_proposed = var_plugC4_proposedValue; 
+      }
+      else {
+        if(interactions_enablement[44]) {
+          var_serverC2_proposed = var_plugC3_proposedValue; 
+        }
+        else {
+          if(interactions_enablement[36]) {
+            var_serverC2_proposed = var_plugC2_proposedValue; 
+          }
+          else {
+            var_serverC2_proposed = var_serverC2_proposed;
+          }
+        }
+      }
     }
-    if(interactions_enablement[36]) {
-      var_serverC2_clientIdRcv = var_plugC2_clientId; 
+    if(interactions_enablement[28]) {
+      var_serverC2_clientIdRcv = var_plugC1_clientId; 
     }
     else {
-      var_serverC2_clientIdRcv = var_serverC2_clientIdRcv;
+      if(interactions_enablement[50]) {
+        var_serverC2_clientIdRcv = var_plugC4_clientId; 
+      }
+      else {
+        if(interactions_enablement[44]) {
+          var_serverC2_clientIdRcv = var_plugC3_clientId; 
+        }
+        else {
+          if(interactions_enablement[36]) {
+            var_serverC2_clientIdRcv = var_plugC2_clientId; 
+          }
+          else {
+            var_serverC2_clientIdRcv = var_serverC2_clientIdRcv;
+          }
+        }
+      }
     }
     if(interactions_enablement[29]) {
       var_s1_proposedValue = var_serverC1_proposed; 
