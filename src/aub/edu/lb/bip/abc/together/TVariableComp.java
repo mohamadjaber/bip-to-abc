@@ -35,7 +35,6 @@ public class TVariableComp extends TVariable{
 	}
 	
 	
-	
 	private void setType() {
 		String t = ((OpaqueElement) variable.getType()).getBody();
 		if(t.equals("int")) {
@@ -43,6 +42,9 @@ public class TVariableComp extends TVariable{
 		}
 		else if(t.equals("bool")) {
 			type = TEnumType.BOOLEAN;
+		}
+		else if(t.equals("const int")) {
+			type = TEnumType.CONST_INT;
 		}
 		else {
 			//TODO

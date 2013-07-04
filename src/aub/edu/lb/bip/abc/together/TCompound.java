@@ -55,10 +55,6 @@ public abstract class TCompound {
 		createInteractions();
 		
 		createStateEnum();
-		// This should be done before initializing component variables because initializing components variables may use
-		// data parameters. So we should initialize data parameters first in one cycle. 
-		initializeComponentsDataParameters();
-		
 		initializeComponentsVariables();
 		
 		mainWhileLoopAction();
@@ -152,17 +148,9 @@ public abstract class TCompound {
 		}			
 	}
 
-	protected void initializeComponentsDataParameters() {
-		TDoTogetherAction tDoTogether = new TDoTogetherAction();
-		TCompositeAction action = new TCompositeAction();
-		for(Component comp: compoundType.getSubcomponent()) {
-			TComponent tComp = this.getTComponent(comp);
-			action.getContents().add(tComp.initializeDataParameter());
-		}
-		
-		tDoTogether.setAction(action);
-		togetherAction.getContents().add(tDoTogether);
-	}
+
+	
+
 
 	protected void initializeComponentsVariables() {
 		TDoTogetherAction tDoTogether = new TDoTogetherAction();
@@ -214,12 +202,9 @@ public abstract class TCompound {
 	protected void createVariables() {
 		for(Component comp: compoundType.getSubcomponent()) {
 			TComponent tComp = this.getTComponent(comp);
-			for(TVariableComp var: tComp.getTVariables()) {
-				togetherAction.getContents().add(var.create());
-			}
-			for(TVariableComp var: tComp.getTDataParameterVariables()) {
-				togetherAction.getContents().add(var.create());
-			}
+			togetherAction.getContents().add(tComp.createVariables());
+			togetherAction.getContents().add(tComp.createInitializeDataParameter());
+			
 		}	
 		togetherAction.getContents().add(selector.create());
 	}

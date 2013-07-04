@@ -90,6 +90,12 @@ public class BuildCppSim {
 				} else if(line.contains("do_together")) {
 					output.println("{");
 				} else if(line.contains("while(true")) {
+					
+					// initially put the value of the variables in their buffers. 
+				//	for(String varName: mapVariables.keySet()) {
+				//		output.println("  " + varName + suffixVariableName + " = " + varName + ";");
+				//	}
+					
 					findWhileTrue = true; 
 					output.println(line);
 					if(interactions != null)
@@ -126,12 +132,16 @@ public class BuildCppSim {
 						for(String varName: mapVariables.keySet()) {
 							output.println("  cout<< \"" + varName + "\" << \" \" << " + varName + " << \",\"; ");
 						}
-						output.println("  cout<< endl;");	
 						
+						// print selected interaction
+						output.println("  for(int i = 0; i < " + this.nbInteractions + "; i++) ");
+						output.println("  	if(interactions_enablement[i] == true) cout<< \"selected\" << \" \"  << i << \",\"; ");
+				
+						output.println("  cout<< endl;");	
+
 						output.println(counterVarName + "++;");
 						if(limit > 0)
 							output.println("if(" + counterVarName + " >= " + limit + ") break;");
-						output.println("cout<<\"-------------------------------\"<<endl;");
 						
 						output.println("}"); // end while true
 					}
@@ -149,7 +159,7 @@ public class BuildCppSim {
 	
 	
 	public static void main(String[] args) {
-		int[] interactions = {16,24,25,19,12,20,22,18,27,13,28,29,23,10,31,11,5,3,17,19,12,20,21,23,14,0,4};		
+		int[] interactions = {16, 24, 25, 19, 12, 20, 22, 18, 27, 13, 28, 29, 23, 10, 31, 11, 5, 3, 17, 19, 12, 20, 21, 23, 14, 0, 4};
 		new BuildCppSim("output/Quorum22OneCycleERROR.abc", interactions.length, interactions);
 	}
 }

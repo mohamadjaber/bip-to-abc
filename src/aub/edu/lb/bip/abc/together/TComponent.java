@@ -73,7 +73,7 @@ public class TComponent extends TNamedElement{
 		AtomType at = (AtomType) component.getType();
 		for(DataParameter dp: at.getDataParameter()) {
 			String actualData = Parser.decompile(component.getActualData().get(at.getDataParameter().indexOf(dp)), false, this);
-			Variable v = TransformationFunction.CreateIntVariable(dp.getName(), Integer.parseInt(actualData));
+			Variable v = TransformationFunction.CreateConstIntVariable(dp.getName(), Integer.parseInt(actualData));
 			mapDataParameters.put(dp, new TVariableComp(v,this));
 		}
 		
@@ -180,14 +180,21 @@ public class TComponent extends TNamedElement{
 		return tCompound;
 	}
 	
-	public TCompositeAction initializeDataParameter() {
+	public TCompositeAction createInitializeDataParameter() {
 		TCompositeAction initializeAction = new TCompositeAction();
-
-			for(TVariableComp tVar : mapDataParameters.values()) {
-				initializeAction.getContents().add(new TAssignmentAction(tVar, new TNamedElement(Parser.decompile(tVar.getVariable().getInitialValue(), false, this)), false));
-			}
-
-			return initializeAction;
+		for(TVariableComp tVar : mapDataParameters.values()) {
+			initializeAction.getContents().add(new TAssignmentAction(tVar, new TNamedElement(Parser.decompile(tVar.getVariable().getInitialValue(), false, this)), true));
+		}
+		return initializeAction;
+	}
+	
+	
+	public TCompositeAction createVariables() {
+		TCompositeAction compositeAction = new TCompositeAction();
+		for(TVariableComp var: getTVariables()) {
+			compositeAction.getContents().add(var.create());
+		}
+		return compositeAction; 
 	}
 	
 	public TCompositeAction initialize() {
