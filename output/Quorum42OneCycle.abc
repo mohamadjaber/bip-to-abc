@@ -328,6 +328,7 @@ const int state_s2_SEND = 76;
   s2_currentState = 75;
 }
 while(true) {
+  @pre inv { true; }
   @do_together {
     wire_port_loc_en_plug1_singleton1 = (((false || (state_plug1_S3temp == plug1_currentState)) || (state_plug1_S6temp == plug1_currentState)) || ((state_plug1_S5temp == plug1_currentState) && var_plug1_decidedValue != var_plug1_decidedValueS));
     wire_port_loc_en_plug1_ticker = (((((false || (state_plug1_S2 == plug1_currentState)) || (state_plug1_S3 == plug1_currentState)) || (state_plug1_S7 == plug1_currentState)) || (state_plug1_S8 == plug1_currentState)) || (state_plug1_S4 == plug1_currentState));
@@ -1810,4 +1811,7 @@ while(true) {
       var_s2_decidedValue = var_s2_decidedValue;
     }
   }
+
+ @post inv {  ((plug1_currentState == 6) && (plug2_currentState == 18)) -> (var_plug1_decidedValue == var_plug2_decidedValue);}
+
 }
