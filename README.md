@@ -1,13 +1,15 @@
-#Usage: java -jar bip-to-abc.jar [options] input.bip ouput.abc [property.txt]
+#Translation from BIP to ABC
 
-#where:
+`java -jar bip-to-abc.jar [options] input.bip ouput.abc [property.txt]`
 
-1. input.bip    = input BIP file name (required)
-2. ouput.abc    = ABC file name to be generated (required)
-3. property.txt = Pre and Post condition written in two different lines (optional)
+where:
+
+1- input.bip    = input BIP file name (required)
+2- ouput.abc    = ABC file name to be generated (required)
+3- property.txt = Pre and Post condition written in two different lines (optional)
 
 #and options are:
-
+`
 -?                prints usage to stdout; exits (optional)
 -emulator <s>     Generate emulation code ouput.abc.cpp
                     1- guide.txt: indices of interactions assigned to selector
@@ -19,5 +21,6 @@
 -initialize-vars  Initialize free variables (optional)
 -optimized        Generate one cycle-based code (optional)
 -version          displays command's version (optional)
+`
 
-#Option tags are not case sensitive, and may be truncated as long as they remain unambiguous.  Option tags must be separated from their corresponding values by whitespace, or by an equal sign.  Boolean options (options that require no associated value) may be specified alone (=true), or as 'tag=value' where value is 'true' or 'false'.
+Option tags are not case sensitive, and may be truncated as long as they remain unambiguous.  Option tags must be separated from their corresponding values by whitespace, or by an equal sign.  Boolean options (options that require no associated value) may be specified alone (=true), or as 'tag=value' where value is 'true' or 'false'.
