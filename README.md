@@ -6,17 +6,17 @@
 
 where:
 
-        * input.bip    = input BIP file name (required)
-        * ouput.abc    = ABC file name to be generated (required)
-        * property.txt = Pre and Post condition written in two different lines (optional)
+        input.bip    = input BIP file name (required)
+        ouput.abc    = ABC file name to be generated (required)
+        property.txt = Pre and Post condition written in two different lines (optional)
 
 and options are:
 
-* -?                prints usage to stdout; exits (optional)  
-* -emulator <s>     Generate emulation code ouput.abc.cpp (optional)  
-    * guide.txt: indices of interactions assigned to selector  
-    * integer <= 0: infinite exection  
-    * integer > 0: number of cycles to be executed  
+        -?                prints usage to stdout; exits (optional)  
+        -emulator <s>     Generate emulation code ouput.abc.cpp (optional)  
+            guide.txt: indices of interactions assigned to selector  
+            integer <= 0: infinite exection  
+            integer > 0: number of cycles to be executed  
 * -h                prints usage to stdout; exits (optional)
 * -help             displays verbose help information (optional)
 * -initialize-vars  Initialize free variables (optional)
