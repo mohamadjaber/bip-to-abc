@@ -33,8 +33,8 @@ public class TCompoundOneCycle extends TCompound {
 
 	
 	
-	public TCompoundOneCycle(CompoundType compound) {
-		super(compound, true);
+	public TCompoundOneCycle(CompoundType compound, boolean defaultInitializeVariables, String preCondition, String postCondition) {
+		super(compound, true, defaultInitializeVariables, preCondition, postCondition);
 	}
 	
 
@@ -60,8 +60,11 @@ public class TCompoundOneCycle extends TCompound {
 		setNextStateFunctionInteraction(caCycle1);
 		
 		setNextStateFunctionLocationVariable(caCycle1);
+		
+		injectPostCondition(caCycle1);
 	}
-
+	
+	
 	
 
 }

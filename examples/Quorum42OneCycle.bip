@@ -1,5 +1,6 @@
 //without monitor
 // SPEC AG ((plug1.place=S7 & plug2.place=S8) -> (plug1.decidedValue=plug2.decidedValue))
+//((plug1_currentState == state_plug1_S7) && (plug2_currentState == state_plug2_S8)) -> (var_plug1_decidedValue == var_plug2_decidedValue);}
 model Quorum42
 
 	port type FirstType

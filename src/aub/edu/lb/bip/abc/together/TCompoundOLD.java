@@ -36,7 +36,7 @@ public class TCompoundOLD extends TCompound {
 
 
 	public TCompoundOLD(CompoundType compound) {
-		super(compound, false);
+		super(compound, false, false, null, null);
 	}
 
 	protected void setTogetherAction() {

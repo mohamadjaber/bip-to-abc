@@ -1,63 +1,94 @@
 package aub.edu.lb.bip.abc.cmdline;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import ujf.verimag.bip.Core.Interactions.CompoundType;
 import BIPTransformation.TransformationFunction;
+import aub.edu.lb.bip.abc.builder.BuildCppSim;
 import aub.edu.lb.bip.abc.together.TCompound;
 import aub.edu.lb.bip.abc.together.TCompoundOneCycle;
 import aub.edu.lb.bip.abc.together.TCompoundTwoCycle;
 import aub.edu.lb.bip.abc.together.TGenerator;
 
 public class CmdLine {
+
+	public static void main(String[] args)  {
+		
+		CmdLineFactory cmdLine = new CmdLineFactory(args);
+
+		CompoundType ct = TransformationFunction.ParseBIPFile(cmdLine.getInputBIPFile());
+		TCompound tCompound = null;
+		
+		if(cmdLine.isOptimized()) {
+			tCompound = new TCompoundOneCycle(ct, cmdLine.isDefaultInitVar(), cmdLine.getPreCondition(), cmdLine.getPostCondition());
+		} else {
+			tCompound = new TCompoundTwoCycle(ct, cmdLine.isDefaultInitVar(), cmdLine.getPreCondition(), cmdLine.getPostCondition());		
+		}
+		new TGenerator(tCompound, cmdLine.getOutputABC());
+		System.out.println(cmdLine.getOutputABC() + " has been generated.");
+		
+		
+		/**
+		 * Generate Emulation Code
+		 */
+		
+		if(cmdLine.generateEmulationCode()) {
+			String option = cmdLine.getOptionEmulationCode(); 
+			try{
+				int limit = Integer.parseInt(option);
+				if(limit <= 0) {
+					new BuildCppSim( cmdLine.getOutputABC(), -1 , null);
+
+				} else {
+					new BuildCppSim( cmdLine.getOutputABC(), limit, null);
+				} 
+			} catch (NumberFormatException e) {
+				int[] interactionIds = getInteractionIndices(cmdLine.getOptionEmulationCode());
+				new BuildCppSim( cmdLine.getOutputABC() , interactionIds.length, interactionIds);
+			}
+			System.out.println(cmdLine.getOutputABC() + ".cpp" + " has been generated.");
+		}
+		
+	}
 	
-	public static String jarToolName = "bip-to-abc.jar";
-	public static String param1 = "--optimized";
-
-	public static String cmdLineHelp = "help: java -jar " + jarToolName + " [" + param1 + "] input.bip output.abc";
-
-	/**
-	 * FIXME: quick version to improve. 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-		int cmdLen = args.length;
-		if(cmdLen != 2 && cmdLen != 3) {
-			System.err.println(cmdLineHelp);
-		}
-		else {
-			try {
-				CompoundType ct = null; 
-				boolean optimized = false; 
-				String outputFileName = null;
-				TCompound tCompound = null;
-				
-				if(cmdLen == 3 && args[0].equals(param1)) {
-					ct = TransformationFunction.ParseBIPFile(args[1]);
-					outputFileName = args[2];
-					optimized = true; 
-				}
-				else if(cmdLen == 2) {
-					ct = TransformationFunction.ParseBIPFile(args[0]);
-					outputFileName = args[1];
-				}
-				if(ct != null) {
-					if(optimized) 
-					 tCompound = new TCompoundOneCycle(ct);
-					else 
-						 tCompound = new TCompoundTwoCycle(ct);
-					new TGenerator(tCompound, outputFileName);
-					System.out.println(outputFileName + " has been generated.");
-				}
-				else
-					throw new FileNotFoundException();
+	
+	
+	private static int[] getInteractionIndices(String guide) {
+		int[] interactionIds = null;
+		try {
+			int countInteractions = countIntegers(guide);
+			interactionIds = new int[countInteractions];
+			Scanner scanner = new Scanner(new File(guide));
+			scanner.useDelimiter("\\s*,\\s*|\\s+");
+			int i = 0; 
+			while(scanner.hasNextInt()) {
+				interactionIds[i++] = scanner.nextInt();
 			}
-			catch (FileNotFoundException e) {
-				System.err.println("File not found.");
-				System.err.println(cmdLineHelp);
-			}
+		} catch (FileNotFoundException e) {
+			System.out.println(CmdLineFactory.errorGuide);
+			System.exit(0);
 		}
+		return interactionIds;
+	}
+	
+	private static int countIntegers(String guide) {
+		int count = 0; 
+		try {
+			Scanner scanner = new Scanner(new File(guide));
+
+			scanner.useDelimiter("\\s*,\\s*|\\s+");
+			while(scanner.hasNextInt()) {
+				scanner.nextInt();
+				count++;
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println(CmdLineFactory.errorGuide);
+			System.exit(0);
+		}
+		return count;
 	}
 
+	
 }

@@ -10,6 +10,7 @@ import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TAction;
 import aub.edu.lb.bip.abc.expression.TCompositeAction;
 import aub.edu.lb.bip.abc.expression.TDoTogetherAction;
+import aub.edu.lb.bip.abc.expression.TNamedElement;
 import aub.edu.lb.bip.abc.expression.TVariable;
 
 public abstract class TCompound {
@@ -24,15 +25,30 @@ public abstract class TCompound {
 	protected boolean withPriority; 
 	protected boolean optmized; 
 	
+	protected boolean defaultInitializeVariables; 
+	
+	protected String preCondition; 
+	protected String postCondition; 
+
+	
 	/**
-	 * When optimized is set to true we create port enable as wires (one cycle execution), otherwise as normal boolean. 
 	 * @param compound
-	 * @param optmized
+	 * @param optmized: if true one cycle execution (port as wires, etc.), otherwise two cycles.
+	 * @param defaultInitilizeVariables: if true initially, initialize all BIP variables to zero if integers, or false if boolean.
+	 * This will improve the verification time.  
 	 */
-	public TCompound(CompoundType compound, boolean optmized) {
+	public TCompound(CompoundType compound, 
+			boolean optmized, 
+			boolean defaultInitializeVariables,
+			String preCondition, String postCondition) {
+		
 		compoundType = compound; 
 		withPriority = compoundType.getPriorityRule().size() > 0;
 		this.optmized = optmized; 
+		this.defaultInitializeVariables = defaultInitializeVariables; 
+		this.preCondition = preCondition;
+		this.postCondition = postCondition; 
+		
 		tInteractions = new TInteractions(this);
 		
 		selector = new TVariable(TogetherSyntax.selecter, TEnumType.WIRE_INT);
@@ -55,11 +71,43 @@ public abstract class TCompound {
 		createInteractions();
 		
 		createStateEnum();
+		
+		if(defaultInitializeVariables)
+			defaultInitializeVariables();
+		
 		initializeComponentsVariables();
+		
+		
+		injectPreCondition();
+		
 		
 		mainWhileLoopAction();
 	}
 	
+	
+	protected void injectPreCondition() {
+		if(preCondition != null && postCondition != null) {
+			togetherAction.getContents().add(new TNamedElement(preCondition));
+		}	
+	}
+	
+	protected void injectPostCondition(TCompositeAction compositeAction) {
+		if(preCondition != null && postCondition != null) {
+			compositeAction.getContents().add(new TNamedElement(postCondition));
+		}	
+	}
+	
+	private void defaultInitializeVariables() {
+		TDoTogetherAction initialization = new TDoTogetherAction();
+		TCompositeAction compositeAction = new TCompositeAction();
+		for(Component comp: compoundType.getSubcomponent()) {
+			TComponent tComp = this.getTComponent(comp);
+			compositeAction.getContents().add(tComp.initializeVariables());
+		}
+		initialization.setAction(compositeAction);
+		togetherAction.getContents().add(initialization);
+	}
+
 	public TComponent getTComponent(Component comp) {
 		return mapComponents.get(comp);
 	}

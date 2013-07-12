@@ -29,9 +29,14 @@ public class TGenerator {
 		indent = indent.substring(TogetherSyntax.tabSpace.length()) ;
 	}
 	
-	public TGenerator(TCompound tCompound, String fileName) throws FileNotFoundException {
+	public TGenerator(TCompound tCompound, String fileName) {
 		this.tCompound = tCompound;
-		output = new PrintStream(new File(fileName));
+		try {
+			output = new PrintStream(new File(fileName));
+		} catch (FileNotFoundException e) {
+			System.out.println("Cannot create output ABC file.");
+			System.exit(0);
+		}
 		decompile(tCompound.getTogetherAction());
 	}
 	

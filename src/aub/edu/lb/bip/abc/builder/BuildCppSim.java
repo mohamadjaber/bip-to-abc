@@ -35,9 +35,9 @@ public class BuildCppSim {
 			
 			boolean findWhileTrue = false; 			
 			
-			output.println("#include<iostream>;");
-			output.println("#include<stdlib.h>;");
-			output.println("#include<time.h>;");
+			output.println("#include<iostream>");
+			output.println("#include<stdlib.h>");
+			output.println("#include<time.h>");
 
 			output.println("using namespace std;");
 			output.println("#define wire");
@@ -56,8 +56,11 @@ public class BuildCppSim {
 			}
 			
 			while(input.hasNextLine()) {
-				String line = input.nextLine(); 
-				if(line.matches("^\\s*wire boolean\\[\\d*\\][^;]+;")) {
+				String line = input.nextLine();
+				
+				if(line.contains("@pre") || line.contains("@post")); // do nothing
+	
+				else if(line.matches("^\\s*wire boolean\\[\\d*\\][^;]+;")) {
 					String arrayVariable = line.replaceFirst("(^\\s*wire boolean)(\\[\\d*\\])([^;]+);", "$1 $3$2;");
 					output.println(arrayVariable);
 					nbInteractions = Integer.parseInt(line.replaceFirst("^\\s*wire boolean\\[(\\d*)\\][^;]+;", "$1"));

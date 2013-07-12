@@ -8,6 +8,7 @@ import java.util.Map;
 
 import BIPTransformation.TransformationFunction;
 import aub.edu.lb.bip.abc.api.Parser;
+import aub.edu.lb.bip.abc.api.TEnumType;
 import aub.edu.lb.bip.abc.api.TogetherSyntax;
 import aub.edu.lb.bip.abc.expression.TAction;
 import aub.edu.lb.bip.abc.expression.TAssignmentAction;
@@ -257,6 +258,25 @@ public class TComponent extends TNamedElement{
 		
 		return action; 
 	}
+	
+	
+	public TCompositeAction initializeVariables() {
+		TCompositeAction compositeAction = new TCompositeAction();
+		for(TVariableComp tVar: mapVariables.values()) {
+			if(tVar.getType() == TEnumType.INT) {
+				compositeAction.getContents().add(new TAssignmentAction( tVar, 	new TNamedElement(0 + ""), false));
+			}
+			else if(tVar.getType() == TEnumType.BOOLEAN) {
+				compositeAction.getContents().add(new TAssignmentAction( tVar, 	new TNamedElement(TogetherSyntax.false_condition), false));
+			}
+			else {
+				//TODO
+			}
+		}
+		return compositeAction;
+		
+	}
+	
 	
 	
 	// for each location, for each outgoing transition of that location

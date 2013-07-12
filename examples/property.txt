@@ -1,0 +1,2 @@
+@pre inv { true; }
+@post inv {((plug1_currentState == state_plug1_S7) && (plug2_currentState == state_plug2_S8)) -> (var_plug1_decidedValue == var_plug2_decidedValue);}
