@@ -1,0 +1,4 @@
+java -jar bip-to-abc.jar -o -i -e=0 ../examples/Quorum22OneCycle.bip ../output/Quorum22OneCycle.abc ../examples/property.txt
+java -jar bip-to-abc.jar -o -i -e=0 ../examples/Quorum22OneCycleERROR.bip ../output/Quorum22OneCycleERROR.abc ../examples/property.txt
+java -jar bip-to-abc.jar -o -i -e=0 ../examples/Quorum42OneCycle.bip ../output/Quorum42OneCycle.abc ../examples/property.txt
+java -jar bip-to-abc.jar -o -i -e=0 ../examples/Quorum42OneCycleERROR.bip ../output/Quorum42OneCycleERROR.abc ../examples/property.txt

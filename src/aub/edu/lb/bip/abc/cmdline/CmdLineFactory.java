@@ -29,7 +29,7 @@ public class CmdLineFactory {
 			"  2- integer <= 0: infinite exection\n" +
 			"  3- integer > 0: number of cycles to be executed\n";
 	
-	protected static final String errorGuide = "The guide to generate emulation code should contain a list of integers seperated by either commas or spaces.";
+	protected static final String errorGuide = "The guide should contain a list of integers seperated by either commas or spaces.";
 	
 
 	
