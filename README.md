@@ -25,4 +25,11 @@ and options are:
 - -version          displays command's version (optional)
 
 
+Example
+
+`java -jar bip-to-abc.jar -optimized -initialize-vars -emulator=../examples/guide ../examples/Quorum22OneCycleERROR.bip ../output/Quorum22OneCycle.abc ../examples/property.txt`
+`java -jar bip-to-abc.jar -o -i -e=../examples/guide ../examples/Quorum22OneCycleERROR.bip ../output/Quorum22OneCycle.abc ../examples/property.txt`
+`java -jar bip-to-abc.jar -o -i -e=0 ../examples/Quorum22OneCycleERROR.bip ../output/Quorum22OneCycle.abc ../examples/property.txt`
+`java -jar bip-to-abc.jar -o -i -e=30 ../examples/Quorum22OneCycleERROR.bip ../output/Quorum22OneCycle.abc ../examples/property.txt`
+
 Option tags are not case sensitive, and may be truncated as long as they remain unambiguous.  Option tags must be separated from their corresponding values by whitespace, or by an equal sign.  Boolean options (options that require no associated value) may be specified alone (=true), or as 'tag=value' where value is 'true' or 'false'.
