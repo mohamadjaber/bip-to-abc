@@ -14,7 +14,7 @@ import jcmdline.VersionCmdLineHandler;
 public class CmdLineFactory {
 	private static final String defaultProperty = "property.txt";
 	private static final String helpProperty = "Pre and Post condition written in two different lines";
-	private static final String defaultOutputABC = "ouput.abc";
+	private static final String defaultOutputABC = "output.abc";
 	private static final String defaultInputBIP = "input.bip";
 	private static final String helpOneCycle = "Generate one cycle-based code";
 	private static final String helpInitialization = "Initialize free variables";
@@ -24,10 +24,10 @@ public class CmdLineFactory {
 	private static final String cmdLineDescription = "Translation from BIP to ABC";
 	private static final String helpText = "Have Fun!";
 	private static final String propertyErrorMsg = "The property file name should contain the pre and the post conditions in two seperate lines.";
-	private static final String helpEmulatorGen = "Generate emulation code " + defaultOutputABC + ".cpp\n" +
-			"  1- guide.txt: indices of interactions assigned to selector\n" +
-			"  2- integer <= 0: infinite exection\n" +
-			"  3- integer > 0: number of cycles to be executed\n";
+	private static final String helpEmulatorGen = "Generate emulation code " + defaultOutputABC + ".cpp, where s equals:\n" +
+			"  1- guide.txt: indices of interactions assigned to selector \n    e.g., -emulator=guide.txt\n" +
+			"  2- integer <= 0: infinite exection \n    e.g., -emulator=0\n" +
+			"  3- integer > 0: number of cycles to be executed \n    e.g., -emulator=25\n";
 	
 	protected static final String errorGuide = "The guide should contain a list of integers seperated by either commas or spaces.";
 	

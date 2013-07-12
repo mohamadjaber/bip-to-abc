@@ -1,6 +1,6 @@
 #Translation from BIP to ABC
 
-`java -jar bip-to-abc.jar [options] input.bip ouput.abc [property.txt]`
+`java -jar bip-to-abc.jar [options] input.bip output.abc [property.txt]`
 
 where:
 
@@ -11,10 +11,10 @@ where:
 and options are:
 
         -?                prints usage to stdout; exits (optional)  
-        -emulator <s>     Generate emulation code ouput.abc.cpp (optional)  
-                              - guide.txt: indices of interactions assigned to selector  
-                              - integer <= 0: infinite exection  
-                              - integer > 0: number of cycles to be executed  
+        -emulator <s>     Generate emulation code output.abc.cpp (optional)  
+                              - guide.txt: indices of interactions assigned to selector (e.g., -emulator=guide.txt) 
+                              - integer <= 0: infinite exection (e.g., -emulator=0)
+                              - integer > 0: number of cycles to be executed (e.g., -emulator=30)
         -h                prints usage to stdout; exits (optional) 
         -help             displays verbose help information (optional)
         -initialize-vars  Initialize free variables (optional)
