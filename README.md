@@ -1,5 +1,5 @@
 #Translation from BIP to ABC
-> test
+        test
 
 
 `java -jar bip-to-abc.jar [options] input.bip ouput.abc [property.txt]`
