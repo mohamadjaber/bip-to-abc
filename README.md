@@ -12,9 +12,9 @@ and options are:
 
 - -?                prints usage to stdout; exits (optional)`
 - -emulator <s>     Generate emulation code ouput.abc.cpp`
-                    1. guide.txt: indices of interactions assigned to selector
-                    2. integer <= 0: infinite exection
-                    3. integer > 0: number of cycles to be executed
+			guide.txt: indices of interactions assigned to selector
+			integer <= 0: infinite exection
+			integer > 0: number of cycles to be executed
                    (optional)
 - -h                prints usage to stdout; exits (optional)
 - -help             displays verbose help information (optional)
