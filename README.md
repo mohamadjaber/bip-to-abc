@@ -6,9 +6,9 @@
 
 where:
 
-* input.bip    = input BIP file name (required)
-* ouput.abc    = ABC file name to be generated (required)
-* property.txt = Pre and Post condition written in two different lines (optional)
+        * input.bip    = input BIP file name (required)
+        * ouput.abc    = ABC file name to be generated (required)
+        * property.txt = Pre and Post condition written in two different lines (optional)
 
 and options are:
 
