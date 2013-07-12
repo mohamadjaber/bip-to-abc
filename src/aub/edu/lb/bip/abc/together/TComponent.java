@@ -39,6 +39,9 @@ public class TComponent extends TNamedElement{
 	private TCurrentState currentState;
 	private String name;
 	
+	int stateId = 0; 
+
+	
 	public TComponent(Component comp, TCompound tCompound){
 		assert(component.getType() instanceof AtomType); // no hierarchical components
 		component = comp; 

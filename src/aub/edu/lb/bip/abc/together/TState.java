@@ -16,7 +16,6 @@ import ujf.verimag.bip.Core.Behaviors.State;
 import ujf.verimag.bip.Core.Behaviors.Transition;
 
 public class TState extends TVariable {
-	private static int constStateID = 0; 
 	
 	private State state; 
 	private TComponent tComponent;
@@ -24,8 +23,8 @@ public class TState extends TVariable {
 	
 	public TState(State s, TComponent comp) {
 		state = s; 
-		value = constStateID++;
 		tComponent = comp;
+		value = tComponent.stateId++;
 		setName();
 		type = TEnumType.CONST_INT;
 	}
