@@ -30,17 +30,17 @@ with $\ast E$, the transitive closure of $E$.
 \label{def:back:fanins} 
 \end{definition}
 
-
-For the sequential
+We restrict gates to have 2~fanins, and
+compute the NAND function; since NAND is functionally
+complete, this is not a limitation.  For the sequential
 circuit to be syntactically well-formed, vertices in $I$
 should have no fanins, vertices in $R$ should have
 2~fanins (the next-state function and the initial-value
-function of that register), 
+function of that register), gates should have two fanins,
 and every cycle in the sequential circuit should contain
-at least one vertex from $R$.  
-The initial-value functions
-of $R$ shall have no registers in their support.  
-All sequential circuits we consider will be well-formed.  
+at least one vertex from $R$.  The initial-value functions
+of $R$ shall have no registers in their support.  All
+sequential circuits we consider will be well-formed.  
 
 \subsection{Semantics of sequential circuits}
 \label{s:back:crct_semantics}
@@ -65,7 +65,7 @@ t(v,i)=
       s^i_{v}            &:v \in I \ \text{with sampled value $s_{v}^i$}\\
       t(u_1, 0)       &:v \in R,i=0,u_1:=\ \text{initial-state of $v$}\\
       t(u_2, i-1)        &:v \in R,i>0,u_2:=\ \text{next-state of $v$}\\
-      G_v\big(t(u_{1},i),...,t(u_{n},i)\big) &: v \ \text{is a combinational gate with logical function 
+      G_v\big(t(u_{1},i),...,t(u_{n},i)\big) &: v \ \text{is a combinational gate with function 
 $G_v$}
    \end{cases} \newline
 \]
@@ -91,6 +91,7 @@ which is a graph on the states.  However, the
 circuit is very different from its FSM; among
 other differences, it is exponentially more succinct in
 almost all cases of interest~\cite{BuClMcDiHw92}. 
+
 Figure~\ref{f:back:cctfsm}(a) shows a 2-bit write enabled 
 buffer which uses a multiplexer enabled by $w_{en}$ to 
 update its register bits $r$ with values in inputs $i$ 
@@ -102,12 +103,6 @@ the same circuit with the corresponding FSM.
 Only the arcs corresponding to state $000$ are shown for 
 clarity of exposition.
 
-The ABC analyzer reasons about And-Inverted-Graph (AIG)
-sequential circuits which are
-sequential circuits with gates restricted to have 2~fanins.
-Since NAND is functionally complete, this is not a limitation.  
-
-\begin{comment}
 \subsection{Illustrating sequential circuits with C++ 
     classes}
 \label{sec:back:crct_cpp}
@@ -152,8 +147,8 @@ assigning values to the register variables that are
 combinational functions of the \cci{inputs} and the
 \cci{registerVariables} themselves.  The \cci{nextState} 
 function performs the computational function of
-the sequential circuit and assigns \cci{done} to a
-$\mbox{true}$ value once it completes the computation.
+the sequential circuit and assigns \cci{done} to
+$\true$ once it completes the computation.
 The \cci{outputFunction} returns the result of the
 computation. 
 
@@ -167,4 +162,3 @@ returns the output of the computation via calling the
 \cci{outputFunction}.  The \cci{while} in
 \cci{executeCircuit} models time where each iteration
 is a step. 
-\end{comment}
