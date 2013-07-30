@@ -22,8 +22,8 @@ and the set of bit-register variables by $R$.
 
 \begin{definition}[Fanins]
 \rm We define the direct {\em fanin}s of a gate $u$ to be
-$\{v: (v,u)\in E\}$ the set of source vertices connected
-to $u$ in $E$.  We call the {\em support} of $u$ $\{v:
+$\{v \mid (v,u)\in E\}$ the set of source vertices connected
+to $u$ in $E$.  We call the {\em support} of $u$ $\{v \mid
 (v\in I \vee v \in R) \wedge (v,u) \in \ast E\}$ all
 source vertices in $R$ or $I$ that are connected to $u$
 with $\ast E$, the transitive closure of $E$.
@@ -51,7 +51,7 @@ sequential circuits we consider will be well-formed.
 \end{definition}
 
 \begin{definition}[Trace]
-\rm A {\em trace} is a mapping $t: V \times \mathbb{N} \mapsto
+\rm A {\em trace} is a mapping $t: V \times \mathbb{N} \rightarrow
 \mathbb{B}$ that assigns a valuation to all vertices in
 $V$ across time {\em steps} denoted as indexes from
 $\mathbb{N}$.  The mapping must be consistent with $E$ and
