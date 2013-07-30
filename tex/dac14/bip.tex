@@ -1,0 +1,155 @@
+\section{BIP - Behavior Interaction Priority}
+\label{sec:bip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+We recall the necessary concepts of the BIP framework~\cite{bip11}.
+BIP allows to construct systems by superposing three layers of modeling: Behavior, Interaction, and Priority.
+The \emph{behavior} layer consists of a set of atomic components represented by transition systems. The \emph{interaction} layer models the collaboration between components. Interactions are described using sets of ports. The \emph{priority} layer is used to specify scheduling policies applied to the interaction layer, given by a strict partial order on interactions.
+%
+% \vspace{-1em}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Component-based Construction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+BIP offers primitives and constructs for modeling and composing complex behaviors from atomic components. Atomic components are Labeled Transition Systems (LTS) extended with C functions and data. Transitions are labeled with sets of communication ports. Composite components are obtained from atomic components by specifying connectors and priorities.
+%
+%
+\subsubsection{Atomic Components.}
+%
+An atomic component is endowed with a finite set of local variables $X$ taking values in a domain $\mathit{\Data}$. Atomic components synchronize and exchange data with each others through \emph{ports}.
+%
+\begin{definition}[Port]
+A port $p[x_p]$, where $x_p\subseteq X$, is defined by a port identifier $p$ and some data variables in a set $x_p$ (referred to as the support set). We denote by $p.X$ the set of variables assigned to the port $p$, that is, $x_p$.
+\end{definition}
+%
+%
+\begin{definition}[Atomic component]
+An atomic component $B$ is defined as a tuple $(P,L,$ $T,X,\{g_\tau\}_{\tau \in T}, \{f_{ \tau}\}_{\tau \in T})$, 
+where:
+\begin{itemize}
+\item $(P,L,T)$ is an LTS over a set of ports $P$. $L\ignore{=\{l_1,l_2,\ldots,l_k\}}$ is a set of control locations and $T \subseteq L \times P \times L$ is a set of transitions.
+\item $X$ is a set of variables.
+\item For each transition $\tau \in T$: 
+\begin{itemize}
+\item $g_{\tau}$ is a Boolean condition over $X$: the guard of $\tau$,
+\item $f_\tau\in \{x := f^x(X)\mid x\in X\}^*$: the computation step of $\tau$, a sequence of assignments.
+%\item $f_\tau$ is a function that updates the set of variables $X$: the computation step of $\tau$.
+\end{itemize}
+\end{itemize}
+\end{definition}
+%
+For $\tau = (l,p,l')\in T$ a transition of the internal LTS, $l$ (resp. $l'$) is referred to as the source (resp.
+destination) location and $p$ is a port through which an interaction with another component can take place. Moreover, a transition $\tau = (l,p,l')\in T$ in the internal LTS involves a transition in the atomic component of the form $(l,p,g_\tau,f_\tau,l')$ which can be executed only if the guard $g_\tau$ evaluates to $\true$, and $f_\tau$ is a computation step: a set of assignments to local variables in $X$.
+
+In the sequel we use the dot notation.
+Given a transition $\tau = (l,p,g_\tau,f_\tau,l')$, $\tau.\source$, $\tau.\port$, $\tau.\guard$, $\tau.\func$, and $\tau.dest$ denote $l$, $p$, $g_\tau$, $f_\tau$, and $l'$, respectively.
+Also, the set of variables used in a transition is defined as $\var(f_\tau) = \{x \in X \mid x:= f^x(X) \in f_\tau\}$.
+Given an atomic component $B$, $B.P$ denotes the set of ports of the atomic component $B$, $B.L$ denotes its set of locations, etc.
+
+%
+\paragraph{Semantics of Atomic Components.}
+The semantics of an atomic component is an LTS over configurations and ports, formally defined as follows:
+%
+\begin{definition}[Semantics of Atomic Components]
+The semantics of the atomic component $(P,L, T, X, \{g_{\tau}\}_{\tau \in T}, \{f_{\tau}\}_{\tau \in T})$ is an LTS $(P,Q,T_0)$ such that 
+\begin{itemize}
+\item $Q = L\times [X\rightarrow \Data]\times (P\cup \{\mathtt{null}\})$,
+\item $T_0= \{ ((l',v',p'),p(v_{p}), (l,v,p))\in Q\times P\times Q\mid \exists \tau = (l', p[x_{p}], l) \in T: g_{\tau}(v') \wedge v=f_{\tau}(v'/v_{p})\}$, where $v_{p} \in[x_{p} \rightarrow \Data]$.
+\end{itemize}
+\end{definition}
+%
+A configuration is a triple $(l,v,p)\in Q$ where $l \in L$ is a control location, $v \in [X \rightarrow \mathit{\Data}]$ is a valuation of the variables in $X$, and $p \in P$ is the port labelling the last-executed transition or $\mathtt{null}$ when no transition has been executed. The evolution of configurations $(l', v',p')\stackrel{p(v_{p})}{\rightarrow} (l, v,p)$, where $v_{p}$ is a valuation of the variables $x_p$ attached to the port $p$, is possible if there exists a transition $(l', p[x_p], g_\tau, f_\tau, l)$, such that $g_\tau(v')=\true$. As a result, the valuation $v'$ of variables is modified to $v=f_\tau(v'/v_p)$.
+%
+\subsubsection{Creating composite components.} Assuming some available atomic components $B_1,$ $\ldots,B_n$, we show how to connect the components in the set $\{B_i\}_{i\in I}$ with $I\subseteq [1,n]$ using an \emph{interaction}.
+
+An interaction $a$ is used to specify the sets of ports that have to be jointly executed.
+
+
+\begin{definition}[Interaction]
+\label{def:connector}
+An interaction $\gamma$ is a tuple $({\cal P}, G,F)$, where:
+\begin{itemize}
+\item ${\cal P} = \{p_i[x_i]\mid p_i\in B_i.P\}_{i \in I}$ such that $\forall i\in I: {\cal P}_\gamma \cap B_i.P = \{p_i\}$;
+\item $G$ is a Boolean expression over the set of variables $\cup_{i\in I}\ x_i$ (the guard);
+\item $F$ is an update function defined over the set of variables $\cup_{i\in I}\ x_i$.
+\end{itemize}
+\end{definition}
+%
+${\cal P}$ is the set of connected ports called the support set of $\gamma$.
+For each $i\in I$, $x_i$ is a set of variables associated with the port $p_i$.
+
+
+%
+\begin{definition}[Composite Component]
+A composite component is defined from a set of available atomic components $\{B_i\}_{i\in I}$ and a set of interaction $\Gamma$.
+The connection of the components in $\{B_i\}_{i\in I}$ using the set $\Gamma$ of connectors is denoted by $\Gamma(\{B_{i}\}_{i\in I})$.
+\end{definition}
+%
+Note that a composite component obtained by the composition of a set of atomic components can be composed with other components in a hierarchical and incremental fashion using the same operational semantics.
+%
+\begin{definition}[Semantics of Composite Components]
+\label{def-runtimesemanticscomposite}
+A state $q$ of a composite component $\Gamma(\{B_1, \ldots, B_n\})$, where $\Gamma$ connects the $B_i$'s for $i\in [1,n]$, is an $n$-tuple $q=(q_1,\ldots,q_n)$ where $q_i=(l_i,v_i)$ is a state of $B_i$. Thus, the semantics of $\Gamma(\{B_1, \ldots, B_n\})$ is precisely defined as a transition system $(Q,A,\goesto)$, where:
+\begin{itemize}
+\item $Q= B_1.Q\times \ldots\times B_n.Q$, 
+\item $A = \cup_{\gamma \in \Gamma}\{a \in {\cal I}(\gamma)\}$ is the set of all possible interactions,
+\item $\goesto$ is the least set of transitions satisfying the following rule:
+\begin{mathpar}
+\inferrule*
+{
+    \exists\gamma \in \Gamma: \gamma = (P,G,F) \and G_a(v(X)) \hva\\
+    \forall i\in I:\ q_i \goesto[p_i(v_i)]_i q'_i \wedge v_i = F_{a_i}(v(X)) \and
+    \forall i\not\in I:\ q_i = q'_i
+}
+{
+    (q_1,\dots,q_n) \goesto[a] (q'_1,\dots,q'_n)
+}
+\end{mathpar}
+where $a = \{p_i\}_{i \in I}$, $X$ is the set of variables attached to the ports of $a$, $v$ is the global valuation of variables, and $F_{a_i}$ is the partial function derived from $F$ restricted to the variables associated with $p_i$.
+\end{itemize}
+\end{definition}
+%
+The meaning of the above rule is the following: if there exists an interaction $a$ such that all its ports are enabled in the current state and its guard ($G_a(v(X))$) evaluates to \true, then the interaction can be fired. When $a$ is fired, all involved components evolve according to the interaction and uninvolved components remain in the same state. 
+
+Notice that several distinct interactions can be enabled at the same time, thus introducing non-determinism in the product behavior.
+One can add priorities to reduce non-determinism. In this case, one of the interactions with the highest priority is chosen non-deterministically.\footnote{The BIP engine implementing this semantics chooses one interaction at random, when faced with several enabled interactions.}
+%
+\begin{definition}[Priority]
+  \label{defn:priority}
+  Let $C = (Q,A,\goesto)$ be the behavior of the composite component $\Gamma(\{B_1, \ldots, B_n\})$.  A {\em priority model} $\pi$ is a
+  strict partial order on the set of interactions $A$. Given a priority model $\pi$, we
+  abbreviate $(a,a')\in \pi$ by $a \prec_\pi a'$ or $a \prec a'$ when clear from the context. Adding the priority model $\pi$ over $\Gamma(\{B_1, \ldots, B_n\})$ defines a new composite component $\pi\big(\Gamma(\{B_1, \ldots, B_n\})\big)$ noted $\pi(C)$ and whose behavior is defined by $(Q, A, \goesto_\pi)$, where $\goesto_\pi$ is the least set of transitions satisfying the following rule:
+\begin{mathpar}
+\inferrule*
+	{
+      q \goesto[a] q' \and
+      \neg\big(\exists a'\in A,\exists q''\in Q: a \prec a' \wedge q \goesto[a'] q'' \big)
+    }
+    {
+      q \goesto[a]_\pi q'
+    }
+\end{mathpar}
+\end{definition}
+%
+An interaction $a$ is enabled in $\pi(C)$ whenever $a$ is enabled in $C$ and $a$ is maximal according to $\pi$ among the active interactions in $C$.
+
+We adapt the notion of \emph{maximal progress} to BIP systems. In BIP, the maximal progress property is expressed at the level of connectors. For a given connector $\gamma$, if one interaction $a \in {\cal I}(\gamma)$ is contained in another interaction $a' \in {\cal I}(\gamma)$, then the latter has a higher priority, unless there exists an explicit priority stating the contrary. Maximal progress is enforced by the BIP engine.
+%
+\begin{definition}[Maximal Progress]
+\label{def:maximalprogress}
+Given a connector $\gamma$ and a priority model $\pi$, we have: $\forall a,a' \in {\cal I}(\gamma)$: $(a \subset a') \wedge (a' \prec a \notin \pi) \Rightarrow a \prec a'$.
+\end{definition}
+Finally, we consider systems defined as a parallel composition of components together with an initial state.
+%
+\begin{definition}[System]
+\label{def:system}
+A BIP system ${\cal S}$ is a pair $(B,\mathit{Init})$ where $B$ is a component and $\mathit{Init}\in B_1.L\times \ldots\times B_n.L$ is the initial state of $B$.
+\end{definition}
+%
+For the sake of simpler notation, $\mathit{Init}$ designates both the initial state of the system at the syntax level and the initial state of the underlying LTS.
+%
+
+%
