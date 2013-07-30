@@ -63,8 +63,8 @@ trace $t$ is denoted by $t(v,i)$.
 t(v,i)=
    \begin{cases}
       s^i_{v}            &:v \in I \ \text{with sampled value $s_{v}^i$}\\
+      t(u_1, 0)       &:v \in R,i=0,u_1:=\ \text{initial-state of $v$}\\
       t(u_2, i-1)        &:v \in R,i>0,u_2:=\ \text{next-state of $v$}\\
-      t(u_1(v), 0)       &:v \in R,i=0,u_1:=\ \text{initial-state of $v$}\\
       G_v\big(t(u_{1},i),...,t(u_{n},i)\big) &: v \ \text{is a combinational gate with function 
 $G_v$}
    \end{cases} \newline
