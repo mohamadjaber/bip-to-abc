@@ -154,6 +154,7 @@ public class BuildCppSim {
 				}
  			}
 			output.println("}");
+			input.close();
 		}
 		catch(Exception e) {
 			System.out.println(e);

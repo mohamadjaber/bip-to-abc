@@ -136,3 +136,11 @@ One can add priorities to reduce non-determinism. In this case, one of the inter
 \end{definition}
 %
 An interaction $a$ is enabled in $\pi(S)$ whenever $a$ is enabled in $S$ and $a$ is maximal according to $\pi$ among the active interactions in $S$.
+
+
+Finally, we consider systems defined as a parallel composition of components together with an initial state.
+%
+\begin{definition}[System]
+\label{def:system}
+A BIP system ${\cal S}$ is a tuple $(B,\mathit{Init}, v)$ where $B$ is a composite component,  $\mathit{Init}\in B_1.L\times \ldots\times B_n.L$ is the initial state of $B$, and $v \in \valu{X^{Init}}$ where $X^{Init} \subseteq \cup_{i = 1} ^ { n } B_i.X$.
+\end{definition}
