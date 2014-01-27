@@ -91,6 +91,7 @@ public class CmdLineFactory {
 				Scanner scanner = new Scanner(new File(property.getValue().getAbsolutePath()));
 				preCondition = scanner.nextLine();
 				postCondition = scanner.nextLine();
+				scanner.close();
 			} catch(Exception e) {
 				System.out.println(propertyErrorMsg);
 				System.exit(0);

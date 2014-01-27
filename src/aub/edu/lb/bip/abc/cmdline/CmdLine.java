@@ -66,6 +66,7 @@ public class CmdLine {
 			while(scanner.hasNextInt()) {
 				interactionIds[i++] = scanner.nextInt();
 			}
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(CmdLineFactory.errorGuide);
 			System.exit(0);
@@ -83,6 +84,7 @@ public class CmdLine {
 				scanner.nextInt();
 				count++;
 			}
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(CmdLineFactory.errorGuide);
 			System.exit(0);
