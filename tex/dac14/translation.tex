@@ -1,2 +1,25 @@
 \section{Translation from BIP to Sequential Circuit}
 \label{sect-translation}
+
+\begin{lstlisting}
+  BIP2$\this$ ( $\pi\big(\gamma(\{B_1, \ldots, B_n\})\big)$, K)
+  Let bW, bR, bPI be the set of Boolean wire, register and primary input variables, respectively.
+  Let W, R, PI be the set of integer wire, register and primary input variables, respectively.
+  Let wiredef, init, next be empty lists of statements. 
+
+  foreach component $B \in \{B_1, \ldots, B_n\}$
+    R += $B_i\_{\ell}$ // location register variable
+    foreach variable $x$ in $B_i.X$
+      R +=  $B_i$_x
+    foreach port $p$ in $B_i.P$ 
+      bW += $\{ B_i\_p\_\mathit{enable}, B_i\_p\_\mathit{selected}\}$
+
+  foreach interaction  $a_i \in \gamma$
+    $a\_enable[i] = G_{a_i} \wedge \bigwedge_{p\in P_{a_i}\wedge p=B_i.p } B_i.p\_selected  $ 
+    $a\_execute[i] = $
+    $a\_piority[i] = $
+
+      
+
+\end{lstlisting}
+

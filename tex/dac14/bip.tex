@@ -87,7 +87,7 @@ $P_a$ is the set of connected ports called the support set of $a$. For each $i\i
 
 %
 \begin{definition}[Composite Component]
-A composite component is defined from a set of available atomic components $\{B_i\}_{i\in I}$ and a set of interaction $\gamma$.
+  A composite component is defined from a set of available atomic components $\{B_i\}_{i\in I}$ and a set of interactions $\gamma=\{a_j\}_{j\in J}$.
 The connection of the components in $\{B_i\}_{i\in I}$ using the set $\gamma$ of connectors is denoted by $\gamma(\{B_{i}\}_{i\in I})$.
 \end{definition}
 
@@ -122,7 +122,9 @@ One can add priorities to reduce non-determinism. In this case, one of the inter
   \label{defn:priority}
   Let $S = (Q,\gamma,\goesto)$ be the behavior of the composite component $\gamma(\{B_1, \ldots, B_n\})$.  A {\em priority model} $\pi$ is a
   strict partial order on the set of interactions $A$. Given a priority model $\pi$, we
-  abbreviate $(a,a')\in \pi$ by $a \prec_\pi a'$ or $a \prec a'$ when clear from the context. Adding the priority model $\pi$ over $\gamma(\{B_1, \ldots, B_n\})$ defines a new composite component $\pi\big(\gamma(\{B_1, \ldots, B_n\})\big)$ noted $\pi(S)$ and whose behavior is defined by $(Q, \gamma, \goesto_\pi)$, where $\goesto_\pi$ is the least set of transitions satisfying the following rule:
+  abbreviate $(a,a')\in \pi$ by $a \prec_\pi a'$ or $a \prec a'$ when clear from the context. Adding the priority model $\pi$ over $\gamma(\{B_1, \ldots, B_n\})$ defines a new composite component 
+  $\pi\big(\gamma(\{B_1, \ldots, B_n\})\big)$ 
+  noted $\pi(S)$ and whose behavior is defined by $(Q, \gamma, \goesto_\pi)$, where $\goesto_\pi$ is the least set of transitions satisfying the following rule:
 \begin{mathpar}
 \inferrule*
 	{
