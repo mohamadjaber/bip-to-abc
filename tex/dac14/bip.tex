@@ -35,7 +35,8 @@ where:
 \item For each transition $\tau \in T$: 
 \begin{itemize}
 \item $g_{\tau}$ is a Boolean condition over $X$: the guard of $\tau$,
-\item $f_\tau\in \{x := f^x(X)\mid x\in X\}^*$: the computation step of $\tau$, a sequence of assignments.
+\item $f_\tau = \{ (x, f^x(X)) \mid x\in X\}$ where $(x,f^x(X)) \in f_\tau$ expresses the assignment statement $x := f^x(X)$ updating $x$ with the value of the expression $f^x(X)$. 
+%\item $f_\tau\in \{x := f^x(X)\mid x\in X\}^*$: the computation step of $\tau$, a sequence of assignments.
 %\item $f_\tau$ is a function that updates the set of variables $X$: the computation step of $\tau$.
 \end{itemize}
 \end{itemize}
