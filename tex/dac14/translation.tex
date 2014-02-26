@@ -1,6 +1,56 @@
 \section{Translation from BIP to Sequential Circuit}
 \label{sect-translation}
-<<<<<<< HEAD
+
+
+
+\begin{lstlisting}
+decl-list
+
+wiredef-list
+
+do_together {
+  init-list
+}
+
+while(true) {
+  do_together {
+    next-list
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}
+( $\pi\big(\gamma(\{B_i\}_{i \in I})\big)$, K), where \gamma = \{a_j\}_{j \in J}
+
+/***************** declarations ******************/
+// interaction wires
+decl-list += wire bool ie[|J|]; // interaction enablement 
+decl-list += wire bool ip[|J|]; // interaction priority
+decl-list += wire bool is[|J|]; // interaction selected
+
+decl-list += wire int selector; // non-deterministic priority selector
+
+foreach $i \in [1..|I|]$
+
+  foreach $j \in [1..|B_i.P|]$ // where $B_i.P = \{p_1, \ldots, p_{|B_i.P|}\}$ 
+    decl-list += wire bool $B_i.p_j.e$; // port enablement
+    decl-list += wire bool $B_i.p_j.s$; // port selected
+  end 
+  
+  decl-list += int $B_i.\ell$;
+  
+  foreach $j \in [1..|B_i.X|]$// where $B_i.X = \{x_1, \ldots, p_{|B_i.P|}\}$  
+    decl-list += int $B_i.x_j$; // variable registers
+  end
+   
+end
+    
+   
+
+
+
+\end{lstlisting}
+
 
 \begin{lstlisting}
   BIP2$\this$ ( $\pi\big(\gamma(\{B_1, \ldots, B_n\})\big)$, K)
@@ -23,8 +73,6 @@
       
 
 \end{lstlisting}
-=======
 This section presents how we translate a BIP system $(B,\mathit{Init}, v)$ to its corresponding sequential circuit  $\big( (V, E),G, O\big)$. 
 
->>>>>>> 3062b226fcd848844526f64779d14ecfac8f4c36
 
