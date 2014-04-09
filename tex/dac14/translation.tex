@@ -20,7 +20,7 @@ while(true) {
 \end{lstlisting}
 
 \begin{lstlisting}
-( $\pi\big(\gamma(\{B_i\}_{i \in I})\big)$, K), where \gamma = \{a_j\}_{j \in J}
+($\pi\big(\gamma(\{B_i\}_{i \in I})\big)$, K), where $\gamma = \{a_j\}_{j \in J}$
 
 /***************** declarations ******************/
 // interaction wires
@@ -30,30 +30,27 @@ decl-list += wire bool is[|J|]; // interaction selected
 
 decl-list += wire int selector; // non-deterministic priority selector
 
+decl-list += bool cycle; // cycle denotes whether we are executing an interaction or a transition 
+
 foreach $i \in [1..|I|]$
 
   foreach $j \in [1..|B_i.P|]$ // where $B_i.P = \{p_1, \ldots, p_{|B_i.P|}\}$ 
     decl-list += wire bool $B_i.p_j.e$; // port enablement
     decl-list += wire bool $B_i.p_j.s$; // port selected
-  end 
+  endfor 
   
   decl-list += int $B_i.\ell$;
   
-  foreach $j \in [1..|B_i.X|]$// where $B_i.X = \{x_1, \ldots, p_{|B_i.P|}\}$  
+  foreach $j \in [1..|B_i.X|]$ // where $B_i.X = \{x_1, \ldots, x_{|B_i.X|}\}$  
     decl-list += int $B_i.x_j$; // variable registers
-  end
+  endfor
    
-end
-    
-   
-
-
-
+endfor
 \end{lstlisting}
 
-
+\iffalse
 \begin{lstlisting}
-  BIP2$\this$ ( $\pi\big(\gamma(\{B_1, \ldots, B_n\})\big)$, K)
+  BIP2$\this$($\pi\big(\gamma(\{B_1, \ldots, B_n\})\big)$, K)
   Let bW, bR, bPI be the set of Boolean wire, register and primary input variables, respectively.
   Let W, R, PI be the set of integer wire, register and primary input variables, respectively.
   Let wiredef, init, next be empty lists of statements. 
@@ -69,10 +66,71 @@ end
     $a\_enable[i] = G_{a_i} \wedge \bigwedge_{p\in P_{a_i}\wedge p=B_i.p } B_i.p\_selected  $ 
     $a\_execute[i] = $
     $a\_piority[i] = $
-
-      
-
 \end{lstlisting}
+\fi
+
+\begin{lstlisting}
+/***************** wire list definitions ******************/
+foreach $j \in [1..|J|]$
+  wiredef-list += ie[j] := $a_j.guard \wedge \bigwedge_{p\in a_i.P} component(p).p.e$ 
+  wiredef-list += ip[j] := ie[j] $\wedge \,(\forall k \neq j: ie[k] \Rightarrow a_k < a_j)$ 
+  wiredef-list += is[j] := ip[j] $\wedge \,(selector = j \vee \forall k > j: \neg ip[k])$   
+endfor
+
+
+foreach $i \in [1..|I|]$
+
+  foreach $j \in [1..|B_i.P|]$ // where $B_i.P = \{p_1, \ldots, p_{|B_i.P|}\}$ 
+    wiredef-list += $B_i.p_j.e := \bigvee_{\tau \in transitions(B_i.p)} \tau.guard$; 
+    wiredef-list += $B_i.p_j.s := \bigvee_{a_k \in interactions(B_i.p_j)} a_k$; 
+  endfor 
+endfor
+\end{lstlisting}
+\todo[inline=true]{
+define interactions(port), component(port), transitions(port)
+}
+
+\begin{lstlisting}
+/***************** init list definitions ******************/
+init-list += $cycle := 0$; // where dot is the relational product
+
+foreach $i \in [1..|I|]$
+  init-list += $B_i.\ell := Init.B_i$; // where dot is the relational product
+  foreach $j \in [1..|B_i.X|]$ // where $B_i.X = \{x_1, \ldots, l_{|B_i.X|}\}$ 
+    init-list += $B_i.x_j := v(B_i.x_j)$; // v is the initial valuation
+  endfor 
+endfor
+\end{lstlisting}
+
+
+\begin{lstlisting}
+/***************** next list definitions ******************/
+foreach $i \in [1..|I|]$
+  foreach $j \in [1..|B_i.X|]$ // where $B_i.X = \{x_1, \ldots, l_{|B_i.X|}\}$ 
+    st = $B_i.x_j$ := cycle = 0?
+    foreach $k \in [1..|J|]$
+      foreach assignment $\sigma \in a_k.action$
+        if($B_i.x_j = \sigma.term$)
+          $st += is[k]?\, \sigma.expr:$
+        endif
+      endfor
+    endfor
+    
+    st += B_i.x_j:  
+    foreach $\tau \in B_i.T$ 
+      foreach assignment $\sigma \in \tau.action$
+        if($B_i.x_j = \sigma.term$)
+          $st += B_i.port(\tau).s?\, \sigma.expr:$
+        endif
+      endfor
+    endfor      
+    $st += B_i.x_j$; 
+    next-list += st;  
+  endfor
+  $next-list += cycle := \neg cycle$; 
+endfor
+\end{lstlisting}
+
 This section presents how we translate a BIP system $(B,\mathit{Init}, v)$ to its corresponding sequential circuit  $\big( (V, E),G, O\big)$. 
 
 
