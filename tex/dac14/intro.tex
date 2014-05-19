@@ -1,12 +1,56 @@
 \section{Introduction}
 \label{sect-intro}
 
-\begin{itemize}
-\item High-level modeling 
-\item correct-by-construction
-\item model checking. verification. DFinder does not support data transfer. 
-\item Automatic generation of synthesizable code  (FPGA, ...).
-\item Generated code includes an execution engine that is already customized for the system at hand (ASIC like)
-\item Runtime verification (simulation) -- faster than existing for the same reason above
-\item related work (VHDL, SystemC, etc.).
-\end{itemize}
+In recent years, embedded systems have witnessed a large expansion, especially with  the emergence of automotive electronics, mobile and control devices.
+Computations in embedded systems are subject to several physical and architectural 
+constraints that render the separation between software and hardware design impractical~\cite{henzinger2006embedded}.
+%The design of embedded systems involves
+%{\em Component-based systems} design 
+%and control devices
+%Furthermore, {\em component-based system} (CBS) design is gaining more prominence 
+%after the widespread of embedded systems, especially for mobile and control devices. 
+The Behavior-Interaction-Priority (BIP) framework 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Double check this todo note %%%%%%%%%%%%%%%%%%%%%%%%%%
+%\todo{lots of grammatical errors. plz check thoroughly. plural vs singular, missing noun between a sequence of qualitative adjectives/adverbs and the verbs, parallel structures}
+is a {\em Component-Based System} (CBS) design framework that uses a dedicated 
+language and tool-set to support a rigorous and layered design flow for embedded systems.  
+%\todo{the introduction sentence of BIP is weak and obviously a sales statement repeating design several times.}
+BIP allows to build complex systems by coordinating the behavior of a set of atomic components~\cite{BasuBBCJNS11}.
+BIP makes use of: (1) DFinder~\cite{dfinder}, a compositional  
+and incremental verification tool-set, and (2) the NuSMV~\cite{nusmv} model checker, to check correctness of BIP systems. 
+However, DFinder \cite{BBL14} does not  handle data transfer between components, and it does not support checking for properties other than deadlock freedom. 
+Additionally, for complex systems, NuSMV often suffers from the state space explosion 
+problem~\cite{sipser2006introduction}, and fails to perform its verification tasks.
+
+ABC~\cite{brayton2010abc} is a transformation-based 
+verification (TBV)~\cite{kuehlmann2001transformation} framework that operates on And-Inverter Graphs (AIG); Boolean netlists with
+memory elements, and iteratively and synergistically 
+employs reduction, abstraction and decision algorithms such as 
+retiming~\cite{KuBa01}, redundancy  removal~\cite{HmBPK05,KuMP01,BjesseC00,aziz-fmsd-00}, logic
+rewriting~\cite{BjBo04}, interpolation~\cite{McMillan03}, 
+and localization~\cite{Wang03}, symbolic model checking, bounded model checking, induction, interpolation,  circuit SAT solving, and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}.
+
+
+In this paper, we present \biptool~ that takes a BIP system and a set of properties and generates the following:
+
+\begin{enumerate}
+\item An AIG circuit with an invariant that is $\mathit{true}$ iff the system is deadlock free, or satisfies the properties. We pass the generated AIG to ABC for verification. ABC either proves correctness or produces a counter example where the system violates the property. This enabled us to find defects and proves system that were not possible using DFinder and NuSMV. 
+\item  \biptool~ provides a debugging mechanism where the counter example is mapped back to the original BIP system. The debugging tool is integrated with wave form visualization tool \cite{GTKWave}.  
+\item A FPGA implementation of the BIP system with a system-specific execution framework. The FPGA implementation is reduced using ABC synthesis reduction algorithms which reduces the area and the critical time by removing latches and logic gates. To the best our knowledge, we are the first to synthesize a BIP system directly into an FPGA. 
+\item A C implementation that simulates the BIP system with a system-specific execution framework. 
+\end{enumerate}
+
+
+BIP uses a runtime engine to simulate its execution semantic. The main loop of the engine consists of the following steps:
+\begin{enumerate}
+\item Each atomic component sends to the engine its current location.
+\item The engine enumerates on the list of interactions in the model, selects the enabled ones based on the current location of the atomic components and eliminates the ones with low priority.
+\item The engine non-deterministically selects an interaction out of the enabled interactions.
+\item Finally, the engine notifies the corresponding components and schedule their transitions for execution. 
+\end{enumerate}
+We differ in that, the system specific scheduler is a bit vector of interactions directly embedded in the implementation. The interaction bit vector evaluates in real-time 
+and directly depends on the locations and the values of the variables of the input system. The system specific execution framework empirically reduces the space and time requirements for running the C simulation and FPGA execution. 
+
+
+%% organization
+The rest of this paper is organized as follows.
