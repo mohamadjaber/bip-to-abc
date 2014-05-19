@@ -1,0 +1,151 @@
+[*]
+[*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
+[*] Mon May 19 09:19:59 2014
+[*]
+[dumpfile] "/home/mohamad/Research/sa/quorum.vcd"
+[dumpfile_mtime] "Mon May 19 09:06:16 2014"
+[dumpfile_size] 214577
+[savefile] "/home/mohamad/Research/Quorum/QuorumSigList.gtkw"
+[timestart] 8
+[size] 1319 744
+[pos] -1 -1
+*-2.362813 33 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[sst_width] 43
+[signals_width] 230
+[sst_expanded] 0
+[sst_vpaned_height] 278
+@800200
+-States
+@22
+[color] 2
+top.plug1_currentLocation
+[color] 3
+top.plug2_currentLocation
+[color] 4
+top.plugC1_currentLocation
+[color] 5
+top.plugC2_currentLocation
+[color] 6
+top.s1_currentLocation
+[color] 7
+top.s2_currentLocation
+[color] 1
+top.serverC1_currentLocation
+[color] 2
+top.serverC2_currentLocation
+@1000200
+-States
+@28
+top.var_plug2_decidedValue
+top.var_plug1_decidedValue
+@800200
+-Specification
+@28
+top.inv_post
+top.inv_pre
+@1000200
+-Specification
+@c00200
+-InteractionEnables
+@28
+top.interactions_enablement(0)
+top.interactions_enablement(1)
+top.interactions_enablement(2)
+top.interactions_enablement(3)
+top.interactions_enablement(4)
+top.interactions_enablement(5)
+top.interactions_enablement(6)
+top.interactions_enablement(7)
+top.interactions_enablement(8)
+top.interactions_enablement(9)
+top.interactions_enablement(10)
+top.interactions_enablement(11)
+top.interactions_enablement(12)
+top.interactions_enablement(13)
+top.interactions_enablement(14)
+top.interactions_enablement(15)
+top.interactions_enablement(16)
+top.interactions_enablement(17)
+top.interactions_enablement(18)
+top.interactions_enablement(19)
+top.interactions_enablement(20)
+top.interactions_enablement(21)
+top.interactions_enablement(22)
+top.interactions_enablement(23)
+top.interactions_enablement(24)
+top.interactions_enablement(25)
+top.interactions_enablement(26)
+top.interactions_enablement(27)
+top.interactions_enablement(28)
+top.interactions_enablement(29)
+top.interactions_enablement(30)
+top.interactions_enablement(31)
+@1401200
+-InteractionEnables
+@800200
+-Variables
+@c00200
+-Plug1Variables
+@28
+top.var_plug1_decidedValue
+top.var_plug1_decidedValueS
+top.var_plug1_proposedValue
+top.var_plug1_serverId
+top.var_plug1_trigger
+@1401200
+-Plug1Variables
+@c00200
+-Plug2Variables
+@28
+top.var_plug2_decidedValue
+top.var_plug2_decidedValueS
+top.var_plug2_proposedValue
+top.var_plug2_serverId
+top.var_plug2_trigger
+@1401200
+-Plug2Variables
+@c00200
+-PlugC1Variables
+@28
+top.var_plugC1_clientId
+top.var_plugC1_decidedValue
+top.var_plugC1_proposedValue
+top.var_plugC1_server1
+top.var_plugC1_server2
+top.var_plugC1_serverId
+@1401200
+-PlugC1Variables
+@c00200
+-PlugC2Variables
+@28
+top.var_plugC2_clientId
+top.var_plugC2_decidedValue
+top.var_plugC2_proposedValue
+top.var_plugC2_server1
+top.var_plugC2_server2
+top.var_plugC2_serverId
+@1401200
+-PlugC2Variables
+@c00200
+-s1Variables
+@28
+top.var_s1_ClientId
+top.var_s1_decidedValue
+top.var_s1_proposedValue
+top.var_s1_serverId
+@1401200
+-s1Variables
+@c00200
+-s2Variables
+@28
+top.var_s2_ClientId
+top.var_s2_decidedValue
+top.var_s2_proposedValue
+top.var_s2_serverId
+@1401200
+-s2Variables
+@1000200
+-Variables
+[pattern_trace] 1
+[pattern_trace] 0
