@@ -12,6 +12,7 @@
 \usepackage{todonotes}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
 \definecolor{darkgreen}{rgb}{0.0,0.6,0.0}
+\definecolor{darkred}{rgb}{0.6,0.0,0.0}
 
 \usepackage{listings}
 \lstset{ %
@@ -22,12 +23,15 @@ frame=Ltbr,
 rulesep=.4pt,
 mathescape, % Allows escaping to (La)TeX mode within $$,
 stringstyle=\color{redb},
-morekeywords={Boolean, dotogether, foreach, endfor, endif, Let},
+keywords=[1]{Boolean, do-together, foreach, endfor, endif, while, append, to, Let},
+keywords=[2]{decl-list, init-list,next-list, wiredef-list, st},
 showstringspaces = false,
 escapeinside={/*@}{@*/},
 basicstyle=\scriptsize\ttfamily,
-keywordstyle=\color{darkblue}\bf,
+keywordstyle=[2]\color{darkred}\bf,
+keywordstyle=[1]\color{darkblue}\bf,
 commentstyle=\color{darkgreen},
+alsoletter={-},
 %
 breaklines=true
 }

@@ -8,7 +8,7 @@ Listing~\ref{alg:bip2aig} shows the algorithm used by \biptool~to implement
 this translation. The algorithm is divided into 4 steps: (1) wire and variable
 declarations, (2) wire definitions, (3) \cci{init} block and (4) \cci{next} block construction. 
 The lists \cci{decl-list}, \cci{wiredef-list}, \cci{init-list} and \cci{next-list}
-represent the list of declarations and lists of statements  used in the 
+represent the list of declarations and lists of statements used in the 
 declaration, wire definition, \cci{init} and \cci{next} blocks of \aigcircuit, respectively. 
 
 \begin{tabular}{p{7cm} p{1cm} p{7cm}}
@@ -17,12 +17,12 @@ decl-list
 
 wiredef-list
 
-do_together {
+do-together {
   init-list
 }
 
 while(true) {
-  do_together {
+  do-together {
     next-list
   }
 }
@@ -45,22 +45,24 @@ BIP-to-CAIG(BIP $\pi(\gamma(\{B_i\}_{i \in I}))$ ) {
 \begin{lstlisting}
 generateDeclartionList() {
   // interaction wires
-  decl-list += $wire~bool~ie[|J|]$ // interaction enablement 
-  decl-list += $wire~bool~ip[|J|]$ // interaction priority
-  decl-list += $wire~bool~is[|J|]$ // interaction selected
+  append $wire~bool~ie[|J|]$ to decl-list // interaction enablement 
 
-  decl-list += $wire~int~selector$ // non-deterministic priority selector
+  append $wire~bool~ip [ |J| ]$ to decl-list // interaction priority
+  append $wire~bool~is[|J|]$ to decl-list // interaction selected
 
-  decl-list += $bool~cycle$ // cycle denotes whether we are in transition or interaction mode. 
+  append $wire~int~selector$ to decl-list // non-deterministic priority selector
+
+  append $bool~cycle$ to decl-list // cycle denotes whether we are in transition or interaction mode. 
+
   foreach $i \in [1..|I|]$
     foreach $j \in [1..|B_i.P|]$ 
-      decl-list += $wire~bool~B_i.p_j.e$ // port enablement
-      decl-list += $wire~bool~B_i.p_j.s$ // port selected
+      append $wire~bool~B_i.p_j.e$ to  decl-list // port enablement
+      append $wire~bool~B_i.p_j.s$ to  decl-list // port selected
     endfor
-  
+
     decl-list += $int~B_i.\ell$
     foreach $j \in [1..|B_i.X|]$ 
-      decl-list += $int~B_i.x_j$ // variable registers
+      append $int~B_i.x_j$ to  decl-list // variable registers
     endfor
   endfor
 }
@@ -70,15 +72,15 @@ generateDeclartionList() {
 \begin{lstlisting}
 generateWireDefList() {
   foreach $j \in [1..|J|]$
-    wiredef-list += ie[j] := $a_j.guard \wedge \bigwedge_{p\in a_i.P} component(p).p.e$ 
-    wiredef-list += ip[j] := $ie[j] \wedge \,(\forall k \neq j: ie[k] \Rightarrow a_k < a_j)$ 
-    wiredef-list += is[j] := $ip[j] \wedge \,(selector = j \vee (\lnot ip[selector] \land \forall k > j: \neg ip[k])$   
+    append ie[j] := $a_j.guard \wedge \bigwedge_{p\in a_i.P} component(p).p.e$ to  wiredef-list 
+    append ip[j] := $ie[j] \wedge \,(\forall k \neq j: ie[k] \Rightarrow a_k < a_j)$ to  wiredef-list 
+    append is[j] := $ip[j] \wedge \,(selector = j \vee (\lnot ip[selector] \land \forall k > j: \neg ip[k])$ to  wiredef-list 
   endfor
 
   foreach $i \in [1..|I|]$
     foreach $j \in [1..|B_i.P|]$ // where $B_i.P = \{p_1, \ldots, p_{|B_i.P|}\}$ 
-      wiredef-list += $B_i.p_j.e := \bigvee_{\tau \in transitions(B_i.p)} \tau.guard \land B_i.\ell = \tau.src$
-      wiredef-list += $B_i.p_j.s := \bigvee_{a_k \in interactions(B_i.p_j)} is[k]$
+      append $B_i.p_j.e := \bigvee_{\tau \in transitions(B_i.p)} \tau.guard \land B_i.\ell = \tau.src$ to  wiredef-list 
+      append $B_i.p_j.s := \bigvee_{a_k \in interactions(B_i.p_j)} is[k]$ to  wiredef-list 
     endfor
   endfor
 } 
@@ -86,42 +88,42 @@ generateWireDefList() {
 
 \begin{lstlisting}
 generateInitList() {
-  init-list += $cycle := 0$
-  foreach $i \in [1..|I|]$
-    init-list += $B_i.\ell := Init.B_i$
-    foreach $j \in [1..|B_i.X|]$
-      init-list += $B_i.x_j := v(B_i.x_j)$ // v is the initial valuation
-    endfor
-  endfor
+append $cycle := 0$ to init-list 
+ foreach $i \in [1..|I|]$
+append $B_i.\ell := Init.B_i$ to  init-list 
+ foreach $j \in [1..|B_i.X|]$
+  init-list += $B_i.x_j := v(B_i.x_j)$ // v is the initial valuation
+ endfor
+ endfor
 }
 \end{lstlisting}
 
 \begin{lstlisting}
 generateNextList() {
-  foreach $i \in [1..|I|]$
-    foreach $j \in [1..|B_i.X|]$ // where $B_i.X = \{x_1, \ldots, l_{|B_i.X|}\}$ 
-      st = $B_i.x_j := cycle = 0?$
-      foreach $k \in [1..|J|]$
-        foreach assignment $\sigma \in a_k.action$
-          if($B_i.x_j = \sigma.term$)
-            st += $is[k]?\, \sigma.expr:$
-          endif
-        endfor
-      endfor
-    
-      st += B_i.x_j:  // interaction mode and no data transfer for $B_i.x_j$
-      foreach $\tau \in B_i.T$ 
-        foreach assignment $\sigma \in \tau.action$
-          if($B_i.x_j = \sigma.term$)
-            st += $B_i.port(\tau).s?\, \sigma.expr:$
-          endif
-        endfor
-      endfor      
-      st += $B_i.x_j$
-      next-list += $st$
-    endfor
-    next-list += $cycle := \neg cycle$
+ foreach $i \in [1..|I|]$
+ foreach $j \in [1..|B_i.X|]$ // where $B_i.X = \{x_1, \ldots, l_{|B_i.X|}\}$ 
+  st = $B_i.x_j := cycle = 0?$
+  foreach $k \in [1..|J|]$
+  foreach assignment $\sigma \in a_k.action$
+   if($B_i.x_j = \sigma.term$)
+   st += $is[k]?\, \sigma.expr:$
+   endif
   endfor
+  endfor
+ 
+  st += B_i.x_j: // interaction mode and no data transfer for $B_i.x_j$
+  foreach $\tau \in B_i.T$ 
+  foreach assignment $\sigma \in \tau.action$
+   if($B_i.x_j = \sigma.term$)
+append $B_i.port(\tau).s?\, \sigma.expr:$ to    st 
+   endif
+  endfor
+  endfor  
+append $B_i.x_j$ to  st 
+append $st$ to  next-list 
+ endfor
+append $cycle := \neg cycle$ to  next-list 
+ endfor
 }
 \end{lstlisting}
 
@@ -161,7 +163,7 @@ that is selected for execution by the BIP engine.
 For each interaction $a_k \in \gamma$, \biptool~defines three Boolean wires. 
 (1) The {\em interaction enablement} wire, $ie[k]$, that is set to \true{} iff the interaction
 $a_k$ is enabled. $a_k$ is enabled iff the guard of the interaction $a_k.guard$ evaluates
-to \true{} and all ports $p \in a_k.P$ are enabled.  
+to \true{} and all ports $p \in a_k.P$ are enabled. 
 (2) The {\em interaction priority} wire, $ip[k]$, that is set to \true{} iff the interaction 
 $a_k$ is enabled and there does not exist any interaction $a_j \in \gamma$ such that 
 $a_j$ is enabled and has a higher priority than $a_k$.
@@ -251,8 +253,8 @@ $c$ & $9$ & $10$ & $s_0$ & $G$ & $3$ \\
 			\hline
 			$c+2$ & $10$ & $3$ & $s_0$ & $G$ & $3$ \\
 				\hline
-	  $c+3$ & $0$ & $3$ & $s_0$ & $Y$ & $5$ \\
-	  \hline
+	 $c+3$ & $0$ & $3$ & $s_0$ & $Y$ & $5$ \\
+	 \hline
 \end{tabular}
 \label{tb:bip:exec}
 \end{table}
@@ -337,9 +339,9 @@ $is[1] = ip[1] \land ((selector == 1) \lor (\lnot ip[selector]))$
 $timer.timer.e = (timer.\ell == s_0) \land (t < n)$
 $timer.done.e = (timer.\ell == s_0) \land (t \geq n)$
 $light.done.e = true \land ((light.\ell == G)$ 
-             $||(light.\ell == R)$
-             $||(light.\ell == Y))$
-             
+    $||(light.\ell == R)$
+    $||(light.\ell == Y))$
+    
 $timer.timer.s = is[0]$
 $timer.done.s = is[1]$
 $light.done.s = is[1]$
@@ -349,23 +351,23 @@ $timer.n = (cycle == 0)? (is[1]? light.m : timer.n) : timer.n$
 
 /** Next state functions: Transitions **/
 $timer.t = (cycle == 1)?$ 
-   $((timer.timer.s)? (timer.t + 1) :$
-   $((timer.done.s)? 0 : timer.t)) : timer.t$;
+ $((timer.timer.s)? (timer.t + 1) :$
+ $((timer.done.s)? 0 : timer.t)) : timer.t$;
 $light.m = (cycle == 1)?$
-   $((light.done.s \land light.\ell == G)? 5 :$
-   $((light.done.s \land light.\ell == Y)? 10 :$
-   $((light.done.s \land light.\ell == R)? 3 : light.m))) : light.m$
+ $((light.done.s \land light.\ell == G)? 5 :$
+ $((light.done.s \land light.\ell == Y)? 10 :$
+ $((light.done.s \land light.\ell == R)? 3 : light.m))) : light.m$
 $timer.\ell = (cycle == 1)?$
-   $((timer.timer.s)? s_0:$
-   $((timer.done.s)? s_0:timer.\ell)):timer.\ell$
+ $((timer.timer.s)? s_0:$
+ $((timer.done.s)? s_0:timer.\ell)):timer.\ell$
 $light.\ell = (cycle == 1)?$
-   $((light.done.s \land light.\ell == G)? Y :$
-   $((light.done.s \land light.\ell == Y)? R :$
-   $((light.done.s \land light.\ell == R)? G : light.\ell))) : light.\ell$
+ $((light.done.s \land light.\ell == G)? Y :$
+ $((light.done.s \land light.\ell == Y)? R :$
+ $((light.done.s \land light.\ell == R)? G : light.\ell))) : light.\ell$
 \end{lstlisting}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %%
-%%This section presents how we translate a BIP system $(B,\mathit{Init}, v)$ to its corresponding sequential circuit  $\big( (V, E),G, O\big)$. 
+%%This section presents how we translate a BIP system $(B,\mathit{Init}, v)$ to its corresponding sequential circuit $\big( (V, E),G, O\big)$. 
