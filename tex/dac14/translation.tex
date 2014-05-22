@@ -32,10 +32,10 @@ while(true) {
 \begin{lstlisting}
 
 BIP-to-CAIG(BIP $\pi(\gamma(\{B_i\}_{i \in I}))$ ) { 
-  generateDeclartionList();
-  generateWireDefList();
-  generateInitList();
-  generateNextList();
+  generateDeclartionList()
+  generateWireDefList()
+  generateInitList()
+  generateNextList()
 }
 \end{lstlisting}
 
@@ -45,22 +45,22 @@ BIP-to-CAIG(BIP $\pi(\gamma(\{B_i\}_{i \in I}))$ ) {
 \begin{lstlisting}
 generateDeclartionList() {
   // interaction wires
-  decl-list += $wire~bool~ie[|J|];$ // interaction enablement 
-  decl-list += $wire~bool~ip[|J|];$ // interaction priority
-  decl-list += $wire~bool~is[|J|];$ // interaction selected
+  decl-list += $wire~bool~ie[|J|]$ // interaction enablement 
+  decl-list += $wire~bool~ip[|J|]$ // interaction priority
+  decl-list += $wire~bool~is[|J|]$ // interaction selected
 
-  decl-list += $wire~int~selector;$ // non-deterministic priority selector
+  decl-list += $wire~int~selector$ // non-deterministic priority selector
 
-  decl-list += $bool~cycle;$ // cycle denotes whether we are in transition or interaction mode. 
+  decl-list += $bool~cycle$ // cycle denotes whether we are in transition or interaction mode. 
   foreach $i \in [1..|I|]$
     foreach $j \in [1..|B_i.P|]$ 
-      decl-list += $wire~bool~B_i.p_j.e;$ // port enablement
-      decl-list += $wire~bool~B_i.p_j.s;$ // port selected
+      decl-list += $wire~bool~B_i.p_j.e$ // port enablement
+      decl-list += $wire~bool~B_i.p_j.s$ // port selected
     endfor
   
-    decl-list += $int~B_i.\ell;$
+    decl-list += $int~B_i.\ell$
     foreach $j \in [1..|B_i.X|]$ 
-      decl-list += $int~B_i.x_j;$ // variable registers
+      decl-list += $int~B_i.x_j$ // variable registers
     endfor
   endfor
 }
@@ -70,15 +70,15 @@ generateDeclartionList() {
 \begin{lstlisting}
 generateWireDefList() {
   foreach $j \in [1..|J|]$
-    wiredef-list += ie[j] := $a_j.guard \wedge \bigwedge_{p\in a_i.P} component(p).p.e;$ 
-    wiredef-list += ip[j] := $ie[j] \wedge \,(\forall k \neq j: ie[k] \Rightarrow a_k < a_j);$ 
-    wiredef-list += is[j] := $ip[j] \wedge \,(selector = j \vee (\lnot ip[selector] \land \forall k > j: \neg ip[k]);$   
+    wiredef-list += ie[j] := $a_j.guard \wedge \bigwedge_{p\in a_i.P} component(p).p.e$ 
+    wiredef-list += ip[j] := $ie[j] \wedge \,(\forall k \neq j: ie[k] \Rightarrow a_k < a_j)$ 
+    wiredef-list += is[j] := $ip[j] \wedge \,(selector = j \vee (\lnot ip[selector] \land \forall k > j: \neg ip[k])$   
   endfor
 
   foreach $i \in [1..|I|]$
     foreach $j \in [1..|B_i.P|]$ // where $B_i.P = \{p_1, \ldots, p_{|B_i.P|}\}$ 
-      wiredef-list += $B_i.p_j.e := \bigvee_{\tau \in transitions(B_i.p)} \tau.guard \land B_i.\ell = \tau.src;$
-      wiredef-list += $B_i.p_j.s := \bigvee_{a_k \in interactions(B_i.p_j)} is[k];$
+      wiredef-list += $B_i.p_j.e := \bigvee_{\tau \in transitions(B_i.p)} \tau.guard \land B_i.\ell = \tau.src$
+      wiredef-list += $B_i.p_j.s := \bigvee_{a_k \in interactions(B_i.p_j)} is[k]$
     endfor
   endfor
 } 
@@ -86,11 +86,11 @@ generateWireDefList() {
 
 \begin{lstlisting}
 generateInitList() {
-  init-list += $cycle := 0$; 
+  init-list += $cycle := 0$
   foreach $i \in [1..|I|]$
-    init-list += $B_i.\ell := Init.B_i$; 
+    init-list += $B_i.\ell := Init.B_i$
     foreach $j \in [1..|B_i.X|]$
-      init-list += $B_i.x_j := v(B_i.x_j)$; // v is the initial valuation
+      init-list += $B_i.x_j := v(B_i.x_j)$ // v is the initial valuation
     endfor
   endfor
 }
@@ -100,11 +100,11 @@ generateInitList() {
 generateNextList() {
   foreach $i \in [1..|I|]$
     foreach $j \in [1..|B_i.X|]$ // where $B_i.X = \{x_1, \ldots, l_{|B_i.X|}\}$ 
-      st = $B_i.x_j$ := cycle = 0?
+      st = $B_i.x_j := cycle = 0?$
       foreach $k \in [1..|J|]$
         foreach assignment $\sigma \in a_k.action$
           if($B_i.x_j = \sigma.term$)
-            $st += is[k]?\, \sigma.expr:$
+            st += $is[k]?\, \sigma.expr:$
           endif
         endfor
       endfor
@@ -113,14 +113,14 @@ generateNextList() {
       foreach $\tau \in B_i.T$ 
         foreach assignment $\sigma \in \tau.action$
           if($B_i.x_j = \sigma.term$)
-            $st += B_i.port(\tau).s?\, \sigma.expr:$
+            st += $B_i.port(\tau).s?\, \sigma.expr:$
           endif
         endfor
       endfor      
-      st += $B_i.x_j$; 
-      next-list += st;  
+      st += $B_i.x_j$
+      next-list += $st$
     endfor
-    next-list += cycle := $\neg$cycle; 
+    next-list += $cycle := \neg cycle$
   endfor
 }
 \end{lstlisting}
