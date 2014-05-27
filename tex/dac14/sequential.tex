@@ -109,3 +109,12 @@ sequential circuits which are
 sequential circuits with only NAND gates restricted to have 2~fanins.
 Since NAND is functionally complete, this is not a limitation.  
 
+
+
+
+
+
+\subsection{Translation from \caig to Sequence Circuit}
+The translation of an \caig component into a sequential circuit 
+proceeds as follows.  For each register variable in the component instantiate a 
+vector of bit registers. 

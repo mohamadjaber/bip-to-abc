@@ -7,7 +7,7 @@
 We implemented \biptool{} in JAVA and used the BIP parser provided 
 freely in~\cite{verimagbiponline}. Given an input BIP program \Pm, 
 the parser generates a parse graph $G$. \biptool{} traverses $G$ 
-and translates \Pm into an equivalent \thislanguage{} program 
+and translates \Pm into an equivalent \caig{} program 
 \Pm'. We then use the same synthesis engine in \mytool{} to synthesize
 an equisatisfiable AIG circuit \aigcircuit{} that is passed to ABC 
 for sequential synthesis and verification.
@@ -16,7 +16,7 @@ for sequential synthesis and verification.
 of configuration options. It takes the name of the input BIP file, optional 
 configuration flags and an option to generate C++ emulation code. After 
 parsing the input file, we perform synthesis steps and generates 
-an output \thislanguage{} file. 
+an output \caig{} file. 
 We then pass this file to synthesize the AIG circuit \aigcircuit{}
 and call ABC for reduction and verification. \biptool{} makes use of the same debugging
 interface provided by \mytool{} in order to allow users to visualize counterexamples

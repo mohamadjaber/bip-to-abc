@@ -147,3 +147,19 @@ Finally, we consider systems defined as a parallel composition of components tog
 \label{def:system}
 A BIP system ${\cal S}$ is a tuple $(B,\mathit{Init}, v)$ where $B$ is a composite component,  $\mathit{Init}\in B_1.L\times \ldots\times B_n.L$ is the initial state of $B$, and $v \in \valu{X^{Init}}$ where $X^{Init} \subseteq \cup_{i = 1} ^ { n } B_i.X$.
 \end{definition}
+
+\todo{component(p), transition(p), interaction(p)}
+Given a port $p$ from the system \Pm, we define the function
+$interaction(p) = \set{a \in \gamma~|~p \in a.P}$ where $\gamma$
+is the set of interactions in the composite component $B$ of \Pm.
+This function returns the set of interactions in which the port 
+$p$ takes part. Additionally, the function 
+$component(p) = B_i$ such that $p \in B_i.P$ for $i \in I$ defines
+the component to which the port $p$ belongs. Furthermore the function
+$transitions(p) = \set{\tau \in component(p)~|~\tau \in B.T \land \tau.port = p}$ defines the 
+set of transitions $\tau$ in the component $B = component(p)$ such that $\tau$ 
+is labeled by $p$. 
+
+
+Function
+$transitions$ returns the transitions labeled with port $p$. Formally $transitions(p) = \set{\tau \in component(p)~|~\tau \in B.T \land \tau.port = p}$ 

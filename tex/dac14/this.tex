@@ -1,52 +1,34 @@
-\section{\this components}
+\section{\caig components}
 \label{s:this}
-The grammar in Table~\ref{t:gr} describes \caig grammar. 
-A \caig component starts with a list of declarations of 
-wire,  register variables, and arrays of them. 
+A \caig program ranges over boolean, integer and array variables. 
+A variable can be either a register denoting a memory element or a wire denoting a functional macro.
+The \caig program starts with the variable declarations followed by the wire variable definitions. 
+Then memory variables are initialized simultaneously using the \cci{do-together} construct. 
+After initialization, an infinite loop updates the value of the memory variables simultaneously. 
 
-Then wires are defined in a list of assignment statements. 
-Each wire can be the target of at most on assignment statement. 
-If a wire is not assigned then it is a {\em primary input}. 
+The listings in Figure \ref{fig:gr} shows the syntax of a \caig program. 
 
-The \cci{init} list of statements assign initial values for 
-the register variables. 
-All the assignment statements within \cci{init} execute
-simultaneously as indicated with the \cci{do\_together} keyword.
+The wires are defined in a list of assignment statements. 
+Each wire can be the target of at most one assignment statement. 
+If a wire is not assigned then it is a non-deterministic {\em primary input}. 
 
-Similarly, the \cci{next} list of statements update the values 
+The list of statements \cci{init-list} assigns initial values to 
+the register variables. All the assignment statements within \cci{init-list} execute
+simultaneously as indicated with the \cci{do-together} construct.
+
+Similarly, the \cci{next-list} list of statements updates the values 
 of the register variables. 
-All the assignment statements within \cci{next} execute 
-simultaneously as indicated with the \cci{do\_together} keyword.
+%All the assignment statements within \cci{next-list} execute simultaneously as indicated with the \cci{do-together} keyword.
 
 Each assignment statement has a left hand side target term 
 which is either a variable or an access operator to an 
 array element. 
-The right hand side of an assignment is a combinational expression
-with Boolean and arithmetic operators and a ternary choice 
+The right hand side of an assignment is a combinational expression ranging over the program variables,  Boolean and arithmetic operators, and a ternary choice 
 operator. The ternary choice \cci{(a? b : c)} returns $b$ if $a$ 
 is \true and $c$ otherwise. 
 
-The translation of an \caig component into a sequential circuit 
-proceeds as follows. 
-For each register variable in the component instantiate a 
-vector of bit registers. 
-
-\begin{table}
-\begin{tabular}{p{6cm}p{6cm}}
-\begin{Verbatim}
-component: decl wiredef init while(true) { next } 
-type: bool | int | bool [NUM] | int [NUM]; 
-declaration: wire type id; | type id;
-
-decl : declaration+
-wiredef: (term = expr;)*
-term : id | id[expr]; 
-
-init: do_together { (term = expr;)* }
-next: do_together { (term = expr;)* }
-expr : term | uop expr| expr bop expr | expr ? expr : expr;
-\end{Verbatim}
-&
+\begin{figure}
+\begin{tabular}{p{3cm}p{0.5cm}p{12cm}}
 \begin{lstlisting}
 decl-list
 
@@ -62,7 +44,22 @@ while(true) {
   }
 }
 \end{lstlisting}
+&
+&
+\begin{lstlisting}
+type: bool | int | bool [NUM] | int [NUM]; 
+declaration: wire type id; | type id;
+
+expr: term | uop expr| expr bop expr | expr ? expr : expr;
+term: id | id[expr]; 
+
+decl-list: declaration+
+wiredef-list: (term = expr)*
+
+init-list: (term = expr)* 
+next-list: (term = expr)* 
+\end{lstlisting}
 \end{tabular}
-\caption{\caig component grammar}
-\label{t:gr}
-\end{table}
+\caption{\caig Syntax}
+\label{fig:gr}
+\end{figure}

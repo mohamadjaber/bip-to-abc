@@ -1,34 +1,9 @@
 
 %% the algorithm
-\section{BIP to \thislanguage}
+\section{BIP to \caig}
 \label{chap3:bip2aig:bip2etc}
 Given a BIP system $\Pm = (B, Init, v)$, \biptool~translates \Pm into 
-a \thislanguage~program \aigcircuit that includes its own customized execution engine. 
-
-Listing~\ref{alg:bip2aig} shows the algorithm used by \biptool~to implement 
-this translation. The algorithm is divided into 4 steps: (1) wire and variable
-declarations, (2) wire definitions, (3) \cci{init} block and (4) \cci{next} block construction. 
-The lists \cci{decl-list}, \cci{wiredef-list}, \cci{init-list} and \cci{next-list}
-represent the list of declarations and lists of statements used in the 
-declaration, wire definition, \cci{init} and \cci{next} blocks of \aigcircuit, respectively. 
-
-
-
-\begin{lstlisting}
-decl-list
-
-wiredef-list
-
-do-together {
-  init-list
-}
-
-while(true) {
-  do-together {
-    next-list
-  }
-}
-\end{lstlisting}
+a \caig~program with its own customized execution engine. Function \cci{BIP-to-CAIG} takes a BIP system as input and constructs a \caig program. It calls four functions that fill \cci{decl-list}, \cci{wiredef-list}, \cci{init-list}, \cci{next-list}. All these function use the \cci{append} call to add code fragments to lists. 
 
 \begin{lstlisting}
 /*@\textbf{BIP-to-CAIG}@*/(B, Init, v)
@@ -38,36 +13,9 @@ while(true) {
   generateNextList()
 \end{lstlisting}
 
-\begin{lstlisting}
-/*@\textbf{generateDeclartionList()}@*/
-  // interaction enablement wires
-  append $wire~bool~ie[|J|]$ to decl-list
-  // interaction priority wires
-  append $wire~bool~ip [ |J| ]$ to decl-list 
-  // interaction selected wires
-  append $wire~bool~is[|J|]$ to decl-list 
-  // non-deterministic priority selector wire
-  append $wire~int~selector$ to decl-list 
-  // cycle denotes transition or interaction mode
-  append $bool~cycle$ to decl-list  
-
-  foreach $i \in [1..|I|]$
-    foreach $j \in [1..|B_i.P|]$ 
-      // port enablement
-      append $wire~bool~B_i.p_j.e$ to  decl-list 
-      // port selected
-      append $wire~bool~B_i.p_j.s$ to  decl-list 
-    endfor
-
-    // location registers
-    append $int~B_i.\ell$ to decl-list
-    
-    foreach $j \in [1..|B_i.X|]$ 
-      // variable registers
-      append $int~B_i.x_j$ to  decl-list 
-    endfor
-  endfor
-\end{lstlisting}
+Function \cci{generateDeclartionList()} fills \cci{decl-list} as follows. 
+It creates three arrays of wires to denote interaction semantics. Array $ie$ elements denote whether all logical constraints except priority rules are met for a given interaction. Array $ip$ elements denote whether a given interaction is enabled after applying priority rules. Array $is$ elements denote whether an enabled interaction is selected for execution. Currently, one interaction is selected to avoid executing conflicting interactions. Two interactions are conflicting if they involve same components. The $selector$ wire is a non-deterministic primary input that is used to select one of the enabled interactions. The $cycle$ boolean register is used to denote whether the system is executing actions corresponding to either interaction or transition. 
+The function also declares two wires ($B_i.p_j.e$ and $B_i.p_j.s$) for each port $p_j$. Wire $B_i.p_j.e$ denotes whether the port is enabled and wire $B_i.p_j.s$ denotes whether the port is selected by the interaction for execution. Moreover, for each component $B_i$ the function declares a register variable $B_i.\ell$ denoting the current location of $B_i$. Similarly, the function declares a variable register $B_i.x_j$ for each variable $x_j$ in component $B_i$.  
 
 
 \begin{lstlisting}
@@ -102,23 +50,39 @@ while(true) {
 \end{lstlisting}
 
 
+Function \cci{generateWireDefList()} fills \cci{wiredef-list} with functional macro definitions as follows. The enable wire $B_i.p_j.e$ is \true when there exists a transition $\tau$ labeled with port $p$, its source ($\tau.src$) is the current location ($B_i.\ell$), and its guard is \true. 
+
+Array element $ie[j]$ corresponding to interaction $a_j$ is evaluated to \true when the guard of $a_j$ is \true and all its ports are enabled. Array element $ip[j]$ is evaluated to \true when $ie[j]$ is \true and $a_j$ has higher priority than other enabled interactions. Array element $is[j]$ is evaluated to \true when $ip[j]$ is true either $a_j$ is selected ($selector$ equals to $j$) or the selected interaction is not enabled and $j$ is the first enabled interaction greater with an index greater than $j$. The use of non-deterministic selector is added for fairness. 
+The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction $a_k$ (i.e., $is[k]$ is \true) involving $B_i.p_j$.
+
+ 
 \begin{lstlisting}
 /*@\textbf{generateWireDefList()}@*/
+  // iterate over components
+  foreach $i \in [1..|I|]$ 
+    // iterate over component ports
+    foreach $j \in [1..|B_i.P|]$ 
+      append $B_i.p_j.e := \bigvee_{\tau \in transitions(B_i.p_j)} \tau.guard \land B_i.\ell = \tau.src$ to  wiredef-list 
+    endfor
+  endfor
+  
   // iterate over interactions
   foreach $j \in [1..|J|]$ 
     append $ie[j] := a_j.guard \wedge \bigwedge_{p\in a_i.P} component(p).p.e$ to  wiredef-list 
     append $ip[j] := ie[j] \wedge \,(\forall k \neq j: ie[k] \Rightarrow a_k < a_j)$ to  wiredef-list 
     append $is[j] := ip[j] \wedge \,(selector = j \vee (\lnot ip[selector] \land \forall k > j: \neg ip[k])$ to  wiredef-list 
   endfor
+  
   // iterate over components
   foreach $i \in [1..|I|]$ 
     // iterate over component ports
     foreach $j \in [1..|B_i.P|]$ 
-      append $B_i.p_j.e := \bigvee_{\tau \in transitions(B_i.p)} \tau.guard \land B_i.\ell = \tau.src$ to  wiredef-list 
       append $B_i.p_j.s := \bigvee_{a_k \in interactions(B_i.p_j)} is[k]$ to  wiredef-list 
     endfor
   endfor
 \end{lstlisting}
+
+Function \cci{generateInitList()} fills \cci{init-list} with initial value definitions taken from $Init$ for location variables ($B_i.\ell)$ and $v$ for component variables ($B_i.x_j)$. Register variable $cycle$ is initialized to zero to denote an interaction execution mode. 
 
 \begin{lstlisting}
 /*@\textbf{generateInitList()}@*/
@@ -133,36 +97,54 @@ while(true) {
   endfor
 \end{lstlisting}
 
+Function \cci{generateInitList()} fills \cci{next-list} with the next state value definitions of register variables. Each component variable can be modified either in an interaction action or in a transition action. The value of variable $cycle$ makes this distinction. 
+
+In the interaction mode ($cycle$ equals to zero), the function considers each assignment statement $\sigma$ from the action of interaction $a_j$. The function appends a conditional clause requiring the $a_k$ to be selected for execution so that the target variable $B_i.x_j$ of $\sigma$ is assigned to the expression of $\sigma$ ($\sigma.expr$). The sequence of conditional clauses form a nested ternary conditional expressions where the last expression retains the previous value of the variable. 
+
+Similarly, in the transition mode ($cycle$ equals to one), the function considers each assignment statement $\sigma$ from the action of transition $\tau$. The function appends a conditional clause requiring the port of the transition $\tau$ to be selected for execution and the location of the component to be equal to the source of the transition. The target variable $B_i.x_j$ of $\sigma$ is assigned to the expression of $\sigma$ ($\sigma.expr$). 
+
+In the transition mode, the function considers the current location of each component $B_i.\ell$ and appends a conditional clause requiring the transition source to be equal to the current location and the port of the transition to be selected. The expression corresponding to the conditional clause updates the current location to be the destination of the transition ($\tau.dest$).  In the interaction mode, the location retains its value. Finally, the $cycle$ variable is toggled. 
+
+% The sequence of conditional clauses form a nested ternary conditional expressions where the last expression retains the previous value of the variable.
 \begin{lstlisting}
 /*@\textbf{generateNextList()}@*/ 
-  // iterate over components
+  // iterate over components - interaction-mode
   foreach $i \in [1..|I|]$ 
     // iterate over variables, where $\textcolor{darkgreen}{B_i.X = \{x_1, \ldots, l_{|B_i.X|}\}}$ 
     foreach $j \in [1..|B_i.X|]$ 
-      append $B_i.x_j := cycle = 0?$ to st
+      // interaction mode
+      append $B_i.x_j := cycle = 0?$ to var-st
       // iterate over interactions
       foreach $k \in [1..|J|]$ 
         // iterate over interaction assignments
         foreach $\sigma \in a_k.action$
           if($B_i.x_j = \sigma.term$)
-            append $is[k]?\, \sigma.expr:$ to st
+            append $is[k]?\, \sigma.expr:$ to var-st
           endif
         endfor
       endfor
       // interaction mode and no data transfer for $\textcolor{darkgreen}{B_i.x_j}$
-      append $B_i.x_j$: to st 
-      // iterate over component transitions
+      append $B_i.x_j$: to var-st 
+      
+      
+      // iterate over component transitions - transition-mode
+      append $B_i.\ell := cycle = 0?\, B_i.\ell :$ to loc-st
       foreach $\tau \in B_i.T$ 
         // iterate over transition assignments
         foreach $\sigma \in \tau.action$
           if($B_i.x_j = \sigma.term$)
-            append $(B_i.port(\tau).s \wedge \tau.source = B_i.\ell)?\, \sigma.expr:$ to st 
+            append $(B_i.port(\tau).s \wedge \tau.src = B_i.\ell)?\, \sigma.expr:$ to var-st 
           endif
         endfor
+        append $(B_i.port(\tau).s \wedge \tau.src = B_i.\ell)?\, \tau.dest:$ to loc-st 
       endfor  
       
-      append $B_i.x_j$ to  st 
-      append $st$ to  next-list 
+      append $B_i.x_j$ to var-st 
+      append var-st to  next-list 
+      
+      append $B_i.\ell$ to loc-st 
+      append loc-st to  next-list 
+
     endfor
     // switch cycle
     append $cycle := \neg cycle$ to  next-list 
@@ -170,89 +152,8 @@ while(true) {
 \end{lstlisting}
 
 
-Given a port $p$ from the system \Pm, we define the function
-$interaction(p) = \set{a \in \gamma~|~p \in a.P}$ where $\gamma$
-is the set of interactions in the composite component $B$ of \Pm.
-This function returns the set of interactions in which the port 
-$p$ takes part. Additionally, the function 
-$component(p) = B_i$ such that $p \in B_i.P$ for $i \in I$ defines
-the component to which the port $p$ belongs. Furthermore the function
-$transitions(p) = \set{\tau \in component(p)~|~\tau \in B.T \land \tau.port = p}$ defines the 
-set of transitions $\tau$ in the component $B = component(p)$ such that $\tau$ 
-is labeled by $p$. 
 
-Intuitively, for each component $B_i$ in $B$, \biptool~defined a scalar variable 
-$B_i.l$ that represents the control location $l \in B_i.L$ at which the 
-component $B_i$ is currently at. Additionally, it declares a scalar variable
-$B_i.x_j$ for each variable $x_j \in B_i.X$. 
-The algorithm defines the initial values for control locations and data variables 
-based on the $Init$ relation of the system \Pm. It thus builds the initialization 
-list by adding the assignments $``B_i.\ell := Init.B_i"$ and $``B_i.x_j := v(B_i.x_j)"$
-for $j \in [1\ldots|B_i.X|]$ and $i \in [1\ldots|I|]$, where $Init.B_i$ is 
-the initial location from which $B_i$ starts and $v(B_i.x_j)$ is the initial valuation of the
-variable $x_j \in B_i.X$.
-
-
-For each atomic component $B_i$ in $B$, and for every port $p \in B_i.P$, 
-\biptool~defines two Boolean wires. 
-(1) The {\em port enablement} wire ($B_i.p_j.e$) that is set to \true~iff the port $p_j \in B_i$ is 
-{\em enabled}. The port $p_j$ is enabled iff there exists a transition $\tau \in transitions(p_j)$
-such that the guard of $\tau$ evaluates to \true~and $B_i$ is in the control location $l = \tau.src$.
-(2) The {\em port selected} wire ($B_i.p_j.s$) that is set to \true{} iff the port $p_j \in B_i$ is
-{\em selected}. The port $p_j$ is selected iff there exists an interaction $a \in interactions(p_j)$
-that is selected for execution by the BIP engine.
-
-For each interaction $a_k \in \gamma$, \biptool~defines three Boolean wires. 
-(1) The {\em interaction enablement} wire, $ie[k]$, that is set to \true{} iff the interaction
-$a_k$ is enabled. $a_k$ is enabled iff the guard of the interaction $a_k.guard$ evaluates
-to \true{} and all ports $p \in a_k.P$ are enabled. 
-(2) The {\em interaction priority} wire, $ip[k]$, that is set to \true{} iff the interaction 
-$a_k$ is enabled and there does not exist any interaction $a_j \in \gamma$ such that 
-$a_j$ is enabled and has a higher priority than $a_k$.
-(3) The {\em interaction selected} wire, $is[k]$, that is set to \true{} iff the
-interaction $a_k$ is selected for execution. Given a set of enabled interactions 
-with equal priority, the BIP engine synthesized by \biptool{}
-selects interactions for execution based on the following procedure. It makes use of a
-non-deterministic selector (the \cci{selector} scalar wire defined on line 10 
-of Listing~\ref{alg:bip2aig}) and selects the active interaction $a_j$ having 
-an index $j$ equal to the non-deterministic value of the selector wire.
-If no such interaction exists, the engine selects the interaction with the largest 
-index. 
-This is depicted by the assignment $``is[j] = ip[j] \land \left( (selector = j) 
-\land (\lnot (ip[selector] \land \forall{k > j}\,:\lnot ip[k])) \right)"$ on line 32 of Listing~\ref{alg:bip2aig}.
-
-%% the bip engine we use
-\biptool{} synthesizes a BIP execution engine that is based on a two clock cycles 
-approach. In the first cycle, the engine selects an interaction $a \in \gamma$ 
-and executes its actions. In the second cycle, the engine checks for possible
-transitions $\tau \in B_i$ such that $\tau.port$ is selected, for $i \in [1\ldots|I|]$,
-and executes their actions $\tau.actions$. Contrarily to the BIP engine in~\cite{BasuBBCJNS11},
-\biptool's engine executes the actions of all possible transitions simultaneously.
-Additionally, the engine updates the locations of the atomic components $B_i$ of $B$
-in accordance with the executed transitions; \ie{} executing a transition $\tau \in B_i.L$ 
-transitions $B_i$ from control location $l_1 = \tau.src$ to location $l_2 = \tau.dest$.
-
-\biptool{} updates the values of the data variables in accordance with the 
-actions of the executed interactions and transitions. An assignment statement 
-$\sigma \in a_k.actions$ where $a_k \in \gamma$ is an interaction executes 
-and updates the value of its target data variable iff the interaction $a_k$ 
-is selected for execution, \ie when $is[k]$ evaluate to \true{} and the engine
-is in its first cycle. Similarly $\sigma \in \tau.actions$ where $\tau$ is a transition
-executes and update the value of its target data variable iff the transitions $\tau$
-is allowed to execute, \ie when $\tau.port$ is selected and the engine is in its
-second cycle. Updates to data variable are shown on lines 61 and 69 of the 
-algorithm in Listing~\ref{alg:bip2aig}.
-
-\biptool{} uses the same AIG synthesis engine used in \mytool{} in order to 
-synthesize an AIG from the generated \thislanguage{} program \aigcircuit. 
-If the developer wishes the check for deadlock freedom, \biptool{} adds 
-an assertion statement to \aigcircuit{} to check that at each cycle, 
-there is at least one interaction enabled for execution. Additionally, 
-developers can also add custom assertions defined as FOL properties. These assertions
-are handled in the same manner that \mytool{} handles them, and \biptool{}
-uses the ABC AIG solver to check for the validity of the assertions. 
-
-\section{Illustrative Example}
+\subsection{Illustrative Example}
 Table~\ref{tb:bip:exec} shows a sample execution trace of \mytool's BIP engine
 on the traffic light example presented in Figure~\ref{fig:traffic:bip}. The variables 
 $timer.t$, $timer.n$, $timer.\ell$, $light.\ell$ and $light.m$ represent $t$, $n$
