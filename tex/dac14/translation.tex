@@ -11,7 +11,8 @@ The lists \cci{decl-list}, \cci{wiredef-list}, \cci{init-list} and \cci{next-lis
 represent the list of declarations and lists of statements used in the 
 declaration, wire definition, \cci{init} and \cci{next} blocks of \aigcircuit, respectively. 
 
-\begin{tabular}{p{7cm} p{1cm} p{7cm}}
+
+
 \begin{lstlisting}
 decl-list
 
@@ -27,104 +28,144 @@ while(true) {
   }
 }
 \end{lstlisting}
-&
-& 
-\begin{lstlisting}
 
-BIP-to-CAIG(BIP $\pi(\gamma(\{B_i\}_{i \in I}))$ ) { 
+\begin{lstlisting}
+/*@\textbf{BIP-to-CAIG}@*/($\pi(\gamma(\{B_i\}_{i \in I}))$)
   generateDeclartionList()
   generateWireDefList()
   generateInitList()
   generateNextList()
-}
 \end{lstlisting}
 
-\end{tabular}
-
-
 \begin{lstlisting}
-generateDeclartionList() {
-  // interaction wires
-  append $wire~bool~ie[|J|]$ to decl-list // interaction enablement 
-
-  append $wire~bool~ip [ |J| ]$ to decl-list // interaction priority
-  append $wire~bool~is[|J|]$ to decl-list // interaction selected
-
-  append $wire~int~selector$ to decl-list // non-deterministic priority selector
-
-  append $bool~cycle$ to decl-list // cycle denotes whether we are in transition or interaction mode. 
+/*@\textbf{generateDeclartionList()}@*/
+  // interaction enablement wires
+  append $wire~bool~ie[|J|]$ to decl-list
+  // interaction priority wires
+  append $wire~bool~ip [ |J| ]$ to decl-list 
+  // interaction selected wires
+  append $wire~bool~is[|J|]$ to decl-list 
+  // non-deterministic priority selector wire
+  append $wire~int~selector$ to decl-list 
+  // cycle denotes transition or interaction mode
+  append $bool~cycle$ to decl-list  
 
   foreach $i \in [1..|I|]$
     foreach $j \in [1..|B_i.P|]$ 
-      append $wire~bool~B_i.p_j.e$ to  decl-list // port enablement
-      append $wire~bool~B_i.p_j.s$ to  decl-list // port selected
+      // port enablement
+      append $wire~bool~B_i.p_j.e$ to  decl-list 
+      // port selected
+      append $wire~bool~B_i.p_j.s$ to  decl-list 
     endfor
 
-    decl-list += $int~B_i.\ell$
+    // location registers
+    append $int~B_i.\ell$ to decl-list
+    
     foreach $j \in [1..|B_i.X|]$ 
-      append $int~B_i.x_j$ to  decl-list // variable registers
+      // variable registers
+      append $int~B_i.x_j$ to  decl-list 
     endfor
   endfor
-}
 \end{lstlisting}
 
 
 \begin{lstlisting}
-generateWireDefList() {
-  foreach $j \in [1..|J|]$
-    append ie[j] := $a_j.guard \wedge \bigwedge_{p\in a_i.P} component(p).p.e$ to  wiredef-list 
-    append ip[j] := $ie[j] \wedge \,(\forall k \neq j: ie[k] \Rightarrow a_k < a_j)$ to  wiredef-list 
-    append is[j] := $ip[j] \wedge \,(selector = j \vee (\lnot ip[selector] \land \forall k > j: \neg ip[k])$ to  wiredef-list 
-  endfor
+/*@\textbf{generateDeclartionList()}@*/
+  // interaction enablement wires
+  append $wire~bool~ie[|J|]$ to decl-list
+  // interaction priority wires
+  append $wire~bool~ip [ |J| ]$ to decl-list 
+  // interaction selected wires
+  append $wire~bool~is[|J|]$ to decl-list 
+  // non-deterministic priority selector wire
+  append $wire~int~selector$ to decl-list 
+  // cycle denotes transition or interaction mode
+  append $bool~cycle$ to decl-list  
 
   foreach $i \in [1..|I|]$
-    foreach $j \in [1..|B_i.P|]$ // where $B_i.P = \{p_1, \ldots, p_{|B_i.P|}\}$ 
+    foreach $j \in [1..|B_i.P|]$ 
+      // port enablement
+      append $wire~bool~B_i.p_j.e$ to  decl-list 
+      // port selected
+      append $wire~bool~B_i.p_j.s$ to  decl-list 
+    endfor
+
+    // location registers
+    append $int~B_i.\ell$ to decl-list
+    
+    foreach $j \in [1..|B_i.X|]$ 
+      // variable registers
+      append $int~B_i.x_j$ to  decl-list 
+    endfor
+  endfor
+\end{lstlisting}
+
+
+\begin{lstlisting}
+/*@\textbf{generateWireDefList()}@*/
+  // iterate over interactions
+  foreach $j \in [1..|J|]$ 
+    append $ie[j] := a_j.guard \wedge \bigwedge_{p\in a_i.P} component(p).p.e$ to  wiredef-list 
+    append $ip[j] := ie[j] \wedge \,(\forall k \neq j: ie[k] \Rightarrow a_k < a_j)$ to  wiredef-list 
+    append $is[j] := ip[j] \wedge \,(selector = j \vee (\lnot ip[selector] \land \forall k > j: \neg ip[k])$ to  wiredef-list 
+  endfor
+  // iterate over components
+  foreach $i \in [1..|I|]$ 
+    // iterate over component ports
+    foreach $j \in [1..|B_i.P|]$ 
       append $B_i.p_j.e := \bigvee_{\tau \in transitions(B_i.p)} \tau.guard \land B_i.\ell = \tau.src$ to  wiredef-list 
       append $B_i.p_j.s := \bigvee_{a_k \in interactions(B_i.p_j)} is[k]$ to  wiredef-list 
     endfor
   endfor
-} 
 \end{lstlisting}
 
 \begin{lstlisting}
-generateInitList() {
-append $cycle := 0$ to init-list 
- foreach $i \in [1..|I|]$
-append $B_i.\ell := Init.B_i$ to  init-list 
- foreach $j \in [1..|B_i.X|]$
-  init-list += $B_i.x_j := v(B_i.x_j)$ // v is the initial valuation
- endfor
- endfor
-}
+/*@\textbf{generateInitList()}@*/
+  // initialize to interaction mode
+  append $cycle := 0$ to init-list 
+  foreach $i \in [1..|I|]$
+    append $B_i.\ell := Init.B_i$ to  init-list 
+    foreach $j \in [1..|B_i.X|]$
+      // v is the initial valuation
+      append $B_i.x_j := v(B_i.x_j)$ to init-list  
+    endfor
+  endfor
 \end{lstlisting}
 
 \begin{lstlisting}
-generateNextList() {
- foreach $i \in [1..|I|]$
- foreach $j \in [1..|B_i.X|]$ // where $B_i.X = \{x_1, \ldots, l_{|B_i.X|}\}$ 
-  st = $B_i.x_j := cycle = 0?$
-  foreach $k \in [1..|J|]$
-  foreach assignment $\sigma \in a_k.action$
-   if($B_i.x_j = \sigma.term$)
-   st += $is[k]?\, \sigma.expr:$
-   endif
+/*@\textbf{generateNextList()}@*/ 
+  // iterate over components
+  foreach $i \in [1..|I|]$ 
+    // iterate over variables, where $\textcolor{darkgreen}{B_i.X = \{x_1, \ldots, l_{|B_i.X|}\}}$ 
+    foreach $j \in [1..|B_i.X|]$ 
+      append $B_i.x_j := cycle = 0?$ to st
+      // iterate over interactions
+      foreach $k \in [1..|J|]$ 
+        // iterate over interaction assignments
+        foreach $\sigma \in a_k.action$
+          if($B_i.x_j = \sigma.term$)
+            append $is[k]?\, \sigma.expr:$ to st
+          endif
+        endfor
+      endfor
+      // interaction mode and no data transfer for $\textcolor{darkgreen}{B_i.x_j}$
+      append $B_i.x_j$: to st 
+      // iterate over component transitions
+      foreach $\tau \in B_i.T$ 
+        // iterate over transition assignments
+        foreach $\sigma \in \tau.action$
+          if($B_i.x_j = \sigma.term$)
+            append $(B_i.port(\tau).s \wedge \tau.source = B_i.\ell)?\, \sigma.expr:$ to st 
+          endif
+        endfor
+      endfor  
+      
+      append $B_i.x_j$ to  st 
+      append $st$ to  next-list 
+    endfor
+    // switch cycle
+    append $cycle := \neg cycle$ to  next-list 
   endfor
-  endfor
- 
-  st += B_i.x_j: // interaction mode and no data transfer for $B_i.x_j$
-  foreach $\tau \in B_i.T$ 
-  foreach assignment $\sigma \in \tau.action$
-   if($B_i.x_j = \sigma.term$)
-append $B_i.port(\tau).s?\, \sigma.expr:$ to    st 
-   endif
-  endfor
-  endfor  
-append $B_i.x_j$ to  st 
-append $st$ to  next-list 
- endfor
-append $cycle := \neg cycle$ to  next-list 
- endfor
-}
 \end{lstlisting}
 
 
