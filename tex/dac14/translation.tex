@@ -3,7 +3,8 @@
 \section{BIP to \thislanguage}
 \label{chap3:bip2aig:bip2etc}
 Given a BIP system $\Pm = (B, Init, v)$, \biptool~translates \Pm into 
-an \thislanguage~program \aigcircuit~with its own customized execution engine. 
+a \thislanguage~program \aigcircuit that includes its own customized execution engine. 
+
 Listing~\ref{alg:bip2aig} shows the algorithm used by \biptool~to implement 
 this translation. The algorithm is divided into 4 steps: (1) wire and variable
 declarations, (2) wire definitions, (3) \cci{init} block and (4) \cci{next} block construction. 
@@ -30,7 +31,7 @@ while(true) {
 \end{lstlisting}
 
 \begin{lstlisting}
-/*@\textbf{BIP-to-CAIG}@*/($\pi(\gamma(\{B_i\}_{i \in I}))$)
+/*@\textbf{BIP-to-CAIG}@*/(B, Init, v)
   generateDeclartionList()
   generateWireDefList()
   generateInitList()

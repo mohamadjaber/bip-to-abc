@@ -1,32 +1,7 @@
 \section{\this components}
-
 \label{s:this}
-
-\begin{table}
-  \caption{\this component grammar}
-
-\begin{tabular}{p{6cm}p{6cm}}
-\begin{Verbatim}
-component: decl wiredef init while(true) { next } 
-type: bool | int | bool [NUM] | int [NUM]; 
-declaration: wire type id; | type id;
-
-decl : declaration+
-wiredef: (term = expr;)*
-term : id | id[expr]; 
-
-init: do_together { (term = expr;)* }
-next: do_together { (term = expr;)* }
-expr : term | uop expr| expr bop expr | expr ? expr : expr;
-\end{Verbatim}
-&
-\end{tabular}
-
-\label{t:gr}
-\end{table}
-
-The grammar in Table~\ref{t:gr} describes \this components. 
-A \this component starts with a list of declarations of 
+The grammar in Table~\ref{t:gr} describes \caig grammar. 
+A \caig component starts with a list of declarations of 
 wire,  register variables, and arrays of them. 
 
 Then wires are defined in a list of assignment statements. 
@@ -51,8 +26,43 @@ with Boolean and arithmetic operators and a ternary choice
 operator. The ternary choice \cci{(a? b : c)} returns $b$ if $a$ 
 is \true and $c$ otherwise. 
 
-The translation of an \this component into a sequential circuit 
+The translation of an \caig component into a sequential circuit 
 proceeds as follows. 
 For each register variable in the component instantiate a 
 vector of bit registers. 
-...
+
+\begin{table}
+\begin{tabular}{p{6cm}p{6cm}}
+\begin{Verbatim}
+component: decl wiredef init while(true) { next } 
+type: bool | int | bool [NUM] | int [NUM]; 
+declaration: wire type id; | type id;
+
+decl : declaration+
+wiredef: (term = expr;)*
+term : id | id[expr]; 
+
+init: do_together { (term = expr;)* }
+next: do_together { (term = expr;)* }
+expr : term | uop expr| expr bop expr | expr ? expr : expr;
+\end{Verbatim}
+&
+\begin{lstlisting}
+decl-list
+
+wiredef-list
+
+do-together {
+  init-list
+}
+
+while(true) {
+  do-together {
+    next-list
+  }
+}
+\end{lstlisting}
+\end{tabular}
+\caption{\caig component grammar}
+\label{t:gr}
+\end{table}
