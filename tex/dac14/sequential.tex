@@ -1,5 +1,6 @@
 \section{Sequential Circuit}
 \label{sec:preliminaries}
+
 The ABC solver operates on an sequential circuit representation of a program.
 \begin{definition}[Sequential circuit]
 \rm A {\em sequential circuit} is a tuple $\big( (V, E),G,
@@ -41,6 +42,11 @@ and every cycle in the sequential circuit should contain
 at least one vertex from $R$.  The initial-value functions
 of $R$ shall have no registers in their support.  All
 sequential circuits we consider will be well-formed.  
+
+The ABC analyzer reasons about And-Inverted-Graph (AIG)
+sequential circuits which are
+sequential circuits with only NAND gates restricted to have 2~fanins.
+Since NAND is functionally complete, this is not a limitation.  
 
 \subsection{Semantics of sequential circuits}
 \label{s:back:crct_semantics}
@@ -103,18 +109,111 @@ almost all cases of interest~\cite{BuClMcDiHw92}.
 %Only the arcs corresponding to state $000$ are shown for 
 %clarity of exposition.
 
+\subsection{Translation from \caig to AIG circuits }
 
-The ABC analyzer reasons about And-Inverted-Graph (AIG)
-sequential circuits which are
-sequential circuits with only NAND gates restricted to have 2~fanins.
-Since NAND is functionally complete, this is not a limitation.  
+The translation of a \caig component into an AIG circuit
+first constructs registers, wires, and primary input variables for each 
+\caig variable. 
+%
+It then recursively traverses the right hand side 
+of the assignment statements in \cci{wiredef-list}, \cci{init-list},
+and \cci{next-list} to build corresponding combinational circuits.
+%
+It connects the outputs of the combinational 
+circuits built for the \cci{init-list} and \cci{next-list} 
+assignment expressions to the 
+initial value and next state value input pins of the corresponding 
+registers, respectively. 
+%
+Finally, it connects the outputs of the combinational circuits built 
+for the  \cci{wiredef-list} to the wires referring to the 
+variables declared as wire variables in \cci{decl-list}.
+
+\paragraph{Variables.} 
+%
+We consider each variable not declared as a wire in \cci{decl-list}
+we instantiate a corresponding 
+vector of AIG registers with an adequate bit width. 
+The width of the bit vector can be selected by the user, 
+or can be set to match the default width of the declared type. 
+Typically the default values for the bit width are 
+32 bits for an integer, one bit for a Boolean, and a 
+finite two dimensional bit vector for an array. 
+In our case, we will not have arrays of register variables
+and we will only have fixed size arrays of Boolean wires as 
+discussed in Section~\label{s:biptocaig}.
+%
+We consider variables declared as wires in \cci{decl-list}
+and that do not have a corresponding assignment statement 
+in \cci{wiredef-list} as non-deterministic variables. 
+For each non-deterministic variable we instantiate a corresponding
+vector of primary inputs with an adequate bit-width. 
+%
+We consider variables declared as wires in \cci{decl-list} with 
+a corresponding assignment statement in \cci{wiredef-list} as functional macros. 
+For each functional macro we 
+instantiate a vector of identity gates (a sequence of two negation gates) where the
+fanouts correspond to the wire variable and the fanins correspond to
+the expression defining the wire variable in \cci{wiredef-list}. 
+%
+We denote the gates corresponding to each variable by the function \cci{vargates}. 
+
+\begin{lstlisting}
+/*@\textbf{variables}@*/(decl-list, wiredef-list)
+  foreach variable $v$ in decl-list
+    if ($v$ is not a wire) 
+      vargates($v$) = instantiate-registers($v$,type($v$))
+    elseif ($v$ is not assigned in wiredef-list) 
+      vargates($v$) = instantitate-primary-inputs($v$,type($v$))
+    else 
+      vargates($v$) = instantiate-identity-gates($v$,type($v$))
+    endif
+  endfor
+\end{lstlisting}
+
+
+\paragraph{Assignment statements.}
+We consider each assignment statement in \cci{wiredef-list}, \cci{init-list},
+and \cci{next-list} and traverse the right hand side expressions of
+each assignment with the \cci{traverse} routine. 
+The traversal of an expression runs recursively. 
+%
+If the expression refers to a variable $v$ (base case), 
+then the traversal returns \cci{vargates(v)}. 
+%
+If the expression is a logical, conditional, or arithmetic expression, then
+the \cci{library} routine looks it up in a complete table of circuits
+with the adequate bit width. 
+For example, if the expression is a ternary conditional statement of the
+form $b? e_1 : e_2$, then \cci{library} instantiates a multiplexer, 
+connects its two data fanins to the nodes corresponding to $e1$ and $e2$, 
+connects its control fanins to the nodes corresponding to $b$,
+and returns its fanouts. 
+
+\begin{lstlisting}
+/*@\textbf{traverse}@*/($exp$)
+
+  if ($exp$ is a variable) 
+    return vargates(exp)
+  endif
+
+  foreach $i [1~..~ exp.operands.size()]$ 
+    $wirevec[i]$ = traverse($exp.operands[i]$) 
+  endfor
+
+  return library($exp.operation$, $wirevec$)
+\end{lstlisting}
+
+\paragraph{Connections.}
+Finally, we connect the nodes corresponding to the right hand side expressions 
+of the assignment statements in the \cci{init-list} and \cci{next-list}
+expressions 
+to the initial value and next value fanins of the corresponding register gates, 
+respectively. 
+%
+We connect the nodes corresponding to the right hand side expressions
+of the assignment statements in the \cci{wiredef-list} expressions to the 
+fanins of the corresponding wire identity gates. 
 
 
 
-
-
-
-\subsection{Translation from \caig to Sequence Circuit}
-The translation of an \caig component into a sequential circuit 
-proceeds as follows.  For each register variable in the component instantiate a 
-vector of bit registers. 
