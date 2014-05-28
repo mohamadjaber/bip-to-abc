@@ -154,6 +154,25 @@ In the transition mode, the function considers the current location of each comp
 
 
 \subsection{Illustrative Example}
+Figure \ref{fig:traffic:bip} shows a traffic light controller system modeled in BIP. 
+It is composed of two atomic components, \cci{timer} and \cci{light}. The timer counts
+the amount of time for which the light must stay in a specific state (i.e. a specific
+color of the light).
+The light component determines the color of 
+the traffic light. Additionally, it
+informs the timer about the amount of time to spend in each 
+location through a data transfer on the interaction $a$ between the two components. 
+
+\begin{figure}[h!]
+ \centering
+ \resizebox{0.5\textwidth}{!}{
+   \input{figures/traffic.pdf_t}
+ }
+ \caption{Traffic light in BIP}
+ \label{fig:traffic:bip}
+\end{figure}
+
+
 Table~\ref{tb:bip:exec} shows a sample execution trace of \mytool's BIP engine
 on the traffic light example presented in Figure~\ref{fig:traffic:bip}. The variables 
 $timer.t$, $timer.n$, $timer.\ell$, $light.\ell$ and $light.m$ represent $t$, $n$
@@ -268,49 +287,71 @@ atomic components. For example when the $light.done$ port is selected
 and the light component is in the green control location ($G$), 
  $light.\ell$ moves from $G$ to $Y$. 
 
-\begin{lstlisting}[caption=Sample of \biptool{} generated code,label=sample:code:bip,float=bt]
-/** Wire definitions **/
-$ie[0] = true \land timer.timer.e$
-$ie[1] = true \land timer.done.e \land light.done.e$
+\begin{lstlisting}
+/*** decl-List ***/
+int timer.t;
+int timer.n;
+int light.m;
+int timer.$\ell$;
+int light.$\ell$;
+bool cycle;
 
-$ip[0] = ie[0] \land \lnot ie[1]$
-$ip[1] = ie[1]$
+wire int selector;
+wire bool timer.timer.e;
+wire bool timer.timer.s;
+wire bool timer.done.e;
+wire bool timer.done.s;
+wire bool light.done.e;
+wire bool light.done.s;
+wire bool[2] ie;
+wire bool[2] ip;
+wire bool[2] is;
 
-$is[0] = ip[0] \land ((selector == 0) \lor (\lnot ip[selector] \land \lnot ip[1]))$
-$is[1] = ip[1] \land ((selector == 1) \lor (\lnot ip[selector]))$
+/*** wiredef-list ***/
+timer.timer.e = (0 == timer.$\ell$) && (timer.t < timer.n);
+timer.done.e  = (0 == timer.$\ell$) && (timer.t == timer.n);
+light.done.e  = (0 == light.$\ell$)  || (1 == light.$\ell$) || (2 == light.$\ell$);
 
-$timer.timer.e = (timer.\ell == s_0) \land (t < n)$
-$timer.done.e = (timer.\ell == s_0) \land (t \geq n)$
-$light.done.e = true \land ((light.\ell == G)$ 
-    $||(light.\ell == R)$
-    $||(light.\ell == Y))$
+ie[0] = timer.timer.e;
+ie[1] = (light.done.e && timer.done.e);
+
+ip[0] = ie[0];
+ip[1] = ie[1];
+
+is[0] = (ip[0] && ( selector == 0 || (!ip[selector]  && !ip[1]);
+is[1] = (ip[1] && ( selector == 1 || (!ip[selector]);
+
+timer.timer.e = is[0];
+timer.done.e  = is[1];
+light.done.e  = is[1] ;
+   
+do-together {
+  /*** init-list ***/
+  timer.t = 0; 
+  timer.n = 10; 
+  timer.$\ell$ = 0;
+  light.m = 5; 
+  light.$\ell$ = 0;
+  cycle = true; 
+}
+
+while(true) {
+  do-together {
+    /*** next-list ***/    
+    timer.n = cycle? is[1]? light.m : timer.n : timer.n; 
     
-$timer.timer.s = is[0]$
-$timer.done.s = is[1]$
-$light.done.s = is[1]$
-
-/** Next state functions: Interactions **/
-$timer.n = (cycle == 0)? (is[1]? light.m : timer.n) : timer.n$
-
-/** Next state functions: Transitions **/
-$timer.t = (cycle == 1)?$ 
- $((timer.timer.s)? (timer.t + 1) :$
- $((timer.done.s)? 0 : timer.t)) : timer.t$;
-$light.m = (cycle == 1)?$
- $((light.done.s \land light.\ell == G)? 5 :$
- $((light.done.s \land light.\ell == Y)? 10 :$
- $((light.done.s \land light.\ell == R)? 3 : light.m))) : light.m$
-$timer.\ell = (cycle == 1)?$
- $((timer.timer.s)? s_0:$
- $((timer.done.s)? s_0:timer.\ell)):timer.\ell$
-$light.\ell = (cycle == 1)?$
- $((light.done.s \land light.\ell == G)? Y :$
- $((light.done.s \land light.\ell == Y)? R :$
- $((light.done.s \land light.\ell == R)? G : light.\ell))) : light.\ell$
+    timer.$\ell$ = (cycle? timer.$\ell$: timer.timer.e && timer.$\ell$ == 0? 0 : timer.timer.e && timer.$\ell$ == 0? 0 : timer.$\ell$;
+    
+    timer.t = cycle? timer.t : timer.$\ell$ == 0 && timer.timer.e? (timer.t + 1) : timer.$\ell$ == 0 && timer.done.e? 0 : 
+              timer.t; 
+              
+    light.$\ell$ = cycle? light.$\ell$ : light.$\ell$ == 2 && light.done.e? 0: light.$\ell$ == 1 && light.done.e? 0 : light.$\ell$ == 0 
+              && light.done.e? 1 : light.$\ell$; 
+              
+    light.m = cycle? light.m : light.$\ell$ == 0 && light.done.e? 3: light.$\ell$ == 1 && light.done.e? 10: light.$\ell$ == 2 
+              && light.done.e? 5 : light.m; 
+    
+    cycle = !cycle;
+  }
+}
 \end{lstlisting}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%%
-%%This section presents how we translate a BIP system $(B,\mathit{Init}, v)$ to its corresponding sequential circuit $\big( (V, E),G, O\big)$. 
