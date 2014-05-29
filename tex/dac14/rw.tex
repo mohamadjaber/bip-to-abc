@@ -1,0 +1,60 @@
+
+%% start here for BIP
+\section{Verification of embedded systems}
+The overlap between software and hardware design in embedded systems creates more challenges 
+for verification and code generation. 
+
+SystemC~\cite{systemc} is a modeling platform based on C++ that provides
+design abstractions at the {\em Register Transfer Level} (RTL), behavior, and system levels. 
+It aims at providing a common design environment for embedded system design and hardware-software
+co-design. SystemC designers write their systems in C++ using SystemC class libraries that 
+provide implementations for hardware specific objects such as concurrent modules and clocks.
+Therefore the input systems can be compiled using standard C++ compilers to generate binaries
+for simulation. SystemC allows for the communication between different components of a system
+through the usage of ports, interfaces and channels.  
+
+The BIP framework differs from SystemC in that it presents a dedicated language and supporting
+tool-set that describes the behavior of individual system components as symbolic LTS. 
+Communication between components in BIP is ensured through ports and interactions.   
+BIP operates at a higher level than SystemC and does not provide support for circuit level 
+constructs.
+
+Verification techniques for SystemC and BIP make use of symbolic model checking tools. 
+NuSMV2~\cite{nusmv} is a symbolic model checker that employs both 
+SAT and BDD based model checking techniques. It processes an input 
+describing the logical system design as a finite state machine, and a set of specifications
+expressed in LTL, Computational Tree Logic (CTL) and Property Specification Language (PSL).
+Given a system $\Pm$ and a set of specifications $P$, NuSMV2 first flattens $\Pm$ and $P$ by 
+resolving all module instantiations and creating modules and processes, thus generating one 
+synchronous design. It then performs a Boolean encoding step to eliminate all scalar variables, 
+arithmetic and set operations and thus encode them as Boolean functions.   
+
+In order to avoid the state space explosion problem, NuSMV2 performs a cone of 
+influence reduction~\cite{berezin1998compositional} step in order to eliminate
+non-needed parts of the flattened model and specifications. The cone of influence
+reduction abstraction technique aims at simplifying the model in hand by only 
+referring to variables that are of interest to the verification procedure, i.e. variables
+that influence the specifications to check~\cite{clarke1999model}.
+
+DFinder~\cite{dfinder} is an automated verification tool for checking invariants
+on systems described in the BIP language. Given a BIP system \Pm and 
+an invariant $\mathcal{I}$, DFinder operates  compositionally and iteratively
+to compute invariants $\mathcal{X}$ of the interactions and the atomic 
+components of \Pm. It then uses the Yices {\em Satisfiability Modulo
+Theory} (SMT) solver~\cite{dutertre2006fast} to check for the validity 
+of the formula $\mathcal{X} \land \lnot \mathcal{I} = false$. 
+Additionally, DFinder checks the deadlock freedom of  \Pm by building an invariant 
+$\mathcal{I}_d$ that represents the states of of \Pm in which no interactions 
+are enabled, \ie{} a deadlock occurs. It then checks the for the formula
+$\mathcal{X} \land \mathcal{I}_d = false$, \ie{} none of the deadlock states
+are reachable in \Pm.   
+
+Techniques based on symbolic model checking for the verification of 
+BIP designs suffer from the state space explosion problem, and often 
+fail to scale with the size and the complexity of the systems. 
+On the other hand, DFinder does not handle data transfer between 
+atomic components, thus limiting the range of practical applications 
+on which it can be applied. Our technique handles data transfers and uses the wide range of synthesis 
+and reduction algorithms provided by ABC to effectively reduce the size and 
+the complexity of the verification problem. Most of these algorithms have no counterpart
+in symbolic model checking.  
