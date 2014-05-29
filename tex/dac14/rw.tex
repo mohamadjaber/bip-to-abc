@@ -29,6 +29,31 @@ resolving all module instantiations and creating modules and processes, thus gen
 synchronous design. It then performs a Boolean encoding step to eliminate all scalar variables, 
 arithmetic and set operations and thus encode them as Boolean functions.   
 
+
+Metropolis\cite{Metropolis1,Metro2} is an embedded system design platform based on formal modeling and separation of concerns for an effective
+design process.% The concern separations in Metropolis are: communication-computation, behavior-performance, and
+%function-architecture. 
+%These separations are done by the structure of Metropolis that defines objects as
+%\textit{processes}, \textit{media}, and \textit{quantity managers}. 
+A Metropolis process is a sequence of events representing
+functionality, and different processes communicate via ports of interfaces.% implemented in media. 
+An interface includes methods that processes can use to communicate. 
+%Thus, processes and media ensure the communication-computation
+%separation. The quantity manager object in Metoropolis and the equivalent separated \textit{annotator} and
+%\textit{scheduler} objects in MetroII
+%Enable setting quantity metrics such as energy and time and prioritizing
+%events, thus allowing the separation of behavior from performance. 
+Metropolis uses SIS for synthesis, SystemC and Ptolemey for runtime verification, and SPIN for model checking.
+%Separate networks of processes, media, and quantity
+%managers can be used to represent software or hardware. The different software and hardware networks are then mapped by
+%encapsulation in one mapping network to provide a system of separated function and architecture concerns.
+While BIP separates behavior from interaction (synchronization and communication) to simplify correctness by construction
+and compositional verification, Metropolis separates communication from behavior (computation) and leaves synchronization 
+highly coupled within each of them. 
+
+
+
+
 In order to avoid the state space explosion problem, NuSMV2 performs a cone of 
 influence reduction~\cite{berezin1998compositional} step in order to eliminate
 non-needed parts of the flattened model and specifications. The cone of influence
