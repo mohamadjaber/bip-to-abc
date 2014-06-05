@@ -1,7 +1,7 @@
 
 %% the algorithm
 \section{BIP to \caig}
-\label{chap3:bip2aig:bip2etc}
+\label{sec:bip2aig}
 Given a BIP system $\Pm = (B, Init, v)$, \biptool~translates \Pm into 
 a \caig~program with its own customized execution engine. Function \cci{BIP-to-CAIG} takes a BIP system as input and constructs a \caig program. It calls four functions that fill \cci{decl-list}, \cci{wiredef-list}, \cci{init-list}, \cci{next-list}. All these function use the \cci{append} call to add code fragments to lists. 
 
@@ -157,11 +157,8 @@ In the transition mode, the function considers the current location of each comp
 Figure \ref{fig:traffic:bip} shows a traffic light controller system modeled in BIP. 
 It is composed of two atomic components, \cci{timer} and \cci{light}. The timer counts
 the amount of time for which the light must stay in a specific state (i.e. a specific
-color of the light).
-The light component determines the color of 
-the traffic light. Additionally, it
-informs the timer about the amount of time to spend in each 
-location through a data transfer on the interaction $a$ between the two components. 
+color of the light). The light component determines the color of the traffic light. Additionally, it
+informs the timer about the amount of time to spend in each location through a data transfer on the interaction between the two components. 
 
 \begin{figure}[h!]
  \centering
@@ -172,121 +169,9 @@ location through a data transfer on the interaction $a$ between the two componen
  \label{fig:traffic:bip}
 \end{figure}
 
+Figure~\ref{fig:caigtraffic} shows $\caig$ code generated that corresponds to the  to the traffic light controller BIP system shown in Figure~\ref{fig:traffic:bip}. 
 
-Table~\ref{tb:bip:exec} shows a sample execution trace of \mytool's BIP engine
-on the traffic light example presented in Figure~\ref{fig:traffic:bip}. The variables 
-$timer.t$, $timer.n$, $timer.\ell$, $light.\ell$ and $light.m$ represent $t$, $n$
-and the control location variable in the timer component, and the control location variable
-and $m$ in the light component, respectively. 
-We start at cycle $c$ where that state of the BIP system is $$\left(timer.t = 9, timer.n = 10,
-timer.\ell = s_0, light.\ell = G, light.m = 3\right)$$
-and we assume that the execution engine has picked the interaction involving the 
-$timer$ port of the timer component has been selected and executed. 
-
-At cycle $c+1$, the engine executes the internal transition in the timer component
-that corresponds to the $timer.timer$ port being selected and the component is in location $s_0$. 
-Therefore the variable $timer.t$ is incremented and the component 
-remains in the same control location $s_0$. Since the light component
-had no ports involved in the executed interaction, it will not change 
-state. 
-
-At cycle $c+2$, the guard $t \geq n$ is enabled and thus the $timer.done$ and $light.done$ ports are enabled. 
-The engine selects the interaction connecting the two components
-for execution. It executes the actions associated with this interaction 
-and transfers the value of the variable $done.m$ to the variable $done.n$.
-
-At cycle $c+3$, the engine executes the interaction transitions that 
-correspond to the interaction executed at cycle $c+2$. In the timer 
-component, the variable $timer.t$ is reset $0$ and the control location 
-remains in location $s_0$. In the light component, the variable 
-$light.m$ takes the value $5$ and the control location moves to location 
-$Y$ corresponding to the yellow light being displayed. 
-
-\begin{table}[bt]
-\centering
-\caption{Sample of \biptool{} execution}
-\begin{tabular}{|c|c|c|c|c|c|}
-\hline
-Cycle & $timer.t$ & $timer.n$ & $timer.\ell$ & $light.\ell$ & $light.m$ \\ 
-\hline
-$c$ & $9$ & $10$ & $s_0$ & $G$ & $3$ \\
-		\hline
-		$c+1$ & $10$ & $10$ & $s_0$ & $G$ & $3$ \\
-			\hline
-			$c+2$ & $10$ & $3$ & $s_0$ & $G$ & $3$ \\
-				\hline
-	 $c+3$ & $0$ & $3$ & $s_0$ & $Y$ & $5$ \\
-	 \hline
-\end{tabular}
-\label{tb:bip:exec}
-\end{table}
-
-Listing~\ref{sample:code:bip} shows a code snippet from the code that \biptool{} generates
-when applied to the traffic light controller BIP system shown in Figure~\ref{fig:traffic:bip}.
-Lines 2 to 19 show the wire definitions for the system. The interaction 
-labeled by $0$ corresponds to the interaction involving the $timer.timer$
-port, while the interaction labeled $1$ correspond to the interaction 
-involving the ports $timer.done$ and $light.done$. 
-Interaction $0$ is enabled ($ie[0]$) when its guard is enabled ($true$ 
-in this case) and the port $timer.timer$ that it involves is enabled, 
-\ie{} the wire $timer.timer.e$ is set to $true$. 
-Similarly, interaction $1$ is enabled ($ie[1]$) when its guard is
-enabled and the ports $timer.done$ and $light.done$ are enabled 
-($timer.done.e \land light.done.e$).
-
-The wires $ip[0]$ and $ip[1]$ are asserted when each of the two interactions 
-is prioritized. We assume in our case that interaction $1$ has a higher
-priority, and thus interaction $0$ is only prioritized when it is enabled
-and interaction $1$ is not. In any other case, it is interaction $1$ that
-is prioritized by the engine. 
-
-Furthermore, the wires $is[0]$ and $is[1]$ represent the execution of the 
-engine's interaction selection procedure. The wire $selector$ is
-a non-deterministic wire used by the engine to make non-deterministic
-choices when several interactions are prioritized. 
-The interaction $0$ is selected
-when it is prioritized and either the non-deterministic selector 
-selects it ($selector == 0$)
-or the interaction $1$ is not prioritized. 
-The interaction $1$ is selected when it is prioritized and either 
-the selector selects it ($selector == 1$) or the selector wire
-has selected an interaction that is not prioritized. Since interaction
-$1$ has the largest index, it is
-directly selected when the value of the selector corresponds
-to an interaction that is not prioritized ($\lnot ip[selector]$).
-
-The wires $component.port.e$ and $component.port.s$ represent the 
-port enabled and selected wires, respectively. 
-For example, the timer port 
-in the timer component ($timer.timer.e$) is enabled when the 
-component is in control location $s_0$ and the guard $timer.t < n$ is
-enabled. Additionally, this port is selected when the interaction $0$ 
-in which it is involved has been selected ($timer.timer.s = is[0]$).
-
-Lines 21 to 38 show the next state functions for each of the variables
-and control variables of the components of the system. 
-In the first execution cycle ($cycle == 0$), 
-the engine selects and executes interactions.
-In the second execution cycle ($cycle == 1$), 
-it executes internal transitions. 
-When the interaction $1$ is selected ($is[1]$) and the engine is 
-in its first cycle, the value of the variable $light.m$ is transfered
-to the variable $timer.n$. Otherwise, $timer.n$ retains its current
-value.
-
-In the internal transition execution cycle, the next state value of
-the variable $light.m$ is dictated by the control location at which the component is currently at, and whether the port $light.done$
-is selected (equivalently the interaction $1$ has been selected).
-For example, if the port $light.done$ is selected and the component 
-is at the yellow light location ($Y$), the value of
-$light.m$ will be 10. 
-
-Finally, the control location variables $timer.\ell$ and 
-$light.\ell$ are also updated according to the internal transitions of the 
-atomic components. For example when the $light.done$ port is selected
-and the light component is in the green control location ($G$), 
- $light.\ell$ moves from $G$ to $Y$. 
-
+\begin{figure}
 \begin{lstlisting}
 /*** decl-List ***/
 int timer.t;
@@ -355,3 +240,6 @@ while(true) {
   }
 }
 \end{lstlisting}
+\caption{Sample of $\caig$ generated code of traffic light system}
+\label{fig:caigtraffic}
+\end{figure}
