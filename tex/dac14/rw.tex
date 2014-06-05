@@ -1,6 +1,8 @@
 
 %% start here for BIP
-\section{Verification of embedded systems}
+\section{Related work}
+\label{sec:related}
+
 The overlap between software and hardware design in embedded systems creates more challenges 
 for verification and code generation. 
 
@@ -8,29 +10,14 @@ SystemC~\cite{systemc} is a modeling platform based on C++ that provides
 design abstractions at the {\em Register Transfer Level} (RTL), behavior, and system levels. 
 It aims at providing a common design environment for embedded system design and hardware-software
 co-design. SystemC designers write their systems in C++ using SystemC class libraries that 
-provide implementations for hardware specific objects such as concurrent modules and clocks.
+provide implementations for hardware specific objects such as concurrent modules, synchronization constructs,
+and clocks.
 Therefore the input systems can be compiled using standard C++ compilers to generate binaries
 for simulation. SystemC allows for the communication between different components of a system
 through the usage of ports, interfaces and channels.  
 
-The BIP framework differs from SystemC in that it presents a dedicated language and supporting
-tool-set that describes the behavior of individual system components as symbolic LTS. 
-Communication between components in BIP is ensured through ports and interactions.   
-BIP operates at a higher level than SystemC and does not provide support for circuit level 
-constructs.
-
-Verification techniques for SystemC and BIP make use of symbolic model checking tools. 
-NuSMV2~\cite{nusmv} is a symbolic model checker that employs both 
-SAT and BDD based model checking techniques. It processes an input 
-describing the logical system design as a finite state machine, and a set of specifications
-expressed in LTL, Computational Tree Logic (CTL) and Property Specification Language (PSL).
-Given a system $\Pm$ and a set of specifications $P$, NuSMV2 first flattens $\Pm$ and $P$ by 
-resolving all module instantiations and creating modules and processes, thus generating one 
-synchronous design. It then performs a Boolean encoding step to eliminate all scalar variables, 
-arithmetic and set operations and thus encode them as Boolean functions.   
-
-
-Metropolis\cite{Metropolis1,Metro2} is an embedded system design platform based on formal modeling and separation of concerns for an effective
+Metropolis\cite{Metropolis1,Metro2} is an embedded system design platform based on 
+formal modeling and separation of concerns for an effective
 design process.% The concern separations in Metropolis are: communication-computation, behavior-performance, and
 %function-architecture. 
 %These separations are done by the structure of Metropolis that defines objects as
@@ -52,7 +39,40 @@ and compositional verification, Metropolis separates communication from behavior
 highly coupled within each of them. 
 
 
+The BIP framework differs from SystemC in that it presents a dedicated language and supporting
+tool-set that describes the behavior of individual system components as symbolic LTS. 
+Communication between components in BIP is ensured through ports and interactions.   
+BIP operates at a higher level than SystemC and does not provide support for circuit level 
+constructs.
 
+Verification techniques for SystemC and BIP make use of symbolic model checking tools. 
+NuSMV2~\cite{nusmv} is a symbolic model checker that employs both 
+SAT and BDD based model checking techniques. It processes an input 
+describing the logical system design as a finite state machine, and a set of specifications
+expressed in LTL, Computational Tree Logic (CTL) and Property Specification Language (PSL).
+Given a system $\Pm$ and a set of specifications $P$, NuSMV2 first flattens $\Pm$ and $P$ by 
+resolving all module instantiations and creating modules and processes, thus generating one 
+synchronous design. It then performs a Boolean encoding step to eliminate all scalar variables, 
+arithmetic and set operations and thus encode them as Boolean functions.   
+
+The work in \cite{NiakiDATAS13} uses constraint based
+programming to compute an executable 
+MPI based parallel simulator of an embedded and cyber-physical 
+system written in ForSyDe~\cite{SanderJ04}.
+ForSyDe is a library of SystemC based 
+parametrized system components with strict constraint 
+specifications and a blocking write FIFO queue modeling 
+a Kan network. 
+The instants of the ForSyDe components are processes that 
+communicate only through signals. 
+
+The work in \cite{BarnatVMCAI2013} introduces a model checking
+methodology for LTL specifications of embedded system written 
+in DIVINE~\cite{Divine}  over
+a total store order (TSO) of memory elements. 
+Our method assumes a similarly relaxed memory model
+since it adopts a cycle based execution model where 
+updated memory values are observable at the next cycle. 
 
 In order to avoid the state space explosion problem, NuSMV2 performs a cone of 
 influence reduction~\cite{berezin1998compositional} step in order to eliminate
@@ -79,7 +99,12 @@ BIP designs suffer from the state space explosion problem, and often
 fail to scale with the size and the complexity of the systems. 
 On the other hand, DFinder does not handle data transfer between 
 atomic components, thus limiting the range of practical applications 
-on which it can be applied. Our technique handles data transfers and uses the wide range of synthesis 
+on which it can be applied. 
+Our technique handles data transfers and uses the wide range of synthesis 
 and reduction algorithms provided by ABC to effectively reduce the size and 
 the complexity of the verification problem. Most of these algorithms have no counterpart
 in symbolic model checking.  
+
+Unlike all the methods described above, our method leverages
+the same semantics for FPGA synthesis, model checking, 
+and runtime verification (simulation). 
