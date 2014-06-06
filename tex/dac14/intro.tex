@@ -47,7 +47,7 @@ In this paper, we present \biptool~ that takes a BIP system and a set of propert
 
 \begin{enumerate}
 \item An AIG circuit with an invariant that is $\mathit{true}$ iff the system is deadlock free, or satisfies the properties. We pass the generated AIG to ABC for verification. ABC either proves correctness or produces a counter example where the system violates the property. This enabled us to find defects and proves system that were not possible using DFinder and NuSMV. 
-\item  \biptool~ provides a debugging mechanism where the counter example is mapped back to the original BIP system. The debugging tool is integrated with wave form visualization tool \cite{GTKWave}.  
+\item  \biptool~ provides a debugging mechanism where the counter example is mapped back to the original BIP system. The debugging tool is integrated with wave form visualization tool \cite{bybell2010gtkwave}.  
 \item A FPGA implementation of the BIP system with a system-specific execution framework. The FPGA implementation is reduced using ABC synthesis reduction algorithms which reduces the area and the critical time by removing latches and logic gates. To the best our knowledge, we are the first to synthesize a BIP system directly into an FPGA. 
 \item A C implementation that simulates the BIP system with a system-specific execution framework. 
 \end{enumerate}
