@@ -5,17 +5,27 @@
 \resizebox{.9\columnwidth}{!}{
   \input{figures/embddflow.pdf_t}
 }
-\caption{Embedded system specification, refinement, and implementation phases}
+\caption{Embedded system specification, refinement, and implementation stages}
 \label{fig:flow}
 \end{figure}
 
 In recent years, embedded systems have witnessed a large 
 expansion, especially with  the emergence of automotive 
 electronics, mobile and control devices.
+An embedded system is a composition of heterogeneous 
+intellectual property (IP) components.
+Figure~\ref{fig:flow} shows a typical flow of this composition where the
+components are specified as imperative programs, finite state machines (FSM), labeled 
+transition systems (LTS), data flow networks, and discrete event based circuits. 
 Computations in embedded systems are subject to several 
 physical and architectural 
 constraints that render the separation between software and 
 hardware design impractical~\cite{henzinger2006embedded}.
+The partitioning task, often done manually, decides whether a component is to 
+be implemented as a programmed process or as a realtime logic circuit. 
+A plethora of software, behavioral, and logic compilation and synthesis techniques are
+used in the process\cite{Metropolis1}.
+
 %The design of embedded systems involves
 %{\em Component-based systems} design 
 %and control devices
@@ -25,35 +35,67 @@ The Behavior-Interaction-Priority (BIP) framework
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Double check this todo note %%%%%%%%%%%%%%%%%%%%%%%%%%
 %\todo{lots of grammatical errors. plz check thoroughly. plural vs singular, missing noun between a sequence of qualitative adjectives/adverbs and the verbs, parallel structures}
 is a {\em Component-Based System} (CBS) design framework that uses a dedicated 
-language and tool-set to support a rigorous and layered design flow for embedded systems.  
+language and tool-set to support a rigorous and layered design flow for embedded 
+systems.  
 %\todo{the introduction sentence of BIP is weak and obviously a sales statement repeating design several times.}
-BIP allows to build complex systems by coordinating the behavior of a set of atomic components~\cite{BasuBBCJNS11}.
-BIP makes use of: (1) DFinder~\cite{dfinder}, a compositional  
-and incremental verification tool-set, and (2) the NuSMV~\cite{nusmv} model checker, to check correctness of BIP systems. 
-However, DFinder \cite{BBL14} does not  handle data transfer between components, and it does not support checking for properties other than deadlock freedom. 
+BIP allows to build complex systems by coordinating the behavior of a set of 
+atomic components~\cite{BasuBBCJNS11}.
+BIP makes use of (1) the DFinder~\cite{dfinder} compositional  
+and incremental verification tool-set, and (2) the NuSMV~\cite{nusmv} model checker, 
+to check the correctness of BIP systems. 
+However, DFinder \cite{BBL14} does not handle data transfer between components, 
+and it does not support checking for invariants other than deadlock freedom. 
 Additionally, for complex systems, NuSMV often suffers from the state space explosion 
 problem~\cite{sipser2006introduction}, and fails to perform its verification tasks.
 
 ABC~\cite{brayton2010abc} is a transformation-based 
-verification (TBV)~\cite{kuehlmann2001transformation} framework that operates on And-Inverter Graphs (AIG); Boolean netlists with
+verification (TBV)~\cite{kuehlmann2001transformation} framework that operates on 
+And-Inverter Graphs (AIG); semi-canonical Boolean netlists with
 memory elements, and iteratively and synergistically 
-employs reduction, abstraction and decision algorithms such as 
-retiming~\cite{KuBa01}, redundancy  removal~\cite{HmBPK05,KuMP01,BjesseC00,aziz-fmsd-00}, logic
-rewriting~\cite{BjBo04}, interpolation~\cite{McMillan03}, 
-and localization~\cite{Wang03}, symbolic model checking, bounded model checking, induction, interpolation,  circuit SAT solving, and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}.
+employs powerful reduction, abstraction and decision algorithms such as 
+retiming~\cite{KuBa01}, 
+redundancy removal~\cite{HmBPK05,KuMP01,BjesseC00,aziz-fmsd-00}, 
+logic rewriting~\cite{BjBo04}, interpolation~\cite{McMillan03}, 
+and localization~\cite{Wang03}, 
+symbolic model checking, bounded model checking, induction, 
+interpolation, circuit SAT solving, 
+and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}.
 
-
-In this paper, we present \biptool~ that takes a BIP system and a set of properties and generates the following:
+In this paper, we present a method and a supporting tool (\biptool)
+for embedded system synthesis, runtime verification,
+and model checking with a cycle based execution model.
+The method leverages transformation-based synthesis and verification techniques 
+as follows. 
+%\biptool~ that takes a BIP system and a set of 
+%specifications amd
+%properties and generates the following:
 
 \begin{enumerate}
-\item An AIG circuit with an invariant that is $\mathit{true}$ iff the system is deadlock free, or satisfies the properties. We pass the generated AIG to ABC for verification. ABC either proves correctness or produces a counter example where the system violates the property. This enabled us to find defects and proves system that were not possible using DFinder and NuSMV. 
-\item  \biptool~ provides a debugging mechanism where the counter example is mapped back to the original BIP system. The debugging tool is integrated with wave form visualization tool \cite{bybell2010gtkwave}.  
-\item A FPGA implementation of the BIP system with a system-specific execution framework. The FPGA implementation is reduced using ABC synthesis reduction algorithms which reduces the area and the critical time by removing latches and logic gates. To the best our knowledge, we are the first to synthesize a BIP system directly into an FPGA. 
-\item A C implementation that simulates the BIP system with a system-specific execution framework. 
+\item The method takes a BIP system and a set of invariants and generates 
+  an AIG circuit with an output therein that is $\mathit{true}$ iff the system 
+  is deadlock free, and satisfies the system invariants. 
+  The method passes the generated AIG circuit to ABC for verification. 
+  ABC either proves correctness or produces a counter example where the 
+  system violates an invariant. 
+  This enabled us to find defects and prove systems that were not 
+  possible using DFinder and NuSMV. 
+\item  The supporting tool \biptool~ provides a debugging mechanism where the 
+  counter example is mapped back to the original BIP system. 
+  The debugging tool is integrated with a wave form visualization tool \cite{bybell2010gtkwave}.  
+\item The method generates an FPGA implementation of the BIP system with a 
+  system-specific execution framework. 
+  The FPGA implementation is passed to ABC synthesis reduction algorithms 
+  which reduce the area and the critical time of the FPGA implementation 
+  by removing latches and logic gates. 
+  To the best our knowledge, we are the first to synthesize a BIP system directly 
+  into an FPGA. 
+\item The method generates a concurrent C implementation that simulates the BIP 
+  system with a system-specific execution framework. 
 \end{enumerate}
 
 
-BIP uses a runtime engine to simulate its execution semantic. The main loop of the engine consists of the following steps:
+BIP uses a runtime engine to simulate its execution semantic. 
+The main loop of the engine consists of the following steps:
 \begin{enumerate}
 \item Each atomic component sends to the engine its current location.
 \item The engine enumerates on the list of interactions in the model, selects the enabled ones based on the current location of the atomic components and eliminates the ones with low priority.
@@ -63,6 +105,11 @@ BIP uses a runtime engine to simulate its execution semantic. The main loop of t
 We differ in that, the system specific scheduler is a bit vector of interactions directly embedded in the implementation. The interaction bit vector evaluates in real-time 
 and directly depends on the locations and the values of the variables of the input system. The system specific execution framework empirically reduces the space and time requirements for running the C simulation and FPGA execution. 
 
+Metropolis takes a Metropolis Meta Model (MMM) description of an embedded system and 
+generates a SystemC based simulator of the system. It has also a path to 
+SIS~\cite{SISSynthesis} which is a synthesis predecessor tool of ABC, and a path 
+to NuSMV for model checking. 
+\todo[inline]{refine above and relate to it and others breifly here}. 
 
 %% organization
 The rest of this paper is organized as follows.
