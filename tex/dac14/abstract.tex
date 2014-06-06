@@ -6,10 +6,10 @@ functionality, synchronization, and priority concerns to
 simplify system design and to establish correctness by 
 construction. 
 The framework comes with a runtime engine and a suite
-of verification tools that user D-Finder and NuSMV as 
+of verification tools that uses D-Finder and NuSMV as 
 model checkers. 
 In this paper we provide a method and a supporting tool
-that takes a BIP system and a set of invariants 
+that takes a BIP system and a set of invariants
 and computes a reduced sequential circuit with a 
 system-specific scheduler and with a designated output that 
 is \true when the invariants hold. 
@@ -18,7 +18,7 @@ verification framework to
 (1) generate an efficient FPGA implementation of the system, 
 and to (2) verify the system and debug it in case a 
 counterexample was found. 
-Moreover we generate a C implementation of the circuit that
+Moreover we generate a concurrent C implementation of the circuit that
 can be directly used as a simulator. 
 We evaluated our method with two large systems and our results
 outperform those possible with existing techniques. 
