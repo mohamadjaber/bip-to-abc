@@ -54,7 +54,8 @@ do-together {
   light.m = 5; 
   light.$\ell$ = 0;
 
-  cycle = true; }/* end do-together */
+  cycle = true; 
+}/* end do-together */
 \end{lstlisting}
 & & 
 \vspace{-2em}
@@ -75,7 +76,9 @@ while(true) {
     light.m = cycle? light.m : light.$\ell$ == 0 && light.done.e? 3: light.$\ell$ == 1 && light.done.e? 10: light.$\ell$ == 2 
               && light.done.e? 5 : light.m; 
     
-    cycle = !cycle; }/*end do-together*/ } /*end while(true)*/
+    cycle = !cycle; 
+  } /*end do-together*/ 
+} /*end while(true)*/
 \end{lstlisting}
 \end{tabular}
 \vspace{-2em}
