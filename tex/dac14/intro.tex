@@ -99,12 +99,15 @@ BIP uses a runtime engine to simulate its execution semantic.
 The main loop of the engine consists of the following steps:
 \begin{enumerate}
 \item Each atomic component sends to the engine its current location.
-\item The engine enumerates on the list of interactions in the model, selects the enabled ones based on the current location of the atomic components and eliminates the ones with low priority.
+\item The engine enumerates the list of interactions in the system, 
+  selects the enabled ones based on the current location of the atomic 
+  components and eliminates the ones with low priority.
 \item The engine non-deterministically selects an interaction out of the enabled interactions.
 \item Finally, the engine notifies the corresponding components and schedule their transitions for execution. 
 \end{enumerate}
-We differ in that, the system specific scheduler is a bit vector of interactions directly embedded in the implementation. The interaction bit vector evaluates in real-time 
-and directly depends on the locations and the values of the variables of the input system. The system specific execution framework empirically reduces the space and time requirements for running the C simulation and FPGA execution. 
+We differ in that, the system specific scheduler is a bit vector of interactions directly embedded in the implementation. 
+The interaction bit vector evaluates in real-time and directly depends on the locations and the values of the variables of the input system. 
+The system specific execution framework empirically reduces the space and time requirements for the C simulation and the FPGA execution. 
 
 Several frameworks for the design and verification of embedded systems exist. 
 We briefly introduce them here and discuss and compare to them later in 
@@ -114,18 +117,17 @@ takes a Metropolis Meta Model (MMM) description of an embedded system
 and generates a SystemC\cite{systemc} based simulator of the system.
 It has also a path to SIS~\cite{brayton92sis} which is a synthesis predecessor tool 
 of ABC, and a path to SPIN for model checking~\cite{HolzSpin97}. 
-SystemC\cite{systemc} in turn is a modeling framework based on C++ that allows
+SystemC\cite{systemc} in turn is a design framework based on C++ that allows
 system components to communicate through ports, interfaces, and channels.
 Extensions to SystemC such as ForSyDe~\cite{SanderJ04} restrict the 
 expressiveness to enable formal verification tools to handle the system. 
 In brief, our method supports the synthesis, model checking, and runtime verification 
 concerns of embedded systems using tool independent semantics across the three concerns
-by embedding the execution model of the embedded system in the systems it generates
+by embedding the execution model of the embedded system in the generated systems 
 for each concern. 
 This allows for simple debugging and design flow cycle iterations. Furthermore, 
-the user of AIG circuits for synthesis and model checking allows our method to leverage
+the use of AIG circuits for synthesis and model checking allows our method to leverage
 the mature and rich literature of logic synthesis techniques. 
-
 
 %% organization
 The rest of this paper is organized as follows.

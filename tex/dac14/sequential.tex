@@ -1,7 +1,9 @@
 \section{Sequential Circuit}
 \label{sec:preliminaries}
 
-The ABC solver operates on an sequential circuit representation of a program.
+The ABC synthesis and model checker reasons about And-Inverted-Graph 
+representation of a sequential circuit.
+
 \begin{definition}[Sequential circuit]
 \rm A {\em sequential circuit} is a tuple $\big( (V, E),G,
 O\big)$.  The pair $(V,E)$ represents a directed graph on
@@ -31,13 +33,15 @@ with $\ast E$, the transitive closure of $E$.
 \label{def:back:fanins} 
 \end{definition}
 
-We restrict gates to have 2~fanins, and
-compute the NAND function; since NAND is functionally
-complete, this is not a limitation.  For the sequential
+%We restrict gates to have 2~fanins, and
+%compute the NAND function; since NAND is functionally
+%complete, this is not a limitation.  
+
+For the sequential
 circuit to be syntactically well-formed, vertices in $I$
 should have no fanins, vertices in $R$ should have
 2~fanins (the next-state function and the initial-value
-function of that register), gates should have two fanins,
+function of that register), %gates should have two fanins,
 and every cycle in the sequential circuit should contain
 at least one vertex from $R$.  The initial-value functions
 of $R$ shall have no registers in their support.  All
@@ -81,7 +85,7 @@ The semantics of a sequential circuit are defined with
 respect to semantical traces.  Given an input valuation
 sequence and an initial state, the resulting trace is a
 sequence of Boolean valuations to all vertices in $V$
-which is consistent with the Boolean functions at the
+which is consistent with the Boolean functions of the
 gates.  We will refer to the transition from one valuation
 to the next as a {\em step}.  A node in the circuit is
 justifiable if there is an input sequence which when
@@ -111,7 +115,7 @@ almost all cases of interest~\cite{BuClMcDiHw92}.
 
 \subsection{Translation from \caig to AIG circuits }
 
-The translation of a \caig component into an AIG circuit
+The translation of an \caig into an AIG circuit
 first constructs registers, wires, and primary input variables for each 
 \caig variable. 
 %
@@ -131,29 +135,30 @@ variables declared as wire variables in \cci{decl-list}.
 
 \paragraph{Variables.} 
 %
-We consider each variable not declared as a wire in \cci{decl-list}
-we instantiate a corresponding 
+We consider each variable not declared as a wire in \cci{decl-list}.
+We instantiate a corresponding 
 vector of AIG registers with an adequate bit width. 
 The width of the bit vector can be selected by the user, 
 or can be set to match the default width of the declared type. 
 Typically the default values for the bit width are 
 32 bits for an integer, one bit for a Boolean, and a 
 finite two dimensional bit vector for an array. 
-In our case, we will not have arrays of register variables
+In our case, and for \caig programs generated from BIP systems, 
+we will not have arrays of register variables
 and we will only have fixed size arrays of Boolean wires as 
-discussed in Section~\label{s:biptocaig}.
+discussed in Section~\label{s:bip2caig}.
 %
 We consider variables declared as wires in \cci{decl-list}
 and that do not have a corresponding assignment statement 
-in \cci{wiredef-list} as non-deterministic variables. 
+in \cci{wiredef-list} as non-deterministic. 
 For each non-deterministic variable we instantiate a corresponding
 vector of primary inputs with an adequate bit-width. 
 %
 We consider variables declared as wires in \cci{decl-list} with 
 a corresponding assignment statement in \cci{wiredef-list} as functional macros. 
 For each functional macro we 
-instantiate a vector of identity gates (a sequence of two negation gates) where the
-fanouts correspond to the wire variable and the fanins correspond to
+instantiate a vector of identity gates (a sequence of two negation gates) 
+where the fanouts correspond to the wire variable and the fanins correspond to
 the expression defining the wire variable in \cci{wiredef-list}. 
 %
 We denote the gates corresponding to each variable by the function \cci{vargates}. 
@@ -185,8 +190,8 @@ If the expression is a logical, conditional, or arithmetic expression, then
 the \cci{library} routine looks it up in a complete table of circuits
 with the adequate bit width. 
 For example, if the expression is a ternary conditional statement of the
-form $b? e_1 : e_2$, then \cci{library} instantiates a multiplexer, 
-connects its two data fanins to the nodes corresponding to $e1$ and $e2$, 
+form $b?~e_1:e_2$, then \cci{library} instantiates a multiplexer, 
+connects its two data fanins to the nodes corresponding to $e_1$ and $e_2$, 
 connects its control fanins to the nodes corresponding to $b$,
 and returns its fanouts. 
 

@@ -4,8 +4,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 We recall the necessary concepts of the BIP framework~\cite{bip11}.
-BIP allows to construct systems by superposing three layers of modeling: Behavior, Interaction, and Priority.
-The \emph{behavior} layer consists of a set of atomic components represented by transition systems. The \emph{interaction} layer models the collaboration between components. Interactions are described using sets of ports. The \emph{priority} layer is used to specify scheduling policies applied to the interaction layer, given by a strict partial order on interactions.
+BIP allows to construct systems by superposing three layers of desin: Behavior, Interaction, and Priority.
+The \emph{behavior} layer consists of a set of atomic components represented by transition systems. 
+The \emph{interaction} layer provides the collaboration between components. 
+Interactions are described using sets of ports. 
+The \emph{priority} layer is used to specify scheduling policies applied to the interaction layer, given by a strict partial order on interactions.
 %
 % \vspace{-1em}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -14,7 +17,8 @@ The \emph{behavior} layer consists of a set of atomic components represented by 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-BIP offers primitives and constructs for modeling and composing complex behaviors from atomic components. Atomic components are Labeled Transition Systems (LTS) extended with C functions and data. Transitions are labeled with sets of communication ports. Composite components are obtained from atomic components by specifying connectors and priorities.
+BIP offers primitives and constructs for designing and composing complex behaviors from atomic components. Atomic components are Labeled Transition Systems (LTS) extended with C functions and data. Transitions are labeled with sets of communication ports. 
+Composite components are obtained from atomic components by specifying interactions and priorities.
 %
 %
 \subsubsection{Atomic Components.}

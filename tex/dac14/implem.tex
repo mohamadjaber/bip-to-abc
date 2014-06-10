@@ -4,10 +4,51 @@
 \subsection{\biptool{}} \label{chap:implementation:bip}
 \biptool{} is a Java implementation of the translation from BIP to $\caig$ described in Section \ref{sec:bip2aig}, and, is part of the BIP distribution~\cite{verimagbiponline}.
 
-\biptool~ takes as input a BIP system and a set of properties and generates the corresponding \caig{} program. We then synthesize an equisatisfiable AIG circuit that is passed to ABC for sequential synthesis and verification. ABC either proves correctness or produces a counter example where the system violates the property. \biptool~ provides a debugging mechanism where the counter example is mapped back to the original BIP system. The debugging tool is integrated with wave form visualization tool \cite{bybell2010gtkwave}.  
-Moreover, using \biptool~ it is possible to generate FPGA implementation or C emulation code that simulates the BIP system with a system-specific execution framework. FPGA implementation can be reduced using ABC synthesis reduction algorithms which reduces the area and the critical time by removing latches and logic gates. 
- 
-\biptool~ is equipped with a command line interface that accepts a set of configuration options. It takes the name of the input BIP file and optional flags. 
+\biptool~ takes as input a BIP system and a set of properties 
+and generates the corresponding \caig{} program with a system-specific 
+execution framework. 
+The \caig program can be directly compiled for runtime verification (simulation)
+where primary inputs are set to random values at each iteration. 
+The resulting binary can be concurrent by replacing the 
+\cci{do-together} construct with the corresponding openmp directives. 
+
+For sequential synthesis, we synthesize an AIG 
+circuit that can be used as an FPGA implementation of the system
+and pass it to ABC. 
+We use ABC synthesis and reduction algorithms to reduce the area and the critical
+time of the AIG circuit by 
+removing latches and logic gates using techniques such as 
+retiming~\cite{KuBa01}, 
+redundancy removal~\cite{HmBPK05,KuMP01,BjesseC00,aziz-fmsd-00}, 
+logic rewriting~\cite{BjBo04}, interpolation~\cite{McMillan03}, 
+and localization~\cite{Wang03}. 
+The reduced AIG circuit is equivalent to the original circuit and can be used
+as a reduced FPGA implementation. 
+%for verification, FPGA implementation, and runtime verification. 
+
+\todo[inline]{Not sure if we should mention how the resulting AIG resulting can be 
+  transformed directly into a bit-level \caig, but then needs to use some sort 
+  of technology mapping to take it into a word-level \caig that becomes an
+optimized parallel implementation of the run-time verification...}
+
+For verification, 
+ABC uses the sequential synthesis techniques above to reduce the 
+AIG circuit and render it amenable for decision algorithms. 
+Then ABC uses decision algorithms such as 
+symbolic model checking, bounded model checking, induction, 
+interpolation, circuit SAT solving, 
+and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}
+to verify the correctness of the circuit with respect to the properties. 
+It either proves correctness or produces a counter example where the system 
+violates the property. 
+\biptool~ provides a debugging mechanism where the counter example is mapped back 
+to the original BIP system. 
+The debugging tool is integrated with wave form visualization 
+tool \cite{bybell2010gtkwave}.  
+
+\biptool~ is equipped with a command line interface that accepts a set 
+of configuration options. 
+It takes the name of the input BIP file and optional flags. 
 \begin{lstlisting}[language=Bash]
 java -jar bip-to-abc.jar [options] input.bip output.abc [property.txt]
 \end{lstlisting}
@@ -60,7 +101,7 @@ In our model, we assume the presence of a single bank and multiple ATMs and user
 \begin{tabular}{|c|c|c|c||c|c|c||c|c|}
 \cline {2-9}
 \multicolumn{1}{c|}{} &  \multicolumn{3}{c||}{Original} & \multicolumn{3}{c||}{After reduction} &  \multicolumn{2}{c|}{Time(s)} \\ \hline
-ATMs & latches & AND-gates & levels & latches & AND-gates & levels & Verification Time & NuSMV \\ \hline
+ATMs & latches & AND-gates & levels & latches & AND-gates & levels & \biptool& NuSMV \\ \hline
 2 & 78 & 2308 & 125 & 37 & 552 & 25 & 26.1 & 1.4\\ \hline
 3 & 102 & 3689 & 197 & 50 & 804 & 29 & 32.65 & 142.6 \\ \hline
 4 & 146 & 5669 & 234 & 63 & 1036 & 29 &  597 & 3361 \\ \hline
@@ -148,7 +189,7 @@ applying reduction algorithms.
 \begin{tabular}{|c|c|c|c||c|c|c||c|c|}
 \cline{2-9}
 \multicolumn{1}{c|}{} & \multicolumn{ 3}{c||}{Original} & \multicolumn{3}{c||}{After reduction} & \multicolumn{ 2}{c|}{Time (s)} \\ \hline
-Design & latches & AND-gates & levels & latches & AND-gates & levels & Verification Time & NuSMV \\ \hline
+Design & latches & AND-gates & levels & latches & AND-gates & levels & \biptool& NuSMV \\ \hline
 2-2-e & 264 & 3508 & 101 & 65 & 923 & 51 & 0.78 & 526 \\ \hline
 2-2-v & 264 & 3614 & 105 & 66 & 641 & 29 & 240.6 & 526 \\ \hline
 4-2-e & 390 & 6305 & 145 & 117 & 1129 & 50 & 0.24  & memory-out \\ \hline
