@@ -9,12 +9,12 @@
 \label{fig:flow}
 \end{figure}
 
-In recent years, embedded systems have witnessed a large 
+In recent years, {\em embedded systems} have witnessed a large 
 expansion, especially with  the emergence of automotive 
 electronics, mobile and control devices.
-An embedded system is a composition of heterogeneous 
+An embedded system is a composition of {\em heterogeneous}
 intellectual property (IP) components.
-Figure~\ref{fig:flow} shows a typical flow of this composition where the
+Figure~\ref{fig:flow} shows a typical flow of the composition process where the
 components are specified as imperative programs, finite state machines (FSM), labeled 
 transition systems (LTS), data flow networks, and discrete event based circuits. 
 Computations in embedded systems are subject to several 
@@ -24,7 +24,8 @@ hardware design impractical~\cite{henzinger2006embedded}.
 The partitioning task, often done manually, decides whether a component is to 
 be implemented as a programmed process or as a realtime logic circuit. 
 A plethora of software, behavioral, and logic compilation and synthesis techniques are
-used in the process~\cite{metropolis1}.
+used in the process~\cite{metropolis2}.
+
 
 %The design of embedded systems involves
 %{\em Component-based systems} design 
@@ -105,11 +106,26 @@ The main loop of the engine consists of the following steps:
 We differ in that, the system specific scheduler is a bit vector of interactions directly embedded in the implementation. The interaction bit vector evaluates in real-time 
 and directly depends on the locations and the values of the variables of the input system. The system specific execution framework empirically reduces the space and time requirements for running the C simulation and FPGA execution. 
 
-Metropolis takes a Metropolis Meta Model (MMM) description of an embedded system and 
-generates a SystemC based simulator of the system. It has also a path to 
-SIS~\cite{brayton92sis} which is a synthesis predecessor tool of ABC, and a path 
-to NuSMV for model checking. 
-\todo[inline]{refine above and relate to it and others breifly here}. 
+Several frameworks for the design and verification of embedded systems exist. 
+We briefly introduce them here and discuss and compare to them later in 
+Section~\ref{sec:related}.
+Metropolis\cite{metropolis1,metropolis2} is a design framework that
+takes a Metropolis Meta Model (MMM) description of an embedded system 
+and generates a SystemC\cite{systemc} based simulator of the system.
+It has also a path to SIS~\cite{brayton92sis} which is a synthesis predecessor tool 
+of ABC, and a path to SPIN for model checking~\cite{HolzSpin97}. 
+SystemC\cite{systemc} in turn is a modeling framework based on C++ that allows
+system components to communicate through ports, interfaces, and channels.
+Extensions to SystemC such as ForSyDe~\cite{SanderJ04} restrict the 
+expressiveness to enable formal verification tools to handle the system. 
+In brief, our method supports the synthesis, model checking, and runtime verification 
+concerns of embedded systems using tool independent semantics across the three concerns
+by embedding the execution model of the embedded system in the systems it generates
+for each concern. 
+This allows for simple debugging and design flow cycle iterations. Furthermore, 
+the user of AIG circuits for synthesis and model checking allows our method to leverage
+the mature and rich literature of logic synthesis techniques. 
+
 
 %% organization
 The rest of this paper is organized as follows.
