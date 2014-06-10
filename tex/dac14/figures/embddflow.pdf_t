@@ -1,5 +1,5 @@
 \begin{picture}(0,0)%
-\includegraphics{figures/embddflow.pdf}%
+\includegraphics{embddflow.pdf}%
 \end{picture}%
 \setlength{\unitlength}{3947sp}%
 %
@@ -9,5 +9,5 @@
   \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
   \selectfont}%
 \fi\endgroup%
-\begin{picture}(7974,4749)(3139,-4648)
+\begin{picture}(8026,4872)(3139,-4771)
 \end{picture}%
