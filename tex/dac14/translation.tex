@@ -186,5 +186,7 @@ informs the timer about the amount of time to spend in each location through a d
 Figure~\ref{fig:caigtraffic} shows $\caig$ code generated that corresponds to the  to the traffic light controller BIP system shown in Figure~\ref{fig:traffic:bip}. 
 \input{figcaigtraffic}
 
-\subsection{One cycle optimization }
-\todo[inline]{Discuss the one cycle optimization here}
+\subsection{One cycle optimization}
+Recall that an interaction specifies a strong synchronization among its involved components. Data transfer can take place during such synchronization. The operational semantic of BIP requires to (1) first execute data transfer of the selected interaction and then (2) execute the functions of the corresponding transitions of atomic components. For this, in the above translation, we used $cycle$ boolean register to denote whether the system is executing actions corresponding to either interaction or transition. However, in some cases data transfers of all interactions modify some variables that are not assigned in the corresponding transitions of those interactions. This can be detected by doing a static data dependency between interactions and their transitions. 
+This may drastically improve the performance of the system since data transfers as well as functions of transitions may be executed in one cycle. Note that, our implementation supports this optimization.   
+
