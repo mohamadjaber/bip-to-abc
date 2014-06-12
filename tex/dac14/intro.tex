@@ -33,14 +33,11 @@ used in the process~\cite{metropolis2}.
 %Furthermore, {\em component-based system} (CBS) design is gaining more prominence 
 %after the widespread of embedded systems, especially for mobile and control devices. 
 The Behavior-Interaction-Priority (BIP) framework 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Double check this todo note %%%%%%%%%%%%%%%%%%%%%%%%%%
-%\todo{lots of grammatical errors. plz check thoroughly. plural vs singular, missing noun between a sequence of qualitative adjectives/adverbs and the verbs, parallel structures}
 is a {\em Component-Based System} (CBS) design framework that uses a dedicated 
 language and tool-set to support a rigorous and layered design flow for embedded 
 systems.  
-%\todo{the introduction sentence of BIP is weak and obviously a sales statement repeating design several times.}
 BIP allows to build complex systems by coordinating the behavior of a set of 
-atomic components~\cite{BasuBBCJNS11}.
+atomic components~\cite{bip11}.
 BIP makes use of (1) the DFinder~\cite{dfinder} compositional  
 and incremental verification tool-set, and (2) the NuSMV~\cite{nusmv} model checker, 
 to check the correctness of BIP systems. 
@@ -50,7 +47,7 @@ Additionally, for complex systems, NuSMV often suffers from the state space expl
 problem~\cite{sipser2006introduction}, and fails to perform its verification tasks.
 
 ABC~\cite{brayton2010abc} is a transformation-based 
-verification (TBV)~\cite{kuehlmann2001transformation} framework that operates on 
+verification (TBV)~\cite{KuBa01} framework that operates on 
 And-Inverter Graphs (AIG); semi-canonical Boolean netlists with
 memory elements, and iteratively and synergistically 
 employs powerful reduction, abstraction and decision algorithms such as 
