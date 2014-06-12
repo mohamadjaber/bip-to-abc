@@ -4,7 +4,7 @@
 \subsection{\biptool{}} \label{chap:implementation:bip}
 \biptool{} is a Java implementation of the translation from BIP to $\caig$ described in Section \ref{sec:bip2aig}, and, is part of the BIP distribution~\cite{verimagbiponline}.
 
-\biptool~ takes as input a BIP system and a set of properties 
+\biptool~ takes as input a BIP system and a set of invariants
 and generates the corresponding \caig{} program with a system-specific 
 execution framework. 
 The \caig program can be directly compiled for runtime verification (simulation)
@@ -38,7 +38,7 @@ Then ABC uses decision algorithms such as
 symbolic model checking, bounded model checking, induction, 
 interpolation, circuit SAT solving, 
 and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}
-to verify the correctness of the circuit with respect to the properties. 
+to verify the correctness of the circuit with respect to the BIP system invariants.
 It either proves correctness or produces a counter example where the system 
 violates the property. 
 \biptool~ provides a debugging mechanism where the counter example is mapped back 
