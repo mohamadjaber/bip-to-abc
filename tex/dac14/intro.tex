@@ -109,12 +109,12 @@ The system specific execution framework empirically reduces the space and time r
 Several frameworks for the design and verification of embedded systems exist. 
 We briefly introduce them here and discuss and compare to them later in 
 Section~\ref{sec:related}.
-Metropolis\cite{metropolis1,metropolis2} is a design framework that
+Metropolis~\cite{metropolis1,metropolis2} is a design framework that
 takes a Metropolis Meta Model (MMM) description of an embedded system 
-and generates a SystemC\cite{systemc} based simulator of the system.
+and generates a SystemC~\cite{systemc} based simulator of the system.
 It has also a path to SIS~\cite{brayton92sis} which is a synthesis predecessor tool 
 of ABC, and a path to SPIN for model checking~\cite{HolzSpin97}. 
-SystemC\cite{systemc} in turn is a design framework based on C++ that allows
+SystemC~\cite{systemc} in turn is a design framework based on C++ that allows
 system components to communicate through ports, interfaces, and channels.
 Extensions to SystemC such as ForSyDe~\cite{SanderJ04} restrict the 
 expressiveness to enable formal verification tools to handle the system. 
@@ -127,4 +127,5 @@ the use of AIG circuits for synthesis and model checking allows our method to le
 the mature and rich literature of logic synthesis techniques. 
 
 %% organization
-The rest of this paper is organized as follows.
+The remainder of this paper is organized as follows. In Section \ref{sec:bip}, we recall the necessary concepts of the BIP framework. Section \ref{sec:this} defines one loop program (\caig). Section \ref{sec:sequential} formalizes sequential circuit and shows how to translate a sequential circuit into \caig. Section \ref{sec:bip2aig} shows how to translate a BIP system into \caig. Section \ref{sec:implem}
+describes \biptool{}, a full implementation of our framework and some benchmarks. Section \ref{sec:related} discusses related work. Section \ref{sec:conclusion} draws some conclusions and perspectives.

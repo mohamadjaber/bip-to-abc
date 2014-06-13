@@ -1,7 +1,7 @@
 \section{Conclusion and Future Work}
-\label{sect-conclusion}
+\label{sec:conclusion}
 
-In this paper we presented a method for embedded system synthesis, runtime verification,
+In this paper we present a method for embedded system synthesis, runtime verification,
 and model checking with supporting tools for the BIP framework. 
 The method takes a BIP system and generates a concurrent C program with a system 
 specific scheduler embedded therein. 
@@ -20,13 +20,12 @@ the counterexample to the original ABC system and provides the user with a debug
 visualization tool. 
 We successfully used the system to verify and debug medium and large case studies. 
 
-Currently, the system specific scheduler makes conservative decisions to avoid 
-data transfer conflicts. In the future, we plan to extend support for conflict and 
-dependency analysis so that the system specific scheduler allows for more concurrent
-behaviors. 
+%Currently, the system specific scheduler makes conservative decisions to avoid 
+%data transfer conflicts. In the future, we plan to extend support for conflict and 
+%dependency analysis so that the system specific scheduler allows for more concurrent
+%behaviors. 
 
-%\paragraph{Conclusion.}
-
-%\paragraph{Some perspectives.}
-
+%For future work, we are considering several research directions. 
+Currently, the system specific scheduler makes conservative decisions to avoid interaction conflicts. Two interactions are conflicting if they share a port or they are using conflicting ports of the same component. An important extension is to allow parallel execution of non-conflicting interactions using techniques presented in \cite{BonakdarpourBJQS12}. 
+%Another interesting problem is to develop techniques 
 

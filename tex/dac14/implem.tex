@@ -1,5 +1,5 @@
 \section{Implementation and Evaluation}
-\label{sect-implem}
+\label{sec:implem}
 
 \subsection{\biptool{}} \label{chap:implementation:bip}
 \biptool{} is a Java implementation of the translation from BIP to $\caig$ described in Section \ref{sec:bip2aig}, and, is part of the BIP distribution~\cite{verimagbiponline}.
@@ -26,10 +26,7 @@ The reduced AIG circuit is equivalent to the original circuit and can be used
 as a reduced FPGA implementation. 
 %for verification, FPGA implementation, and runtime verification. 
 
-\todo[inline]{Not sure if we should mention how the resulting AIG resulting can be 
-  transformed directly into a bit-level \caig, but then needs to use some sort 
-  of technology mapping to take it into a word-level \caig that becomes an
-optimized parallel implementation of the run-time verification...}
+%\todo[inline]{Not sure if we should mention how the resulting AIG resulting can be transformed directly into a bit-level \caig, but then needs to use some sort of technology mapping to take it into a word-level \caig that becomes an optimized parallel implementation of the run-time verification...}
 
 For verification, 
 ABC uses the sequential synthesis techniques above to reduce the 
