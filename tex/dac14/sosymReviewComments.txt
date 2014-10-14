@@ -1,0 +1,158 @@
+Reviewers' Comments to Author:
+Please note: Reviewers might have uploaded their review as a separate files which unfortunately are not attached to this message. To get access to these files please go to your author center in Manuscript Central and click on "Manuscripts with Decisions". Find the entry with Manuscript ID SOSYM-14-00001709 and click on the link "view decision letter" next to it. At the end of the appearing pop up window you'll find links for every attached file if exist. Please make sure that your browser does not suppress pop up windows.
+
+Reviewer: 1
+
+Public Comments (these will be made available to the author)
+The paper discusses a method to translate BIP models into ABC and perform
+verification.
+
+I have found the paper weak in its contents. The work presents a fairly
+traditional translation of a high level model into a boolean network (in the
+sense that there is no optimization step) amenable for analysis. The major
+contribution of the paper appears to be the verification speed up: however
+this merely shows that ABC performs better than NuSMV at running the
+verification.
+
+The claims in the introduction are not well supported in the paper. I couldn't
+quite find the output in the AIG model which is true iff the system is
+deadlock free. The problem may be in the way the translation is presented,
+showing the steps done by the compiler. I think a better way of showing the
+translation would be to give a block diagram of the boolean circuit to be
+generated, explaining what the different parts of the circuit are for. The
+details regarding all the variables are less interesting: you should only keep
+those related perhaps to the variables that drive the execution. I don't see
+also the FPGA implementation: the method creates a boolean network, which then
+could be mapped onto an FPGA by some compiler, but you are not really
+generating any FPGA code. Or at least, I couldn't find any evidence of this in
+the paper. The concurrent C implementation was already a feature included in
+the BIP framework (distributed simulation) as far as I know. What is better in
+your implementation? Why not provide a comparison with the previous way
+of simulating? This could actually be a better contribution, as the performance
+would really be due to the method presented.
+
+Regarding the translation, I couldn't find anything particularly new. Similar
+techniques have been applied for instance in the generation of synchronous
+models from synchronous languages (e.g., from Esterel), with a host of
+optimizations to make the circuit compact and efficient. You should compare
+your technique to that.
+
+As far as verification goes, the boost in performance is due to ABC being more
+efficient that NuSMV, and not so much due to the particular way the
+translation is carried out. Or at least, again, there is no evidence in the
+paper that the translation is responsible for the performance improvement. At
+the very least, you should discuss how your translation differ from the
+translation into NuSMV. For instance, it would be interesting if structural
+properties of the BIP model were used to drive the ABC optimization, but his
+does not appear to be the case. So, in the end, one simply learns that ABC is
+faster than NuSMV, however the comparison does not quite provide reasons as to
+why this is the case, other than the fact that ABC and NuSMV apply different
+techniques. One could at least try and feed NuSMV with the optimized ABC model
+and see if there are improvements in performance. This could, in some sense,
+identify those categories of optimization that provide the best results on BIP
+models. A good contribution of the paper would be if you could improve the
+NuSMV verification time by an alternative translation, rather than replace it
+with another tool.
+
+In fact, the fact that ABC is able to reduce the size of the circuit so much,
+especially the latches, goes to show that the translation proposed by the
+authors is rather redundant. One could just as well use logic synthesis also
+before going into NuSMV. Obviously, ABC make it easier since it is all
+integrated into one tool. The whole flow into NuSMV is actually rather
+unclear, it would be better to explain it in the paper to make it more self
+contained.
+
+The account of the related work must be considerably improved. First, the
+mentioned techniques to translate synchronous languages (which are models more
+or less at the same abstraction level as BIP) into hardware should be
+considered. This is fairly well established work. Then, in addition to the
+frameworks that are presented, you should consider high level synthesis
+techniques, which are also able to translate high level models into circuits,
+applying a host of different optimization techniques and eventually relying on
+logic synthesis. BIP starts from a lower level of abstraction, of course, since
+it is already in the form of state machines, but scheduling for instance could
+be taken into account.
+
+-- Other points:
+
+In definition 9 you say that E is totally ordered. This is rather surprising
+for a circuit. Perhaps you meant it is partially ordered?
+
+When you show the analysis results, you say in the text that you report on the
+verification time taken by the ABC solver ... and the total taken to perform
+both synthesis and verification. However, the tables present only one value.
+Does it include synthesis? What is the disaggregated performance of synthesis
+and verification?
+
+On page 22 you say that BipSV was able to reduce the size of the generated
+AIGs by more than 50%. In fact it was ABC that did the reduction, not BipSV.
+What is the size for NuSMV? Again, how is the input to NuSMV obtained?
+
+In the related work section you mention the cone of influence reduction in
+NuSMV2 (by the way, do you use NuSMV or NuSMV2 in your experiments?). I don't
+understand the relevance of this discussion. The same goes for DFinder in the
+following paragraph. What do these techniques have to do with what you
+present?
+
+Also in the related work you mention FPGA synthesis, but I couldn't find
+anything in the paper that concerns FPGA synthesis. If it is the fact that you
+are generating circuits, then you might as well claim that you do ASIC
+synthesis. Is there anything specific to FPGAs in your method?
+
+-- Specific questions/concerns required in the review:
+
+Title, abstract: I think the title and the abstract overstate the contribution
+of the paper. The same goes for the introduction.
+
+Relevance: the topic has high relevance and is in the scope of the journal.
+
+Novelty: the novel contribution is not well explained. The improvement is due
+mostly to ABC, while the translation appears standard.
+
+Technical soundness: the submission appears technically sound.
+
+References: the state of the art could be considerably improved with reference
+to circuit synthesis from synchronous models and reference to high level
+synthesis. These methods directly compare with what is presented in the paper,
+i.e., the translation procedure. Nonetheless, the frameworks presented in the
+related work are relevant.
+
+Organization: a "methodology overview" could help the reader understand the
+role of the different parts of the presentation. The translation algorithm is
+presented in terms of the functions of the translator. I think it would be
+better to present the structure of the circuit, and describe how the different
+components are obtained from the BIP model. The syntax shown in the code
+listing is instead less interesting.
+
+Readability: modulo the above observations regarding the organization and the
+way the translation is presented, the paper is easy to read.
+
+-- Other minor points, typos:
+
+Page 5 line 54: you use the primed version of the state for the source state.
+Previously you had used it for the destination state. It would help to use
+primed version consistently.
+
+Page 7 line 9-10: I'm not sure I have found an explanation of when a port is
+enabled.
+
+Section 3: you introduce One Loop Programs without saying anything about what
+they are, how they are going to be used, etc. I think you need a sort of
+"Methodology overview" before you dive into the details of the models.
+
+Page 11 line 4. "discussed in Section." The section reference is missing.
+
+Page 16 line 47: "to the to the"
+
+Page 21 line 29: "It if" -> "If it"
+
+Page 24: in discussing ForSyDe you say "Kan" network, where it should be
+"Kahn". Also, "The instants of the ForSyDe components" are probably
+"instances".
+
+
+Reviewer: 2
+
+Public Comments (these will be made available to the author)
+Please see attached pdf file.
+
