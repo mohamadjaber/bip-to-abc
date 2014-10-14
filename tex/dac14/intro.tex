@@ -70,7 +70,7 @@ as follows.
 
 \begin{enumerate}
 \item The method takes a BIP system and a set of invariants and generates 
-  an AIG circuit with an output therein that is $\mathit{true}$ iff the system 
+  an AIG circuit with an output therein that is \true iff the system 
   is deadlock free, and satisfies the system invariants. 
   The method passes the generated AIG circuit to ABC for verification. 
   ABC either proves correctness or produces a counter example where the 
@@ -85,7 +85,7 @@ as follows.
   The FPGA implementation is passed to ABC synthesis reduction algorithms 
   which reduce the area and the critical time of the FPGA implementation 
   by removing latches and logic gates. 
-  To the best our knowledge, we are the first to synthesize a BIP system directly 
+  To the best of our knowledge, we are the first to synthesize a BIP system directly 
   into an FPGA. 
 \item The method generates a concurrent C implementation that simulates the BIP 
   system with a system-specific execution framework. 
@@ -127,5 +127,5 @@ the use of AIG circuits for synthesis and model checking allows our method to le
 the mature and rich literature of logic synthesis techniques. 
 
 %% organization
-The remainder of this paper is organized as follows. In Section \ref{sec:bip}, we recall the necessary concepts of the BIP framework. Section \ref{sec:this} defines one loop program (\caig). Section \ref{sec:sequential} formalizes sequential circuit and shows how to translate a sequential circuit into \caig. Section \ref{sec:bip2aig} shows how to translate a BIP system into \caig. Section \ref{sec:implem}
+The rest of this paper is organized as follows. In Section \ref{sec:bip}, we recall the necessary concepts of the BIP framework. Section \ref{sec:this} defines one loop program (\caig). Section \ref{sec:sequential} formalizes sequential circuit and shows how to translate a sequential circuit into \caig. Section \ref{sec:bip2aig} shows how to translate a BIP system into \caig. Section \ref{sec:implem}
 describes \biptool{}, a full implementation of our framework and some benchmarks. Section \ref{sec:related} discusses related work. Section \ref{sec:conclusion} draws some conclusions and perspectives.
