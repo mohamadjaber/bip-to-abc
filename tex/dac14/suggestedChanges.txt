@@ -1,0 +1,39 @@
+Reviewer 1:
+
+1.  beef up the reduction by ABC and present it as a contribution and use it to justify less need of optimization at the word level/high level.  Mention the structural properties of BIP we used to drive the ABC optimization. 
+
+2. Lets very well map the claims to sections in the paper. 
+
+3. Make the output gate that we check  with ABC obvious and clearly relate it to the invariant (deadlock free, ...)
+
+4. Think of a diagram that shows a circuit that corresponds to Figure 4 with some explanation
+
+5. Clarify how the FPGA is created and show numbers that showcase it with the case studies. 
+
+6. Consider comparing ConcurrentC with distributed execution of BIP to the existing case studies, and if needed to othe examples with inherent cocurrency. The built in execution engine is our contribution in contrast to a software scheduler in the BIP distributed execution/send receive models. 
+
+7. Compare with "Similar techniques have been applied for instance in the generation of synchronous models from synchronous languages (e.g., from Esterel), with a host of optimizations to make the circuit compact and efficient". 
+
+8. Disuss the translation and the embedded runtime engine versus the translation to NUSMV (explain that also). SHow that the performance gain also comes from 1) the simplicity of the execution engine, and 2) the selection of reduction techniques approriate to the circuit, while ABC just houses those techniques. We selected the sequence of transformations in ABC to reduce the circuit we produced. 
+
+
+9. Make sure the time in the results tables is clearly indicating both synthesis and verification algorithms. 
+
+10. Make sure to say that the BipSC drives the ABC transformations and selects them in sequence (page 22). Mention the sizes of the NuSMV models. 
+
+11. NuSMV or NuSMV2? NuSMV2. 
+
+12. Add a statement that compares BIPSV to the NuSMV2 cone of influence reduction in related work.  Similarly to DFinder. Actually with all the relevant tools.
+
+13. Definition 3: make the source regular and the destination primed and keep that consistent across the paper. 
+
+14. Page 7: after definition 2, explaim when is a port enabled. 
+
+15. Mention one loop programs in the intro or before their introduction and say how they will be used. 
+
+16. 
+
+
+
+
+
