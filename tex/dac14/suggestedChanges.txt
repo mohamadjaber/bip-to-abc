@@ -4,7 +4,7 @@ Reviewer 1:
 
 2. Lets very well map the claims to sections in the paper. 
 
-3. Make the output gate that we check  with ABC obvious and clearly relate it to the invariant (deadlock free, ...) // FADI
+3. Make the output gate that we check  with ABC obvious and clearly relate it to the invariant (deadlock free, ...) // FADI -- DONE
 
 4. Think of a diagram that shows a circuit that corresponds to Figure 4 with some explanation //FADI
 

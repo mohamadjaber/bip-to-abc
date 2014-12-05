@@ -186,6 +186,31 @@ informs the timer about the amount of time to spend in each location through a d
 Figure~\ref{fig:caigtraffic} shows $\caig$ code generated that corresponds to the traffic light controller BIP system shown in Figure~\ref{fig:traffic:bip}. 
 \input{figcaigtraffic}
 
+
+Figure~\ref{fig:circuittraffic} shows a sample circuit generated as described in 
+Section~\ref{sec:sequential}
+by traversing the right hand side expressions of the initial 
+value and next state function assignment statement corresponding to variable
+$timer.\ell$. 
+The sample circuit shows AND, $=$, $<$ and multiplexer gates for simplicity; 
+all those gates can be readily implemented using NAND gates. 
+A multiplexer takes a Boolean control input, and uses its value to 
+choose one of its two data inputs. 
+
+The next state function refers to the wire variable $timer.timer.e$
+as an input to one of its AND gates. 
+The circuit for $timer.timer.e$ is also constructed by traversing 
+the right hand side expression of its 
+assignment statement in the wire definition list. 
+Then the circuit is connected to the input of the corresponding AND gate. 
+Note that a constant propagation algorithm propagates finds that 
+$timer.\ell$ registers are equivalent the $0$, since the initial value is $0$, 
+and the multiplexer data inputs are eventually either $0$ or $timer.\ell$ itself. 
+Consequently, ABC synthesis reduces the circuit of $timer.\ell$ and eliminates its
+registers. 
+\input{figcircuittraffic}
+
+
 \subsection{One cycle optimization}
 Recall that an interaction specifies a strong synchronization among its involved components. Data transfer can take place during such synchronization. The operational semantic of BIP requires to (1) first execute data transfer of the selected interaction and then (2) execute the functions of the corresponding transitions of atomic components. For this, in the above translation, we used $cycle$ boolean register to denote whether the system is executing actions corresponding to either interaction or transition. However, in some cases data transfers of all interactions modify some variables that are not assigned in the corresponding transitions of those interactions. This can be detected by doing a static data dependency between interactions and their transitions. 
 This may drastically improve the performance of the system since data transfers as well as functions of transitions may be executed in one cycle. Note that, our implementation supports this optimization.   

@@ -50,7 +50,8 @@ sequential circuits we consider will be well-formed.
 The ABC analyzer reasons about And-Inverted-Graph (AIG)
 sequential circuits which are
 sequential circuits with only NAND gates restricted to have 2~fanins.
-Since NAND is functionally complete, this is not a limitation.  
+%This is not a limitation since NAND is {\em functionally complete} as it implements
+%negated conjunction. 
 
 \subsection{Semantics of sequential circuits}
 \label{s:back:crct_semantics}
@@ -119,18 +120,19 @@ The translation of an \caig into an AIG circuit
 first constructs registers, wires, and primary input variables for each 
 \caig variable. 
 %
-It then recursively traverses the right hand side 
+It then recursively traverses the right hand side expressions 
 of the assignment statements in \cci{wiredef-list}, \cci{init-list},
 and \cci{next-list} to build corresponding combinational circuits.
 %
-It connects the outputs of the combinational 
+It connects the resulting vertices of the combinational 
 circuits built for the \cci{init-list} and \cci{next-list} 
 assignment expressions to the 
-initial value and next state value input pins of the corresponding 
+initial value and next state value fanins of the corresponding 
 registers, respectively. 
 %
-Finally, it connects the outputs of the combinational circuits built 
-for the  \cci{wiredef-list} to the wires referring to the 
+Finally, it connects the vertices of the combinational circuits built 
+for the \cci{wiredef-list} expressions to the corresponding 
+wires referring to the 
 variables declared as wire variables in \cci{decl-list}.
 
 \paragraph{Variables.} 
@@ -210,7 +212,7 @@ and returns its fanouts.
 \end{lstlisting}
 
 \paragraph{Connections.}
-Finally, we connect the nodes corresponding to the right hand side expressions 
+We connect the nodes corresponding to the right hand side expressions 
 of the assignment statements in the \cci{init-list} and \cci{next-list}
 expressions 
 to the initial value and next value fanins of the corresponding register gates, 
@@ -220,5 +222,12 @@ We connect the nodes corresponding to the right hand side expressions
 of the assignment statements in the \cci{wiredef-list} expressions to the 
 fanins of the corresponding wire identity gates. 
 
-
-
+\paragraph{Invariants.}
+A special variable in the \caig program denotes the 
+conjunction of all the invariants of the system in addition to the deadlock
+freedom property. 
+This variable is the designated output of the resulting 
+AIG circuit. 
+ABC verifies that 
+the designated output is always $true$. 
+%The designated output is 
