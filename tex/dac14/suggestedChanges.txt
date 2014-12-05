@@ -6,7 +6,7 @@ Reviewer 1:
 
 3. Make the output gate that we check  with ABC obvious and clearly relate it to the invariant (deadlock free, ...) // FADI -- DONE
 
-4. Think of a diagram that shows a circuit that corresponds to Figure 4 with some explanation //FADI
+4. Think of a diagram that shows a circuit that corresponds to Figure 4 with some explanation //FADI -- DONE
 
 5. Clarify how the FPGA is created and show numbers that showcase it with the case studies. // Remains to showcase the numbers!
 
