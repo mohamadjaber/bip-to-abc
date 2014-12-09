@@ -29,7 +29,8 @@ Reviewer 1:
 
 14. Page 7: after definition 2, explain when is a port enabled.  //MOHAMAD
 
-15. Mention one loop programs in the intro or before their introduction and say how they will be used.  // FADI
+15. Mention one loop programs in the intro or before their introduction and say how they will be used.  // FADI -- done: the wording now give biptool its rights versus the 
+previous writing... 
 
 
 Reviewer2
@@ -43,7 +44,7 @@ Reviewer2
 
 4. Discuss more the relation between sequential code and FPGA. Add more about FPGA.  // DONE
 
-5. Why two level of transformations (from OLP we can generate code, simulations, etc.).  // FADI: code generation, simulation 
+5. Why two level of transformations (from OLP we can generate code, simulations, etc.).  // FADI: code generation, simulation  -- DONE
 
 6. Add paragraph about correctness (Define BIP semantics using the transformation from BIP to OLP): add reference to S2S. Full equivalence between between BIP and OLP by construction.  // Fadi
 

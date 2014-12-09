@@ -69,30 +69,41 @@ as follows.
 
 \begin{enumerate}
 \item The method takes a BIP system and a set of invariants and generates 
+  an intermediate C-like {\em one loop program } \caig. 
+  The \caig step is necessary to allow for runtime verification and for the use
+  of ABC verification algorithms. 
+
+\item The method then translates the \caig program to 
   an AIG circuit with an output therein that is \true iff the system 
   is deadlock free, and satisfies the system invariants. 
-  The method passes the generated AIG circuit to ABC for verification. 
-  ABC either proves correctness or produces a counter example where the 
+  The method passes the generated AIG circuit to ABC for reduction and 
+  verification. 
+  The method drives the ABC reduction and verification algorithms and 
+  either proves correctness or produces a counter example where the 
   system violates an invariant. 
   This enabled us to find defects and prove systems that were not 
   possible using DFinder and NuSMV. 
+
 \item  The supporting tool \biptool~ provides a debugging mechanism where the 
   counter example is mapped back to the original BIP system. 
-  The debugging tool is integrated with a wave form visualization tool \cite{bybell2010gtkwave}.  
-\item The method generates a {\em field-programmable gate array} (FPGA) implementation of the BIP system with a 
+  The debugging tool is integrated with a wave form visualization tool 
+  \cite{bybell2010gtkwave}.  
+\item The method generates a {\em field-programmable gate array} (FPGA) 
+  implementation of the BIP system with a 
   system-specific execution framework. 
-  An FPGA implementation is a configuration that connects the logic gates and the data transfer buses of an FPGA board 
+  An FPGA implementation is a configuration that connects the logic gates 
+  and the data transfer buses of an FPGA board 
   appropriately to perform the desired computation. 
   FPGA implementations are directly mapped to other integrated circuit representations. 
-  The FPGA implementation is passed to ABC synthesis reduction algorithms 
-  which reduce the area and the critical time of the FPGA implementation 
-  by removing redundant latches and logic gates. 
-  To the best of our knowledge, we are the first to synthesize a BIP system directly 
+  \biptool{} constructs the FPGA implementation from the reduced AIG circuit 
+  to benefit from the area and critical time reduction algorithms 
+  of the ABC framework. 
+  The reduction algorithms remove redundant latches and logic gates.  To the best of our knowledge, we are the first to synthesize a BIP system directly 
   into an FPGA. 
-\item The method generates a concurrent C implementation that simulates the BIP 
+\item The method translates the \caig program into a concurrent runtime verification 
+  implementation that simulates the BIP 
   system with a system-specific execution framework. 
 \end{enumerate}
-
 
 BIP uses a runtime engine to simulate its execution semantic. 
 The main loop of the engine consists of the following steps:
