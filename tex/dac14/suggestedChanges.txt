@@ -1,14 +1,16 @@
 Reviewer 1:
 
-1.  beef up the reduction by ABC and present it as a contribution and use it to justify less need of optimization at the word level/high level.  Mention the structural properties of BIP we used to drive the ABC optimization. 
+1.  beef up the reduction by ABC and present it as a contribution and use it to justify less need of optimization at the word level/high level.  //FADI: DONE
 
-2. Lets very well map the claims to sections in the paper. 
+1.a Mention the structural properties of BIP we used to drive the ABC optimization. // FADI
+
+2. Lets very well map the claims to sections in the paper. // FADI. I think it is done now after changing the intro. 
 
 3. Make the output gate that we check  with ABC obvious and clearly relate it to the invariant (deadlock free, ...) // FADI -- DONE
 
 4. Think of a diagram that shows a circuit that corresponds to Figure 4 with some explanation //FADI -- DONE
 
-5. Clarify how the FPGA is created and show numbers that showcase it with the case studies. // FADI: Remains to showcase the numbers!
+5. Clarify how the FPGA is created and show numbers that showcase it with the case studies. // FADI: Remains to showcase the numbers! -- DONE (numbers are proportional to NAND/latches)
 
 6. Consider comparing ConcurrentC with distributed execution of BIP to the existing case studies, and if needed to other examples with inherent concurrency. The built in execution engine is our contribution in contrast to a software scheduler in the BIP distributed execution/send receive models. 
 

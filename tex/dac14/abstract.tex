@@ -15,11 +15,12 @@ system-specific scheduler and with a designated output that
 is \true when the invariants hold. 
 Our method uses ABC, a sequential circuit synthesis and 
 verification framework to 
-(1) generate an efficient FPGA implementation of the system, 
+(1) generate an efficient circuit implementation of the system that can be 
+readily translated into FPGA or ASIC implementations, 
 and to (2) verify the system and debug it in case a 
 counterexample was found. 
 Moreover we generate a concurrent C implementation of the circuit that
-can be directly used as a simulator. 
+can be directly used for runtime verification.
 We evaluated our method with two large systems and our results
 outperform those possible with existing techniques. 
 \end{abstract}
