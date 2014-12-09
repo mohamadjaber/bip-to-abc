@@ -2,29 +2,54 @@
 \label{sec:implem}
 
 \subsection{\biptool{}} \label{chap:implementation:bip}
-\biptool{} (BIP Synthesis Verification) is a Java implementation of the translation from BIP to $\caig$ described in Section \ref{sec:bip2aig} and is available at 
+\biptool{} (BIP Synthesis Verification) is an implementation of our method with several modules. 
+The implementation is available at 
 \href{http://research-fadi.aub.edu.lb/biptoabc}{http://research-fadi.aub.edu.lb/biptoabc}. 
-
-\biptool~ takes as input a BIP system and a set of invariants
+%
+\begin{itemize}
+  \item The first module is a Java implementation of the translation from BIP to $\caig$ described in Section \ref{sec:bip2aig}.
+It takes as input a BIP system and a set of invariants
 and generates the corresponding \caig{} program with a system-specific 
 execution framework. 
-The \caig program can be directly compiled for runtime verification (simulation)
-where primary inputs are set to random values at each iteration. 
-The resulting binary can be concurrent by replacing the 
-\cci{do-together} construct with the corresponding openmp directives. 
 
-For sequential synthesis, we synthesize an AIG 
-circuit that can be used as an FPGA implementation of the system
-and pass it to ABC. 
-We use ABC synthesis and reduction algorithms to reduce the area and the critical
-time of the AIG circuit by 
-removing latches and logic gates using techniques such as 
+\item The second module generates a concurrent runtime verification 
+  executable from the $\caig$ 
+  program that uses the OpenMP API to perform runtime 
+  verification (simulation) of the BIP system. 
+  The module sets the primary inputs to random values at each iteration,
+  and replaces the \cci{do-together} constructs with OpenMP directives
+  to have the resulting binary run concurrently. 
+
+  \item The third module is a C++ implementation that synthesizes the $\caig$ program 
+    to an AIG circuit after preforming word level constant propagation and cone of 
+    influence reductions. 
+    The module alsopasses the generate AIG circuit to the ABC framework, 
+    and drives the synthesis reduction algorithms, and then the verification algorithms.
+    \biptool{} automatically selects the ABC algorithms to run based on structural
+    AIG metrics; alternatively, the user can 
+    interactively guide the reduction and verification process. 
+%
+\item Finally, in case a counterexample is found by either the 
+concurrent runtime verification module or by the ABC verification algorithms, 
+a C++ module takes the counterexample, 
+translates it back to BIP, and provides a user friendly interface 
+to visualize the counterexample and debug the system with an integrated open 
+source wave form viewer tool~\cite{bybell2010gtkwave}.  
+\end{itemize}
+
+
+\biptool{} uses ABC synthesis and reduction algorithms to reduce the area 
+and the critical time of the AIG circuit by 
+removing redundant latches and logic gates.
+Example reduction algorithms are
 retiming~\cite{KuBa01}, 
 redundancy removal~\cite{HmBPK05,KuMP01,BjesseC00,aziz-fmsd-00}, 
 logic rewriting~\cite{BjBo04}, interpolation~\cite{McMillan03}, 
 and localization~\cite{Wang03}. 
-The reduced AIG circuit is equivalent to the original circuit and can be used
-as a reduced FPGA implementation. 
+%
+The reduced AIG circuit is equivalent to the original circuit and \biptool{}
+can readily translate it into an FPGA implementation. 
+
 %for verification, FPGA implementation, and runtime verification. 
 
 %\todo[inline]{Not sure if we should mention how the resulting AIG resulting can be transformed directly into a bit-level \caig, but then needs to use some sort of technology mapping to take it into a word-level \caig that becomes an optimized parallel implementation of the run-time verification...}
@@ -39,10 +64,10 @@ and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}
 to verify the correctness of the circuit with respect to the BIP system invariants.
 It either proves correctness or produces a counter example where the system 
 violates the property. 
-\biptool~ provides a debugging mechanism where the counter example is mapped back 
-to the original BIP system. 
-The debugging tool is integrated with wave form visualization 
-tool \cite{bybell2010gtkwave}.  
+%\biptool~ provides a debugging mechanism where the counter example is mapped back 
+%to the original BIP system. 
+%The debugging tool is integrated with wave form visualization 
+%tool \cite{bybell2010gtkwave}.  
 
 \biptool~ is equipped with a command line interface that accepts a set 
 of configuration options. 
@@ -51,7 +76,6 @@ It takes the name of the input BIP file and optional flags.
 java -jar bip-to-abc.jar [options] input.bip output.abc [property.txt]
 \end{lstlisting}
 
-
 %% bip results
 We evaluated \biptool{} against two industrial benchmarks, 
 an {\em Automatic Teller Machine} (ATM)~\cite{atm} and the {\em Quorum} consensus
@@ -59,7 +83,6 @@ protocol~\cite{guerraoui2012speculative}. We report on the size of the generated
 AIGs before and after reduction, and on the time taken by the ABC solver to 
 reduce and verify the benchmarks. We compare the results for the 
 verification of the ATM benchmark with the NuSMV~\cite{nusmv} model checker.
-
 
 \subsection{The ATM benchmark}
 Automatic Teller Machine (ATM) is a computerized system that provides financial services for users in 

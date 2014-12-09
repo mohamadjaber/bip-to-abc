@@ -8,7 +8,7 @@ Reviewer 1:
 
 4. Think of a diagram that shows a circuit that corresponds to Figure 4 with some explanation //FADI -- DONE
 
-5. Clarify how the FPGA is created and show numbers that showcase it with the case studies. // Remains to showcase the numbers!
+5. Clarify how the FPGA is created and show numbers that showcase it with the case studies. // FADI: Remains to showcase the numbers!
 
 6. Consider comparing ConcurrentC with distributed execution of BIP to the existing case studies, and if needed to other examples with inherent concurrency. The built in execution engine is our contribution in contrast to a software scheduler in the BIP distributed execution/send receive models. 
 
@@ -19,7 +19,7 @@ Reviewer 1:
 
 9. Make sure the time in the results tables is clearly indicating both synthesis and verification algorithms. // done 
 
-10. Make sure to say that the BipSC drives the ABC transformations and selects them in sequence (page 22). Mention the sizes of the NuSMV models.  // FADI
+10. Make sure to say that the BipSC drives the ABC transformations and selects them in sequence (page 22). Mention the sizes of the NuSMV models.  // FADI-- done
 
 11. NuSMV or NuSMV2? NuSMV2.  // MOHAMAD
 
