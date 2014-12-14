@@ -67,11 +67,12 @@ The semantics of the atomic component $B = (P,L, T, X, \{g_{\tau}\}_{\tau \in T}
 \begin{itemize}
 \item $Q_B = L\times \valu{X}$, where $\valu{X}$ denotes the set of valuations on $X$,
 \item $P_B = P \times \valu{X}$ denotes the set of labels, that is, ports augmented with valuations of variables, 
-\item $T_B$ is the set of transitions defined as follows. $T_B= \{ ((l',v'),p(v_{p}), (l,v))\in Q_B\times P_B\times Q_B \mid \exists \tau = (l', p[x_{p}], l) \in T: g_{\tau}(v') \wedge v=f_{\tau}(v'/v_{p})\}$, where $v_{p}$ is a valuation of the variables of $p$.  
+\item $T_B$ is the set of transitions defined as follows. $T_B= \{ ((l,v),p(v_{p}), (l',v'))\in Q_B\times P_B\times Q_B \mid \exists \tau = (l, p[x_{p}], l') \in T: g_{\tau}(v) \wedge v'=f_{\tau}(v/v_{p})\}$, where $v_{p}$ is a valuation of the variables of $p$.  
 \end{itemize}
 \end{definition}
 %
-A configuration is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of configurations $(l', v')\stackrel{p(v_{p})}{\rightarrow} (l, v)$, where $v_{p}$ is a valuation of the variables attached to the port $p$, is possible if there exists a transition $(l', p[x_p], g_\tau, f_\tau, l)$, such that $g_\tau(v')=\true$. As a result, the valuation $v'$ of variables is modified to $v=f_\tau(v'/v_p)$.
+A configuration is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of configurations $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to the port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in configuration $(l, v)$. Execution of port $p$ results in updated the valuation of $v$ to $v'=f_\tau(v/v_p)$
+%As a result, the valuation $v'$ of variables is modified to $v=f_\tau(v'/v_p)$.
 %
 \subsubsection{Creating composite components.} Assuming some available atomic components $B_1,$ $\ldots,B_n$, we show how to connect the components in the set $\{B_i\}_{i\in I}$ with $I\subseteq [1,n]$ using an \emph{interaction}. An interaction $a$ is used to specify the sets of ports that have to be jointly executed.
 

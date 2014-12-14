@@ -111,11 +111,11 @@ as follows.
 
 \item The method translates the \caig program into a concurrent runtime verification 
   implementation that simulates the BIP 
-  system with a system-specific execution framework. 
+  system with a system-specific execution framework.
 \end{enumerate}
 
-BIP uses a runtime engine to simulate its execution semantic. 
-The main loop of the engine consists of the following steps:
+
+BIP is based on the generation of modular code and a dedicated platfrom, BIP \emph{engin}, which simulates BIP semantic and orchestrates the computation of atomic components. This allows clarity of models but it results in great inefficiency. The main loop of the engine consists of the following steps:
 \begin{enumerate}
 \item Each atomic component sends to the engine its current location.
 \item The engine enumerates the list of interactions in the system, 

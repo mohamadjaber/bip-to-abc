@@ -46,11 +46,11 @@ BIP operates at a higher level than SystemC and does not provide support for cir
 constructs.
 
 Verification techniques for SystemC and BIP make use of symbolic model checking tools. 
-NuSMV2~\cite{nusmv} is a symbolic model checker that employs both 
+NuSMV~\cite{nusmv} is a symbolic model checker that employs both 
 SAT and BDD based model checking techniques. It processes an input 
 describing the logical system design as a finite state machine, and a set of specifications
 expressed in LTL, Computational Tree Logic (CTL) and Property Specification Language (PSL).
-Given a system $\Pm$ and a set of specifications $P$, NuSMV2 first flattens $\Pm$ and $P$ by 
+Given a system $\Pm$ and a set of specifications $P$, NuSMV first flattens $\Pm$ and $P$ by 
 resolving all module instantiations and creating modules and processes, thus generating one 
 synchronous design. It then performs a Boolean encoding step to eliminate all scalar variables, 
 arithmetic and set operations and thus encode them as Boolean functions.   
@@ -74,7 +74,7 @@ Our method assumes a similarly relaxed memory model
 since it adopts a cycle based execution model where 
 updated memory values are observable at the next cycle. 
 
-In order to avoid the state space explosion problem, NuSMV2 performs a cone of 
+In order to avoid the state space explosion problem, NuSMV performs a cone of 
 influence reduction~\cite{berezin1998compositional} step in order to eliminate
 non-needed parts of the flattened model and specifications. The cone of influence
 reduction technique aims at simplifying the model in hand by only 
@@ -97,9 +97,13 @@ are reachable in \Pm.
 Techniques based on symbolic model checking for the verification of 
 BIP designs suffer from the state space explosion problem, and often 
 fail to scale with the size and the complexity of the systems. 
-On the other hand, DFinder does not handle data transfer between 
-atomic components, thus limiting the range of practical applications 
-on which it can be applied. 
+
+
+
+On the other hand, compositional and incremental methods provided by DFinder are limited to systems without data
+transfer over interactions. In \cite{hung-defense}, the authors proposed a method that transforms a system with data transfer into equivalent system without data transfer on which the compositional method can be applied. Nonetheless, the proposed method remains theoretical and not integrated into DFinder. This limitation hampers the practical application of DFinder and of the BIP framework, since data transfer is necessary and common in the design practical applications.
+
+
 Our technique handles data transfers and uses the wide range of synthesis 
 and reduction algorithms provided by ABC to effectively reduce the size and 
 the complexity of the verification problem. Most of these algorithms have no counterpart
