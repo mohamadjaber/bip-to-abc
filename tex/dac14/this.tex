@@ -1,4 +1,4 @@
-\section{One loop program (\caig) }
+\section{One loop program (\caig) Syntax and Semantics}
 \label{sec:this}
 A {\em one loop program} (\caig) ranges over boolean, 
 integer and array variables. 
@@ -54,12 +54,18 @@ expr: term | uop expr| expr bop expr | expr ? expr : expr;
 term: id | id[expr]; 
 
 decl-list: declaration+
-wiredef-list: (term = expr)*
+assignment: term = expr
+wiredef-list: (assignment)*
 
-init-list: (term = expr)* 
-next-list: (term = expr)* 
+init-list: (assignment)* 
+next-list: (assignment)* 
 \end{lstlisting}
 \end{tabular}
 \caption{\caig Syntax}
 \label{fig:gr}
 \end{figure}
+
+
+\begin{definition}[\caig Trace]
+A trace of an \caig program consists of the sequence of valuations of all non-wire variables. The semantics of an \caig program is given by its set of possible traces.  
+\end{definition}

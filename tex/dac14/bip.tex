@@ -63,6 +63,7 @@ $\mathit{\Data}$ is the set of all values possibly taken by variables in $X$.
 The semantics of an atomic component is an LTS over configurations and ports, formally defined as follows:
 %
 \begin{definition}[Semantics of Atomic Components]
+\label{def:semantic-atom}
 The semantics of the atomic component $B = (P,L, T, X, \{g_{\tau}\}_{\tau \in T}, \{f_{\tau}\}_{\tau \in T})$ is defined as the labeled transition system  $S_B = (Q_B, P_B, T_B)$, where: 
 \begin{itemize}
 \item $Q_B = L\times \valu{X}$, where $\valu{X}$ denotes the set of valuations on $X$,
@@ -154,3 +155,8 @@ A BIP system ${\cal S}$ is a tuple $(B,\mathit{Init}, v)$ where $B$ is a composi
 \end{definition}
 
 Given a port $p$ from the system \Pm, we denote by (1) $interaction(p)$ to be the set of interactions that are connected to $p$; (2) $component(p)$ to be the component to which the port $p$ belongs; (3) $transitions(p)$ to be the set of transitions labeled by $p$. 
+
+\begin{definition}[Trace]
+A trace $t$ of length $l$ of a system $(B,\mathit{Init}, v)$ is the sequence of alternating states/configurations $q^1\cdot q^2 \cdots  q^l$ such that: $q^1$ = $(\mathit{Init}, v)$, and, $\forall i\in [2,l]: q^i\in Q \wedge \exists a_i\in A: q^i \goesto[a_i]_\pi q^{i+1}$, where $a_i$ is an interaction enabled on $q_i$. We denote by $t[i]$ the $i^{\text{th}}$ element in the trace, i.e., state $q_i$.
+\end{definition}
+ 

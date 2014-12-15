@@ -166,14 +166,12 @@ the expression defining the wire variable in \cci{wiredef-list}.
 We denote the gates corresponding to each variable by the function \cci{vargates}. 
 
 \begin{lstlisting}
-/*@\textbf{variables}@*/(decl-list, wiredef-list)
+/*@\textbf{variables}@*/(decl-list)
   foreach variable $v$ in decl-list
     if ($v$ is not a wire) 
       vargates($v$) = instantiate-registers($v$,type($v$))
-    elseif ($v$ is not assigned in wiredef-list) 
-      vargates($v$) = instantitate-primary-inputs($v$,type($v$))
-    else 
-      vargates($v$) = instantiate-identity-gates($v$,type($v$))
+    elseif ($v$ is not assigned in wiredef-list) // non-deterministic input
+      vargates($v$) = instantiate-primary-inputs($v$,type($v$))
     endif
   endfor
 \end{lstlisting}
@@ -199,7 +197,6 @@ and returns its fanouts.
 
 \begin{lstlisting}
 /*@\textbf{traverse}@*/($exp$)
-
   if ($exp$ is a variable) 
     return vargates(exp)
   endif
@@ -220,14 +217,35 @@ respectively.
 %
 We connect the nodes corresponding to the right hand side expressions
 of the assignment statements in the \cci{wiredef-list} expressions to the 
-fanins of the corresponding wire identity gates. 
+fanins of the corresponding wire identity gates. Below we define \texttt{olp-to-aig} method that takes an \caig program as input and generates its corresponding AIG circuit. 
+
+\begin{lstlisting}
+/*@\textbf{olp-to-aig}@*/($P$) // P is an /*@\textcolor{darkgreen}{\caig}@*/ program
+  // instantiate aig variables and construct vargates
+  variables($P$.decl-list); 
+  
+  // s is of the form term = expr 
+  foreach assignment $s  \in$ init-list 
+    next-state($s$.term) = traverse($s$.expr);  
+  endfor
+  
+  foreach assignment $s  \in$ wiredef-list
+    vargates($s$.term) = traverse($s$.expr);  
+  endfor
+  
+  foreach assignment $s  \in$ next-list
+    next-state($s$.term) = traverse($s$.expr);  
+  endfor
+\end{lstlisting}
+
 
 \paragraph{Invariants.}
-A special variable in the \caig program denotes the 
-conjunction of all the invariants of the system in addition to the deadlock
-freedom property. 
-This variable is the designated output of the resulting 
-AIG circuit. 
-ABC verifies that 
-the designated output is always $true$. 
+A special variable in the \caig program denotes the conjunction of all the invariants of the system in addition to the deadlock freedom property. This variable is the designated output of the resulting 
+AIG circuit. ABC verifies that the designated output is always $true$. 
 %The designated output is 
+
+
+\begin{theorem}[AIG \caig equivalence]
+Let $A$ be an AIG circuit resulting from \texttt{olp-to-aig($P$)}, where $P$ is an \caig program. The set of traces of $P$ is equal to the set of traces of $A$.
+\end{theorem} 
+The proof follows by strong induction on the structure of $A$ and $P$. The base cases of the induction are (1) the variables; (2) non-deterministic input; and (3) the primary gates provided by \texttt{library}. The structure is preserved by \texttt{vargates} function. The timing is preserved by the semantics of AIG that infinitely repeats the execution of the next state functions similar to the lone \texttt{while} loop in \caig. 

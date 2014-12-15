@@ -53,7 +53,11 @@ expressed in LTL, Computational Tree Logic (CTL) and Property Specification Lang
 Given a system $\Pm$ and a set of specifications $P$, NuSMV first flattens $\Pm$ and $P$ by 
 resolving all module instantiations and creating modules and processes, thus generating one 
 synchronous design. It then performs a Boolean encoding step to eliminate all scalar variables, 
-arithmetic and set operations and thus encode them as Boolean functions.   
+arithmetic and set operations and thus encode them as Boolean functions.
+
+The work in \cite{facs14} uses bisimulation-based abstraction to reduce the state-space and then uses NuSMV for model-checking. Our technique can directly benefit from the abstraction of \cite{facs14}. However, our experiments show that counterpart bit-level transformation were more effective. Moreover, our \caig to AIG transformation uses compact timing since it implements the built-in scheduler in the AIG circuit; while in \cite{facs14}, the transformation from the abstracted model to the NuSMV model enumerates all symbolic states. That is, with \biptool bounded model checking can use lower time bound than \cite{facs14}. Moreover, our method enables the use of a plethora of reduction and abstraction algorithms readily available at bit-level \cite{brayton2010abc}. 
+Since our transformation is time-exact the \caig program and the AIG circuit we generate can be used for runtime verification as well as real implementations. 
+   
 
 The work in \cite{NiakiDATAS13} uses constraint based
 programming to compute an executable 
@@ -101,7 +105,7 @@ fail to scale with the size and the complexity of the systems.
 
 
 On the other hand, compositional and incremental methods provided by DFinder are limited to systems without data
-transfer over interactions. In \cite{hung-defense}, the authors proposed a method that transforms a system with data transfer into equivalent system without data transfer on which the compositional method can be applied. Nonetheless, the proposed method remains theoretical and not integrated into DFinder. This limitation hampers the practical application of DFinder and of the BIP framework, since data transfer is necessary and common in the design practical applications.
+transfer over interactions. In \cite{hungthesis10}, the authors proposed a method that transforms a system with data transfer into equivalent system without data transfer on which the compositional method can be applied. Nonetheless, the proposed method remains theoretical and not integrated into DFinder. This limitation hampers the practical application of DFinder and of the BIP framework, since data transfer is necessary and common in the design practical applications.
 
 
 Our technique handles data transfers and uses the wide range of synthesis 

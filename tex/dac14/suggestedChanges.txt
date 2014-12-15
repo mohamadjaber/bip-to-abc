@@ -16,7 +16,7 @@ Reviewer 1:
 
 7. Compare with "Similar techniques have been applied for instance in the generation of synchronous models from synchronous languages (e.g., from Esterel), with a host of optimizations to make the circuit compact and efficient". 
 
-8. Discuss the translation and the embedded runtime engine versus the translation to NUSMV (explain that also). Show that the performance gain also comes from 1) the simplicity of the execution engine, and 2) the selection of reduction techniques appropriate to the circuit, while ABC just houses those techniques. We selected the sequence of transformations in ABC to reduce the circuit we produced. // Mohamad
+8. Discuss the translation and the embedded runtime engine versus the translation to NUSMV (explain that also). Show that the performance gain also comes from 1) the simplicity of the execution engine, and 2) the selection of reduction techniques appropriate to the circuit, while ABC just houses those techniques. We selected the sequence of transformations in ABC to reduce the circuit we produced. // Mohamad — done
 
 
 9. Make sure the time in the results tables is clearly indicating both synthesis and verification algorithms. // done 
