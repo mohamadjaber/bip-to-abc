@@ -213,7 +213,12 @@ registers.
 
 
 \subsection{Correctness}
-Given a BIP system $S$ and its corresponding \caig program $P = \cci{BIP-to-OLP(S)}$. Let $Tr_s$ be the set of traces of $S$ and let $Tr_p$ be the set of traces of $P$. Consider $T'$ the projection of $Tr_p$ constrained by omitting the states where \cci{cycle} is equal to zero. Formally, $T'  = \{t' \,\mid\, t'[i] = t[2\times i], t \in Tr_P, i \in \mathbb{N}\}$. Intuitively, $T'$ represents the semantics of the orgininal BIP model regardless of the built-in scheduler details (i.e., the enable exchange, interaction selection, data transfer details). 
+Given a BIP system $S$ and its corresponding \caig program $P = \cci{BIP-to-OLP(S)}$. 
+Let $Tr_s$ be the set of traces of $S$ and let $Tr_p$ be the set of traces of $P$. 
+Consider $T'$ the projection of $Tr_p$ constrained by omitting the states where \cci{cycle} is equal to zero. 
+Formally, $T'  = \{t' \,\mid\, t'[i] = t[2\times i], t \in Tr_P, i \in \mathbb{N}\}$. 
+Intuitively, $T'$ represents the semantics of the orgininal BIP model regardless of the built-in scheduler details 
+(i.e., the enable exchange, interaction selection, data transfer details). 
 
 \begin{theorem}[BIP \caig Equivalence]
 \label{theorem:correct}
@@ -221,11 +226,28 @@ The BIP system $S$ is equivalent to $P$ under the equivalence of their semantics
 \end{theorem}
 \begin{proof}
 The proof follows by induction on the length of each trace and on the structure of $S$ and $P$.
+%
 Consider $t \in Tr_s$, there exists $t' \in T'$ and $t = t'$. This follows from: 
 \begin{enumerate}
 \item Consider the initial state: $t[0]$ and $t'[0]$. \cci{generateInitList()} sets \cci{cycle} to zero and assigns each location to \textit{Init} and each variable to its initial value. Thus, $t[0]$ is equal $t'[0]$. 
+\item Let $t[0..k]$ be the prefix of $t$ of length $k+1$ where $k\ge 0$, using the induction hypothesis, there exists a trace $t'[0..k] \in T'$ and $t[0..k]=t'[0..k]$. 
+  %transition t[k] -> t[k+1] corresponds to an interaction , 
+  % that interaction is enabled and selector can select it, 
+  % therefore state and data variables on t[k+1] and t'[k+1] are the same
+  Consider the valuation $t[k+1]$ and consider $A_{k+1}$ to be all the interactions that are fired base on $t[k+1]$. 
+  The non-deterministic primary input \cci{selector} wire variable allows the selection for all interactions 
 \end{enumerate}
-
+Consider $t' \in T'$ there exists $t \in Tr_s$ and $t = t'$. This follows from: 
+\begin{enumerate}
+\item Consider the initial state: $t[0]$ and $t'[0]$. \cci{generateInitList()} sets \cci{cycle} to zero and assigns each location to \textit{Init} and each variable to its initial value. Thus, $t[0]$ is equal $t'[0]$. 
+\item Let $t'[0..k]$ be the prefix of $t'$ of length $k+1$ where $k\ge 0$, using the induction hypothesis, there exists a trace $t[0..k] \in Tr_s$ and $t[0..k]=t'[0..k]$. 
+  %transition t'[k] -> t'[k+1] corresponds to an interaction , 
+  % that interaction is enabled and selector can select it, 
+  % therefore state and data variables on t[k+1] and t'[k+1] are the same
+%  Consider the valuation $t'[k+1]$ and consider $A_{k+1}$ to be all the interactions that are fired base on $t[k+1]$. 
+%  The non-deterministic primary input \cci{selector} wire variable allows the selection for all interactions 
+\end{enumerate}
+Consequently, the claim holds. 
 \end{proof}
 
 
