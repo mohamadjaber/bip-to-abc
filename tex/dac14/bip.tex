@@ -157,6 +157,8 @@ A BIP system ${\cal S}$ is a tuple $(B,\mathit{Init}, v)$ where $B$ is a composi
 Given a port $p$ from the system \Pm, we denote by (1) $interaction(p)$ to be the set of interactions that are connected to $p$; (2) $component(p)$ to be the component to which the port $p$ belongs; (3) $transitions(p)$ to be the set of transitions labeled by $p$. 
 
 \begin{definition}[Trace]
-A trace $t$ of length $l$ of a system $(B,\mathit{Init}, v)$ is the sequence of alternating states/configurations $q^1\cdot q^2 \cdots  q^l$ such that: $q^1$ = $(\mathit{Init}, v)$, and, $\forall i\in [2,l]: q^i\in Q \wedge \exists a_i\in A: q^i \goesto[a_i]_\pi q^{i+1}$, where $a_i$ is an interaction enabled on $q_i$. We denote by $t[i]$ the $i^{\text{th}}$ element in the trace, i.e., state $q_i$.
+A trace $t$ of length $l$ of a system $(B,\mathit{Init}, v)$ is the sequence of alternating states/configurations and interactions $q^0\cdot a_0\cdot q^1\cdot a_1\cdots a_{l-1}\cdot q^l$ such that: $q^1$ = $(\mathit{Init}, v)$, and, $\forall i\in [2,l]: q^i\in Q \wedge \exists a_i\in A: q^i \goesto[a_i]_\pi q^{i+1}$, where $a_i$ is an interaction enabled on $q_i$ and its execution results in state $q_{i+1}$. We denote by $t_s[i]$ (resp. $t_a[i]$) the $i^{\text{th}}$ state (resp. interaction) in the trace, i.e., state $q_i$ (resp. $a_i$).
 \end{definition}
+
+
  
