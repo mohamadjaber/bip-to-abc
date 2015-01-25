@@ -156,20 +156,30 @@ A BIP system ${\cal S}$ is a tuple $(B,\mathit{Init}, v)$ where $B$ is a composi
 
 Given a port $p$ from the system \Pm, we denote by (1) $interaction(p)$ to be the set of interactions that are connected to $p$; (2) $component(p)$ to be the component to which the port $p$ belongs; (3) $transitions(p)$ to be the set of transitions labeled by $p$. 
 
-
 We define the function $\mathtt{index}$ that assigns for each interaction $a \in \gamma$ a positive integer in $\big[0,|\gamma| - 1\big]$, i.e., $\mathtt{index}: \gamma \rightarrow \big[0,|\gamma| - 1\big]$. 
 
-\begin{definition}[Trace]
-A trace $t$ of length $l$ of a system $(B,\mathit{Init}, v)$ is the sequence of alternating states/configurations and boolean vectors of size $|\gamma|$: $q_0\cdot b_0\cdot q_1\cdot b_1\cdots b_{l-1}\cdot q_l$ such that: $q_1$ = $(\mathit{Init}, v)$, and, $\forall i\in [2,l]: q_i\in Q \wedge \exists a_i\in A: q_i \goesto[a_i]_\pi q_{i+1}$ and: 
-
-\[ b_i[k] = \left\{ 
-  \begin{array}{l l}
-    \true & \quad k = \mathtt{index}(a_i)\\
-    \false & \quad \text{otherwise}
-  \end{array} \right.\]
-That is, $a_i$ is an interaction enabled on $q_i$ and its execution results in state $q_{i+1}$. We denote by (1) $t_s[i]$ the $i^{\text{th}}$ state in the trace, i.e., state $q_i$; and (2) $t_b[i]$ the index of the $i^{\text{th}}$ interaction executed in the trace, i.e., $k$ where $b_i[k] = \true$.
+\begin{definition}[Configuration]
+A configuration of a BIP system ${\cal S}$ is a tuple $(q,b)$ where $q\in Q$ and $b$ is a Boolean bit-vector of size $|\gamma|$ 
+that indicates which interaction is selected to execute in the next step. 
+Formally, let $a \in \gamma$ be the interaction governing the transition $q_i \goesto[a]_\pi q_{i+1}$, 
+$b[i]$ is $true$ when $i = \mathtt{index}(a)$ and is $false$ for all $i \in [1, |\gamma|], i\not=\mathtt{index}(a)$. 
 \end{definition}
 
+\begin{definition}[Trace]
+  A trace $t$ of length $\ell$ of a system $(B,\mathit{Init}, v)$ is the sequence of configurations 
+  $(q_0,b_0) \cdot (q_1,b_1) \cdots (q_{\ell-1}, b_{\ell-1})$ 
+  such that: $q_0$ = $(\mathit{Init}, v)$, and 
+  $\forall i\in [0,l-1]: q_i\in Q \wedge \exists a_i\in A: q_i \goesto[a_i]_\pi q_{i+1}$.
+%
+%  and: 
+%
+%\[ b_i[k] = \left\{ 
+%  \begin{array}{l l}
+%    \true & \quad k = \mathtt{index}(a_i)\\
+%    \false & \quad \text{otherwise}
+  %\end{array} \right.\]
+That is, $a_i$ is an interaction enabled on $q_i$ and its execution results in state $q_{i+1}$. 
+We denote by (1) $t[i]$ the $i^{\text{th}}$ configuration in the trace, i.e., configuration $(q_i,b_i)$,
+and (2) $t_b[i]$ the index of the $i^{\text{th}}$ interaction executed in the trace, i.e., $k$ where $b_i[k] = \true$.
+\end{definition}
 
-
- 
