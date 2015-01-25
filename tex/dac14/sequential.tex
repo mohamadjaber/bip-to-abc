@@ -248,4 +248,11 @@ AIG circuit. ABC verifies that the designated output is always $true$.
 \begin{theorem}[AIG \caig equivalence]
 Let $A$ be an AIG circuit resulting from \texttt{olp-to-aig($P$)}, where $P$ is an \caig program. The set of traces of $P$ is equal to the set of traces of $A$.
 \end{theorem} 
-The proof follows by strong induction on the structure of $A$ and $P$. The base cases of the induction are (1) the variables; (2) non-deterministic input; and (3) the primary gates provided by \texttt{library}. The structure is preserved by \texttt{vargates} function. The timing is preserved by the semantics of AIG that infinitely repeats the execution of the next state functions similar to the lone \texttt{while} loop in \caig. 
+The proof follows by strong induction on the structure of $A$ and $P$. 
+The base cases of the induction are 
+(1) the variables;
+(2) non-deterministic input; and 
+(3) the primary gates provided by \texttt{library}. 
+The structure is preserved by \texttt{vargates}. 
+The timing is preserved by the semantics of AIG that infinitely repeats the execution of the 
+next state functions similar to the lone \texttt{while} loop in \caig.

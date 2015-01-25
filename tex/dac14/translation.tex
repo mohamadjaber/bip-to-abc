@@ -40,6 +40,7 @@ Similarly, the function declares a variable register $B_i.x_j$ for each variable
   append $wire~bool~ip [ |J| ]$ to decl-list 
   // interaction selected wires
   append $wire~bool~is[|J|]$ to decl-list 
+  append $bool~b[|J|]$ to decl-list 
   // non-deterministic priority selector wire
   append $wire~int~selector$ to decl-list 
   // cycle denotes transition or interaction mode
@@ -66,7 +67,10 @@ Similarly, the function declares a variable register $B_i.x_j$ for each variable
 
 Function \cci{generateWireDefList()} fills \cci{wiredef-list} with functional macro definitions as follows. The enable wire $B_i.p_j.e$ is \true when there exists a transition $\tau$ labeled with port $p$, its source ($\tau.src$) is the current location ($B_i.\ell$), and its guard is \true. 
 
-Array element $ie[j]$ corresponding to interaction $a_j$ is evaluated to \true when the guard of $a_j$ is \true and all its ports are enabled. Array element $ip[j]$ is evaluated to \true when $ie[j]$ is \true and $a_j$ has higher priority than other enabled interactions. Array element $is[j]$ is evaluated to \true when $ip[j]$ is true either $a_j$ is selected ($selector$ equals to $j$) or the selected interaction is not enabled and $j$ is the first enabled interaction greater with an index greater than $j$. The use of non-deterministic selector is added for fairness. 
+Array element $ie[j]$ corresponding to interaction $a_j$ is evaluated to \true when the guard of $a_j$ is \true and all its ports are enabled. Array element $ip[j]$ is evaluated to \true when $ie[j]$ is \true and $a_j$ has higher priority than other enabled interactions. 
+Array element $is[j]$ is evaluated to \true when $ip[j]$ is true either $a_j$ is selected ($selector$ equals to $j$) or the selected interaction is not enabled and $j$ is the first enabled interaction greater with an index greater than $j$. 
+The Boolean bit-vector $b$ is redundant with wire $is$ and is declared to simplify the equivalence proof. 
+The use of non-deterministic selector is added for fairness. 
 The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction $a_k$ (i.e., $is[k]$ is \true) involving $B_i.p_j$.
 
  
@@ -109,6 +113,10 @@ Function \cci{generateInitList()} fills \cci{init-list} with initial value defin
       append $B_i.x_j := v(B_i.x_j)$ to init-list  
     endfor
   endfor
+  // iterate over interactions
+  foreach $j \in [1..|J|]$ 
+    append $b[j] = is[j]$ to  init-list 
+  endfor
 \end{lstlisting}
 
 Function \cci{generateNextList()} fills \cci{next-list} with the next state value definitions of register variables. Each component variable can be modified either in an interaction action or in a transition action. The value of variable $cycle$ makes this distinction. 
@@ -122,6 +130,11 @@ In the transition mode, the function considers the current location of each comp
 % The sequence of conditional clauses form a nested ternary conditional expressions where the last expression retains the previous value of the variable.
 \begin{lstlisting}
 /*@\textbf{generateNextList()}@*/ 
+  // iterate over interactions
+  foreach $j \in [1..|J|]$ 
+    append $b[j] = is[j]$ to  next-list 
+  endfor
+
   // iterate over components - interaction-mode
   foreach $i \in [1..|I|]$ 
     // iterate over variables, where $\textcolor{darkgreen}{B_i.X = \{x_1, \ldots, l_{|B_i.X|}\}}$ 
@@ -139,7 +152,6 @@ In the transition mode, the function considers the current location of each comp
       endfor
       // interaction mode and no data transfer for $\textcolor{darkgreen}{B_i.x_j}$
       append $B_i.x_j$: to var-st 
-      
       
       // iterate over component transitions - transition-mode
       append $B_i.\ell := cycle = 0?\, B_i.\ell :$ to loc-st
