@@ -2,14 +2,14 @@
 \label{sec:sequential}
 
 The ABC synthesis and model checker reasons about And-Inverted-Graph 
-representation of a sequential circuit.
+representation of a sequential circuit~\cite{brayton2010abc}. 
 
 \begin{definition}[Sequential circuit]
 \rm A {\em sequential circuit} is a tuple $\big( (V, E),G,
 O\big)$.  The pair $(V,E)$ represents a directed graph on
 vertices $V$ and edges $E \subseteq V\times V$ where $E$
-is a totally ordered relation.  The function $G: V \mapsto
-{\mathit types}$ maps vertices to ${\mathit types}$.
+is a total order.  The function $G: V \mapsto
+{\mathit Types}$ maps vertices to ${\mathit Types}$.
 There are three disjoint types: {\em primary inputs}, {\em
 bit-registers} (which we often simply refer to as {\em
 registers}), and logical {\em gates}.  Registers have designated
@@ -26,10 +26,13 @@ and the set of bit-register variables by $R$.
 \begin{definition}[Fanins]
 \rm We define the direct {\em fanin}s of a gate $u$ to be
 $\{v \mid (v,u)\in E\}$ the set of source vertices connected
-to $u$ in $E$.  We call the {\em support} of $u$ $\{v \mid
-(v\in I \vee v \in R) \wedge (v,u) \in \ast E\}$ all
-source vertices in $R$ or $I$ that are connected to $u$
-with $\ast E$, the transitive closure of $E$.
+to $u$ in $E$.  
+We call the {\em support} of $u$ 
+%$\{v \mid
+%(v\in I \vee v \in R) \wedge (v,u) \in \ast E\}$ 
+all source vertices in $R$ or $I$ that are connected to $u$
+$\mathit{Fanins}(u) \cap (I \cup R)$.
+%with $E^+$, the transitive closure of $E$.
 \label{def:back:fanins} 
 \end{definition}
 
@@ -37,19 +40,22 @@ with $\ast E$, the transitive closure of $E$.
 %compute the NAND function; since NAND is functionally
 %complete, this is not a limitation.  
 
-For the sequential
+For a sequential
 circuit to be syntactically well-formed, vertices in $I$
 should have no fanins, vertices in $R$ should have
 2~fanins (the next-state function and the initial-value
 function of that register), %gates should have two fanins,
 and every cycle in the sequential circuit should contain
 at least one vertex from $R$.  The initial-value functions
-of $R$ shall have no registers in their support.  All
-sequential circuits we consider will be well-formed.  
+of $R$ shall have no register in their support.  
+In the following, 
+we consider only well-formed sequential circuits which can be 
+verified by a structural check linear in the size of the 
+sequential circuit.
 
 The ABC analyzer reasons about And-Inverted-Graph (AIG)
 sequential circuits which are
-sequential circuits with only NAND gates restricted to have 2~fanins.
+sequential circuits with only NAND gates with exactly two fanins.
 %This is not a limitation since NAND is {\em functionally complete} as it implements
 %negated conjunction. 
 
@@ -57,13 +63,13 @@ sequential circuits with only NAND gates restricted to have 2~fanins.
 \label{s:back:crct_semantics}
 
 \begin{definition}[State]
-\rm A {\em state} is a Boolean valuation to vertices in $R$. 
+  \rm A {\em state} $\sigma: R \rightarrow \mathbb{B}$ is a Boolean valuation of vertices in $R$. 
 %A {\em concrete input} is a Boolean valuation to vertices in $I$.
 \end{definition}
 
 \begin{definition}[Trace]
 \rm A {\em trace} is a mapping $t: V \times \mathbb{N} \rightarrow
-\mathbb{B}$ that assigns a valuation to all vertices in
+\mathbb{B}$ that gives a value to vertices in
 $V$ across time {\em steps} denoted as indexes from
 $\mathbb{N}$.  The mapping must be consistent with $E$ and
 $G$ as follows.  Term $u_{j}$ denotes the source vertex of
@@ -82,13 +88,13 @@ $G_v$}
 \]
 \end{definition}
 
-The semantics of a sequential circuit are defined with
-respect to semantical traces.  Given an input valuation
-sequence and an initial state, the resulting trace is a
+The semantics of a sequential circuit is defined with
+respect to traces.  Given a sequence of input valuations
+and an initial state, the resulting trace is a
 sequence of Boolean valuations to all vertices in $V$
 which is consistent with the Boolean functions of the
 gates.  We will refer to the transition from one valuation
-to the next as a {\em step}.  A node in the circuit is
+to the next one as a {\em step}.  A node in the circuit is
 justifiable if there is an input sequence which when
 applied to an initial state will result in that node
 taking value $\mbox{true}$.  A node in the circuit is
@@ -98,7 +104,7 @@ vertices in the circuit whose justifiability and validity
 is of interest respectively.
 A sequential circuit can naturally
 be associated with a finite state machine (FSM),
-which is a graph on the states.  However, the 
+which is a reachability graph on the states.  However, the 
 circuit is very different from its FSM; among
 other differences, it is exponentially more succinct in
 almost all cases of interest~\cite{BuClMcDiHw92}. 
@@ -163,7 +169,7 @@ instantiate a vector of identity gates (a sequence of two negation gates)
 where the fanouts correspond to the wire variable and the fanins correspond to
 the expression defining the wire variable in \cci{wiredef-list}. 
 %
-We denote the gates corresponding to each variable by the function \cci{vargates}. 
+We denote the gates corresponding to each variable $v$ by the function \cci{vargates}$(v)$. 
 
 \begin{lstlisting}
 /*@\textbf{variables}@*/(decl-list)
@@ -187,8 +193,8 @@ If the expression refers to a variable $v$ (base case),
 then the traversal returns \cci{vargates(v)}. 
 %
 If the expression is a logical, conditional, or arithmetic expression, then
-the \cci{library} routine looks it up in a complete table of circuits
-with the adequate bit width. 
+the \cci{library} routine finds an equivalent circuit for it with the adequate bit
+width in a complete table of circuits.
 For example, if the expression is a ternary conditional statement of the
 form $b?~e_1:e_2$, then \cci{library} instantiates a multiplexer, 
 connects its two data fanins to the nodes corresponding to $e_1$ and $e_2$, 

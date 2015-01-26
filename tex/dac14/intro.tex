@@ -9,14 +9,14 @@
 \label{fig:flow}
 \end{figure}
 
-In recent years, {\em embedded systems} have witnessed a large 
+{\em Embedded systems} have witnessed a large 
 expansion, especially with  the emergence of automotive 
 electronics, mobile and control devices.
 An embedded system is a composition of {\em heterogeneous}
 intellectual property (IP) components.
 Figure~\ref{fig:flow} shows a typical flow of the composition process where the
 components are specified as imperative programs, finite state machines (FSM), labeled 
-transition systems (LTS), data flow networks, and discrete event based circuits. 
+transition systems (LTS), data flow networks, and discrete-event based circuits. 
 Computations in embedded systems are subject to several 
 physical and architectural 
 constraints that render the separation between software and 
@@ -32,17 +32,19 @@ used in the process~\cite{metropolis2}.
 %and control devices
 %Furthermore, {\em component-based system} (CBS) design is gaining more prominence 
 %after the widespread of embedded systems, especially for mobile and control devices. 
-The Behavior-Interaction-Priority (BIP) framework 
-is a {\em Component-Based System} (CBS) design framework that uses a dedicated 
-language and tool-set to support a rigorous and layered design flow for embedded 
-systems. BIP is currently being used in academy and in industry in projects such as ASCENS, COMBEST, PRO3D, SMECY, ACROSS, MARAE, GOAC, MIND and CHAPI \cite{bipwebsite}. 
+The Behavior-Interaction-Priority (BIP) is a framework for the design of 
+{\em Component-Based Systems} (CBS). 
+It uses a dedicated language and tool-set to support a rigorous 
+and layered design flow for embedded 
+systems. 
+BIP is currently being used in academy and in industry in projects such as ASCENS, COMBEST, PRO3D, SMECY, ACROSS, MARAE, GOAC, MIND and CHAPI \cite{bipwebsite}. 
 BIP allows to build complex systems by coordinating the behavior of a set of 
 atomic components~\cite{bip11}.
 BIP makes use of (1) the DFinder~\cite{dfinder} compositional  
 and incremental verification tool-set, and (2) the NuSMV~\cite{nusmv} model checker, 
 to check the correctness of BIP systems. 
 However, DFinder \cite{BBL14} does not handle data transfer between components, 
-and it does not support checking for invariants other than deadlock freedom. 
+and it supports only the verification of deadlock-freedom. 
 Additionally, for complex systems, NuSMV often suffers from the state space explosion 
 problem~\cite{sipser2006introduction}, and fails to perform its verification tasks.
 
@@ -60,7 +62,7 @@ and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}.
 
 In this paper, we present a method and a supporting tool (\biptool)
 for embedded system synthesis, runtime verification,
-and model checking with a cycle based execution model.
+and model checking with a cycle-based execution model.
 The method leverages transformation-based synthesis and verification techniques 
 as follows. 
 %\biptool~ that takes a BIP system and a set of 
@@ -84,7 +86,7 @@ as follows.
   This enabled us to find defects and prove systems that were not 
   possible using DFinder and NuSMV. 
 
-\item  The supporting tool \biptool~ provides a debugging mechanism where the 
+\item  \biptool~ provides a debugging mechanism where the 
   counter example is mapped back to the original BIP system. 
   The debugging tool is integrated with a wave form visualization tool 
   \cite{bybell2010gtkwave}.  
@@ -115,7 +117,7 @@ as follows.
 \end{enumerate}
 
 
-BIP is based on the generation of modular code and a dedicated platfrom, BIP \emph{engin}, which simulates BIP semantic and orchestrates the computation of atomic components. This allows clarity of models but it results in great inefficiency. The main loop of the engine consists of the following steps:
+BIP is based on the generation of modular code and a dedicated platfrom, BIP \emph{engine}, which simulates BIP semantic and orchestrates the computation of atomic components. This allows clarity of models but it results in great inefficiency. The main loop of the engine consists of the following steps:
 \begin{enumerate}
 \item Each atomic component sends to the engine its current location.
 \item The engine enumerates the list of interactions in the system, 
@@ -124,13 +126,17 @@ BIP is based on the generation of modular code and a dedicated platfrom, BIP \em
 \item The engine non-deterministically selects an interaction out of the enabled interactions.
 \item Finally, the engine notifies the corresponding components and schedule their transitions for execution. 
 \end{enumerate}
-We differ in that, the system specific scheduler is a bit vector of interactions directly embedded in the implementation. 
+Our method differs in that it directly embeds in the implementation a system specific scheduler represented by a bit vector of of interactions.
 The interaction bit vector evaluates in real-time and directly depends on the locations and the values of the variables of the input system. 
 The system specific execution framework empirically reduces the space and time requirements for the C simulation and the FPGA execution. 
 
-Several frameworks for the design and verification of embedded systems exist. 
-We briefly introduce them here and discuss and compare to them later in 
-Section~\ref{sec:related}.
+%Several frameworks for the design and verification of embedded systems exist. 
+%We briefly introduce them here and discuss and compare to them later in 
+%Section~\ref{sec:related}.
+
+Several frameworks for the design and verification of embedded systems exist 
+(see Section~\ref{sec:related} for a detailed comparison with related work).
+%
 Metropolis~\cite{metropolis1,metropolis2} is a design framework that
 takes a Metropolis Meta Model (MMM) description of an embedded system 
 and generates a SystemC~\cite{systemc} based simulator of the system.
