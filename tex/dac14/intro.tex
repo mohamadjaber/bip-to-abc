@@ -12,20 +12,38 @@
 {\em Embedded systems} have witnessed a large 
 expansion, especially with  the emergence of automotive 
 electronics, mobile and control devices.
-An embedded system is a composition of {\em heterogeneous}
-intellectual property (IP) components.
+%
+An embedded system is a composition of intellectual property (IP) components
+of {\em heterogeneous} computational nature, i.e. some might be implemented as software 
+processor executables while some might be implemented as real time logic circuits. 
+{\em Field-programmable gate array} (FPGA) logic circuits are popular logic circuit 
+implementations of 
+embedded system components because they are amenable for reconfiguration. 
+%
 Figure~\ref{fig:flow} shows a typical flow of the composition process where the
 components are specified as imperative programs, finite state machines (FSM), labeled 
-transition systems (LTS), data flow networks, and discrete-event based circuits. 
-Computations in embedded systems are subject to several 
-physical and architectural 
-constraints that render the separation between software and 
-hardware design impractical~\cite{henzinger2006embedded}.
-The partitioning task, often done manually, decides whether a component is to 
-be implemented as a programmed process or as a realtime logic circuit. 
+transition systems (LTS), data flow networks, and discrete-event based circuits~\cite{henzinger2006embedded}.
+%Computations in embedded systems are subject to several 
+%physical and architectural 
+%constraints that render the separation between software and 
+%hardware design impractical~\cite{henzinger2006embedded}.
+Partitioning, often done manually, decides whether a component is to 
+be implemented as a programmed process or as a real time logic circuit. 
 A plethora of software, behavioral, and logic compilation and synthesis techniques are
 used in the process~\cite{metropolis2}.
+The end result implementation is then subject to functional verification including 
+model checking and runtime verification. 
 
+The design flow faces three important challenges of relevant to this paper. 
+\begin{itemize}
+  \item The size and the critical depth of the FPGA implementation are critical factors that decide how many IPs can 
+    be loaded on the same FPGA board, and how fast the board can be clocked, respectively. 
+    Synthesis techniques that reduce both size and depth are needed. 
+  \item Model checking often faces the state space explosion problem which renders the results of model checking inconclusive. 
+    Techniques that allow model checking to scale to larger systems are needed. 
+  \item Runtime verification with heavy simulation engines take long time to complete runtime verification tasks. 
+    Faster techniques are needed. 
+\end{itemize}
 
 %The design of embedded systems involves
 %{\em Component-based systems} design 
@@ -35,9 +53,9 @@ used in the process~\cite{metropolis2}.
 The Behavior-Interaction-Priority (BIP) is a framework for the design of 
 {\em Component-Based Systems} (CBS). 
 It uses a dedicated language and tool-set to support a rigorous 
-and layered design flow for embedded 
-systems. 
-BIP is currently being used in academy and in industry in projects such as ASCENS, COMBEST, PRO3D, SMECY, ACROSS, MARAE, GOAC, MIND and CHAPI \cite{bipwebsite}. 
+and layered design flow for embedded systems. 
+BIP is currently being used in academy and in industry in projects such as 
+ASCENS, COMBEST, PRO3D, SMECY, ACROSS, MARAE, GOAC, MIND and CHAPI \cite{bipwebsite}. 
 BIP allows to build complex systems by coordinating the behavior of a set of 
 atomic components~\cite{bip11}.
 BIP makes use of (1) the DFinder~\cite{dfinder} compositional  
