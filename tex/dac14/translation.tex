@@ -179,51 +179,6 @@ In the transition mode, the function considers the current location of each comp
 
 
 
-\subsection{Illustrative Example}
-Figure \ref{fig:traffic:bip} shows a traffic light controller system modeled in BIP. 
-It is composed of two atomic components, \cci{timer} and \cci{light}. The timer counts
-the amount of time for which the light must stay in a specific state (i.e. a specific
-color of the light). The light component determines the color of the traffic light. Additionally, it
-informs the timer about the amount of time to spend in each location through a data transfer on the interaction between the two components. 
-
-\begin{figure}[h!]
- \centering
- \resizebox{0.5\textwidth}{!}{
-   \input{figures/traffic.pdf_t}
- }
- \caption{Traffic light in BIP}
- \label{fig:traffic:bip}
-\end{figure}
-
-Figure~\ref{fig:caigtraffic} shows $\caig$ code generated that corresponds to the traffic light controller BIP system shown in Figure~\ref{fig:traffic:bip}. 
-\input{figcaigtraffic}
-
-
-Figure~\ref{fig:circuittraffic} shows a sample circuit generated as described in 
-Section~\ref{sec:sequential}
-by traversing the right hand side expressions of the initial 
-value and next state function assignment statement corresponding to variable
-$timer.\ell$. 
-The sample circuit shows AND, $=$, $<$ and multiplexer gates for simplicity; 
-all those gates can be readily implemented using NAND gates. 
-A multiplexer takes a Boolean control input, and uses its value to 
-choose one of its two data inputs. 
-
-The next state function depends on variables $cycle$, $timer.t$, and $timer.n$ and on 
-the wire variable $timer.timer.e$. 
-The registers of the variables are connected directly to the circuit. 
-The circuit for the wire variable $timer.timer.e$ is constructed by traversing 
-the right hand side expression of its 
-assignment statement in the wire definition list. 
-Then the constructed circuit is connected to the input of the corresponding AND gate. 
-Note that a constant propagation algorithm propagates finds that 
-$timer.\ell$ registers are equivalent the $0$, since the initial value is $0$, 
-and the multiplexer data inputs are eventually either $0$ or $timer.\ell$ itself. 
-Consequently, ABC synthesis reduces the circuit of $timer.\ell$ and eliminates its
-registers. 
-\input{figcircuittraffic}
-
-
 \subsection{Correctness}
 Given a BIP system $S$ and its corresponding \caig program $P = \cci{BIP-to-OLP(S)}$. 
 Let $Tr_s$ be the set of traces of $S$ and let $Tr_p$ be the set of traces of $P$. 

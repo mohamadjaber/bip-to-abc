@@ -183,3 +183,20 @@ We denote by (1) $t[i]$ the $i^{\text{th}}$ configuration in the trace, i.e., co
 and (2) $t_b[i]$ the index of the $i^{\text{th}}$ interaction executed in the trace, i.e., $k$ where $b_i[k] = \true$.
 \end{definition}
 
+\begin{example}
+Figure \ref{fig:traffic:bip} shows a traffic light controller system modeled in BIP. 
+It is composed of two atomic components, \cci{timer} and \cci{light}. The timer counts
+the amount of time for which the light must stay in a specific state (i.e. a specific
+color of the light). The light component determines the color of the traffic light. Additionally, it
+informs the timer about the amount of time to spend in each location through a data transfer on the interaction between the two components. 
+
+\begin{figure}[h!]
+ \centering
+ \resizebox{0.5\textwidth}{!}{
+   \input{figures/traffic.pdf_t}
+ }
+ \caption{Traffic light in BIP}
+ \label{fig:traffic:bip}
+\end{figure}
+\end{example}
+

@@ -262,3 +262,30 @@ The base cases of the induction are
 The structure is preserved by \texttt{vargates}. 
 The timing is preserved by the semantics of AIG that infinitely repeats the execution of the 
 next state functions similar to the lone \texttt{while} loop in \caig.
+
+
+\begin{example}
+Figure~\ref{fig:circuittraffic} shows a sample circuit generated as described in 
+Section~\ref{sec:sequential}
+by traversing the right hand side expressions of the initial 
+value and next state function assignment statement corresponding to variable
+$timer.\ell$. 
+The sample circuit shows AND, $=$, $<$ and multiplexer gates for simplicity; 
+all those gates can be readily implemented using NAND gates. 
+A multiplexer takes a Boolean control input, and uses its value to 
+choose one of its two data inputs. 
+
+The next state function depends on variables $cycle$, $timer.t$, and $timer.n$ and on 
+the wire variable $timer.timer.e$. 
+The registers of the variables are connected directly to the circuit. 
+The circuit for the wire variable $timer.timer.e$ is constructed by traversing 
+the right hand side expression of its 
+assignment statement in the wire definition list. 
+Then the constructed circuit is connected to the input of the corresponding AND gate. 
+Note that a constant propagation algorithm propagates finds that 
+$timer.\ell$ registers are equivalent the $0$, since the initial value is $0$, 
+and the multiplexer data inputs are eventually either $0$ or $timer.\ell$ itself. 
+Consequently, ABC synthesis reduces the circuit of $timer.\ell$ and eliminates its
+registers. 
+\input{figcircuittraffic}
+\end{example}
