@@ -91,7 +91,9 @@ as follows.
 \item The method takes a BIP system and a set of invariants and generates 
   an intermediate C-like {\em one loop program } \caig. 
   The \caig step is necessary to allow for runtime verification and for the use
-  of ABC verification algorithms. 
+  of ABC verification algorithms. We consider invariant properties which are Boolean expressions
+over atomic propositions. Atomic propositions express conditions
+on components (e.g., current locations, values of variables).
 
 \item The method then translates the \caig program to 
   an AIG circuit with an output therein that is \true iff the system 

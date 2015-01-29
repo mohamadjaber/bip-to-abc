@@ -61,7 +61,11 @@ Then ABC uses decision algorithms such as
 symbolic model checking, bounded model checking, induction, 
 interpolation, circuit SAT solving, 
 and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}
-to verify the correctness of the circuit with respect to the BIP system invariants.
+to verify the correctness of the circuit with respect to the BIP system invariants. 
+
+%In the benchmarks below (SubSection \ref{subsec:atm} and \ref{subsec:quorum}), we consider only invariant properties which are Boolean expressions on locations and values of variables. However, it is worth mentioning that \biptool{} supports LTL invariant properties. 
+
+
 It either proves correctness or produces a counter example where the system 
 violates the property. 
 %\biptool~ provides a debugging mechanism where the counter example is mapped back 
@@ -85,6 +89,7 @@ reduce and verify the benchmarks. We compare the results for the
 verification of the ATM benchmark against another solution that uses a bisimulation-based abstraction for reduction \cite{facs14} and NuSMV~\cite{nusmv} as a model checker. 
 
 \subsection{The ATM benchmark}
+\label{subsec:atm}
 Automatic Teller Machine (ATM) is a computerized system that provides financial services for users in 
 a public space. Figure~\ref{fig:atm_bip} shows a structured BIP model of an ATM system adapted from the
 description provided in~\cite{atm}.
@@ -153,6 +158,7 @@ users.
 
 
 \subsection{The Quorum protocol}
+\label{subsec:quorum}
 The {\em Quorum} protocol is a consensus protocol proposed in~\cite{guerraoui2012speculative}
 as complementary to the Paxos consensus protocol~\cite{gafni2003disk} under perfect
 channel conditions. {\em Consensus} allows a set of communicating processes
