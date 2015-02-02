@@ -1,0 +1,118 @@
+
+%% start here for BIP
+\section{Related work}
+\label{sec:related}
+
+The overlap between software and hardware design in embedded systems creates more challenges 
+for verification and code generation. 
+
+SystemC~\cite{systemc} is a modeling platform based on C++ that provides
+design abstractions at the {\em Register Transfer Level} (RTL), behavior, and system levels. 
+It aims at providing a common design environment for embedded system design and hardware-software
+co-design. SystemC designers write their systems in C++ using SystemC class libraries that 
+provide implementations for hardware specific objects such as concurrent modules, synchronization constructs,
+and clocks.
+Therefore the input systems can be compiled using standard C++ compilers to generate binaries
+for simulation. SystemC allows for the communication between different components of a system
+through the usage of ports, interfaces and channels.  
+
+Metropolis~\cite{metropolis1,metropolis2} is an embedded system design platform based on 
+formal modeling and separation of concerns for an effective
+design process.% The concern separations in Metropolis are: communication-computation, behavior-performance, and
+%function-architecture. 
+%These separations are done by the structure of Metropolis that defines objects as
+%\textit{processes}, \textit{media}, and \textit{quantity managers}. 
+A Metropolis process is a sequence of events representing
+functionality, and different processes communicate via ports of interfaces.% implemented in media. 
+An interface includes methods that processes can use to communicate. 
+%Thus, processes and media ensure the communication-computation
+%separation. The quantity manager object in Metoropolis and the equivalent separated \textit{annotator} and
+%\textit{scheduler} objects in MetroII
+%Enable setting quantity metrics such as energy and time and prioritizing
+%events, thus allowing the separation of behavior from performance. 
+Metropolis uses SIS for synthesis, SystemC and Ptolemey for runtime verification, and SPIN for model checking.
+%Separate networks of processes, media, and quantity
+%managers can be used to represent software or hardware. The different software and hardware networks are then mapped by
+%encapsulation in one mapping network to provide a system of separated function and architecture concerns.
+While BIP separates behavior from interaction (synchronization and communication) to simplify correctness by construction
+and compositional verification, Metropolis separates communication from behavior (computation) and leaves synchronization 
+highly coupled within each of them. 
+
+
+The BIP framework differs from SystemC in that it presents a dedicated language and supporting
+tool-set that describes the behavior of individual system components as symbolic LTS. 
+Communication between components in BIP is ensured through ports and interactions.   
+BIP operates at a higher level than SystemC and does not provide support for circuit level 
+constructs.
+
+Verification techniques for SystemC and BIP make use of symbolic model checking tools. 
+NuSMV~\cite{nusmv} is a symbolic model checker that employs both 
+SAT and BDD based model checking techniques. It processes an input 
+describing the logical system design as a finite state machine, and a set of specifications
+expressed in LTL, Computational Tree Logic (CTL) and Property Specification Language (PSL).
+Given a system $\Pm$ and a set of specifications $P$, NuSMV first flattens $\Pm$ and $P$ by 
+resolving all module instantiations and creating modules and processes, thus generating one 
+synchronous design. It then performs a Boolean encoding step to eliminate all scalar variables, 
+arithmetic and set operations and thus encode them as Boolean functions.
+
+The work in \cite{facs14} uses bisimulation-based abstraction to reduce the state-space and then uses NuSMV for model-checking. Our technique can directly benefit from the abstraction of \cite{facs14}. However, our experiments show that counterpart bit-level transformation were more effective. Moreover, our \caig to AIG transformation uses compact timing since it implements the built-in scheduler in the AIG circuit; while in \cite{facs14}, the transformation from the abstracted model to the NuSMV model enumerates all symbolic states. That is, with \biptool bounded model checking can use lower time bound than \cite{facs14}. Moreover, our method enables the use of a plethora of reduction and abstraction algorithms readily available at bit-level \cite{brayton2010abc}. 
+Since our transformation is time-exact the \caig program and the AIG circuit we generate can be used for runtime verification as well as real implementations. 
+   
+
+The work in \cite{NiakiDATAS13} uses constraint based
+programming to compute an executable 
+MPI based parallel simulator of an embedded and cyber-physical 
+system written in ForSyDe~\cite{SanderJ04}.
+ForSyDe is a library of SystemC based 
+parametrized system components with strict constraint 
+specifications and a blocking write FIFO queue modeling 
+a Kahn network. 
+The instances of the ForSyDe components are processes that 
+communicate only through signals. 
+
+The work in \cite{BarnatVMCAI2013} introduces a model checking
+methodology for LTL specifications of embedded system written 
+in DIVINE~\cite{Divine}  over
+a total store order (TSO) of memory elements. 
+Our method assumes a similarly relaxed memory model
+since it adopts a cycle based execution model where 
+updated memory values are observable at the next cycle. 
+
+In order to avoid the state space explosion problem, NuSMV performs a cone of 
+influence reduction~\cite{berezin1998compositional} step in order to eliminate
+non-needed parts of the flattened model and specifications. The cone of influence
+reduction technique aims at simplifying the model in hand by only 
+referring to variables that are of interest to the verification procedure, i.e. variables
+that influence the specifications to check~\cite{clarke1999model}.
+
+DFinder~\cite{dfinder} is an automated verification tool for checking invariants
+on systems described in the BIP language. Given a BIP system \Pm and 
+an invariant $\mathcal{I}$, DFinder operates  compositionally and iteratively
+to compute invariants $\mathcal{X}$ of the interactions and the atomic 
+components of \Pm. It then uses the Yices {\em Satisfiability Modulo
+Theory} (SMT) solver~\cite{dutertre2006fast} to check for the validity 
+of the formula $\mathcal{X} \land \lnot \mathcal{I} = false$. 
+Additionally, DFinder checks the deadlock freedom of  \Pm by building an invariant 
+$\mathcal{I}_d$ that represents the states of of \Pm in which no interactions 
+are enabled, \ie{} a deadlock occurs. It then checks the for the formula
+$\mathcal{X} \land \mathcal{I}_d = false$, \ie{} none of the deadlock states
+are reachable in \Pm.   
+
+Techniques based on symbolic model checking for the verification of 
+BIP designs suffer from the state space explosion problem, and often 
+fail to scale with the size and the complexity of the systems. 
+
+
+
+On the other hand, compositional and incremental methods provided by DFinder are limited to systems without data
+transfer over interactions. In \cite{hungthesis10}, the authors proposed a method that transforms a system with data transfer into equivalent system without data transfer on which the compositional method can be applied. Nonetheless, the proposed method remains theoretical and not integrated into DFinder. This limitation hampers the practical application of DFinder and of the BIP framework, since data transfer is necessary and common in the design practical applications.
+
+
+Our technique handles data transfers and uses the wide range of synthesis 
+and reduction algorithms provided by ABC to effectively reduce the size and 
+the complexity of the verification problem. Most of these algorithms have no counterpart
+in symbolic model checking.  
+
+Unlike all the methods described above, our method leverages
+the same semantics for FPGA synthesis, model checking, 
+and runtime verification (simulation). 

@@ -1,0 +1,82 @@
+\section{One loop program (\caig) Syntax and Semantics}
+\label{sec:this}
+A {\em one loop program} (\caig) uses Boolean, 
+integer and array variables. 
+A variable can be either a register denoting a memory element or a {\em wire} denoting a functional macro.
+An \caig starts with variable declarations followed by the wire variable definitions. 
+Then, memory variables are initialized simultaneously using the \cci{do-together} construct. 
+After initialization, an infinite loop keeps updating the value of the memory variables simultaneously. The listings in Figure \ref{fig:gr} shows the syntax of an \caig. 
+
+
+The wires are defined by a list of assignments, named \cci{wiredef-list}. 
+Each wire can be the target of at most one assignment statement. 
+
+If a wire is not assigned, then it is said to be a non-deterministic {\em primary input}. 
+It takes a new non-deterministic value at each iteration of the loop.
+
+The list of statements \cci{init-list} assigns initial values to 
+the register variables. All the assignment statements within \cci{init-list} execute
+simultaneously as indicated with the \cci{do-together} construct.
+
+Similarly, the \cci{next-list} list of statements updates the values 
+of the register variables. 
+%All the assignment statements within \cci{next-list} execute simultaneously as indicated with the \cci{do-together} keyword.
+
+Each assignment statement has a left-hand side target term 
+which is either a variable or an access operator to an 
+array element. 
+The right-hand side of an assignment is a combinational expression over the program variables,  
+Boolean and arithmetic operators, and a ternary choice 
+operator. 
+A combinational expression depends on its input variables only and does not require additional 
+memory elements to be executed. 
+The ternary choice \cci{(a? b : c)} returns $b$ if $a$ 
+is \true and $c$ otherwise. 
+
+\begin{figure*}
+\begin{tabular}{p{3cm}p{0.5cm}p{10cm}}
+\begin{lstlisting}
+decl-list
+
+wiredef-list
+
+do-together {
+  init-list 
+}
+
+while(true) {
+  do-together {
+    next-list
+  } 
+}
+\end{lstlisting}
+&
+&
+\begin{lstlisting}
+type: bool | int | bool [NUM] | int [NUM]; 
+declaration: wire type id; | type id;
+
+expr: term | uop expr| expr bop expr | expr ? expr : expr;
+term: id | id[expr]; 
+
+decl-list: declaration+
+assignment: term = expr
+wiredef-list: (assignment)*
+
+init-list: (assignment)* 
+next-list: (assignment)* 
+\end{lstlisting}
+\end{tabular}
+\caption{\caig Syntax}
+\label{fig:gr}
+\end{figure*}
+
+
+\begin{definition}[\caig Trace]
+A trace of an \caig program consists of the sequence of valuations of all non-wire variables. The semantics of an \caig program is given by its set of possible traces.  
+\end{definition}
+
+\begin{example}
+Figure~\ref{fig:caigtraffic} shows $\caig$ that corresponds to the traffic light controller BIP system shown in Figure~\ref{fig:traffic:bip}. Section \ref{sec:bip2aig} shows how to automatically translate a BIP system into \caig
+\input{figcaigtraffic}
+\end{example}

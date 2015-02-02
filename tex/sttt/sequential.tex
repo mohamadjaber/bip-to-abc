@@ -1,0 +1,298 @@
+\section{Sequential Circuit}
+\label{sec:sequential}
+
+The ABC synthesis and model checker reasons about And-Inverted-Graph 
+representation of a sequential circuit~\cite{brayton2010abc}. 
+
+\begin{definition}[Sequential circuit]
+\rm A {\em sequential circuit} is a tuple $\big( (V, E),G,
+O\big)$.  The pair $(V,E)$ represents a directed graph on
+vertices $V$ and edges $E \subseteq V\times V$ where $E$
+is a total order.  The function $G: V \mapsto
+{\mathit Types}$ maps vertices to ${\mathit Types}$.
+There are three disjoint types: {\em primary inputs}, {\em
+bit-registers} (which we often simply refer to as {\em
+registers}), and logical {\em gates}.  Registers have designated
+{\em initial values}, as well as {\em next-state
+functions}.  Gates describe logical functions such as
+the conjunction or disjunction of other vertices. 
+A subset $O$ of $V$ is specified as the {\em
+primary outputs} of $V$.  
+We will denote the set of primary input variables by $I$,
+and the set of bit-register variables by $R$.  
+\label{def:back:seq_circuit}
+\end{definition}
+
+\begin{definition}[Fanins]
+\rm We define the direct {\em fanin}s of a gate $u$ to be
+$\{v \mid (v,u)\in E\}$ the set of source vertices connected
+to $u$ in $E$.  
+We call the {\em support} of $u$ 
+%$\{v \mid
+%(v\in I \vee v \in R) \wedge (v,u) \in \ast E\}$ 
+all source vertices in $R$ or $I$ that are connected to $u$
+$\mathit{Fanins}(u) \cap (I \cup R)$.
+%with $E^+$, the transitive closure of $E$.
+\label{def:back:fanins} 
+\end{definition}
+
+%We restrict gates to have 2~fanins, and
+%compute the NAND function; since NAND is functionally
+%complete, this is not a limitation.  
+
+For a sequential
+circuit to be syntactically well-formed, vertices in $I$
+should have no fanins, vertices in $R$ should have
+2~fanins (the next-state function and the initial-value
+function of that register), %gates should have two fanins,
+and every cycle in the sequential circuit should contain
+at least one vertex from $R$.  The initial-value functions
+of $R$ shall have no register in their support.  
+In the following, 
+we consider only well-formed sequential circuits which can be 
+verified by a structural check linear in the size of the 
+sequential circuit.
+
+The ABC analyzer reasons about And-Inverted-Graph (AIG)
+sequential circuits which are
+sequential circuits with only NAND gates with exactly two fanins.
+%This is not a limitation since NAND is {\em functionally complete} as it implements
+%negated conjunction. 
+
+\subsection{Semantics of sequential circuits}
+\label{s:back:crct_semantics}
+
+\begin{definition}[State]
+  \rm A {\em state} $\sigma: R \rightarrow \mathbb{B}$ is a Boolean valuation of vertices in $R$. 
+%A {\em concrete input} is a Boolean valuation to vertices in $I$.
+\end{definition}
+
+\begin{definition}[Trace]
+\rm A {\em trace} is a mapping $t: V \times \mathbb{N} \rightarrow
+\mathbb{B}$ that gives a value to vertices in
+$V$ across time {\em steps} denoted as indexes from
+$\mathbb{N}$.  The mapping must be consistent with $E$ and
+$G$ as follows.  Term $u_{j}$ denotes the source vertex of
+the $j$-th incoming edge to $v$, implying that
+$(u_{j},v)\in E$.  The value of gate $v$ at time $i$ in
+trace $t$ is denoted by $t(v,i)$ (see Figure \ref{fig:gate-value}).
+\begin{figure*}
+\[
+t(v,i)=
+   \begin{cases}
+      s^i_{v}            &:v \in I \ \text{with sampled value $s_{v}^i$}\\
+      t(u_1, 0)       &:v \in R,i=0,u_1:=\ \text{initial-state of $v$}\\
+      t(u_2, i-1)        &:v \in R,i>0,u_2:=\ \text{next-state of $v$}\\
+      G_v\big(t(u_{1},i),...,t(u_{n},i)\big) &: v \ \text{is a combinational gate with function $G_v$}
+   \end{cases} \newline
+\]
+\caption{Value of gate $v$ at time $i$ in trace $t$}
+\label{fig:gate-value}
+\end{figure*}
+
+\end{definition}
+
+The semantics of a sequential circuit is defined with
+respect to traces.  Given a sequence of input valuations
+and an initial state, the resulting trace is a
+sequence of Boolean valuations to all vertices in $V$
+which is consistent with the Boolean functions of the
+gates.  We will refer to the transition from one valuation
+to the next one as a {\em step}.  A node in the circuit is
+justifiable if there is an input sequence which when
+applied to an initial state will result in that node
+taking value $\mbox{true}$.  A node in the circuit is
+valid if its negation is not justifiable.  We will refer
+to targets and invariants in the circuit; these are simply
+vertices in the circuit whose justifiability and validity
+is of interest respectively.
+A sequential circuit can naturally
+be associated with a finite state machine (FSM),
+which is a reachability graph on the states.  However, the 
+circuit is very different from its FSM; among
+other differences, it is exponentially more succinct in
+almost all cases of interest~\cite{BuClMcDiHw92}. 
+
+%Figure~\ref{f:back:cctfsm}(a) shows a 2-bit write enabled 
+%buffer which uses a multiplexer enabled by $w_{en}$ to 
+%update its register bits $r$ with values in inputs $i$ 
+%when $w_{en}$ is $1$ and retains its state otherwise.
+%It also shows the corresponding FSM with no labels on
+%transitions for clarity of exposition purposes.
+%Figure~\ref{f:back:cctfsm}(b) shows a 3-bit version of 
+%the same circuit with the corresponding FSM. 
+%Only the arcs corresponding to state $000$ are shown for 
+%clarity of exposition.
+
+\subsection{Translation from \caig to AIG circuits }
+
+The translation of an \caig into an AIG circuit
+first constructs registers, wires, and primary input variables for each 
+\caig variable. 
+%
+It then recursively traverses the right hand side expressions 
+of the assignment statements in \cci{wiredef-list}, \cci{init-list},
+and \cci{next-list} to build corresponding combinational circuits.
+%
+It connects the resulting vertices of the combinational 
+circuits built for the \cci{init-list} and \cci{next-list} 
+assignment expressions to the 
+initial value and next state value fanins of the corresponding 
+registers, respectively. 
+%
+Finally, it connects the vertices of the combinational circuits built 
+for the \cci{wiredef-list} expressions to the corresponding 
+wires referring to the 
+variables declared as wire variables in \cci{decl-list}.
+
+\paragraph{Variables.} 
+%
+We consider each variable not declared as a wire in \cci{decl-list}.
+We instantiate a corresponding 
+vector of AIG registers with an adequate bit width. 
+The width of the bit vector can be selected by the user, 
+or can be set to match the default width of the declared type. 
+Typically the default values for the bit width are 
+32 bits for an integer, one bit for a Boolean, and a 
+finite two dimensional bit vector for an array. 
+In our case, and for \caig programs generated from BIP systems, 
+we will not have arrays of register variables
+and we will only have fixed size arrays of Boolean wires as 
+discussed in Section~\ref{sec:bip2aig}.
+%
+We consider variables declared as wires in \cci{decl-list}
+and that do not have a corresponding assignment statement 
+in \cci{wiredef-list} as non-deterministic. 
+For each non-deterministic variable we instantiate a corresponding
+vector of primary inputs with an adequate bit-width. 
+%
+We consider variables declared as wires in \cci{decl-list} with 
+a corresponding assignment statement in \cci{wiredef-list} as functional macros. 
+For each functional macro we 
+instantiate a vector of identity gates (a sequence of two negation gates) 
+where the fanouts correspond to the wire variable and the fanins correspond to
+the expression defining the wire variable in \cci{wiredef-list}. 
+%
+We denote the gates corresponding to each variable $v$ by the function \cci{vargates}$(v)$. 
+
+\begin{lstlisting}
+/*@\textbf{variables}@*/(decl-list)
+  foreach variable $v$ in decl-list
+    if ($v$ is not a wire) 
+      vargates($v$) = instantiate-registers($v$,type($v$))
+    elseif ($v$ is not assigned in wiredef-list) 
+      // non-deterministic input
+      vargates($v$) = instantiate-primary-inputs(
+                      $v$,type($v$))
+    endif
+  endfor
+\end{lstlisting}
+
+
+\paragraph{Assignment statements.}
+We consider each assignment statement in \cci{wiredef-list}, \cci{init-list},
+and \cci{next-list} and traverse the right hand side expressions of
+each assignment with the \cci{traverse} routine. 
+The traversal of an expression runs recursively. 
+%
+If the expression refers to a variable $v$ (base case), 
+then the traversal returns \cci{vargates(v)}. 
+%
+If the expression is a logical, conditional, or arithmetic expression, then
+the \cci{library} routine finds an equivalent circuit for it with the adequate bit
+width in a complete table of circuits.
+For example, if the expression is a ternary conditional statement of the
+form $b?~e_1:e_2$, then \cci{library} instantiates a multiplexer, 
+connects its two data fanins to the nodes corresponding to $e_1$ and $e_2$, 
+connects its control fanins to the nodes corresponding to $b$,
+and returns its fanouts. 
+
+\begin{lstlisting}
+/*@\textbf{traverse}@*/($exp$)
+  if ($exp$ is a variable) 
+    return vargates(exp)
+  endif
+
+  foreach $i [1~..~ exp.operands.size()]$ 
+    $wirevec[i]$ = traverse($exp.operands[i]$) 
+  endfor
+
+  return library($exp.operation$, $wirevec$)
+\end{lstlisting}
+
+\paragraph{Connections.}
+We connect the nodes corresponding to the right hand side expressions 
+of the assignment statements in the \cci{init-list} and \cci{next-list}
+expressions 
+to the initial value and next value fanins of the corresponding register gates, 
+respectively. 
+%
+We connect the nodes corresponding to the right hand side expressions
+of the assignment statements in the \cci{wiredef-list} expressions to the 
+fanins of the corresponding wire identity gates. Below we define \texttt{olp-to-aig} method that takes an \caig program as input and generates its corresponding AIG circuit. 
+
+\begin{lstlisting}
+// P is an /*@\textcolor{darkgreen}{\caig}@*/ program
+/*@\textbf{olp-to-aig}@*/($P$) 
+  // instantiate aig variables and construct
+  // vargates
+  variables($P$.decl-list); 
+  
+  // s is of the form term = expr 
+  foreach assignment $s  \in$ init-list 
+    next-state($s$.term) = traverse($s$.expr);  
+  endfor
+  
+  foreach assignment $s  \in$ wiredef-list
+    vargates($s$.term) = traverse($s$.expr);  
+  endfor
+  
+  foreach assignment $s  \in$ next-list
+    next-state($s$.term) = traverse($s$.expr);  
+  endfor
+\end{lstlisting}
+
+
+\paragraph{Invariants.}
+A special variable in the \caig program denotes the conjunction of all the invariants of the system in addition to the deadlock freedom property. This variable is the designated output of the resulting 
+AIG circuit. ABC verifies that the designated output is always $true$. 
+%The designated output is 
+
+
+\begin{theorem}[AIG \caig equivalence]
+Let $A$ be an AIG circuit resulting from \texttt{olp-to-aig($P$)}, where $P$ is an \caig program. The set of traces of $P$ is equal to the set of traces of $A$.
+\end{theorem} 
+The proof follows by strong induction on the structure of $A$ and $P$. 
+The base cases of the induction are 
+(1) the variables;
+(2) non-deterministic input; and 
+(3) the primary gates provided by \texttt{library}. 
+The structure is preserved by \texttt{vargates}. 
+The timing is preserved by the semantics of AIG that infinitely repeats the execution of the 
+next state functions similar to the lone \texttt{while} loop in \caig.
+
+
+\begin{example}
+Figure~\ref{fig:circuittraffic} shows a sample circuit generated as described in this Section 
+by traversing the right hand side expressions of the initial 
+value and next state function assignment statement corresponding to variable
+$timer.\ell$. 
+The sample circuit shows AND, $=$, $<$ and multiplexer gates for simplicity; 
+all those gates can be readily implemented using NAND gates. 
+A multiplexer takes a Boolean control input, and uses its value to 
+choose one of its two data inputs. 
+
+The next state function depends on variables $cycle$, $timer.t$, and $timer.n$ and on 
+the wire variable $timer.timer.e$. 
+The registers of the variables are connected directly to the circuit. 
+The circuit for the wire variable $timer.timer.e$ is constructed by traversing 
+the right hand side expression of its 
+assignment statement in the wire definition list. 
+Then the constructed circuit is connected to the input of the corresponding AND gate. 
+Note that a constant propagation algorithm propagates finds that 
+$timer.\ell$ registers are equivalent the $0$, since the initial value is $0$, 
+and the multiplexer data inputs are eventually either $0$ or $timer.\ell$ itself. 
+Consequently, ABC synthesis reduces the circuit of $timer.\ell$ and eliminates its
+registers. 
+\input{figcircuittraffic}
+\end{example}
