@@ -72,7 +72,6 @@ Array element $is[j]$ is evaluated to \true when $ip[j]$ is true either $a_j$ is
 The Boolean bit-vector $b$ is redundant with wire $is$ and is declared to simplify the equivalence proof. 
 The use of non-deterministic selector is added for fairness. 
 The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction $a_k$ (i.e., $is[k]$ is \true) involving $B_i.p_j$.
-\begin{widetext}
 \begin{lstlisting}
 /*@\textbf{generateWireDefList()}@*/
   // iterate over components
@@ -98,7 +97,6 @@ The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction 
     endfor
   endfor
 \end{lstlisting}
-\end{widetext}
 
 Function \cci{generateInitList()} fills \cci{init-list} with initial value definitions taken from $Init$ for location variables ($B_i.\ell)$ and $v$ for component variables ($B_i.x_j)$. Register variable $cycle$ is initialized to zero to denote an interaction execution mode. 
 
