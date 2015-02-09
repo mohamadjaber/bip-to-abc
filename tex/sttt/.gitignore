@@ -1,0 +1,26 @@
+# LaTeX temp files #
+###################
+*.bak
+*~
+*.aux
+*.out
+*.log
+*.synctex.gz
+*.tdo
+
+# LaTeX generated files files #
+#####################
+
+*.bbl
+*.blg
+main.pdf
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
