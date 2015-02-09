@@ -34,7 +34,7 @@ used in the process~\cite{metropolis2}.
 The end result implementation is then subject to functional verification including 
 model checking and runtime verification. 
 
-The design flow faces three important challenges of relevant to this paper. 
+The design flow faces three important challenges of relevance to this paper. 
 \begin{itemize}
   \item The size and the critical depth of the FPGA implementation are critical factors that decide how many IPs can 
     be loaded on the same FPGA board, and how fast the board can be clocked, respectively. 
@@ -134,9 +134,15 @@ on components (e.g., current locations, values of variables).
 \item The method translates the \caig program into a concurrent runtime verification 
   implementation that simulates the BIP 
   system with a system-specific execution framework. More precisely, runtime verification can be done using 
-test case generation techniques of typical concurrent C-code \cite{kbse-BurnimS08}.
+  test case generation techniques of typical concurrent C-code \cite{kbse-BurnimS08}.
+  In the future, we will study the efficiency and the effectiveness of the generated \caig programs 
+  aligned with automated test case generation techniques. 
+
 \end{enumerate}
 
+Our results show that \biptool{} verifies large systems that are not possible with existing techniques. 
+The method also achieves significant reductions in FPGA size and depth reported as the 
+number of gates and logic levels before and after the reductions.
 
 BIP is based on the generation of modular code and a dedicated platfrom, BIP \emph{engine}, which simulates BIP semantic and orchestrates the computation of atomic components. This allows clarity of models but it results in great inefficiency. The main loop of the engine consists of the following steps:
 \begin{enumerate}
@@ -174,6 +180,7 @@ for each concern.
 This allows for simple debugging and design flow cycle iterations. Furthermore, 
 the use of AIG circuits for synthesis and model checking allows our method to leverage
 the mature and rich literature of logic synthesis techniques. 
+
 
 %% organization
 The rest of this paper is organized as follows. In Section \ref{sec:bip}, we recall the necessary concepts of the BIP framework. Section \ref{sec:this} defines one loop program (\caig). Section \ref{sec:sequential} formalizes sequential circuit and shows how to translate a sequential circuit into \caig. Section \ref{sec:bip2aig} shows how to translate a BIP system into \caig. Section \ref{sec:implem}
