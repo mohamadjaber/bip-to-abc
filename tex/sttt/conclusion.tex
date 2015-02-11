@@ -7,7 +7,7 @@ The method takes a BIP system and generates a concurrent C program with a system
 specific scheduler embedded therein. 
 The concurrent C program serves as a software runtime verification simulator for the 
 BIP system.
-The method then take the concurrent C program and generates an AIG circuit which is an
+The method then takes the concurrent C program and generates an AIG circuit which is an
 FPGA implementation of the BIP system. 
 The method applies synthesis reduction techniques using the ABC framework 
 to simplify and reduce the AIG circuit
@@ -26,5 +26,6 @@ We successfully used the system to verify and debug medium and large case studie
 %behaviors. 
 
 %For future work, we are considering several research directions. 
-Currently, the system specific scheduler makes conservative decisions to avoid interaction conflicts. Two interactions are conflicting if they share a port or they are using conflicting ports of the same component. An important extension is to allow parallel execution of non-conflicting interactions using techniques presented in \cite{BonakdarpourBJQS12}. Another interesting direction is generate correct and efficient sequential circuit given real-time software (i.e., implements real-time constraints) modeled using real-time BIP \cite{AbdellatifCS13}. 
-
+Currently, the system-specific scheduler makes conservative decisions to avoid interaction conflicts. Two interactions conflict if they share a port or they use conflicting ports of the same component.
+An important extension is to allow parallel execution of non-conflicting interactions using techniques presented in \cite{BonakdarpourBJQS12}. Another interesting direction is to generate correct and efficient sequential circuit given real-time software (i.e., with real-time constraints) modeled using the real-time version of BIP~\cite{AbdellatifCS13}. 
+%

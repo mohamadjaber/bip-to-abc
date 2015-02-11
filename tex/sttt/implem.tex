@@ -1,43 +1,46 @@
 \section{Implementation and Evaluation}
 \label{sec:implem}
-
-\subsection{\biptool{}} \label{chap:implementation:bip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{\biptool{}}
+\label{chap:implementation:bip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \biptool{} (BIP Synthesis Verification) is an implementation of our method with several modules. 
 The implementation is available at 
 \href{http://research-fadi.aub.edu.lb/biptoabc}{http://research-fadi.aub.edu.lb/biptoabc}. 
 %
 \begin{itemize}
-  \item The first module is a Java implementation of the translation from BIP to $\caig$ described in Section \ref{sec:bip2aig}.
-It takes as input a BIP system and a set of invariants
-and generates the corresponding \caig{} program with a system-specific 
-execution framework. 
-
-\item The second module generates a concurrent runtime verification 
+  \item
+  The first module is a Java implementation of the translation from BIP to $\caig$ described in \secref{sec:bip2aig}.
+It takes as input a BIP system and a set of invariants,
+and generates the corresponding \caig{} program with a system-specific execution framework. 
+%
+\item
+The second module generates a concurrent runtime verification 
   executable from the $\caig$ 
   program that uses the OpenMP API to perform runtime 
   verification (simulation) of the BIP system. 
   The module sets the primary inputs to random values at each iteration,
   and replaces the \cci{do-together} constructs with OpenMP directives
   to have the resulting binary run concurrently. 
-
-  \item The third module is a C++ implementation that synthesizes the $\caig$ program 
-    to an AIG circuit after preforming word level constant propagation and cone of 
-    influence reductions. 
-    The module alsopasses the generate AIG circuit to the ABC framework, 
-    and drives the synthesis reduction algorithms, and then the verification algorithms.
+%
+  \item
+  The third module is a C++ implementation that synthesizes the $\caig$ program to an AIG circuit after preforming word-level constant propagation and cone of influence reductions. 
+    The module also passes the generate AIG circuit to the ABC framework, and drives the synthesis reduction algorithms, and then the verification algorithms.
     \biptool{} automatically selects the ABC algorithms to run based on structural
-    AIG metrics; alternatively, the user can 
+    AIG metrics. Alternatively, the user can 
     interactively guide the reduction and verification process. 
 %
 \item Finally, in case a counterexample is found by either the 
 concurrent runtime verification module or by the ABC verification algorithms, 
 a C++ module takes the counterexample, 
 translates it back to BIP, and provides a user friendly interface 
-to visualize the counterexample and debug the system with an integrated open 
-source wave form viewer tool~\cite{bybell2010gtkwave}.  
+to visualize the counterexample and debug the system with an integrated open source wave form viewer tool~\cite{bybell2010gtkwave}.  
 \end{itemize}
-
-
+%
 \biptool{} uses ABC synthesis and reduction algorithms to reduce the area 
 and the critical time of the AIG circuit by 
 removing redundant latches and logic gates.
@@ -57,7 +60,7 @@ can readily translate it into an FPGA implementation.
 For verification, 
 ABC uses the sequential synthesis techniques above to reduce the 
 AIG circuit and render it amenable for decision algorithms. 
-Then ABC uses decision algorithms such as 
+Then, ABC uses decision algorithms such as 
 symbolic model checking, bounded model checking, induction, 
 interpolation, circuit SAT solving, 
 and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}
@@ -66,8 +69,7 @@ to verify the correctness of the circuit with respect to the BIP system invarian
 %In the benchmarks below (SubSection \ref{subsec:atm} and \ref{subsec:quorum}), we consider only invariant properties which are Boolean expressions on locations and values of variables. However, it is worth mentioning that \biptool{} supports LTL invariant properties. 
 
 
-It either proves correctness or produces a counter example where the system 
-violates the property. 
+It either proves correctness or produces a counter example where the system violates the property. 
 %\biptool~ provides a debugging mechanism where the counter example is mapped back 
 %to the original BIP system. 
 %The debugging tool is integrated with wave form visualization 
@@ -88,9 +90,12 @@ protocol~\cite{guerraoui2012speculative}. We report on the size of the generated
 AIGs before and after reduction, and on the time taken by the ABC solver to 
 reduce and verify the benchmarks. We compare the results for the 
 verification of the ATM benchmark against another solution that uses a bisimulation-based abstraction for reduction \cite{facs14} and NuSMV~\cite{nusmv} as a model checker. 
-
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The ATM benchmark}
 \label{subsec:atm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 Automatic Teller Machine (ATM) is a computerized system that provides financial services for users in 
 a public space. Figure~\ref{fig:atm_bip} shows a structured BIP model of an ATM system adapted from the
 description provided in~\cite{atm}.
@@ -156,11 +161,13 @@ performing verification, ABC tries multiple verification and reduction
 algorithms before reaching a conclusive result. However, the advantage 
 that \biptool{} presents can be clearly seen for larger number of ATMs and 
 users. 
-
-
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Quorum protocol}
 \label{subsec:quorum}
-The {\em Quorum} protocol is a consensus protocol proposed in~\cite{guerraoui2012speculative}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+The \emph{Quorum} protocol is a consensus protocol proposed in~\cite{guerraoui2012speculative}
 as complementary to the Paxos consensus protocol~\cite{gafni2003disk} under perfect
 channel conditions. {\em Consensus} allows a set of communicating processes
 (clients and servers in our case) to agree on a common value. Each of clients proposes
@@ -177,38 +184,38 @@ The Quorum protocol operates as follows.
  the following check.
  \begin{itemize}
   \item If it has not sent any accept messages, it sends an accept message
-  $accept(v)$ to the client $c$. 
+  $\mathit{accept}(v)$ to the client $c$. 
   \item If it has already accepted value $v'$, it sends an accept message
-  $accept(v')$ to the client $c$. 
+  $\mathit{accept}(v')$ to the client $c$. 
  \end{itemize}
  \item If a client $c$ receives two different accept messages, it switches
- to the backup phase $switch-backup(proposal_c)$.
- \item If a client $c$ receives the same accept messages $accept(v)$ from all the servers,
+ to the backup phase $\mathit{switch-backup}(\mathit{proposal_c})$.
+ \item If a client $c$ receives the same accept messages $\mathit{accept}(v)$ from all the servers,
  it decides on the value $v$.
  \item If a client's timer $t_c$ expires, it waits for at least
- one accept message $accept(v')$ from a server, or chooses a value $v'$
- from an already received $accept(v')$ message, and then switches to 
+ one accept message $\mathit{accept}(v')$ from a server, or chooses a value $v'$
+ from an already received $\mathit{accept}(v')$ message, and then switches to 
  the backup phase with the value $v'$. 
- \item The {\em backup} phase is an implementation of the Paxos algorithm. Quorum in this
- case has decided that the channel is not perfect. 
+ \item
+ The {\em backup} phase is an implementation of the Paxos algorithm. Quorum in this case has decided that the channel is not perfect. 
 \end{enumerate}
-
-We implemented the Quorum protocol in BIP, and we used \biptool{} to verify 
-two invariants as defined in~\cite{guerraoui2012speculative}.
+%
+We implemented the Quorum protocol in BIP, and we used \biptool{} to verify two invariants as defined in~\cite{guerraoui2012speculative}.
 \begin{enumerate}
- \item $Invariant_1$: If a client $c$ decides on a value $v$, then all clients 
+ \item $\mathit{Invariant_1}$: If a client $c$ decides on a value $v$, then all clients 
  $c' \neq c$ that have switched, either before or after $c$, switch with the value $v$.
- \item $Invariant_2$: If a client $c$ decides on a value $v$, then all clients
+ \item $\mathit{Invariant_2}$: If a client $c$ decides on a value $v$, then all clients
  $c' \neq c$ who decide, do so with the same value $v$. 
 \end{enumerate}
-
+%
 Table~\ref{tb:bip:qrm} shows the results of using \biptool{} to verify the 
 Quorum protocol for $2$ and $4$ clients with $2$ servers. The designs
 are indexed as \cci{num\_clients}-\cci{num\_servers}-\cci{status} where 
 \cci{num\_clients} is the number of clients, \cci{num\_servers} is the number of 
 servers and \cci{status} is either valid (\cci{v}) or erroneous (\cci{e}).
 A valid design contains no design bugs, while an erroneous design is injected
-with a bug. We report on the size of the AIG in terms of number of latches,
+with a bug.
+We report on the size of the AIG in terms of number of latches,
 number of NAND gates and logic levels before and after
 applying reduction algorithms.
 The FPGA corresponding to the reduced circuit uses the same number of latches, 
@@ -235,15 +242,14 @@ than $50\%$. Furthermore,
 \biptool{} was able to give conclusive results about all four designs, unlike
 NuSMV which failed to give any decision about the designs having
 $4$ clients and $2$ servers. For example, \biptool{} found a counter example for the erroneous 
-design having $4$ clients and $2$ servers in $0.24$ sec while NuSMV failed to do
-so. Figure~\ref{fig:res:counter} shows a snippet of the generated counter example for the 
-erroneous design, visualized using the Gtkwave~\cite{bybell2010gtkwave} waveform viewer. 
+design having $4$ clients and $2$ servers in $0.24$ sec while NuSMV failed to do so.
+Figure~\ref{fig:res:counter} shows a snippet of the generated counter example for the erroneous design, visualized using the Gtkwave~\cite{bybell2010gtkwave} waveform viewer. 
 The variables presented in the counterexample are the current control locations and the value of the variables of the different components in the design. Red arrows points to the values that implies a violation of the invariant. 
-
+%
 \begin{figure*}
 \centering
-\scalebox{0.75}{
- \includegraphics{figures/quorumDebug2}}
+ \includegraphics[width=\linewidth]{figures/quorumDebug2}
 \caption{Visualization of a counter example using Gtkwave}
 \label{fig:res:counter}
 \end{figure*}
+%
