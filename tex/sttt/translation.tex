@@ -1,39 +1,38 @@
-
-%% the algorithm
 \section{BIP to \caig}
 \label{sec:bip2aig}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 Given a BIP system $\Pm = (B, Init, v)$, \biptool~
-calls function  \cci{BIP-to-OLP} to translate \Pm into 
+calls function \cci{BIP-to-OLP} to translate \Pm into 
 an \caig~program with its own customized execution engine. 
-It calls four functions 
-that fill \cci{decl-list}, \cci{wiredef-list}, \cci{init-list}, \cci{next-list}. 
-All these function use the \cci{append} call to add code fragments to lists. 
-
+It calls four functions that fill \cci{decl-list}, \cci{wiredef-list}, \cci{init-list}, \cci{next-list}. 
+All these functions use the \cci{append} call to add code fragments to lists. 
+%
 \begin{lstlisting}
 /*@\textbf{BIP-to-OLP}@*/(B, Init, v)
-  generateDeclartionList()
+  generateDeclarationList()
   generateWireDefList()
   generateInitList()
   generateNextList()
 \end{lstlisting}
-
-Function \cci{generateDeclartionList()} fills \cci{decl-list} as follows. 
+%
+Function \cci{generateDeclarationList()} fills \cci{decl-list} as follows. 
 It creates three arrays of wires to denote interaction semantics. 
-Array $ie$ elements denote whether all logical constraints except priority rules are met for a given interaction. 
-Array $ip$ elements denote whether a given interaction is enabled after applying priority rules. 
-Array $is$ elements denote whether an enabled interaction is selected for execution. 
+The elements of array $\mathit{ie}$ denote whether all logical constraints except priority rules are met for a given interaction. 
+The elements of array $\mathit{ip}$ denote whether a given interaction is enabled after applying priority rules. 
+The elements of array $\mathit{is}$ denote whether an enabled interaction is selected for execution. 
 Currently, one interaction is selected to avoid executing conflicting interactions. 
-Two interactions are conflicting if they involve same components. 
-The $selector$ wire is a non-deterministic primary input that is used to select one of the enabled interactions. 
-The $cycle$ boolean register is used to denote whether the system is executing actions corresponding to either interaction or transition. 
-The function also declares two wires ($B_i.p_j.e$ and $B_i.p_j.s$) for each port $p_j$. 
-Wire $B_i.p_j.e$ denotes whether the port is enabled and wire $B_i.p_j.s$ denotes whether the port is selected by the interaction for execution. 
+Two interactions are conflicting if they involve the same components. 
+Wire $\mathit{selector}$ is a non-deterministic primary input used to select one of the enabled interactions.
+Boolean register $\mathit{cycle}$ is used to denote whether the system is executing actions corresponding to either interaction or transition. 
+Function \cci{generateDeclarationList()} also declares two wires ($B_i.p_j.e$ and $B_i.p_j.s$) for each port $p_j$. 
+For a port $p_j$, wire $B_i.p_j.e$ indicates whether the port is enabled and wire $B_i.p_j.s$ indicates whether the port is selected by the interaction for execution. 
 Moreover, for each component $B_i$ the function declares a register variable $B_i.\ell$ denoting the current location of $B_i$. 
 Similarly, the function declares a variable register $B_i.x_j$ for each variable $x_j$ in component $B_i$.  
 
 \begin{lstlisting}
-/*@\textbf{generateDeclartionList()}@*/
+/*@\textbf{generateDeclarationList()}@*/
   // interaction enablement wires
   append $wire~bool~ie[|J|]$ to decl-list
   // interaction priority wires
@@ -63,15 +62,17 @@ Similarly, the function declares a variable register $B_i.x_j$ for each variable
     endfor
   endfor
 \end{lstlisting}
+%
+Function \cci{generateWireDefList()} fills \cci{wiredef-list} with functional macro definitions as follows.
+The enable wire $B_i.p_j.e$ is \true when there exists a transition $\tau$ labeled with port $p$, its source ($\tau.\mathit{src}$) is the current location ($B_i.\ell$), and its guard is \true. 
 
-
-Function \cci{generateWireDefList()} fills \cci{wiredef-list} with functional macro definitions as follows. The enable wire $B_i.p_j.e$ is \true when there exists a transition $\tau$ labeled with port $p$, its source ($\tau.src$) is the current location ($B_i.\ell$), and its guard is \true. 
-
-Array element $ie[j]$ corresponding to interaction $a_j$ is evaluated to \true when the guard of $a_j$ is \true and all its ports are enabled. Array element $ip[j]$ is evaluated to \true when $ie[j]$ is \true and $a_j$ has higher priority than other enabled interactions. 
+Array element $\mathit{ie}[j]$ corresponding to interaction $a_j$ is evaluated to \true when the guard of $a_j$ is \true and all its ports are enabled.
+Array element $ip[j]$ is evaluated to \true when $ie[j]$ is \true and $a_j$ has higher priority than other enabled interactions. 
 Array element $is[j]$ is evaluated to \true when $ip[j]$ is true either $a_j$ is selected ($selector$ equals to $j$) or the selected interaction is not enabled and $j$ is the first enabled interaction greater with an index greater than $j$. 
 The Boolean bit-vector $b$ is redundant with wire $is$ and is declared to simplify the equivalence proof. 
-The use of non-deterministic selector is added for fairness. 
+The use of a non-deterministic selector is added for fairness. 
 The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction $a_k$ (i.e., $is[k]$ is \true) involving $B_i.p_j$.
+%
 \begin{lstlisting}
 /*@\textbf{generateWireDefList()}@*/
   // iterate over components
@@ -98,7 +99,8 @@ The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction 
   endfor
 \end{lstlisting}
 
-Function \cci{generateInitList()} fills \cci{init-list} with initial value definitions taken from $Init$ for location variables ($B_i.\ell)$ and $v$ for component variables ($B_i.x_j)$. Register variable $cycle$ is initialized to zero to denote an interaction execution mode. 
+Function \cci{generateInitList()} fills \cci{init-list} with initial value definitions taken from $\mathit{Init}$ for location variables ($B_i.\ell)$ and $v$ for component variables ($B_i.x_j)$.
+Register variable $\mathit{cycle}$ is initialized to zero to denote an interaction execution mode. 
 
 \begin{lstlisting}
 /*@\textbf{generateInitList()}@*/
@@ -117,13 +119,18 @@ Function \cci{generateInitList()} fills \cci{init-list} with initial value defin
   endfor
 \end{lstlisting}
 
-Function \cci{generateNextList()} fills \cci{next-list} with the next state value definitions of register variables. Each component variable can be modified either in an interaction action or in a transition action. The value of variable $cycle$ makes this distinction. 
+Function \cci{generateNextList()} fills \cci{next-list} with the next state value definitions of register variables.
+Each component variable can be modified either in an interaction action or in a transition action.
+The value of variable $\mathit{cycle}$ makes this distinction. 
 
-In the interaction mode ($cycle$ equals to zero), the function considers each assignment statement $\sigma$ from the action of interaction $a_j$. The function appends a conditional clause requiring the $a_k$ to be selected for execution so that the target variable $B_i.x_j$ of $\sigma$ is assigned to the expression of $\sigma$ ($\sigma.expr$). The sequence of conditional clauses form a nested ternary conditional expressions where the last expression retains the previous value of the variable. 
+In the interaction mode ($\mathit{cycle}$ equals to zero), the function considers each assignment statement $\sigma$ from the action of interaction $a_j$.
+The function appends a conditional clause requiring $a_k$ to be selected for execution so that the target variable $B_i.x_j$ of $\sigma$ is assigned to the expression of $\sigma$ ($\sigma.\mathit{expr}$). 
+The sequence of conditional clauses forms a nested ternary conditional expression where the last expression retains the previous value of the variable. 
 
-Similarly, in the transition mode ($cycle$ equals to one), the function considers each assignment statement $\sigma$ from the action of transition $\tau$. The function appends a conditional clause requiring the port of the transition $\tau$ to be selected for execution and the location of the component to be equal to the source of the transition. The target variable $B_i.x_j$ of $\sigma$ is assigned to the expression of $\sigma$ ($\sigma.expr$). 
+Similarly, in the transition mode ($\mathit{cycle}$ equals to one), the function considers each assignment statement $\sigma$ from the action of transition $\tau$. The function appends a conditional clause requiring the port of the transition $\tau$ to be selected for execution and the location of the component to be equal to the source of the transition. The target variable $B_i.x_j$ of $\sigma$ is assigned to the expression of $\sigma$ ($\sigma.expr$). 
 
-In the transition mode, the function considers the current location of each component $B_i.\ell$ and appends a conditional clause requiring the transition source to be equal to the current location and the port of the transition to be selected. The expression corresponding to the conditional clause updates the current location to be the destination of the transition ($\tau.dest$).  In the interaction mode, the location retains its value. Finally, the $cycle$ variable is toggled. 
+In the transition mode, the function considers the current location of each component $B_i.\ell$ and appends a conditional clause requiring the transition source to be equal to the current location and the port of the transition to be selected. The expression corresponding to the conditional clause updates the current location to be the destination of the transition ($\tau.dest$).  In the interaction mode, the location retains its value.
+Finally, variable $\mathit{cycle}$ is toggled. 
 
 % The sequence of conditional clauses form a nested ternary conditional expressions where the last expression retains the previous value of the variable.
 \begin{lstlisting}
@@ -176,65 +183,82 @@ In the transition mode, the function considers the current location of each comp
     append $cycle := \neg cycle$ to  next-list 
   endfor
 \end{lstlisting}
-
-
-
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Correctness}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 Given a BIP system $S$ and its corresponding \caig program $P = \cci{BIP-to-OLP(S)}$. 
 Let $Tr_s$ be the set of traces of $S$ and let $Tr_p$ be the set of traces of $P$. 
 Consider $T'$ the projection of $Tr_p$ constrained by omitting the states where \cci{cycle} is equal to zero. 
 Formally, $T'  = \{t' \,\mid\, t'[i] = t[2\times i], t \in Tr_P, i \in \mathbb{N}\}$. 
-Intuitively, $T'$ represents the semantics of the orgininal BIP model regardless of the built-in scheduler details 
+Intuitively, $T'$ represents the semantics of the original BIP model regardless of the built-in scheduler details 
 (i.e., the enable exchange, interaction selection, data transfer details). 
-
+%
 \begin{theorem}[BIP \caig Equivalence]
 \label{theorem:correct}
 The BIP system $S$ is equivalent to $P$ under the equivalence of their semantics: $Tr_s=T'$.  
 \end{theorem}
 \begin{proof}
-The proof follows by induction on the length of traces and on the structure of $S$ and $P$.
 %
-Consider $t \in Tr_s$, there exists $t' \in T'$ and $t = t'$. This follows from: 
-\begin{enumerate}
-\item Consider the initial state: $t[0]$ and $t'[0]$. \cci{generateInitList()} sets \cci{cycle} to zero and assigns each location to \textit{Init} and each variable to its initial value. Thus, $t[0]$ is equal $t'[0]$. 
-\item Let $t[0..k]$ be the prefix of $t$ of length $k+1$ where $k\ge 0$, using the induction hypothesis, there exists at least one trace 
+The proof is done by induction on the length of traces and on the structure of $S$ and $P$.
+
+Consider $t \in Tr_s$, there exists $t' \in T'$ and $t = t'$. 
+\begin{itemize}
+\item
+\textit{Induction basis.}
+Consider the initial state: $t[0]$ and $t'[0]$. \cci{generateInitList()} sets \cci{cycle} to zero and assigns each location to \textit{Init} and each variable to its initial value. Thus, $t[0]$ is equal $t'[0]$. 
+\item
+Let $t[0..k]$ be the prefix of $t$ of length $k+1$ where $k\ge 0$, using the induction hypothesis, there exists at least one trace 
   $t'[0..k] \in T'$ and $t[0..k]=t'[0..k]$. 
-  Consider the valuation $t[k]$ and $t'[k]$ that corresponds to the firing interactions, since they are both equal then the next state of locations
+  Consider valuations $t[k]$ and $t'[k]$ that corresponds to the firing interactions.
+  Since they are equal, the next state of locations
   and data variables will be the same at $t[k+1]$ and $t[k+1]$ as enforced by \cci{generateNextList()}. 
 
   In case no interactions are enabled at step $k+1$, both $P$ and $S$ will preserve the same state at step $k+1$ and thus $t[0..k+1] =t'[0..k+1]$. 
   Otherwise, let $a_j$ be the interaction that is enabled according to state $t[k+1]$, 
-  then according to the semantics of the BIP, interaction $a_j$ must be also enabled and of the highest priority. 
+  then according to BIP semantics, interaction $a_j$ must be also enabled and of the highest priority. 
   This means that $a_j$ is also enabled and of the highest priority under $t'[k]$. 
-  The primary input \cci{selector} wire variable is a nondeterministic variable and can assume all indices on interactions including the value 
+  The primary input \cci{selector} wire variable is a nondeterministic variable and can assume all indexes on interactions including the value 
   $j$, thus setting the enabled interaction $a_j$ in $t'[k+1]$. 
   Therefore, there exists a setting for \cci{selector} at step $k+1$ such that $P$ executes $a_j$. 
   Without loss of generality, let that nondeterministic setting be the one in $t'[k+1]$. 
-  Therefore $t[k+1] = t'[k+1]$. 
-\end{enumerate}
-Consider $t' \in T'$ there exists $t \in Tr_s$ and $t = t'$. Similarly to above, $t[0]$ is equal $t'[0]$.
-\begin{enumerate}
-\item Let $t'[0..k]$ be the prefix of $t'$ of length $k+1$ where $k\ge 0$, using the induction hypothesis, there exists a trace 
+  Therefore, $t[k+1] = t'[k+1]$. 
+\end{itemize}
+%
+Consider $t' \in T'$ there exists $t \in Tr_s$ and $t = t'$.
+%
+\begin{itemize}
+\item
+\textit{Base case.}
+The base case is similar as before and $t[0]$ is equal $t'[0]$.
+\item
+\textit{Induction case.}
+Let $t'[0..k]$ be the prefix of $t'$ of length $k+1$ where $k\ge 0$, using the induction hypothesis, there exists a trace 
   $t[0..k] \in Tr_s$ and $t[0..k]=t'[0..k]$. 
-  Similarly to above, \cci{generateNextList()} guarantees that the state of the locations and the data variables are equal in the next states $t[k+1]$ and $t'[k+1]$ of $S$ and $P$, respectively. Furthermore, the two states are equivalent if no interaction was enabled in $t'[k+1]$. 
+  As for the previous proof, \cci{generateNextList()} guarantees that the state of the locations and the data variables are equal in the next states $t[k+1]$ and $t'[k+1]$ of $S$ and $P$, respectively. Furthermore, the two states are equivalent if no interaction was enabled in $t'[k+1]$. 
 
-In case interaction $a_j$ was selected to execute in $P$ at step $k+1$ as set in state $t'[k+1]$, 
+In case an interaction $a_j$ is selected to execute in $P$ at step $k+1$ as set in state $t'[k+1]$, 
 then it must be enabled and of high priority.
-Thus it must also be enabled and of high priority in $S$ according to state $t[k+1]$
+Thus, it must also be enabled and of high priority in $S$ according to state $t[k+1]$
 as guaranteed by \cci{generateNextList()}. 
 The semantics of BIP allows the nondeterministic selection of
 one of the enabled and high priority interactions, and without loss of generality let that selection be $a_j$ in $t[k+1]$. 
 Therefore $t[k+1]=t'[k+1]$. 
-\end{enumerate}
-Consequently, the claim holds. 
+\end{itemize}
+%
+Consequently, the claim holds as expected. 
 \end{proof}
-
-
-
-
-%%%%%%%%%%%%%%
-
-\subsection{One cycle optimization}
-Recall that an interaction specifies a strong synchronization among its involved components. Data transfer can take place during such synchronization. The operational semantic of BIP requires to (1) first execute data transfer of the selected interaction and then (2) execute the functions of the corresponding transitions of atomic components. For this, in the above translation, we used $cycle$ boolean register to denote whether the system is executing actions corresponding to either interaction or transition. However, in some cases data transfers of all interactions modify some variables that are not assigned in the corresponding transitions of those interactions. This can be detected by doing a static data dependency between interactions and their transitions. 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{One Cycle Optimization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+Recall that an interaction specifies a strong synchronization among its involved components.
+Data transfer can take place during such synchronization.
+The operational semantic of BIP requires to (1) first execute the data transfer of the selected interaction, and then to (2) execute the functions of the corresponding transitions of atomic components.
+For this purpose, in the above translation, we used $\mathit{cycle}$ Boolean register to denote whether the system is executing actions corresponding to either interaction or transition.
+However, in some cases, data transfers of all interactions modify some variables that are not assigned in the corresponding transitions of those interactions.
+This can be detected by doing a static data dependency between interactions and their transitions.
 This may drastically improve the performance of the system since data transfers as well as functions of transitions may be executed in one cycle. Note that, our implementation supports this optimization.   
-
+%
