@@ -17,7 +17,9 @@ All these functions use the \cci{append} call to add code fragments to lists.
   generateNextList()
 \end{lstlisting}
 %
-Function \cci{generateDeclarationList()} fills \cci{decl-list} as follows. 
+
+\begin{enumerate}
+\item Function \cci{generateDeclarationList()} fills \cci{decl-list} as follows. 
 It creates three arrays of wires to denote interaction semantics. 
 The elements of array $\mathit{ie}$ denote whether all logical constraints except priority rules are met for a given interaction. 
 The elements of array $\mathit{ip}$ denote whether a given interaction is enabled after applying priority rules. 
@@ -63,7 +65,7 @@ Similarly, the function declares a variable register $B_i.x_j$ for each variable
   endfor
 \end{lstlisting}
 %
-Function \cci{generateWireDefList()} fills \cci{wiredef-list} with functional macro definitions as follows.
+\item Function \cci{generateWireDefList()} fills \cci{wiredef-list} with functional macro definitions as follows.
 The enable wire $B_i.p_j.e$ is \true when there exists a transition $\tau$ labeled with port $p$, its source ($\tau.\mathit{src}$) is the current location ($B_i.\ell$), and its guard is \true. 
 
 Array element $\mathit{ie}[j]$ corresponding to interaction $a_j$ is evaluated to \true when the guard of $a_j$ is \true and all its ports are enabled.
@@ -99,7 +101,7 @@ The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction 
   endfor
 \end{lstlisting}
 
-Function \cci{generateInitList()} fills \cci{init-list} with initial value definitions taken from $\mathit{Init}$ for location variables ($B_i.\ell)$ and $v$ for component variables ($B_i.x_j)$.
+\item Function \cci{generateInitList()} fills \cci{init-list} with initial value definitions taken from $\mathit{Init}$ for location variables ($B_i.\ell)$ and $v$ for component variables ($B_i.x_j)$.
 Register variable $\mathit{cycle}$ is initialized to zero to denote an interaction execution mode. 
 
 \begin{lstlisting}
@@ -119,7 +121,7 @@ Register variable $\mathit{cycle}$ is initialized to zero to denote an interacti
   endfor
 \end{lstlisting}
 
-Function \cci{generateNextList()} fills \cci{next-list} with the next state value definitions of register variables.
+\item Function \cci{generateNextList()} fills \cci{next-list} with the next state value definitions of register variables.
 Each component variable can be modified either in an interaction action or in a transition action.
 The value of variable $\mathit{cycle}$ makes this distinction. 
 
@@ -184,6 +186,7 @@ Finally, variable $\mathit{cycle}$ is toggled.
   endfor
 \end{lstlisting}
 %
+\end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Correctness}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
