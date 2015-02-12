@@ -65,11 +65,11 @@ symbolic model checking, bounded model checking, induction,
 interpolation, circuit SAT solving, 
 and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}
 to verify the correctness of the circuit with respect to the BIP system invariants. 
+It either proves correctness or produces a counter example where the system violates the property. 
 
 %In the benchmarks below (SubSection \ref{subsec:atm} and \ref{subsec:quorum}), we consider only invariant properties which are Boolean expressions on locations and values of variables. However, it is worth mentioning that \biptool{} supports LTL invariant properties. 
 
 
-It either proves correctness or produces a counter example where the system violates the property. 
 %\biptool~ provides a debugging mechanism where the counter example is mapped back 
 %to the original BIP system. 
 %The debugging tool is integrated with wave form visualization 
@@ -84,7 +84,7 @@ It takes the name of the input BIP file and optional flags.
 \end{lstlisting}
 
 %% bip results
-We evaluated \biptool{} against two industrial benchmarks, 
+We evaluated \biptool{} against two benchmarks used to evaluate BIP verification techniques, 
 an {\em Automatic Teller Machine} (ATM)~\cite{atm} and the {\em Quorum} consensus
 protocol~\cite{guerraoui2012speculative}. We report on the size of the generated
 AIGs before and after reduction, and on the time taken by the ABC solver to 

@@ -69,7 +69,7 @@ The enable wire $B_i.p_j.e$ is \true when there exists a transition $\tau$ label
 Array element $\mathit{ie}[j]$ corresponding to interaction $a_j$ is evaluated to \true when the guard of $a_j$ is \true and all its ports are enabled.
 Array element $ip[j]$ is evaluated to \true when $ie[j]$ is \true and $a_j$ has higher priority than other enabled interactions. 
 Array element $is[j]$ is evaluated to \true when $ip[j]$ is true either $a_j$ is selected ($selector$ equals to $j$) or the selected interaction is not enabled and $j$ is the first enabled interaction greater with an index greater than $j$. 
-The Boolean bit-vector $b$ is redundant with wire $is$ and is declared to simplify the equivalence proof. 
+The Boolean bit-vector $b$ is redundant with wire $is$ and is declared to simplify the proof of Theorem \ref{theorem:correct}. 
 The use of a non-deterministic selector is added for fairness. 
 The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction $a_k$ (i.e., $is[k]$ is \true) involving $B_i.p_j$.
 %
@@ -123,7 +123,7 @@ Function \cci{generateNextList()} fills \cci{next-list} with the next state valu
 Each component variable can be modified either in an interaction action or in a transition action.
 The value of variable $\mathit{cycle}$ makes this distinction. 
 
-In the interaction mode ($\mathit{cycle}$ equals to zero), the function considers each assignment statement $\sigma$ from the action of interaction $a_j$.
+In the interaction mode (when $\mathit{cycle}$ is equal to zero), the function considers each assignment statement $\sigma$ from the action of interaction $a_j$.
 The function appends a conditional clause requiring $a_k$ to be selected for execution so that the target variable $B_i.x_j$ of $\sigma$ is assigned to the expression of $\sigma$ ($\sigma.\mathit{expr}$). 
 The sequence of conditional clauses forms a nested ternary conditional expression where the last expression retains the previous value of the variable. 
 
@@ -191,15 +191,16 @@ Finally, variable $\mathit{cycle}$ is toggled.
 Given a BIP system $S$ and its corresponding \caig program $P = \cci{BIP-to-OLP(S)}$. 
 Let $Tr_s$ be the set of traces of $S$ and let $Tr_p$ be the set of traces of $P$. 
 Consider $T'$ the projection of $Tr_p$ constrained by omitting the states where \cci{cycle} is equal to zero. 
-Formally, $T'  = \{t' \,\mid\, t'[i] = t[2\times i], t \in Tr_P, i \in \mathbb{N}\}$. 
+Formally, $T'  = \{t' \,\mid\, t'[i] = t[2\times i] \wedge t \in Tr_P \wedge i \in \mathbb{N}\}$. 
 Intuitively, $T'$ represents the semantics of the original BIP model regardless of the built-in scheduler details 
 (i.e., the enable exchange, interaction selection, data transfer details). 
 %
 \begin{theorem}[BIP \caig Equivalence]
 \label{theorem:correct}
-The BIP system $S$ is equivalent to $P$ under the equivalence of their semantics: $Tr_s=T'$.  
+The BIP system $S$ is semantically equivalent to $P$: $Tr_s=T'$.  
 \end{theorem}
 \begin{proof}
+\label{proof:equi-correct}
 %
 The proof is done by induction on the length of traces and on the structure of $S$ and $P$.
 

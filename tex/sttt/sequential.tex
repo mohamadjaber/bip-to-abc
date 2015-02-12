@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-The ABC synthesis and model checker reason about the And-Inverted-Graph representation of a sequential circuit~\cite{brayton2010abc}. 
+
 %
 \begin{definition}[Sequential circuit]
 A {\em sequential circuit} is a tuple $\left( (V, E),G,
@@ -20,7 +20,7 @@ functions}.  Gates describe logical functions such as
 the conjunction or disjunction of other vertices. 
 A subset $O$ of $V$ is specified as the {\em
 primary outputs} of $V$.  
-We will denote the set of primary input variables by $I$,
+We denote the set of primary input variables by $I$,
 and the set of bit-register variables by $R$.  
 \label{def:back:seq_circuit}
 \end{definition}
@@ -51,13 +51,14 @@ In the following,
 we consider only well-formed sequential circuits which can be 
 verified by a structural check linear in the size of the 
 sequential circuit.
-
-The ABC analyzer reasons about And-Inverted-Graph (AIG)
-sequential circuits which are
-sequential circuits with only NAND gates with exactly two fanins.
 %This is not a limitation since NAND is {\em functionally complete} as it implements
 %negated conjunction. 
 %
+
+
+The ABC synthesis and model checker framework reasons about the And-Inverted-Graph (AIG) representation of a sequential circuit which are sequential circuits with only NAND gates with exactly two fanins.~\cite{brayton2010abc}. 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Semantics of Sequential Circuits}
 \label{s:back:crct_semantics}
@@ -81,7 +82,7 @@ Term $u_{j}$ denotes the source vertex of
 the $j$-th incoming edge to $v$, implying that
 $(u_{j},v)\in E$.
 The value of gate $v$ at time $i$ in
-trace $t$ is denoted by $t(v,i)$ (see \figref{fig:gate-value}).
+trace $t$ is denoted by $t(v,i)$.
 \end{definition}
 %
 \begin{figure*}
@@ -94,26 +95,29 @@ t(v,i)=
       G_v\big(t(u_{1},i),...,t(u_{n},i)\big) &: v \ \text{is a combinational gate with function $G_v$}
    \end{cases} \newline
 \]
-\caption{Value of gate $v$ at time $i$ in trace $t$}
+\caption{Semantics of sequential circuits given in terms of traces. $t(v,i)$ denotes the valuation of gate $v$ at step $i$ in trace $t$}
 \label{fig:gate-value}
 \end{figure*}
 %
-Given a sequence of input valuations
-and an initial state, the resulting trace is a
-sequence of Boolean valuations to all vertices in $V$
+
+
+Given a sequence of input valuations and an initial state, 
+\figref{fig:gate-value} defines the resulting trace as a sequence of Boolean valuations to all vertices in $V$
 which is consistent with the Boolean functions of the
-gates.  We will refer to the transition from one valuation
+gates. 
+
+We will refer to the transition from one valuation
 to the next one as a {\em step}.  A node in the circuit is
 said to be justifiable if there is an input sequence which, when
 applied to an initial state, will result in that node
-taking value $\mbox{true}$.  A node in the circuit is
+taking value $\true$.  A node in the circuit is
 valid if its negation is not justifiable.  We will refer
 to targets and invariants in the circuit; these are simply
 vertices in the circuit whose justifiability and validity
 is of interest respectively.
 A sequential circuit can naturally
 be associated with a finite-state machine (FSM),
-which is a reachability graph on the states.  However, the 
+which is a graph on the reachable states.  However, the 
 circuit is very different from its FSM; among
 other differences, it is exponentially more succinct in
 almost all cases of interest~\cite{BuClMcDiHw92}. 
@@ -133,24 +137,29 @@ almost all cases of interest~\cite{BuClMcDiHw92}.
 \subsection{Translation from \caig to AIG Circuits}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-The translation of an \caig into an AIG circuit
+The translation from \caig to AIG circuits is done as follows and is illustrated in the example of \figref{fig:circuittraffic}.
+\begin{enumerate}
+\item The translation of an \caig into an AIG circuit
 first constructs registers, wires, and primary input variables for each 
 \caig variable. 
 %
-It then recursively traverses the right-hand side expressions 
+\item It then recursively traverses the right-hand side expressions 
 of the assignment statements in \cci{wiredef-list}, \cci{init-list},
 and \cci{next-list} to build the corresponding combinational circuits.
 %
-It connects the resulting vertices of the combinational 
-circuits built for the \cci{init-list} and \cci{next-list} 
-assignment expressions to the 
-initial value and next state value fanins of the corresponding 
-registers, respectively. 
+\item It connects the resulting vertices of the combinational 
+circuits of the right-hand side expressions to the fanins of the registers corresponding to the left-hand side target variables. 
+
+\item The vertices corresponding to the \cci{init-list} right-hand side expressions
+are connected to the  initial value fanins of the registers. Similarly, those of the \cci{next-list} are connected to the next state value fanins. 
+
+
 %
-Finally, it connects the vertices of the combinational circuits built 
+\item Finally, it connects the vertices of the combinational circuits built 
 for the \cci{wiredef-list} expressions to the corresponding 
 wires referring to the 
 variables declared as wire variables in \cci{decl-list}.
+\end{enumerate}
 
 \paragraph{Variables.} 
 %
@@ -197,8 +206,7 @@ We denote the gates corresponding to each variable $v$ by the function \cci{varg
 \paragraph{Assignment statements.}
 We consider each assignment statement in \cci{wiredef-list}, \cci{init-list},
 and \cci{next-list} and traverse the right-hand side expressions of
-each assignment with the \cci{traverse} routine. 
-The traversal of an expression runs recursively. 
+each assignment with the recursive \cci{traverse} routine. 
 %
 If the expression refers to a variable $v$ (base case), 
 then the traversal returns \cci{vargates(v)}. 
@@ -262,17 +270,18 @@ Below we define \texttt{olp-to-aig} method that takes an \caig program as input 
 \paragraph{Invariants.}
 %
 A special variable in the \caig program denotes the conjunction of all the invariants of the system in addition to the deadlock freedom property. This variable is the designated output of the resulting 
-AIG circuit. ABC verifies that the designated output is always $true$. 
+AIG circuit. ABC verifies that the designated output is always $\true$. 
 %
 \begin{theorem}[AIG \caig equivalence]
-Let $A$ be an AIG circuit resulting from \texttt{olp-to-aig($P$)}, where $P$ is an \caig program. The set of traces of $P$ is equal to the set of traces of $A$.
+Let $P$ be an \caig and $A$ be the AIG circuit generated from it (i.e., $A$ = \texttt{olp-to-aig($P$)}). We have
+the set of traces of $P$ is equal to the set of traces of $A$.
 \end{theorem}
 %
-The proof can be done by structural induction on $A$ and $P$. 
+The proof can be done by structural induction on $P$ and $A$. 
 The base cases of the induction are 
-(1) the variables;
-(2) non-deterministic input; and 
-(3) the primary gates provided by \texttt{library}. 
+(1) the variables of $P$ and their corresponding registers of $A$;
+(2) non-deterministic input of $P$ and its corresponding primary inputs of $A$; and 
+(3) the arithmetic and logical operations of $P$ and their corresponding primary gates provided by \texttt{library} of $A$. 
 The structure is preserved by \texttt{vargates}. 
 Timing is preserved by the semantics of AIG that infinitely repeats the execution of the 
 next state functions similar to the lone \texttt{while} loop in \caig.
@@ -294,10 +303,7 @@ The circuit for the wire variable $timer.timer.e$ is constructed by traversing
 the right-hand side expression of its 
 assignment statement in the wire definition list. 
 Then, the constructed circuit is connected to the input of the corresponding AND gate. 
-Note that a constant propagation algorithm propagates finds that 
-$timer.\ell$ registers are equivalent the $0$, since the initial value is $0$, 
-and the multiplexer data inputs are eventually either $0$ or $timer.\ell$ itself. 
-Consequently, ABC synthesis reduces the circuit of $timer.\ell$ and eliminates its
-registers. 
+
+Note that (1) the initial value of $timer.\ell$ registers is $0$, and  (2) the next state fanins of $timer.\ell$ are connected to a multiplexer whose data inputs are equal to $0$ or $timer.\ell$. Thus the constant propagation algorithm replaces $timer.\ell$ with $0$ and propagates that effect. 
 \input{figcircuittraffic}
 \end{example}

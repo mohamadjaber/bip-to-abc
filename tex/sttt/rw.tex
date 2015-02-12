@@ -91,11 +91,11 @@ an invariant $\mathcal{I}$, DFinder operates  compositionally and iteratively
 to compute invariants $\mathcal{X}$ of the interactions and the atomic 
 components of \Pm. It then uses the Yices {\em Satisfiability Modulo
 Theory} (SMT) solver~\cite{dutertre2006fast} to check for the validity 
-of the formula $\mathcal{X} \land \lnot \mathcal{I} = false$. 
+of the formula $\mathcal{X} \land \lnot \mathcal{I} = \false$. 
 Additionally, DFinder checks the deadlock freedom of  \Pm by building an invariant 
 $\mathcal{I}_d$ that represents the states of of \Pm in which no interactions 
 are enabled, \ie{} a deadlock occurs. It then checks the for the formula
-$\mathcal{X} \land \mathcal{I}_d = false$, \ie{} none of the deadlock states
+$\mathcal{X} \land \mathcal{I}_d = \false$, \ie{} none of the deadlock states
 are reachable in \Pm.   
 
 Techniques based on symbolic model checking for the verification of 
