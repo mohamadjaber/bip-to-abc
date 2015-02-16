@@ -16,9 +16,6 @@ electronics, mobile and control devices.
 An embedded system is a composition of intellectual property (IP) components
 of {\em heterogeneous} computational nature, i.e. some might be implemented as software 
 processor executables while some might be implemented as real time logic circuits. 
-{\em Field-programmable gate array} (FPGA) logic circuits are popular logic circuit 
-implementations of 
-embedded system components because they are amenable for reconfiguration. 
 %
 Figure~\ref{fig:flow} shows a typical flow of the composition process where the
 components are specified as imperative programs, finite state machines (FSM), labeled 
@@ -29,6 +26,12 @@ transition systems (LTS), data flow networks, and discrete-event based circuits~
 %hardware design impractical~\cite{henzinger2006embedded}.
 Partitioning, often done manually, decides whether a component is to 
 be implemented as a programmed process or as a real time logic circuit. 
+%
+{\em Field-programmable gate array} (FPGA) logic circuits are popular logic circuit 
+implementations of 
+embedded system components because they are amenable for reconfiguration
+and can perform several computational tasks simultaneously. 
+%
 A plethora of software, behavioral, and logic compilation and synthesis techniques are
 used in the process~\cite{metropolis2}.
 The end result implementation is then subject to functional verification including 
@@ -36,14 +39,17 @@ model checking and runtime verification.
 
 The design flow faces three important challenges of relevance to this paper. 
 \begin{itemize}
-  \item The size and the critical depth of the FPGA implementation are critical factors that decide how many IPs can 
-    be loaded on the same FPGA board, and how fast the board can be clocked, respectively. 
-    Synthesis techniques that reduce both size and depth are needed. 
-  \item Model checking often faces the state space explosion problem which renders the results of model checking inconclusive. 
-    Techniques that allow model checking to scale to larger systems are needed. 
-  \item Runtime verification with heavy simulation engines take long time to complete runtime verification tasks. 
-    Faster techniques are needed. 
+  \item Model checking faces the state space explosion problem which often renders the results of model checking inconclusive. 
+  \item The logical capacity of a reconfigurable FPGA board is limited, and thus the size of 
+    the logic circuit implementations corresponding to IP components
+    decide how many components can be loaded simultaneously on the board and whether IP swapping is needed or not during runtime. 
+    Also, the critical depth of the logic circuit implementation decides how fast the board can be clocked.
+  \item Runtime verification of embedded systems with general purpose runtime verification engines exhibit expensive runtime overhead. 
 \end{itemize}
+
+%    Techniques that allow model checking to scale to larger systems are needed. 
+%    Synthesis techniques that reduce both size and depth are needed. 
+%    Faster techniques are needed. 
 
 %The design of embedded systems involves
 %{\em Component-based systems} design 
@@ -119,10 +125,6 @@ on components (e.g., current locations, values of variables).
   and appropriately performs the desired computation. 
   FPGA implementations are directly mapped to other integrated circuit representations
   such as {\em application specific integrated circuits} (ASIC). 
-  FPGA implementations of computational tasks are desired with embedded 
-  systems versus other logic circuit implementations 
-  since an FPGA board can house several computational tasks at once,
-  and can be automatically reconfigured to perform new computational tasks. 
 
   \biptool{} constructs the FPGA implementation from the reduced AIG circuit 
   to benefit from the area and critical time reduction algorithms 
@@ -132,19 +134,22 @@ on components (e.g., current locations, values of variables).
   into an FPGA. 
 
 \item The method translates the \caig program into a concurrent runtime verification 
-  implementation that simulates the BIP 
-  system with a system-specific execution framework. More precisely, runtime verification can be done using 
-  test case generation techniques of typical concurrent C-code \cite{kbse-BurnimS08}.
+  implementation that simulates the BIP system. 
+%  system with a system-specific execution framework. More precisely, runtime verification can be done using 
+%  test case generation techniques of typical concurrent C-code \cite{kbse-BurnimS08}.
   In the future, we will study the efficiency and the effectiveness of the generated \caig programs 
-  aligned with automated test case generation techniques. 
+  aligned with automated test case generation techniques such as ~\cite{kbse-BurnimS08}. 
 
 \end{enumerate}
 
-Our results show that \biptool{} verifies large systems that are not possible with existing techniques. 
+Our results show that \biptool{} successfully verifies large systems that are not possible to verify with existing techniques. 
 The method also achieves significant reductions in FPGA size and depth reported as the 
 number of gates and logic levels before and after the reductions.
 
-BIP is based on the generation of modular code and a dedicated platfrom, BIP \emph{engine}, which simulates BIP semantic and orchestrates the computation of atomic components. This allows clarity of models but it results in great inefficiency. The main loop of the engine consists of the following steps:
+BIP is based on the generation of modular code and a dedicated platfrom, BIP \emph{engine}, 
+which simulates BIP semantic and orchestrates the computation of atomic components. 
+This allows clarity of models but it results in great inefficiency. 
+The main loop of the engine consists of the following steps:
 \begin{enumerate}
 \item Each atomic component sends to the engine its current location.
 \item The engine enumerates the list of interactions in the system, 
@@ -153,7 +158,8 @@ BIP is based on the generation of modular code and a dedicated platfrom, BIP \em
 \item The engine non-deterministically selects an interaction out of the enabled interactions.
 \item Finally, the engine notifies the corresponding components and schedule their transitions for execution. 
 \end{enumerate}
-Our method differs in that it directly embeds in the implementation a system specific scheduler represented by a bit vector of of interactions.
+Our method differs in that it directly embeds in the implementation a {\em system-specific} 
+scheduler represented by a bit vector of of interactions.
 The interaction bit vector evaluates in real-time and directly depends on the locations and the values of the variables of the input system. 
 The system specific execution framework empirically reduces the space and time requirements for the C simulation and the FPGA execution. 
 
@@ -167,8 +173,8 @@ Several frameworks for the design and verification of embedded systems exist
 Metropolis~\cite{metropolis1,metropolis2} is a design framework that
 takes a Metropolis Meta Model (MMM) description of an embedded system 
 and generates a SystemC~\cite{systemc} based simulator of the system.
-It has also a path to SIS~\cite{brayton92sis} which is a synthesis predecessor tool 
-of ABC, and a path to SPIN for model checking~\cite{HolzSpin97}. 
+It uses the SIS toolset~\cite{brayton92sis} for synthesis and 
+the SPIN model checker for verification~\cite{HolzSpin97}. 
 SystemC~\cite{systemc} in turn is a design framework based on C++ that allows
 system components to communicate through ports, interfaces, and channels.
 Extensions to SystemC such as ForSyDe~\cite{SanderJ04} restrict the 
