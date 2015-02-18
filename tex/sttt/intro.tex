@@ -39,7 +39,7 @@ The design flow faces three important challenges of relevance to this paper.
   \item The size and the critical depth of the FPGA implementation are important factors that are used to decide how many IPs can 
     be loaded on the same FPGA board, and how fast the board can be clocked, respectively. 
     Synthesis techniques that reduce both size and depth are needed. 
-  \item Model checking often faces the state space-explosion problem which renders the results of model checking inconclusive. 
+  \item Model checking often faces the state-space explosion problem which renders the results of model checking inconclusive. 
     Techniques that allow model checking to scale to larger systems are needed. 
   \item Runtime verification with heavy simulation engines take long time to complete runtime verification tasks. 
     Faster techniques are needed. 
@@ -80,7 +80,7 @@ as follows.
 %\biptool~ that takes a BIP system and a set of 
 %specifications amd
 %properties and generates the following:
-
+%
 \begin{enumerate}
 \item The method takes a BIP system and a set of invariants and generates 
   an intermediate C-like {\em one loop program } \caig. 
@@ -127,11 +127,10 @@ on components (e.g., current locations, values of variables).
 \item The method translates the \caig program into a concurrent runtime verification 
   implementation that simulates the BIP 
   system with a system-specific execution framework. More precisely, runtime verification can be done using 
-test case generation techniques of typical concurrent C-code \cite{kbse-BurnimS08}.
+test-case generation techniques of typical concurrent C-code \cite{kbse-BurnimS08}.
 \end{enumerate}
-
-
-BIP is based on the generation of modular code and a dedicated platform, BIP \emph{engine}, which simulates BIP semantics and orchestrates the computation of atomic components. This modularity favors the clarity of models but implies a prohibitive inefficiency. The main loop of the BIP engine consists of the following steps:
+%
+BIP is based on the generation of modular code and a dedicated platform, the so-called BIP \emph{engine}, which simulates BIP semantics and orchestrates the computation of atomic components. This modularity favors the clarity of models but implies a prohibitive inefficiency. The main loop of the BIP engine consists of the following steps:
 %
 \begin{enumerate}
 \item Each atomic component sends to the engine its current location.
@@ -139,10 +138,10 @@ BIP is based on the generation of modular code and a dedicated platform, BIP \em
   selects the enabled ones based on the current location of the atomic 
   components and eliminates the ones with low priority.
 \item The engine non-deterministically selects an interaction out of the enabled interactions.
-\item Finally, the engine notifies the corresponding components and schedule their transitions for execution. 
+\item Finally, the engine notifies the corresponding components and schedules their transitions for execution. 
 \end{enumerate}
 %
-Compared to BIP engine, our method differs in that it directly embeds in the implementation a system specific scheduler represented by a bit vector of of interactions.
+Compared to the BIP engine, our method differs in that it directly embeds a system-specific scheduler represented by a bit vector of interactions in the implementation.
 The interaction bit vector is evaluated in real-time.
 Its value directly depends on the locations and the values of the variables of the input system. 
 The system specific execution framework empirically reduces the space and time requirements for the C simulation and the FPGA execution. 
