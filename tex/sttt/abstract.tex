@@ -1,27 +1,11 @@
 \begin{abstract}
-Behavior-Interaction-Priority (BIP) is a layered embedded 
-system design and verification framework that provides 
-separation of 
-functionality, synchronization, and priority concerns to 
-simplify system design and to establish correctness by 
-construction. 
-BIP framework comes with a runtime engine and a suite
-of verification tools that use D-Finder and NuSMV as 
-model checkers. 
+Behavior-Interaction-Priority (BIP) is a layered embedded system design and verification framework that provides 
+separation of functionality, synchronization, and priority concerns to simplify system design and to establish correctness by construction. BIP framework comes with a runtime engine and a suite of verification tools that use D-Finder and NuSMV as model checkers. 
 
-In this paper, we provide a method and a supporting tool
-that take a BIP system and a set of invariants
-and compute a reduced sequential circuit with a 
-system-specific scheduler and a designated output that 
-is \true when the invariants hold. 
-Our method uses ABC, a sequential circuit synthesis and 
-verification framework, to 
-(1) generate an efficient circuit implementation of the system that can be 
-readily translated into FPGA or ASIC implementations, 
-and to (2) verify the system and debug it in case a 
-counterexample is found. 
-Moreover, we generate a concurrent C implementation of the circuit that
-can be directly used for runtime verification.
-We evaluated our method with two benchmark systems, and our results
-show that, compared to existing techniques, our method is faster and scales to larger sizes.
+In this paper, we provide a method and a supporting tool that take a BIP system and a set of invariants
+and compute a reduced sequential circuit with a system-specific scheduler and a designated output that 
+is \true when the invariants hold. Our method uses ABC, a sequential circuit synthesis and verification framework, to (1) generate an efficient circuit implementation of the system that can be readily translated into FPGA or ASIC implementations, and to (2) verify the system and debug it in case a counterexample is found. 
+Moreover, we generate a concurrent C implementation of the circuit that can be directly used for runtime verification. 
+
+We evaluated our method with two benchmark systems, and our results show that, compared to existing techniques, our method is faster and scales to larger sizes.
 \end{abstract}

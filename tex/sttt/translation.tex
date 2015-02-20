@@ -4,11 +4,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 Given a BIP system $\Pm = (B, Init, v)$, \biptool~
-calls function \cci{BIP-to-OLP} to translate \Pm into 
+calls function \cci{BIP-to-OLP} (see \figref{fig:bip-to-abc-function}) to translate \Pm into 
 an \caig~program with its own customized execution engine. 
 It calls four functions that fill \cci{decl-list}, \cci{wiredef-list}, \cci{init-list}, \cci{next-list}. 
 All these functions use the \cci{append} call to add code fragments to lists. 
 %
+\begin{figure}
 \begin{lstlisting}
 /*@\textbf{BIP-to-OLP}@*/(B, Init, v)
   generateDeclarationList()
@@ -16,10 +17,13 @@ All these functions use the \cci{append} call to add code fragments to lists.
   generateInitList()
   generateNextList()
 \end{lstlisting}
+\caption{Translation of BIP system into an \caig~program.}
+\label{fig:bip-to-abc-function}
+\end{figure}
 %
 
 \begin{enumerate}
-\item Function \cci{generateDeclarationList()} fills \cci{decl-list} as follows. 
+\item Function \cci{generateDeclarationList()} (see \figref{fig:generate-decl-list}) fills \cci{decl-list} as follows. 
 It creates three arrays of wires to denote interaction semantics. 
 The elements of array $\mathit{ie}$ denote whether all logical constraints except priority rules are met for a given interaction. 
 The elements of array $\mathit{ip}$ denote whether a given interaction is enabled after applying priority rules. 
@@ -33,6 +37,7 @@ For a port $p_j$, wire $B_i.p_j.e$ indicates whether the port is enabled and wir
 Moreover, for each component $B_i$ the function declares a register variable $B_i.\ell$ denoting the current location of $B_i$. 
 Similarly, the function declares a variable register $B_i.x_j$ for each variable $x_j$ in component $B_i$.  
 
+\begin{figure}
 \begin{lstlisting}
 /*@\textbf{generateDeclarationList()}@*/
   // interaction enablement wires
@@ -64,8 +69,11 @@ Similarly, the function declares a variable register $B_i.x_j$ for each variable
     endfor
   endfor
 \end{lstlisting}
+\caption{\cci{generateDeclarationList()} function.}
+\label{fig:generate-decl-list}
+\end{figure}
 %
-\item Function \cci{generateWireDefList()} fills \cci{wiredef-list} with functional macro definitions as follows.
+\item Function \cci{generateWireDefList()} (see \figref{fig:generate-wire-list}) fills \cci{wiredef-list} with functional macro definitions as follows.
 The enable wire $B_i.p_j.e$ is \true when there exists a transition $\tau$ labeled with port $p$, its source ($\tau.\mathit{src}$) is the current location ($B_i.\ell$), and its guard is \true. 
 
 Array element $\mathit{ie}[j]$ corresponding to interaction $a_j$ is evaluated to \true when the guard of $a_j$ is \true and all its ports are enabled.
@@ -75,6 +83,7 @@ The Boolean bit-vector $b$ is redundant with wire $is$ and is declared to simpli
 The use of a non-deterministic selector is added for fairness. 
 The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction $a_k$ (i.e., $is[k]$ is \true) involving $B_i.p_j$.
 %
+\begin{figure}
 \begin{lstlisting}
 /*@\textbf{generateWireDefList()}@*/
   // iterate over components
@@ -100,10 +109,14 @@ The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction 
     endfor
   endfor
 \end{lstlisting}
+\caption{\cci{generateWireDefList()} function.}
+\label{fig:generate-wire-list}
+\end{figure}
 
-\item Function \cci{generateInitList()} fills \cci{init-list} with initial value definitions taken from $\mathit{Init}$ for location variables ($B_i.\ell)$ and $v$ for component variables ($B_i.x_j)$.
+\item Function \cci{generateInitList()} (see \figref{fig:generate-init-list}) fills \cci{init-list} with initial value definitions taken from $\mathit{Init}$ for location variables ($B_i.\ell)$ and $v$ for component variables ($B_i.x_j)$.
 Register variable $\mathit{cycle}$ is initialized to zero to denote an interaction execution mode. 
 
+\begin{figure}
 \begin{lstlisting}
 /*@\textbf{generateInitList()}@*/
   // initialize to interaction mode
@@ -120,8 +133,11 @@ Register variable $\mathit{cycle}$ is initialized to zero to denote an interacti
     append $b[j] = is[j]$ to  init-list 
   endfor
 \end{lstlisting}
+\caption{\cci{generateInitList()} function.}
+\label{fig:generate-init-list}
+\end{figure}
 
-\item Function \cci{generateNextList()} fills \cci{next-list} with the next state value definitions of register variables.
+\item Function \cci{generateNextList()} (see \figref{fig:generate-next-list}) fills \cci{next-list} with the next state value definitions of register variables.
 Each component variable can be modified either in an interaction action or in a transition action.
 The value of variable $\mathit{cycle}$ makes this distinction. 
 
@@ -135,6 +151,7 @@ In the transition mode, the function considers the current location of each comp
 Finally, variable $\mathit{cycle}$ is toggled. 
 
 % The sequence of conditional clauses form a nested ternary conditional expressions where the last expression retains the previous value of the variable.
+\begin{figure}
 \begin{lstlisting}
 /*@\textbf{generateNextList()}@*/ 
   // iterate over interactions
@@ -185,6 +202,9 @@ Finally, variable $\mathit{cycle}$ is toggled.
     append $cycle := \neg cycle$ to  next-list 
   endfor
 \end{lstlisting}
+\caption{\cci{generateNextList()} function.}
+\label{fig:generate-next-list}
+\end{figure}
 %
 \end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

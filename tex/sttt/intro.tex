@@ -17,8 +17,7 @@ An embedded system is a composition of intellectual property (IP) components
 of \emph{heterogeneous} computational nature, i.e., some might be implemented as software 
 processor executables while some others as real-time logic circuits. 
 \emph{Field-programmable gate array} (FPGA) logic circuits are popular logic circuit 
-implementations of 
-embedded system components because they are amenable for reconfiguration. 
+implementations of embedded system components because they are amenable for reconfiguration and can perform several computational tasks simultaneously. 
 %
 Figure~\ref{fig:flow} shows a typical flow of the composition process where the
 components are specified as imperative programs, finite state machines (FSM), labeled 
@@ -35,15 +34,13 @@ The end result implementation is then subject to functional verification includi
 model checking and runtime verification. 
 
 The design flow faces three important challenges of relevance to this paper. 
+
 \begin{itemize}
-  \item The size and the critical depth of the FPGA implementation are important factors that are used to decide how many IPs can 
-    be loaded on the same FPGA board, and how fast the board can be clocked, respectively. 
-    Synthesis techniques that reduce both size and depth are needed. 
-  \item Model checking often faces the state-space explosion problem which renders the results of model checking inconclusive. 
-    Techniques that allow model checking to scale to larger systems are needed. 
-  \item Runtime verification with heavy simulation engines take long time to complete runtime verification tasks. 
-    Faster techniques are needed. 
+\item Model checking faces the state-space explosion problem which often renders the results of model checking inconclusive. 
+\item The logical capacity of a reconfigurable FPGA board is limited, and thus the size of the logic circuit implementations corresponding to IP components decide how many components can be loaded simultaneously on the board and whether IP swapping is needed or not during runtime. Also, the critical depth of the logic circuit implementation decides how fast the board can be clocked.
+\item Runtime verification of embedded systems with general purpose runtime verification engines exhibit expensive runtime overhead. 
 \end{itemize}
+
 %
 Behavior-Interaction-Priority (BIP) is a framework for the design of 
 {\em Component-Based Systems} (CBS). 
@@ -113,10 +110,10 @@ on components (e.g., current locations, values of variables).
   and appropriately performs the desired computation. 
   FPGA implementations are directly mapped to other integrated circuit representations
   such as {\em application specific integrated circuits} (ASIC). 
-  FPGA implementations of computational tasks are desired with embedded 
-  systems versus other logic circuit implementations 
-  since an FPGA board can house several computational tasks at once,
-  and can be automatically reconfigured to perform new computational tasks. 
+  %FPGA implementations of computational tasks are desired with embedded 
+  %systems versus other logic circuit implementations 
+  %since an FPGA board can house several computational tasks at once,
+  %and can be automatically reconfigured to perform new computational tasks. 
 
   \biptool{} constructs the FPGA implementation from the reduced AIG circuit 
   to benefit from the area and critical time reduction algorithms 
@@ -125,11 +122,17 @@ on components (e.g., current locations, values of variables).
   To the best of our knowledge, we are the first to directly synthesize a BIP system into an FPGA. 
 
 \item The method translates the \caig program into a concurrent runtime verification 
-  implementation that simulates the BIP 
-  system with a system-specific execution framework. More precisely, runtime verification can be done using 
-test-case generation techniques of typical concurrent C-code \cite{kbse-BurnimS08}.
+  implementation that simulates the BIP system.
+  % with a system-specific execution framework. More precisely, runtime verification can be done using 
+%test-case generation techniques of typical concurrent C-code \cite{kbse-BurnimS08}.
+In the future, we will study the efficiency and the effectiveness of the generated \caig programs aligned with automated test case generation techniques such as ~\cite{kbse-BurnimS08}.
 \end{enumerate}
 %
+
+Our results show that \biptool{} successfully verifies large systems that are not possible to verify with existing techniques. 
+The method also achieves significant reductions in FPGA size and depth reported as the 
+number of gates and logic levels before and after the reductions.
+
 BIP is based on the generation of modular code and a dedicated platform, the so-called BIP \emph{engine}, which simulates BIP semantics and orchestrates the computation of atomic components. This modularity favors the clarity of models but implies a prohibitive inefficiency. The main loop of the BIP engine consists of the following steps:
 %
 \begin{enumerate}
@@ -156,8 +159,7 @@ Several frameworks for the design and verification of embedded systems exist
 Metropolis~\cite{metropolis1,metropolis2} is a design framework that
 takes a Metropolis Meta Model description of an embedded system 
 and generates a SystemC~\cite{systemc} based simulator of the system.
-It has also a path to SIS~\cite{brayton92sis} which is a synthesis predecessor tool 
-of ABC, and a path to SPIN for model checking~\cite{HolzSpin97}. 
+It uses the SIS toolset~\cite{brayton92sis} for synthesis and the SPIN model checker for verification~\cite{HolzSpin97}. 
 SystemC~\cite{systemc} in turn is a design framework based on C++ that allows
 system components to communicate through ports, interfaces, and channels.
 Extensions to SystemC such as ForSyDe~\cite{SanderJ04} restrict the 
@@ -169,6 +171,7 @@ for each concern.
 Our method simplifies debugging and design-flow cycle iterations. Furthermore, 
 the use of AIG circuits for synthesis and model-checking allows our method to leverage
 the mature and rich literature of logic synthesis techniques. 
+
 
 %% organization
 The rest of this paper is organized as follows. In Section \ref{sec:bip}, we recall the necessary concepts of the BIP framework. Section \ref{sec:this} defines one loop programs (\caig). Section \ref{sec:sequential} formalizes sequential circuits and shows how to translate a sequential circuit into a \caig. Section \ref{sec:bip2aig} shows how to translate a BIP system into a \caig. Section \ref{sec:implem}
