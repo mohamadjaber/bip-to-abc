@@ -1,0 +1,276 @@
+%% discuss the implementation of the tools and give a brief user manual
+%% on how to use them
+This chapter discusses the implementation of \mytool{} and \biptool{}. 
+It highlights the main design options and gives a brief introduction to the usage
+of each of the tools.
+
+\section{\mytool{}} \label{chap:implementation:psq}
+Figure~\ref{fig:psq_architecture} shows the overall architecture of the \mytool{} tool. 
+We implemented a parser for \psqlanguage{} using ANTLR~\cite{parr1995antlr}.
+Given a program \Pm and an FOL precondition postcondition pair \pair{\Pre}{\Post},
+the parser generates a {\em control flow graph} (CFG) $G_\Pm$  representing the different
+control paths that can be taken in \Pm. The code transformation engine in \mytool{}
+operates on $G_\Pm$ and builds a CFG $G'_\Pm$ in which all function calls, recursive functions, 
+quantifiers and specifications have been resolved. 
+
+\begin{figure}[tb]
+\centering
+\resizebox{0.8\textwidth}{!}{
+ \input{figures/psq_diag.pdftex_t}
+}
+\caption{Architecture of \mytool{}}
+\label{fig:psq_architecture}
+\end{figure}
+
+Given a bound $b$ on the data width of variables in \Pm, $G'_\Pm$ is then translated into an equivalent
+\thislanguage{} CFG $G''_\Pm$ in accordance with the translation algorithms presented in Section~\ref{chap:c2aig:sec:transformation_et}.
+We use the AIG API provided in ABC to translate $G''_\Pm$ into an equisatisfiable AIG \aigcircuit.
+We check the consistency and sanity of \aigcircuit{} using the provided ABC checks, and can thus start performing synthesis 
+and verification procedures. If the verification is conclusive, either a proof for $\Pm \models \pair{\Pre}{\Post}|_b$ has been
+established, or a counterexample has been generated. The user can visualize the generated counterexample using the Gtkwave tool 
+for debugging before fixing the code and re-initiating the verification procedure again. 
+In the case where ABC fails to provide a conclusive result, the user can retry the verification procedures using higher 
+computational and architectural resources if available. We implemented \mytool{} entirely in C++.
+
+\subsection*{A short tutorial}
+\mytool{} is equipped with an interactive front-end that uses the GNU readline library~\cite{fox1994gnu}
+and aims at providing users with a user friendly command based interface to parse input files, start
+synthesis and verification procedures, and explore counter examples. Each command has a set of input arguments
+that can be controlled by the user to customize the synthesis and verification engines. 
+%Accessing the list 
+%for arguments for any command can be done using the \cci{--help} or \cci{-h} arguments. 
+
+In addition, \mytool{} supports a batch execution mode where it takes an input file containing a set of
+commands, one per line, and executes them on behalf of the user without the need for going through the interactive
+interface.
+
+Figure~\ref{fig:example_code} shows a simple example program that adds to positive integers
+\cci{x} and \cci{y} and checks that the result is larger than both. The \cci{class} keyword
+is required for future support of object oriented programming, and currently has no effect
+on the rest of the source code. The \cci{main} function specifies the entry of the program 
+and is the only function that is allowed and required to be of \cci{void} return type,
+and thus does not include a \cci{return} statement.
+\begin{figure}[bt]
+\centering
+\begin{Verbatim}[fontsize=\relsize{-2.0}, numbersep=4pt,numbers=left,frame=lines]
+class test {
+  int x;
+  int y;
+
+  void main ()
+  {
+	  int z;
+
+	  @pre add {
+	    x > 0 && y > 0;
+	  }
+
+	  z = x + y;
+
+	  @post add {
+	    z > x && z > y;
+	  }
+  }
+};
+\end{Verbatim}
+\caption{Example source code}
+\label{fig:example_code}
+\end{figure}
+
+Starting \mytool{} in interactive mode can be done using the \cci{--int} argument flag as follows:
+\begin{Verbatim}[fontsize=\relsize{-2.0}, frame=lines]
+./run --int
+### This is {P}S{Q} version 1.1.0 brought to you by
+### the Software Analysis and Research Lab (SARLA) at
+### the American University of Beirut (AUB).
+
+### This version was compiled on May  2 2014 08:02:00
+
+{P}S{Q}>
+\end{Verbatim}
+The \cci{help} command lists all of the available \mytool{} commands. The description of each command can be 
+viewed by passing it the \cci{--help} or \cci{-h} command line argument. We start by parsing the source code
+presented in figure~\ref{fig:example_code} using the \cci{read} command, and we pass it the name of the source file
+using \cci{-i} flag:
+\begin{Verbatim}[fontsize=\relsize{-2.0}]
+{P}S{Q}> read -i add.c 
+{P}S{Q}::Parsing file add.c...
+{P}S{Q}::Parsing successful...
+\end{Verbatim}
+Next we start the synthesis and verification engine using the \cci{start\_prove} command, to which we 
+pass our customized data width bounds. \mytool{} supports bounds on the data width of variables, 
+on the number of elements in the arrays, and on the recursion depth of recursive functions.  
+It also allows users to alter some flags that enable and disable array index checks, unsigned
+integer overflow checks and unrolling of quantifiers if possible. We start the synthesis and verification
+procedures with a data bit width on variables of $4$ and with all checks enabled:
+\begin{Verbatim}[fontsize=\relsize{-2.0}]
+{P}S{Q}> start_prove -b 4
+*** Warning! Using default recursion check depth = 3
+{P}S{Q}: Removed 0 dangling nodes from code graph!
++----------------------------------------------------------------------+
+Configuration parameters:
+-------------------------
+Abc Debugging:               Disabled
+Index Checking:              Enabled
+Overflow Checking:           Enabled
+Unroll quantifiers:          Yes
+Group conditions:            Yes
+Check termination:           No
+SD Computation:              No
+Latch bit width:             4
+Array Bound:                 15
+Stack Limit:                 15
+Program Counter bit width:   4
++----------------------------------------------------------------------+
+\end{Verbatim}
+\mytool{} prints the list of configuration parameters that it is going to use for synthesis
+and verification. The issued warning draws the user's attention to the fact that the 
+default value for the depth of the recursion check is $3$. This value is used to set a bound 
+on the maximum depth that \mytool{} will explore in order to determine whether a function 
+is indirectly recursive or not. 
+
+Once the \cci{start\_prove} command terminates, \mytool{} has generated the AIG \aigcircuit{}
+and has linked it with ABC in order to apply reduction and proof algorithms. \mytool{} redirects
+all commands that are prefixed with \cci{abc} to the ABC model checker. Reducing and proving 
+\aigcircuit{} is done as follows:
+\begin{Verbatim}[fontsize=\relsize{-2.0}]
+{P}S{Q}> abc balance
+Calling ABC with the following command
+   balance 
+{P}S{Q}> abc ssweep -r
+Calling ABC with the following command
+   ssweep -r 
+{P}S{Q}> abc print_stats
+Calling ABC with the following command
+   print_stats 
+(null)       : i/o =    8/    1  lat =   18  and =    129  lev = 10
+{P}S{Q}> abc dprove 
+Calling ABC with the following command
+   dprove 
+Output 0 of miter "(null)" was asserted in frame 3. Time =     0.00 sec
+Networks are not equivalent.
+\end{Verbatim}
+We have applied the balancing and structural register sweeping reduction algorithms on the 
+generated AIG before calling the proof procedure \cci{dprove}. ABC has detected a counterexample
+that asserts the output of \aigcircuit{} in $3$ time frames. We can dump the values of the
+counterexample in a \cci{vcd} file that can be read by the Gtkwave waveform viewer using 
+the $debug -o add.vcd$ command. The counterexample
+shows that the values of $x$ and $y$ are $14$ and $6$ respectively. Although this does not violate
+the postcondition \Post, it creates an overflow exception since that the largest representable unsigned 
+integer with a data bit-width of $4$ is $15$, \ie{} the addition $14 + 6$ overflows. 
+We resort to making the precondition \Pre stronger in order to resolve the overflow. Adding the condition 
+$x < 15 - y$ to \Pre would be enough to remove the overflow exception. We fix the source code accordingly and
+rerun the verification procedure using the interpolation proving algorithm:
+\begin{Verbatim}[fontsize=\relsize{-2.0}]
+{P}S{Q}> abc balance
+Calling ABC with the following command
+   balance 
+{P}S{Q}> abc ssweep -r
+Calling ABC with the following command
+   ssweep -r 
+{P}S{Q}> abc int
+Calling ABC with the following command
+   int 
+Property proved.  Time =     0.05 sec
+\end{Verbatim}
+
+Running the above commands in batch mode can be easily done by saving the commands in a text
+file, one per line, and then passing the \cci{--batch} command line argument along with the name 
+of the file to \mytool{}.
+
+\subsection*{Command line reference}
+Table~\ref{tb:command:reference} provides a reference for the command line interface options in
+\mytool{}. The list of command line options that can be passed to each of these commands can be
+retrieved by passing the \cci{-h} flag to the command for help. 
+%% TODO: include a fill appendix if needed
+
+\begin{table}[tb]
+\caption{Summary of \mytool{} commands}
+\begin{tabular}{|p{0.2\textwidth}|p{0.7\textwidth}|}
+\hline
+\multicolumn{1}{|c}{{\bf Command}} & \multicolumn{1}{|c|}{{\bf Description}} \\ \hline
+\cci{abc cmd} & Call ABC with the command \cci{cmd} \\ \hline
+\cci{echo str} & Print \cci{str} to the standard output \\ \hline
+\cci{help} & Display a list of available commands \\ \hline
+\cci{read} & Parse an input file and generate a code graph \\ \hline
+\cci{print\_time} & Print the elapsed time in the last command and the total time elapsed \\ \hline
+\cci{print\_conf} & Print the current configuration of \mytool{} \\ \hline
+\cci{prove\_status} & Print the status of the current proving session \\ \hline
+\cci{sim\_status} & Print the status of the current simulation session \\ \hline
+\cci{start\_prove} & Start a proving session \\ \hline
+\cci{start\_sim} & Start a simulation session \\ \hline
+\cci{sim\_variable} & Print variable values for a range of simulation frames \\ \hline
+\cci{stop\_prove} & Stop the current proving session \\ \hline
+\cci{stop\_sim} & Stop the current simulation session \\ \hline
+\cci{debug} & Debug the counter example generated from the current proving session \\ \hline
+\cci{quit,exit} & Exit the \mytool{} enviroment \\ \hline
+\end{tabular}
+\label{tb:command:reference}
+\end{table}
+
+
+
+\section{\biptool{}} \label{chap:implementation:bip}
+We implemented \biptool{} in JAVA and used the BIP parser provided 
+freely in~\cite{verimagbiponline}. Given an input BIP program \Pm, 
+the parser generates a parse graph $G$. \biptool{} traverses $G$ 
+and translates \Pm into an equivalent \thislanguage{} program 
+\Pm'. We then use the same synthesis engine in \mytool{} to synthesize
+an equisatisfiable AIG circuit \aigcircuit{} that is passed to ABC 
+for sequential synthesis and verification.
+
+\biptool{} is equipped with a command line interface that accepts a set
+of configuration options. It takes the name of the input BIP file, optional 
+configuration flags and an option to generate C++ emulation code. After 
+parsing the input file, \mytool{} performs synthesis steps and generates 
+an output \thislanguage{} file. 
+We then pass this file to \mytool{} to synthesize the AIG circuit \aigcircuit{}
+and call ABC for reduction and verification. \biptool{} makes use of the same debugging
+interface provided by \mytool{} in order to allow users to visualize counterexamples
+if any is return by ABC. 
+
+Additionally, \mytool{} supports the generation of C++ emulation code. It allows
+the users to guide the execution engine by providing a guide file
+that lists the order in which interactions are to take place. In case no such file 
+is provided, the emulator uses a random number generator to choose an interaction to execute
+in case several candidates  are available. \biptool{} also allows
+users to set a bound on the number of clock cycles to execute in the emulation code. 
+Furthermore, \mytool{} allows users to specify whether to initialize the variables 
+in the atomic components or to leave them as free inputs. Figure~\ref{fig:implementation:bip}
+shows \biptool's command line options along with their description and an example usage. 
+
+\begin{figure}[bt]
+\centering
+\begin{Verbatim}[fontsize=\relsize{-2.0},frame=single]
+##Usage
+`java -jar bip-to-abc.jar [options] input.bip output.abc [property.txt]`
+
+where:
+
+  input.bip    = input BIP file name (required)
+  output.abc   = ABC file name to be generated (required)
+  property.txt = Pre and Post condition written in two different lines (optional)
+
+and options are:
+
+  -?                prints usage to stdout; exits (optional)  
+  -emulator <s>     Generate emulation code output.abc.cpp (optional)  
+                     - guide.txt: indices of interactions assigned to selector 
+                     - integer <= 0: infinite exection 
+                     - integer > 0: number of cycles to be executed 
+  -h                prints usage to stdout; exits (optional) 
+  -help             displays verbose help information (optional)
+  -initialize-vars  Initialize free variables (optional)
+  -version          displays command's version (optional)
+
+##Example
+
+`java -jar bip-to-abc.jar -initialize-vars -emulator=guide input.bip output.abc property.txt'  
+`java -jar bip-to-abc.jar -o -i -e=guide input.bip output.abc property.txt'  
+`java -jar bip-to-abc.jar -o -i -e=0 input.bip output.abc property.txt'  
+`java -jar bip-to-abc.jar -o -i -e=30 input.bip output.abc property.txt'  
+`java -jar bip-to-abc.jar -o -e=guide input.bip output.abc'  
+\end{Verbatim}
+\caption{\biptool's command line options}
+\label{fig:implementation:bip}
+\end{figure}

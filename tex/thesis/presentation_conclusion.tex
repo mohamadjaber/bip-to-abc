@@ -1,0 +1,46 @@
+%% conclusion
+\begin{frame}{Conclusion}
+\begin{itemize}
+\item Presented \mytool{} and \biptool{}
+\item \mytool{}
+\begin{itemize}
+ \item takes an imperative program \Pm, with FOL precondition \Pre{} and postcondition \Post{}
+ \item translates them into an equisatisfiable AIG \aigcircuit
+ \item uses the ABC AIG solver to check that \Pm satisfies \pair{\Pre}{\Post} under a bound $b$ on
+ the data width of variables
+ \item proved able to reach higher bounds than CBMC and ranked amongst top
+ three tool in SVComp'13
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+\begin{itemize}
+\item \biptool{}
+\begin{itemize}
+ \item takes a BIP system \Pm with an invariant $\mathcal{I}$
+ \item translates them into an equisatisfiable AIG \aigcircuit
+ \item uses ABC to check that \Pm satisfies $\mathcal{I}$ under a bound $b$ on the
+ data width of variables
+ \item outperforms NuSMV on the verification of an ATM system and the Quorum protocol 
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Future work}
+ \begin{itemize}
+  \item Add support for temporal properties expressed in
+  Linear Temporal Logic (LTL)
+  \item Optimize the BIP execution engine by executing interactions and 
+  component transitions in parallel
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{Thank you!}
+\begin{figure}
+ \centering
+ \resizebox{0.81\textwidth}{!}{
+   \includegraphics{figures/bye} 
+ }
+\end{figure}
+\end{frame}

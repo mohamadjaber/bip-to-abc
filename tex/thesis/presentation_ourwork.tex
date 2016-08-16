@@ -1,0 +1,177 @@
+\begin{frame}{Verification of C and BIP using ABC }
+\begin{itemize}
+ \item 
+  We present two techniques with supporting tools to address the C and BIP verification problems
+\begin{itemize} \item \mytool{} \item \biptool{}
+ \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{\mytool }
+\begin{itemize}
+  \item Input
+    \begin{itemize}
+  \item An imperative program \Pm
+  \item A precondition \Pre{} 
+  \item A postcondition \Post{} written in (FOL)
+  \item A bound $b$ on the data width of \Pm variables 
+    \end{itemize}
+  \item Translates $\Pm \models \pair{\Pre}{\Post}|_b$ into an equisatisfiable AIG
+    \begin{itemize}
+      \item Using program counter semantics
+    \end{itemize}
+  \item Uses ABC reduction and proof algorithms to reduce and check the generated AIG
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\mytool -- continued  }
+\begin{itemize}
+  \item In case ABC($\Pm \models \pair{\Pre}{\Post}|_b$) was not conclusive
+    \begin{itemize}
+  \item Guess or use heuristics to compute a temporal bound $T$
+  \item Use BMC within ABC to check whether $\Pm \models \pair{\Pre}{\Post}|_b$ within $T$
+  \item Use BMC within ABC to check whether $\Pm$ terminates within $T$
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{\biptool}
+\begin{itemize}
+ \item Input
+ \begin{itemize}
+  \item An input BIP system $B$
+  \item An invariant $\mathcal{I}$ in FOL
+  \item A bound $b$ on the width of data variables
+  \end{itemize}
+  \item Translates the problem $\left( B \models \mathcal{I}|_b \right)$ into an equisatisfiable AIG
+  \item Uses ABC reduction and proof algorithms to reduce and check the generated AIG
+\end{itemize}
+\end{frame}
+
+\section{Demo}
+\begin{frame}{Binary search}
+\begin{itemize}
+ \item {\bf Inputs.}
+ \begin{itemize}
+  \item $a$: array of scalars
+  \item $n$: number of elements in $a$
+  \item $e$: element to search for in $a$
+ \end{itemize}
+ \item {\bf Output.}
+  \begin{itemize}
+   \item $idx$: index of $e$ in $a$ if found, $-1$ otherwise
+  \end{itemize}
+ \item {\bf Specification.}
+  \begin{itemize}
+   \item 
+    $\Pre = n \geq 0 \land \forall{(i \in 0\ldots(n-2))}.~(a[i] \leq a[i+1])$
+   \item 
+    $\Post = (idx = -1) \implies \forall{(i \in 0\ldots n)}.~(a[i] \neq e) ~\land$ \\
+    $\quad\quad(idx \neq -1) \implies (a[idx] = e)$
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Binary search code}
+\begin{Verbatim}[fontsize=\relsize{-2.5}, numbersep=4pt,numbers=left]
+int binarysearch(int a [], int n, int e) {
+ // @pre bs {(n >= 0) && forall(int i:[0..n-2]) {a[i] <= a[i+1]}}
+   int low = 0, high = n - 1;
+   while (low < high) {
+     mid = (low + high) >> 1;
+     if (a[mid] < el) {
+       low = mid + 1;
+     } else {
+       high = mid;
+     }
+   }  
+   if ((low == high) && (a[low] == el)) {
+     return low;
+   } 
+   return -1;
+   
+   // @post bs {((rv == -1) -> (forall(int i:[0..n-1]) {a[i] != e}) &&
+   //           ((rv != -1) -> (a[rv] == e)}
+}
+\end{Verbatim}
+\end{frame}
+
+
+\begin{frame}[c]
+ \frametitle{\mytool{} demo}
+ \begin{itemize}
+  \item 
+  \href{run:/home/mohamad/Desktop/Demo/BinarySearch.avi}{\mytool{} in action!} 
+  \item 
+  \href{run:/home/mohamad/Desktop/Demo/CounterEx.avi}{Check counter example!}
+ \end{itemize} 
+\end{frame}
+
+
+
+%\begin{frame}{We propose \mytool}
+%  \begin{itemize}
+%  	\item 
+%	 Given :
+%	 \begin{enumerate}
+%	 	\item
+%		 $S$ : An imperative program implementing a functional specification.
+%		\item 
+%		 $P, Q$: pre/post conditions in temporal and first order logic specifying the functionality of $S$.
+%		\item 
+%		 Semantics: $P$ holds, then $S$ executes and completes, then $Q$ holds after the completion of $S$
+%	 \end{enumerate}
+%	\item 
+%	 \mytool:
+%	 \begin{enumerate}
+%	 	\item
+%		 Assumes a sequential program counter execution model
+%	 	\item
+%		 Generates $C$ an sequential circuit equivalent to $(P,S,Q)$. 
+%		\item 
+%		 Uses the synthesis and verification ABC framework~\cite{brayton2010abc} to validate $C$. 
+%	 \end{enumerate}
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}{The program $S$}
+%  \begin{itemize}
+%  	\item
+%	 \mytool~supports:
+%	 \begin{enumerate}
+%	 	\item
+%		 Data: scalars, arrays, assignments, and arithmetic, and Boolean operations.
+%	 	\item
+%		 Control: branch, loops, and function calls including recursion.
+%	 \end{enumerate}
+%	\item
+%	 The program counter execution model eliminates the need to unwind loops.
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}{The conditions $P$ and $Q$}
+%  \begin{itemize}
+%  	\item 
+%	 The pre/post conditions are expressed in:
+%	 \begin{enumerate}
+%	 	\item 
+%		 First Order Logic (FOL) 
+%		 \begin{itemize}
+%		 	\item 
+%			Boolean formulas over Boolean and arithmetic operations.
+%		 	\item 
+%			Boolean formulas over existential and universal quantification of scalar variables.
+%	     \end{itemize}
+%		\item
+%		 Temporal Logic : 
+%		 \begin{itemize}
+%		 	\item
+%			 Use Sequential Extended Regular Expressions (SERE), a subset of the property specification language (PSL).
+%		 \end{itemize}
+%	 \end{enumerate}
+%  \end{itemize}
+%\end{frame}

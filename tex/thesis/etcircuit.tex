@@ -1,0 +1,38 @@
+%% The ETCircuit component language
+\begin{figure}[tb]
+\centering
+\begin{Verbatim}[fontsize=\relsize{-2.5}, numbersep=4pt,numbers=left]
+component: decl wiredef init `while(true)' `{' next `}'
+type: bool | int | bool `['NUM`]' | int `['NUM`]'
+declaration: wire type ID `;' | type ID `;'
+
+decl: declaration+
+wiredef: (target = expr `;')*
+
+init: `@do_together' `{' (target = expr `;')* `}'
+next: `@do_together' `{' (target = expr `;')* `}'
+target: ID | ID `['expr`]'
+expr: expr? expr : expr
+\end{Verbatim}
+\caption{\thislanguage component language grammar}
+\label{fig:etcircuit}
+\end{figure}
+
+The grammar in Figure~\ref{fig:etcircuit} describes \thislanguage, a high level
+imperative language that describes a sequential circuit.
+An \thislanguage program starts with a list of declarations of wire, register,
+and array variables. Wires are defined in a list of assignment statements
+in the \cci{wiredef} block.
+Each wire can be the target at most one assignment statement. If a wire is not 
+assigned, then it is left as a free input to the circuit. 
+
+The \cci{init} list of statements assigns initial values for the register variables.
+All assignment statements within the \cci{init} block execute simultaneously as
+indicated with the \cci{do\_together} keyword. 
+Similary, the \cci{next} list of statements updates the values of the register variables. 
+
+Each assignment statement has a left hand side target term which is either a variable or 
+an access operator to an array element. The right hand side of an assignment is a combinational
+expression that is either a term (from Definition~\ref{def:term}) or a ternary choice
+expression. The ternary choice (\cci{a?b:c}) returns \cci{b} if \cci{a} is \cci{true}
+and \cci{c} otherwise. 

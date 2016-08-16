@@ -1,0 +1,586 @@
+model ATMSYSTEM
+
+header {#
+#}
+port type Port1
+port type Port2
+port type Port3
+port type Port4
+port type Port5
+port type Port6
+port type Port7
+port type Port8
+port type Port9
+port type Port10
+port type Port11
+port type Port12
+port type Port13
+port type Port14
+port type Port15
+port type Port16
+port type Port17
+port type Port18
+port type Port19
+port type Port20
+port type Port21
+port type Port22
+port type Port23
+port type Port24
+port type Port25
+port type Port26
+port type Port27
+port type Port28
+port type Port29
+port type Port30
+port type Port31
+port type Port32
+port type Port33
+port type Port34
+port type Port35
+port type Port36
+port type Port37
+port type Port38
+port type Port39
+port type Port40
+port type Port41
+port type Port42
+port type Port43
+port type Port44
+port type Port45
+port type Port46
+port type Port47
+port type Port48
+port type Port49
+port type Port50
+port type Port51
+port type Port52
+port type Port53
+port type Port54
+port type Port55
+port type Port56
+port type Port57
+port type Port58
+port type Port59
+port type Port60
+port type Port61
+port type Port62
+port type Port63
+port type Port64
+port type Port65
+port type Port66
+
+atomic type BankValidation
+ data int x_valid
+
+ export port Port1 valid_validate
+ export port Port2 valid_authorized
+ export port Port3 valid_nonauthorized
+ export port Port4 valid_tick
+
+ place l0,l1
+ initial to l0 do { x_valid=0;}
+ on valid_validate from l0 to l1
+ do{
+   x_valid=0;
+  }
+ on valid_tick from l1 to l1
+  provided (x_valid<2) do{
+   x_valid=x_valid+1;
+  }
+ on valid_nonauthorized from l1 to l0
+  provided (x_valid>=1)
+ on valid_authorized from l1 to l0
+  provided (x_valid>=1)
+end 
+
+atomic type BankVeto
+ data int y_veto
+
+ export port Port5 veto_veto
+ export port Port6 veto_fiat
+ export port Port7 veto_transaction
+ export port Port8 veto_tick
+
+ place l0,l1
+ initial to l0 do { y_veto=0;}
+ on veto_transaction from l0 to l1
+ do{
+   y_veto=0;
+  }
+ on veto_tick from l1 to l1
+  provided (y_veto<4) do{
+   y_veto=y_veto-1;
+  }
+ on veto_veto from l1 to l0
+  provided (y_veto>=2)
+ on veto_fiat from l1 to l0
+  provided (y_veto>=2)
+end 
+
+atomic type user_0
+ export port Port9 user0_insert
+ export port Port10 user0_enter
+ export port Port11 user0_invalid
+ export port Port12 user0_validated
+ export port Port13 user0_amount
+ export port Port14 user0_cancel
+ export port Port15 user0_accept
+ export port Port16 user0_success
+ export port Port17 user0_fail
+ export port Port18 user0_eject
+ export port Port19 user0_withdraw
+
+ place l0,l1,l2,l3,l4,l5,l6,l7
+ initial to l0
+ on user0_insert from l0 to l1
+
+ on user0_enter from l1 to l2
+
+ on user0_validated from l2 to l3
+
+ on user0_invalid from l2 to l5
+
+ on user0_amount from l3 to l4
+
+ on user0_cancel from l4 to l5
+
+ on user0_accept from l4 to l6
+
+ on user0_eject from l5 to l0
+
+ on user0_fail from l6 to l5
+
+ on user0_success from l6 to l7
+
+ on user0_withdraw from l7 to l5
+
+end 
+
+atomic type user_1
+ export port Port20 user1_insert
+ export port Port21 user1_enter
+ export port Port22 user1_invalid
+ export port Port23 user1_validated
+ export port Port24 user1_amount
+ export port Port25 user1_cancel
+ export port Port26 user1_accept
+ export port Port27 user1_success
+ export port Port28 user1_fail
+ export port Port29 user1_eject
+ export port Port30 user1_withdraw
+
+ place l0,l1,l2,l3,l4,l5,l6,l7
+ initial to l0
+ on user1_insert from l0 to l1
+
+ on user1_enter from l1 to l2
+
+ on user1_validated from l2 to l3
+
+ on user1_invalid from l2 to l5
+
+ on user1_amount from l3 to l4
+
+ on user1_cancel from l4 to l5
+
+ on user1_accept from l4 to l6
+
+ on user1_eject from l5 to l0
+
+ on user1_fail from l6 to l5
+
+ on user1_success from l6 to l7
+
+ on user1_withdraw from l7 to l5
+
+end 
+
+atomic type ATM_0
+ data int t1_atm0
+ data int t2_atm0
+
+ export port Port31 atm0_insert
+ export port Port32 atm0_enter
+ export port Port33 atm0_validate
+ export port Port34 atm0_authorized
+ export port Port35 atm0_nonauthorized
+ export port Port36 atm0_invalid
+ export port Port37 atm0_validated
+ export port Port38 atm0_amount
+ export port Port39 atm0_cancel
+ export port Port40 atm0_accept
+ export port Port41 atm0_transaction
+ export port Port42 atm0_veto
+ export port Port43 atm0_fiat
+ export port Port44 atm0_fail
+ export port Port45 atm0_eject
+ export port Port46 atm0_success
+ export port Port47 atm0_withdraw
+ export port Port48 atm0_tick
+
+ place l0,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14
+ initial to l0
+ on atm0_insert from l0 to l1
+
+ on atm0_enter from l1 to l2
+ do{
+   t1_atm0=0;
+  }
+ on atm0_tick from l2 to l2
+  provided (t1_atm0<5) do{
+   t1_atm0=t1_atm0+1;
+  }
+ on atm0_validate from l2 to l3
+  provided (t1_atm0>1)
+ on atm0_authorized from l3 to l4
+
+ on atm0_nonauthorized from l3 to l5
+
+ on atm0_invalid from l5 to l6
+
+ on atm0_eject from l6 to l0
+
+ on atm0_validated from l4 to l7
+
+ on atm0_amount from l7 to l8
+ do{
+   t2_atm0=0;
+  }
+ on atm0_tick from l8 to l8
+  provided (t2_atm0<6) do{
+   t2_atm0=t2_atm0+1;
+  }
+ on atm0_accept from l8 to l9
+  provided (t2_atm0>=3)
+ on atm0_cancel from l8 to l6
+  provided (t2_atm0>=3)
+ on atm0_transaction from l9 to l10
+
+ on atm0_veto from l10 to l13
+
+ on atm0_fiat from l10 to l11
+
+ on atm0_fail from l13 to l6
+
+ on atm0_success from l11 to l12
+
+ on atm0_withdraw from l12 to l6
+
+end 
+
+atomic type ATM_1
+ data int t1_atm1
+ data int t2_atm1
+
+ export port Port49 atm1_insert
+ export port Port50 atm1_enter
+ export port Port51 atm1_validate
+ export port Port52 atm1_authorized
+ export port Port53 atm1_nonauthorized
+ export port Port54 atm1_invalid
+ export port Port55 atm1_validated
+ export port Port56 atm1_amount
+ export port Port57 atm1_cancel
+ export port Port58 atm1_accept
+ export port Port59 atm1_transaction
+ export port Port60 atm1_veto
+ export port Port61 atm1_fiat
+ export port Port62 atm1_fail
+ export port Port63 atm1_eject
+ export port Port64 atm1_success
+ export port Port65 atm1_withdraw
+ export port Port66 atm1_tick
+
+ place l0,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14
+ initial to l0
+ on atm1_insert from l0 to l1
+
+ on atm1_enter from l1 to l2
+ do{
+   t1_atm1=0;
+  }
+ on atm1_tick from l2 to l2
+  provided (t1_atm1<5) do{
+   t1_atm1=t1_atm1+1;
+  }
+ on atm1_validate from l2 to l3
+  provided (t1_atm1>1)
+ on atm1_authorized from l3 to l4
+
+ on atm1_nonauthorized from l3 to l5
+
+ on atm1_invalid from l5 to l6
+
+ on atm1_eject from l6 to l0
+
+ on atm1_validated from l4 to l7
+
+ on atm1_amount from l7 to l8
+ do{
+   t2_atm1=0;
+  }
+ on atm1_tick from l8 to l8
+  provided (t2_atm1<6) do{
+   t2_atm1=t2_atm1+1;
+  }
+ on atm1_accept from l8 to l9
+  provided (t2_atm1>=3)
+ on atm1_cancel from l8 to l6
+  provided (t2_atm1>=3)
+ on atm1_transaction from l9 to l10
+
+ on atm1_veto from l10 to l13
+
+ on atm1_fiat from l10 to l11
+
+ on atm1_fail from l13 to l6
+
+ on atm1_success from l11 to l12
+
+ on atm1_withdraw from l12 to l6
+
+end 
+
+connector type rendezvous2(Port9 user0_insert, Port31 atm0_insert)
+ define user0_insert atm0_insert 
+
+end 
+
+connector type rendezvous3(Port10 user0_enter, Port32 atm0_enter)
+ define user0_enter atm0_enter 
+
+end 
+
+connector type rendezvous4(Port11 user0_invalid, Port36 atm0_invalid)
+ define user0_invalid atm0_invalid 
+
+end 
+
+connector type rendezvous5(Port12 user0_validated, Port37 atm0_validated)
+ define user0_validated atm0_validated 
+
+end 
+
+connector type rendezvous6(Port13 user0_amount, Port38 atm0_amount)
+ define user0_amount atm0_amount 
+
+end 
+
+connector type rendezvous7(Port15 user0_accept, Port40 atm0_accept)
+ define user0_accept atm0_accept 
+
+end 
+
+connector type rendezvous8(Port14 user0_cancel, Port39 atm0_cancel)
+ define user0_cancel atm0_cancel 
+
+end 
+
+connector type rendezvous9(Port18 user0_eject, Port45 atm0_eject)
+ define user0_eject atm0_eject 
+
+end 
+
+connector type rendezvous10(Port17 user0_fail, Port44 atm0_fail)
+ define user0_fail atm0_fail 
+
+end 
+
+connector type rendezvous11(Port16 user0_success, Port46 atm0_success)
+ define user0_success atm0_success 
+
+end 
+
+connector type rendezvous12(Port19 user0_withdraw, Port47 atm0_withdraw)
+ define user0_withdraw atm0_withdraw 
+
+end 
+
+connector type rendezvous13(Port1 valid_validate, Port33 atm0_validate)
+ define valid_validate atm0_validate 
+
+end 
+
+connector type rendezvous14(Port2 valid_authorized, Port34 atm0_authorized)
+ define valid_authorized atm0_authorized 
+
+end 
+
+connector type rendezvous15(Port3 valid_nonauthorized, Port35 atm0_nonauthorized)
+ define valid_nonauthorized atm0_nonauthorized 
+
+end 
+
+connector type rendezvous16(Port7 veto_transaction, Port41 atm0_transaction)
+ define veto_transaction atm0_transaction 
+
+end 
+
+connector type rendezvous17(Port5 veto_veto, Port42 atm0_veto)
+ define veto_veto atm0_veto 
+
+end 
+
+connector type rendezvous18(Port6 veto_fiat, Port43 atm0_fiat)
+ define veto_fiat atm0_fiat 
+
+end 
+
+connector type rendezvous19(Port20 user1_insert, Port49 atm1_insert)
+ define user1_insert atm1_insert 
+
+end 
+
+connector type rendezvous20(Port21 user1_enter, Port50 atm1_enter)
+ define user1_enter atm1_enter 
+
+end 
+
+connector type rendezvous21(Port22 user1_invalid, Port54 atm1_invalid)
+ define user1_invalid atm1_invalid 
+
+end 
+
+connector type rendezvous22(Port23 user1_validated, Port55 atm1_validated)
+ define user1_validated atm1_validated 
+
+end 
+
+connector type rendezvous23(Port24 user1_amount, Port56 atm1_amount)
+ define user1_amount atm1_amount 
+
+end 
+
+connector type rendezvous24(Port26 user1_accept, Port58 atm1_accept)
+ define user1_accept atm1_accept 
+
+end 
+
+connector type rendezvous25(Port25 user1_cancel, Port57 atm1_cancel)
+ define user1_cancel atm1_cancel 
+
+end 
+
+connector type rendezvous26(Port29 user1_eject, Port63 atm1_eject)
+ define user1_eject atm1_eject 
+
+end 
+
+connector type rendezvous27(Port28 user1_fail, Port62 atm1_fail)
+ define user1_fail atm1_fail 
+
+end 
+
+connector type rendezvous28(Port27 user1_success, Port64 atm1_success)
+ define user1_success atm1_success 
+
+end 
+
+connector type rendezvous29(Port30 user1_withdraw, Port65 atm1_withdraw)
+ define user1_withdraw atm1_withdraw 
+
+end 
+
+connector type rendezvous30(Port1 valid_validate, Port51 atm1_validate)
+ define valid_validate atm1_validate 
+
+end 
+
+connector type rendezvous31(Port2 valid_authorized, Port52 atm1_authorized)
+ define valid_authorized atm1_authorized 
+
+end 
+
+connector type rendezvous32(Port3 valid_nonauthorized, Port53 atm1_nonauthorized)
+ define valid_nonauthorized atm1_nonauthorized 
+
+end 
+
+connector type rendezvous33(Port7 veto_transaction, Port59 atm1_transaction)
+ define veto_transaction atm1_transaction 
+
+end 
+
+connector type rendezvous34(Port5 veto_veto, Port60 atm1_veto)
+ define veto_veto atm1_veto 
+
+end 
+
+connector type rendezvous35(Port6 veto_fiat, Port61 atm1_fiat)
+ define veto_fiat atm1_fiat 
+
+end 
+
+connector type single1(Port48 atm0_tick)
+ define atm0_tick 
+
+end 
+
+connector type single2(Port66 atm1_tick)
+ define atm1_tick 
+
+end 
+
+connector type single3(Port8 veto_tick)
+ define veto_tick 
+
+end 
+
+connector type single4(Port4 valid_tick)
+ define valid_tick 
+
+end 
+
+compound type AtmSystemType
+ component BankValidation valid
+ component BankVeto veto
+ component user_0 user0
+ component user_1 user1
+ component ATM_0 atm0
+ component ATM_1 atm1
+
+ connector rendezvous2 u0_atm0_insert(user0.user0_insert, atm0.atm0_insert)
+ connector rendezvous3 u0_atm0_enter(user0.user0_enter, atm0.atm0_enter)
+ connector rendezvous4 u0_atm0_invalid(user0.user0_invalid, atm0.atm0_invalid)
+ connector rendezvous5 u0_atm0_validated(user0.user0_validated, atm0.atm0_validated)
+ connector rendezvous6 u0_atm0_amount(user0.user0_amount, atm0.atm0_amount)
+ connector rendezvous7 u0_atm0_accept(user0.user0_accept, atm0.atm0_accept)
+ connector rendezvous8 u0_atm0_cancel(user0.user0_cancel, atm0.atm0_cancel)
+ connector rendezvous9 u0_atm0_eject(user0.user0_eject, atm0.atm0_eject)
+ connector rendezvous10 u0_atm0_fail(user0.user0_fail, atm0.atm0_fail)
+ connector rendezvous11 u0_atm0_success(user0.user0_success, atm0.atm0_success)
+ connector rendezvous12 u0_atm0_withdraw(user0.user0_withdraw, atm0.atm0_withdraw)
+ connector rendezvous13 bank_atm0_validate(valid.valid_validate, atm0.atm0_validate)
+ connector rendezvous14 bank_atm0_authorized(valid.valid_authorized, atm0.atm0_authorized)
+ connector rendezvous15 bank_atm0_nonauthorized(valid.valid_nonauthorized, atm0.atm0_nonauthorized)
+ connector rendezvous16 veto_atm0_transaction(veto.veto_transaction, atm0.atm0_transaction)
+ connector rendezvous17 veto_atm0_veto(veto.veto_veto, atm0.atm0_veto)
+ connector rendezvous18 veto_atm0_fiat(veto.veto_fiat, atm0.atm0_fiat)
+ connector rendezvous19 u_1_atm1_insert(user1.user1_insert, atm1.atm1_insert)
+ connector rendezvous20 u1_atm1_enter(user1.user1_enter, atm1.atm1_enter)
+ connector rendezvous21 u1_atm1_invalid(user1.user1_invalid, atm1.atm1_invalid)
+ connector rendezvous22 u1_atm1_validated(user1.user1_validated, atm1.atm1_validated)
+ connector rendezvous23 u1_atm1_amount(user1.user1_amount, atm1.atm1_amount)
+ connector rendezvous24 u1_atm1_accept(user1.user1_accept, atm1.atm1_accept)
+ connector rendezvous25 u1_atm1_cancel(user1.user1_cancel, atm1.atm1_cancel)
+ connector rendezvous26 u1_atm1_eject(user1.user1_eject, atm1.atm1_eject)
+ connector rendezvous27 u1_atm1_fail(user1.user1_fail, atm1.atm1_fail)
+ connector rendezvous28 u1_atm1_success(user1.user1_success, atm1.atm1_success)
+ connector rendezvous29 u1_atm1_withdraw(user1.user1_withdraw, atm1.atm1_withdraw)
+ connector rendezvous30 bank_atm1_validate(valid.valid_validate, atm1.atm1_validate)
+ connector rendezvous31 bank_atm1_authorized(valid.valid_authorized, atm1.atm1_authorized)
+ connector rendezvous32 bank_atm1_nonauthorized(valid.valid_nonauthorized, atm1.atm1_nonauthorized)
+ connector rendezvous33 veto_atm1_transaction(veto.veto_transaction, atm1.atm1_transaction)
+ connector rendezvous34 veto_atm1_veto(veto.veto_veto, atm1.atm1_veto)
+ connector rendezvous35 veto_atm1_fiat(veto.veto_fiat, atm1.atm1_fiat)
+ connector single1 atm0_tick_single(atm0.atm0_tick)
+ connector single2 atm1_tick_single(atm1.atm1_tick)
+ connector single3 veto_tick_single(veto.veto_tick)
+ connector single4 verif_tick_single(valid.valid_tick)
+end 
+
+
+component AtmSystemType atmSystem 
+
+end
+

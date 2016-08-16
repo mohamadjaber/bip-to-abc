@@ -1,0 +1,20 @@
+\begin{table}[htbp]
+\caption{\mytool{} and CBMC comparison}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\cline{3-9}
+\multicolumn{1}{l}{} & \multicolumn{1}{c}{} &  \multicolumn{2}{|c|}{CBMC formula size} & \multicolumn{3}{l|}{\mytool{} AIG size} & \multicolumn{2}{c|}{Time (s)} \\ \hline
+\Pm & size  & Vars  & Clauses & lat & and & lev & \mytool & CBMC \\ \hline
+$\Pm_1$ & 3 & 2416 & 6784 & 41 & 313 & 15 & 4.36 & 0.016 \\ \hline
+$\Pm_1$ & 7 & 4612 & 15008 & 68 & 568 & 19 & 12.4 & 722.4 \\ \hline
+$\Pm_1$ & 15 & 9112 & 34496 & 119 & 1116 & 21 & 16.87 & \color{red}{Time-out} \\ \hline
+$\Pm_1$ & 31 & 18332 & 84928 & 226 & 2346 & 24 & 33.67 & \color{red}{Time-out} \\ \hline
+$\Pm_1$ & 63 & 37216 & 230208 & 461 & 5100 & 26 & 99.64 & \color{red}{Time-out} \\ \hline
+$\Pm_1$ & 127 & 75876 & 695616 & 984 & 11315 & 28 & 396.98 & \color{red}{Time-out} \\ \hline
+\hline
+$\Pm_2$ & 3 & 6503 & 24533 & 56 & 55 & 19 & 1.04 & 0.085 \\ \hline
+$\Pm_2$ & 7 & 16172 & 68130 & 83 & 850 & 17 & 1.47 & 1.91 \\ \hline
+$\Pm_2$ & 15 & 42461 & 197223 & 143 & 1943 & 20 & 27.69 & 38.493 \\ \hline
+$\Pm_2$ & 63 & 390623 & 2133649 & 529 & 9052 & 25 & 1152.22 & \color{red}{Time-out} \\ \hline
+\end{tabular}
+\label{tb:cbmc_compare}
+\end{table}

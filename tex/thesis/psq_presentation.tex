@@ -1,0 +1,469 @@
+\subsection*{Methodology}
+%% presentation for the psq tool
+\begin{frame}{\mytool{}}
+ \begin{itemize}
+  \item \mytool{} accepts input programs and specifications written in an imperative language
+  \psqlanguage
+  \item Given a program \Pm and a precondition postcondition pair \pair{\Pre}{\Post},  \mytool{}:
+  \begin{enumerate}
+   \item resolves function calls and quantifiers
+   \item translates $\Pm \models \pair{\Pre}{\Post}|_b $ into an equivalent program \Pm' in \thislanguage
+   \item synthesizes \aigcircuit an equisatisfiable AIG for \Pm'
+   \item calls ABC and performs synthesis and verification on \aigcircuit
+  \end{enumerate}
+ \end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{\psqlanguage}
+\begin{itemize}
+ \item A program written in \psqlanguage~is defined as follows
+\end{itemize}
+\begin{Verbatim}[fontsize=\relsize{-2.0}]
+program := (statement | declaration)+
+declaration := variable_declaration | property_declaration 
+              | function_declaration
+statement := assignment_statement | selection_statement 
+              | loop_statement | sync_statement
+
+property_declaration := '@pre' precondition | '@post' postcondition
+
+sync_statement := '@dotogether' { statement+ }
+
+... 
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Array search}
+  \small {
+  \begin{tabular}{p{2.2in}|p{2.4in}}
+\begin{Verbatim}[fontsize=\relsize{-3.5}, 
+frame=topline, framesep=4mm, label=\fbox{\Pm in \psqlanguage}]
+int ArraySearch(int [] a, int d, 
+                   int s, int e, int n) {
+@pre as { 0 <= s && s <= e && 
+              e < n && n <= MAXSIZE; }
+ int i = s;          // pc = pc+1
+ while(i <= e) {     // pc = (i<=e)? 5:10;
+   if (a[i] == d) {  // pc = (a[i]==d)? 6:8;
+     break;}         // pc = 10;
+   else {
+     i = i+1;}       // pc = 4;
+ }
+ return i;           // pc = 11; rv = i;
+@post as {
+  ((rv >= s && rv <= e) -> a[rv] == d) xor 
+  (rv == -1 -> forall(int i:[s .. e]) 
+                           { a[i] != d })
+} }
+\end{Verbatim}
+& 
+%\begin{Verbatim}[fontsize=\relsize{-2}], numbersep=4pt,numbers=left]
+\begin{Verbatim} [fontsize=\relsize{-3.5},
+frame=topline, framesep=4mm, label=\fbox{\Pm' in \thislanguage}]
+dotogether {
+  preas = 0 <= s && s <= e 
+            && e < n && n <= MAXSIZE;
+  //initial values
+  pc = 0; notdone = true; postas = true; }
+// next state functions
+while (true) { dotogether {  
+ i = (pc == 3) ? s : (pc == 8) ? i+1 : i;
+ notdone = (pc == 11) ? false : true;
+ rv = (pc == 10) ? i : rv;
+ pc = (pc == 0) ? 3: (pc == 3) ? 4 : 
+   (pc == 4) ? ( (i <= e) ? 5 : 10 ) :
+   (pc == 5) ? (a[i] == d) ? 6 : 8 ) :
+   (pc == 6) ? 10 :
+   (pc == 8) ? 4  : 
+   (pc == 10) ? 11 : pc; }
+ postas = ((rv>=s && rv<=e) -> a[rv]==d) xor
+   (rv == -1 -> forall(int i:[s .. e]) 
+                          { a[i]!=d }); }
+\end{Verbatim}
+\end{tabular}
+}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Code transformation}
+\begin{itemize}
+ \item \mytool{} preprocesses the program with $\rho$ 
+ \item $\rho$ resolves function calls
+ \begin{itemize} \item assignment statement marshalling arguments, return values, and save program counter 
+   \end{itemize}
+ \item $\rho$ resolves recursion
+ \begin{itemize} \item increases dimensions of local variables, and simulate stack 
+   \end{itemize}
+ \item $\rho$ resolves quantifiers
+ \begin{itemize} \item unrolls quantifiers with finite constant bounds
+   \end{itemize}
+ \item $\rho$ injects new variables and statements  as needed
+ %that simplify the transformation
+ %from \psqlanguage{} to \thislanguage
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Handling quantifiers and properties}
+%\small {
+  \begin{tabular}{p{2.2in}|p{2.4in}}
+\begin{Verbatim}[fontsize=\relsize{-3.5}, 
+frame=topline, framesep=4mm, label=\fbox{\Pm}]
+int a [N], b [N], i;
+
+@pre inv {
+  // Q1:
+  forall(int i:[0..N-2]) {a[i] <= a[i+1]}; }
+
+i = 0;
+while (i < N) {
+ @dotogether {
+  b[i] = a[(N-1)-i];
+  i = i + 1; } }
+  
+@post inv {
+  // Q2:
+  forall(int i:[0..N-2]) {b[i] >= b[i+1]} }
+
+\end{Verbatim}
+& 
+%\begin{Verbatim}[fontsize=\relsize{-2}], numbersep=4pt,numbers=left]
+\begin{Verbatim} [fontsize=\relsize{-3.5},
+frame=topline, framesep=4mm, label=\fbox{$\rho(\Pm)$}]
+int a[N], b[N], i, Q1::i, Q2::i;
+bool Q1::rv, Q2::rv, preinv, postinv;
+
+@dotogether {
+ Q1::i = 0; Q2::i = 0;
+ Q1::rv = true; Q2::rev = true;
+}
+while (Q1::i <= N-2) {
+ @dotogether { 
+  Q1::rv = Q1::rv && (a[i] <= a[i+1])
+  Q1::i = Q1::i + 1; }}
+preinv = Q1::rv;
+
+i = 0;
+while (i < N) {
+ @dotogether {
+  b[i] = a[(N-1)-i];
+  i = i + 1; } }
+  
+while (Q2::i <= N-2) {
+ @dotogether { 
+  Q2::rv = Q2::rv && (b[i] >= b[i+1])
+  Q2::i = Q2::i + 1; }}
+postinv = Q2::rv;
+assert (preinv -> postinv);
+
+\end{Verbatim}
+\end{tabular}
+%}
+\end{frame}
+
+\begin{frame}{Handling recursion}
+\begin{itemize}
+ \item $\rho$ simulates recursion using arrays
+ \item It increases the dimension of the recursive function's local variables
+ \item It injects a stack pointer variable \CodeIn{sp} to address the variables
+ \item Stack pointer is incremented before recursive call and decremented 
+ after it returns
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Function calls and recursion}
+  \begin{tabular}{p{2.2in}|p{2.4in}}
+\begin{Verbatim}[fontsize=\relsize{-3.5}, 
+frame=topline, framesep=4mm, label=\fbox{\Pm}]
+int mult (x, y) {
+  int result;
+  if (y == 1) {
+    result x;
+  } else {
+    result = mult(x, y-1);
+  }
+  return result;
+}
+
+int a, b;
+
+a = 2; b = 3;
+a = mult(a, b);
+\end{Verbatim}
+& 
+%\begin{Verbatim}[fontsize=\relsize{-2}], numbersep=4pt,numbers=left]
+\begin{Verbatim} [fontsize=\relsize{-3.5},
+frame=topline, framesep=4mm, label=\fbox{$\rho(\Pm)$}]
+int sp;
+sp = 0;
+
+int mult(int x [], int y []) {
+  int result [];
+  if (y[sp] == 1) {
+    result[sp] = x[sp]; 
+  } else {
+    x[sp+1] = x[sp];
+    y[sp+1] = y[sp] - 1;
+    sp = sp + 1;
+    call_func(mult);
+    sp = sp - 1;
+    result[sp] = mult::rv[sp+1];
+  }
+  mult::rv[sp] = result[sp];
+}
+
+int a, b;
+a = 2; b = 3;
+x[0] = 2;
+y[0] = 3;
+call_func(mult);
+a = mult::rv[0];
+\end{Verbatim}
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Transformation to \thislanguage}
+ \begin{itemize}
+  \item \mytool{} uses {\em program counter} semantics to 
+  synthesize AIGs from \psqlanguage{} programs
+  \item Each statement $s$ is assigned a unique label ($label(s)$)
+  \item Assignment statements alter the data flow of the program 
+  \item Selection, loop and function call statements alter the control
+  flow (program counter) of the program
+  \item \mytool{} adds a program counter variable (\cci{pc}) to the code
+  and uses it for control flow
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{Transformation algorithm}
+\begin{itemize}
+ \item To generate \thislanguage{} program \Pm' given a \psqlanguage{} program \Pm
+ \begin{enumerate}
+  \item The wire and variable declaration block in \Pm' is directly mapped from the 
+  declarations in \Pm
+  \item The wire definitions block in \Pm' is directly mapped from the definitions 
+  in \Pm
+  \item The variable initialization block in \Pm' is automatically generated
+  for variables used before assignment (i.e. free variables)
+ \end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Data Transformation algorithm}
+\begin{lstlisting}
+foreach target x // variable (v) or array access (a[exp])
+  $next\_list$ += $``x :="$ 
+  foreach assignment statement $s = x := exp$
+   $next\_list$ += $``(pc == label(s))? exp :"$ 
+  endfor
+  $next\_list$ += $``x;"$
+endfor
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Control Transformation}
+\begin{lstlisting}
+$n_{pc} = ``pc =" $
+foreach statement $s$
+  if (is_conditional_statement ($s$))
+    $n_{pc}$ += $``(pc==label(s))?~ (condition(s)?~then(s) : else(s)) :"$
+  elsif (is_loop_statement ($s$))
+    $n_{pc}$ += $``(pc==label(s))?~ (condition(s)?~body(s):next(s)) :"$ 
+    $n_{pc}$ += $``(pc==last\_statement\_body(s))?~label(s) :"$
+  elsif (is_function_call($s$))
+    $f_d :=$ function_declaration_of $($s$)$
+    $n_{pc}$ += $``(pc==label($s$))?~ (body(f_d)) :"$
+  elsif (is_return_statement ($s$))
+    $f_d :=$ function_declaration_of $($s$)$
+    $n_{pc}$ += $``(pc==label(s))?~(return(call(f_d))) :"$
+  else 
+    $n_{pc}$ += $``(pc==label(s))?~(next(s)) :"$
+  endif
+endfor
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Post processing}
+\begin{itemize}
+ \item Post processing step to eliminate non-constant array access terms
+\end{itemize}
+  \begin{tabular}{p{1.2in}|p{3.4in}}
+\begin{Verbatim}[fontsize=\relsize{-3.5}, 
+frame=topline, framesep=4mm, label=\fbox{\Pm}]
+ ....
+ l1: a[i] = x + 1;
+ ...
+ 
+ l2: x = a[i] + 2;
+\end{Verbatim}
+& 
+%\begin{Verbatim}[fontsize=\relsize{-2}], numbersep=4pt,numbers=left]
+\begin{Verbatim} [fontsize=\relsize{-3.5},
+frame=topline, framesep=4mm, label=\fbox{\Pm'}]
+a[0] = ((pc == l1) && (i == 0))? (x+1) : a[0];
+a[1] = ((pc == l1) && (i == 1))? (x+1) : a[1];
+a[2] = ((pc == l1) && (i == 2))? (x+1) : a[2];
+...
+a[N-1] = ((pc == l1) && (i == N-1))? (x+1) : a[N-1];
+
+x = (pc == l2)? (i == 0)? a[0] :
+                (i == 1)? a[1] :
+                (i == 2)? a[2] :
+                ...
+                (i == N-2)? a[N-2] : a[N-1];
+\end{Verbatim}
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Finally }
+\begin{itemize}
+ \item Translation of variables and operations into bit-vector registers and operations
+   \begin{itemize}
+     \item \cci{initial value definitions} map to register initial value gates
+     \item \cci{next state function definitions} map to register next state gates
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Results}
+\begin{frame}{Comparison with CBMC}
+\begin{itemize}
+ \item $\Pm_1$: linear search algorithm, $\Pm_2$: binary search algorithm
+\end{itemize}
+\begin{table}
+\centering
+\footnotesize{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\cline{3-9}
+\multicolumn{1}{l}{} & \multicolumn{1}{c}{} &  \multicolumn{2}{|c|}{CBMC formula size} & \multicolumn{3}{l|}{\mytool{} AIG size} & \multicolumn{2}{c|}{Time (s)} \\ \hline
+\Pm & size  & Vars  & Clauses & lat & and & lev & \mytool & CBMC \\ \hline
+$\Pm_1$ & 3 & 2416 & 6784 & 41 & 313 & 15 & 4.36 & 0.016 \\ \hline
+$\Pm_1$ & 7 & 4612 & 15008 & 68 & 568 & 19 & 12.4 & 722.4 \\ \hline
+$\Pm_1$ & 15 & 9112 & 34496 & 119 & 1116 & 21 & 16.87 & {\color{red} Time-out} \\ \hline
+$\Pm_1$ & 31 & 18332 & 84928 & 226 & 2346 & 24 & 33.67 & {\color{red} Time-out} \\ \hline
+$\Pm_1$ & 63 & 37216 & 230208 & 461 & 5100 & 26 & 99.64 & {\color{red} Time-out} \\ \hline
+$\Pm_1$ & 127 & 75876 & 695616 & 984 & 11315 & 28 & 396.98 & {\color{red} Time-out} \\ \hline
+\hline
+$\Pm_2$ & 3 & 6503 & 24533 & 56 & 55 & 19 & 1.04 & 0.085 \\ \hline
+$\Pm_2$ & 7 & 16172 & 68130 & 83 & 850 & 17 & 1.47 & 1.91 \\ \hline
+$\Pm_2$ & 15 & 42461 & 197223 & 143 & 1943 & 20 & 27.69 & 38.493 \\ \hline
+$\Pm_2$ & 63 & 390623 & 2133649 & 529 & 9052 & 25 & 1152.22 & {\color{red} Time-out} \\ \hline
+\end{tabular}}
+\end{table}
+\end{frame}
+
+\begin{frame}{Array algorithms}
+\begin{table}
+\tiny{
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\cline{3-10}
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{3}{|c|}{Before reduction} & \multicolumn{3}{c|}{After reduction} & \multicolumn{2}{c|}{Time (s)} & \multicolumn{1}{c}{}  \\ \hline
+\Pm & $b$ & lat & and & lev & lat & and & lev & Ver. & Total & Check \\ \hline
+ls & 2 & 86 & 719 & 24 & 41 & 313 & 15 & 0.33 & 4.36 & \checkmark \\ \hline
+ls & 3 & 118 & 1064 & 27 & 68 & 568 & 19 & 3.89 & 12.4 & \checkmark \\ \hline
+ls & 4 & 174 & 1781 & 30 & 119 & 1116 & 21 & 2.41 & 16.87 & \checkmark \\ \hline
+ls & 5 & 286 & 3362 & 45 & 226 & 2346 & 24 & 1.43 & 33.67 & \checkmark \\ \hline
+ls & 6 & 526 & 6895 & 78 & 461 & 5100 & 26 & 4.57 & 99.64 & \checkmark \\ \hline
+ls & 7 & 1054 & 14780 & 143 & 984 & 11315 & 28 & 21.32 & 396.981 & \checkmark \\ \hline
+ls & 8 & 4798 & 70742 & 529 & 4718 & 55364 & 33 & 682.11 & 8022.11 & \checkmark \\ \hline
+\hline
+bs & 3 & 94 & 879 & 30 & 56 & 555 & 19 & 0.11 & 1.04 & \checkmark \\ \hline
+bs & 4 & 151 & 1832 & 42 & 83 & 850 & 17 & 0.54 & 1.47 & \checkmark \\ \hline
+bs & 5 & 268 & 5185 & 62 & 143 & 1943 & 20 & 25.42 & 27.69 & \checkmark \\ \hline
+\hline
+bsort & 2 & 114 & 1198 & 29 & 44 & 393 & 16 & 0.29 & 5.79 & \checkmark \\ \hline
+bsort & 3 & 169 & 2218 & 35 & 68 & 885 & 20 & 17.1 & 31.09 & \checkmark \\ \hline
+bsort & 4 & 276 & 5607 & 47 & 117 & 2106 & 22 & 1390.25 & 1426.98 & N/A \\ \hline
+\hline
+ss & 2 & 112 & 1208 & 27 & 43 & 427 & 15 & 0.53 & 5.81 & \checkmark \\ \hline
+ss & 3 & 167 & 2239 & 35 & 69 & 949 & 19 & 209.37 & 223.54 & \checkmark \\ \hline
+ss & 4 & 280 & 5676 & 47 & 125 & 2236 & 22 & 1800 & 1852.76 & N/A \\ \hline
+\hline
+a-p & 2 & 110 & 1896 & 33 & 57 & 689 & 19 & 0.87 & 2.79 & \checkmark \\ \hline
+a-p & 3 & 147 & 2509 & 34 & 87 & 1174 & 24 & 93.47 & 97.56 & \checkmark \\ \hline
+a-p & 4 & 208 & 3829 & 38 & 141 & 2419 & 29 & 2127 & 2135.7 & N/A \\ \hline
+\end{tabular}
+}
+\end{table}
+\end{frame}
+
+\begin{frame}{List algorithms}
+\begin{table}
+\footnotesize{
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\cline{3-10}
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{3}{|c|}{Before reduction} & \multicolumn{3}{c|}{After reduction} & \multicolumn{2}{c|}{Time (s)} & \multicolumn{1}{c}{}  \\ \hline
+\Pm & $b$ & lat & and & lev & lat & and & lev & Ver. & Total & Check \\ \hline
+lli & 2 & 237 & 4310 & 38 & 98 & 871 & 19 & 109.63 & 118.89 & \checkmark \\ \hline
+lli & 3 & 344 & 6117 & 41 & 179 & 1693 & 26 & 1800 & 1811 & N/A \\ \hline
+\hline
+llr & 2 & 197 & 2906 & 33 & 84 & 722 & 21 & 47.72 & 71.3829 & \checkmark \\ \hline
+llr & 3 & 293 & 4454 & 39 & 157 & 1387 & 25 & 1800.15 & 1830.21 & N/A \\ \hline
+\end{tabular}
+}
+\end{table}
+\begin{itemize}
+ \item On average $43\%$ reduction in number of latches, $53\%$ in number of AND gates,
+ $47\%$ reduction in number of logic levels
+\end{itemize}
+\end{frame}
+
+\begin{frame}{SVCompetition'13 (ControlFlowInteger)}
+\begin{itemize}
+ \item Ranked closely behind silver tool
+\end{itemize}
+\begin{table}
+ \centering
+ \footnotesize{
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\Pm & status & time (s) & gold  & silver & bronze \\ \hline
+locks\_5\_safe & safe & 0.28 & 0.4 & 1.2 & 1.3 \\ \hline
+locks\_6\_safe & safe & 0.32 & 0.43 & 1.3 & 1.6 \\ \hline
+locks\_7\_safe & safe & 0.52 & 0.4 & 1.3 & 1.9 \\ \hline
+locks\_8\_safe & safe & 0.62 & 0.4 & 1.3 & 2.3 \\ \hline
+locks\_9\_safe & safe & 1.05 & 0.39 & 1.3 & 3.5 \\ \hline
+locks\_10\_safe & safe & 0.88 & 0.4 & 1.3 & 6.4 \\ \hline
+locks\_11\_safe & safe & 3.42 & 0.39 & 1.4 & 24 \\ \hline
+locks\_12\_safe & safe & 4.21 & 0.4 & 1.4 & 110 \\ \hline
+locks\_13\_safe & safe & 4.18 & 0.43 & 1.4 & 100 \\ \hline
+locks\_14\_safe & safe & 5.9 & 0.4 & 1.4 & 100 \\ \hline
+locks\_15\_safe & safe & 6.83 & 0.4 & 1.4 & 100 \\ \hline
+locks\_14\_unsafe & unsafe & 0.99 & 3.2 & 1.6 & 1.8 \\ \hline
+locks\_15\_unsafe & unsafe & 0.91 & 4.2 & 1.6 & 1.8 \\ \hline
+\hline
+Average & N/A & 2.316 & 0.911 & 1.377 & 34.969 \\ \hline
+\end{tabular}}
+\end{table}
+\end{frame}
+
+\begin{frame}{SVCompetition'13 (Loops)}
+\begin{itemize}
+ \item Solved problems correctly that silver and bronze got wrong
+ \item Ranked closely behind gold tool
+\end{itemize}
+\begin{table}
+ \centering
+ \footnotesize{
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\Pm & status & time (s) & gold  & silver & bronze \\ \hline
+array\_safe & safe & 0.116 & 0.05 & 0.15 & 0.48 \\ \hline
+array\_unsafe & unsafe & 0.091 & 0.09 & 0.47 & 0.46 \\ \hline
+count\_up\_down\_s & safe & 0.137 & 0.28 & {\bf \color{red}{450}} & 0.39 \\ \hline
+count\_up\_down\_u & unsafe & 0.095 & 0.04 & 0.15 & 0.43 \\ \hline
+invert\_string\_s & safe & 1.808 & 0.03 & 14 & {\bf \color{red}{0.56}} \\ \hline
+invert\_string\_u & unsafe & 0.266 & 0.11 & 10 & 0.68 \\ \hline
+\hline
+Average & N/A & 0.419 & 0.100 & 79.128 & 0.500 \\ \hline
+\end{tabular}}
+\end{table}
+\end{frame}

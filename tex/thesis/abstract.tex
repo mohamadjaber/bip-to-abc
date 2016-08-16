@@ -1,0 +1,69 @@
+\clearpage
+
+\thispagestyle{plain}
+\pagenumbering{roman}
+\setcounter{page}{6}
+\quad \quad \quad  {\Large AN ABSTRACT OF THE THESIS OF}
+
+\vspace{1.5cm}
+
+\small{
+\noindent {\underline{MOHAMAD ALI NOUREDDINE} \quad \quad for \quad \quad \quad \quad \quad \quad \quad \quad~{\underline{Master of Engineering}}
+
+\noindent \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad ~{\underline{Major:} Electrical and Computer Engineering}
+}
+
+\vspace{1.5cm}
+
+\noindent Title: \underline{Verification of Software and Embedded Systems using AIG Solvers}
+
+\vspace{1.5cm}
+
+It is critical for software and hardware developers to design 
+correct and reliable systems. In particular, safety critical 
+systems such as medical equipment, navigation control and 
+targeting devices do not tolerate defects in their logical 
+components. 
+Static analysis techniques are used to check and prove correctness 
+of logic components with respect to formal specifications. 
+In particular, ABC is a model checker that takes an And-Inverter-Graph (AIG) circuit,
+a directed acyclic graph with two input AND gates, inverters and 
+memory elements, 
+reduces it using synthesis algorithms, and checks it for correctness
+using proof algorithms. 
+%At a higher level, 
+Existing techniques transform software programs
+and embedded system design components into Conjunctive Normal Form (CNF)
+formulae and Symbolic Model Verifier (SMV)
+%\todo{what is SMV?} 
+code, and use satisfiability (SAT) solvers and symbolic
+model checkers, respectively, to check their validity 
+within a user specified finite domain.
+These techniques often fail to scale well with 
+the increasing size of systems and with larger finite domains. 
+
+In this work, we explore the use of AIG solvers to 
+address the verification of software and embedded systems
+subject to bounds on the data width of their variables.
+\mytool{} translates imperative logic systems, written in a C-like language,
+into AIG. 
+\biptool{} translates an embedded system, written within the Behaviour-Interaction-Priority (BIP) framework,
+into AIG. 
+Both methods use the ABC AIG solver to reduce the generated AIG circuits using 
+sequential synthesis algorithms, and then check them for validity. 
+The solver either (1) proves the specifications valid within the finite domain, 
+(2) generates a counter example and reports it to the developer for debugging,
+or (3) reaches its computational bounds before making a decision. 
+%\todo{Statements on how the system was evaluated and snapshot of the results. }
+We evaluated \mytool{} against a set of array and list manipulation algorithms, 
+and various benchmarks obtained from the second competition on software verification 
+(SVComp'13). Results show that \mytool{} reaches bounds higher than those possible 
+with the CBMC bounded model checker. It was also able to rank amongst the top three
+tools in the software verification competition.
+%
+We also evaluated \biptool{} against two benchmarks, an Automatic Teller Machine (ATM) system 
+and the Quorum consensus protocol. 
+\biptool{} surpasses the NuSMV model checker on both designs. 
+
+
+\clearpage

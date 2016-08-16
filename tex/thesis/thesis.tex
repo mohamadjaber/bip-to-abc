@@ -1,0 +1,171 @@
+%% Master Thesis : American University of Beirut
+%% May 5, 2014
+%% Mohamad Noureddine <man17@mail.aub.edu>
+
+\documentclass[12pt, twoside, a4paper]{report}
+
+\textheight23cm \textwidth16cm
+
+%_________________________________________________________%
+%\usepackage[dvips]{graphicx}
+%\usepackage{latexsym}
+%\usepackage{epsf}
+%\usepackage{epsfig}
+%\usepackage{a4}
+%
+%\usepackage{amsmath} % real numbers, natural numbers, ...
+%\usepackage{amssymb}
+%\usepackage{amsthm}  % used for theorems and definitions 
+%\usepackage{amsxtra}
+%\usepackage{amsxtra}
+%\usepackage{amsfonts}
+%
+%\usepackage{fancyhdr}
+%\usepackage{tocbibind} %bibliography in the table of contents
+%\usepackage{enumerate}
+%\usepackage{amsthm}
+%\usepackage{amsbsy}
+%
+%\usepackage{tikz}
+%
+%\usepackage{booktabs}
+%\usepackage{paralist}
+%
+%\usepackage{algorithm}
+%\usepackage{algpseudocode}
+%
+%\usepackage{graphics}
+%\usepackage{color}
+%%\usepackage[usenames,dvipsnames]{xcolor}
+%\usepackage{graphicx}
+%\usepackage{enumerate}
+%\usepackage{fancyvrb}
+%%\usepackage{alltt}
+%\usepackage{url}
+%
+%\usepackage{colortbl}
+%\usepackage{multirow}
+%\usepackage{chngpage}
+%\usepackage{tabularx}
+%
+%\usepackage{amsfonts}
+%\newcommand{\Yes}{\checkmark}
+%\usepackage{pifont}
+%\newcommand{\No}{\hspace{1pt}\ding{55}}
+%
+%\usepackage{relsize}
+%\include{geometry}
+
+\include{macros}
+
+%\usepackage[square, comma, sort&compress]{natbib}
+
+\setlength{\parindent}{1.5cm} % no paragraph indent
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Thesis starts here!
+\begin{document}
+
+%_________________________________________________________%
+\pagestyle{empty}
+\include{cover}
+
+%_________________________________________________________%
+\input{acknowledgment}
+
+%_________________________________________________________%
+\input{abstract}
+%\begin{abstract}
+%\thispagestyle{plain}
+%\pagenumbering{roman} \setcounter{page}{5}
+%It is critical for software and hardware developers to design 
+%correct and reliable systems. In particular, safety critical 
+%systems such as medical equipment, navigation control and 
+%targeting devices do not tolerate defects in the their logical 
+%components. 
+%Static analysis techniques are used to check and prove correctness 
+%of logic components with respect to formal specifications. 
+%In particular, ABC is a model checker that takes an And-Inverter-Graph (AIG) circuit,
+%a directed acyclic graph with two input AND gates, inverters and 
+%memory elements, 
+%reduces it using synthesis algorithms, and checks it for correctness
+%using proof algorithms. 
+%%At a higher level, 
+%Existing techniques transform software programs
+%and embedded system design components into Conjunctive Normal Form (CNF)
+%formulae and Symbolic Model Verifier (SMV)
+%%\todo{what is SMV?} 
+%code, and use satisfiability (SAT) solvers and symbolic
+%model checkers, respectively, to check their validity 
+%within a user specified finite domain.
+%These techniques often fail to scale well with 
+%the increasing size of systems and with larger finite domains. 
+%
+%In this work, we explore the use of AIG solvers to 
+%address the verification of software and embedded systems
+%subject to bounds on the data width of their variables.
+%\mytool{} translates imperative logic systems, written in a C-like language,
+%into AIG. 
+%\biptool{} translates an embedded system, written within the Behaviour-Interaction-Priority (BIP) framework,
+%into AIG. 
+%Both methods use the ABC AIG solver to reduce the generated AIG circuits using 
+%sequential synthesis algorithms, and then check them for validity. 
+%The solver either (1) proves the specifications valid within the finite domain, 
+%(2) generates a counter example and reports it to the developer for debugging,
+%or (3) reaches its computational bounds before making a decision. 
+%%\todo{Statements on how the system was evaluated and snapshot of the results. }
+%We evaluated \mytool{} against a set of array and list manipulation algorithms, 
+%and various benchmarks obtained from the second competition on software verification 
+%(SVComp'13). Results show that \mytool{} reaches bounds higher than those possible 
+%with the CBMC bounded model checker. It was also able to rank amongst the top three
+%tools in the software verification competition.
+%%
+%We also evaluated \biptool{} against two benchmarks, an Automatic Teller Machine (ATM) system 
+%and the Quorum consensus protocol. 
+%\biptool{} surpasses the NuSMV model checker on both designs. 
+%%
+%%  Safety critical systems such as medical equipment, navigation control and tar-
+%%getting devices rely on logical units such as software and hardware programs to
+%%provide accurate services. Therefore it is critical for software and hardware
+%%developers to design correct and reliable systems. 
+%%Static analysis techniques are ones of the most used 
+%%techniques to achieve such a goal. In this work, we proposal \mytool{}, a tool
+%%set that consists an imperative language front end that accepts first order logic
+%%specifications, and translates such design with their specifications into sequential 
+%%circuits encoded as and inverter graphs (AIGs). This allows for an efficient and 
+%%succinct representation of the designs in hand, in addition to the ability to perform several 
+%%abstraction and optimizations. Additionally, we propose a technique to translate Behaviour
+%%Interaction Priority (BIP) systems into imperative programs composed of wire and variable 
+%%declarations, initialization and update steps. 
+%%The synthesized programs are passed to \mytool{} for efficient sequential synthesis and 
+%%verification. 
+%%we propose a novel technique for synthesizing 
+%%deterministic finite state automaton (DFA) from SERE specifications. The number of states
+%%in the generated DFAs is linear in the number of propositions in the formula, and the DFAs
+%%use auxiliary variables to encode non-determinism. The tool will also be equipped with a
+%%command line interface and a debugger. 
+%\end{abstract}
+
+%_________________________________________________________%
+\pagestyle{plain}\tableofcontents 
+
+%------------ List of figures and tables ---------%
+\listoffigures
+\listoftables
+
+%_________________________________________________________%
+\cleardoublepage
+\pagestyle{plain} \pagenumbering{arabic} \setcounter{page}{1}
+
+%------------------ Thesis body ------------------%
+\input{thesisBody}
+
+%---------------- Bibliography -------------------%
+\bibliographystyle{ieeetr}
+\bibliography{references/refs}
+
+
+
+\end{document}

@@ -1,0 +1,513 @@
+\mytool~targets the verification of imperative programs annotated with 
+precondition and postcondition specifications. An imperative program 
+is a sequence of instructions that describes in full details the 
+steps that the execution unit must take to accurately 
+implement the required functionality. In order to verify 
+that a program accurately implements its functionality, the developer
+provides a set of formal specifications in the form of 
+a precondition-postcondition pair. A precondition is a FOL formula over the 
+the program's inputs that specifies which combination of inputs are acceptable; 
+i.e. under which inputs the program is expected to work. 
+A postcondition is a FOL formula over the program's inputs 
+and outputs that defines the program's expected output. The
+postcondition relates the program's outputs to its inputs~\cite{bradley2007calculus}. 
+
+Given a program \Pm, 
+a precondition and postcondition pair \pair{\Pre}{\Post}, 
+and a bound $b$ on the domain of \Pm~and its variables,
+\mytool~checks whether \Pm satisfies its specifications 
+($\Pm \models \pair{\Pre}{\Post}|_{b}$); i.e. when the bounded inputs 
+of \Pm satisfy \Pre, the outputs of \Pm must necessarily satisfy \Post.
+\mytool~accepts programs written an imperative language, \psqlanguage, 
+a subset of C++ extended with support for FOL and a block synchronization 
+construct, the \cci{do\_together} block.
+The tool then translates the problem ($\Pm \models \pair{\Pre}{\Post}|_{b}$)
+into an equisatisfiable AIG using a program counter encoding. 
+The generated AIG has a single output $o$ that is set to $1$ iff 
+\Pm violates its specifications. The tool then uses the ABC
+sequential AIG model checker~\cite{brayton2010abc} to check that $o$ is never set to $1$. 
+If the check is successful, \Pm satisfies its specifications. Otherwise, \mytool~
+returns the violating trace (i.e. the counterexample) to the user for debugging 
+of \Pm.
+
+%% illustrative example 
+%\section{Illustrative Example} \label{chap:c2aig:sec:illustrative}
+\input{motivation}
+
+%\section{Comparison with recent work}
+\section{Limitations of translation to CNF}
+\label{s:intro:limitations}
+Existing tools such as CBMC~\cite{clarke2004tool}
+check for pointer safety, within bound
+array access and user defined assertions in C programs.
+Given a C program and a bound on the range of variables, CBMC unwinds the program's 
+loops and recursive functions, and unfolds the program 
+into a Boolean (CNF) formula that asserts the specified properties. 
+It then uses SAT methods and tools such as MiniSat~\cite{sorensson2005minisat}
+to check the CNF formula for counter examples. 
+%As the given bound increases, and the program becomes more complexe, the size
+%of the generated CNF formula rapidly grows and SAT problem becomes practically
+%impossible to solve. Moreover, programs containing unbounded loops might 
+%even render the process of generating the CNF formula infeasible. 
+
+\input{limitations}
+
+\input{sebac}
+%CBMC's check, if valid, is only as good as the bound for which 
+%it made the check, any bug that occurs beyond this bound is not detected.
+
+%% formalization
+\section{The \psqlanguage~ imperative language} \label{chap:c2aig:sec:formalization}
+The grammar in Figure~\ref{fig:grammar} describes \psqlanguage, \mytool's
+imperative input language. It is composed of a subset of the C++
+programming language, extended with first order logic support 
+and some special constructs. A \cci{program} is a list of 
+declarations and statements. Variables can be declared to be of two 
+kinds: (1) {\em wires} and (2) {\em registers}. Wires are non-memory 
+elements used to monitor the values of different variables or terms
+in the program, at every instance in the program's execution. Once assigned
+to a term, wires will reflect the value of the term at 
+every point in the program. On the contrary, register variables 
+are memory elements that only change value once they are the target
+of an assignment statement executed at a specific program point. 
+The value of a register variable is memorized between two different
+assignment statements. In what follows, we refer by wires to 
+wire variables, and by variables to register variables. 
+
+A variable can either be single or an array. Arrays can be declared to 
+have a constant predefined size, or can be left free to have the maximum
+number of elements to be determined by \mytool's runtime engine.
+Similarly, wires can either be singular or arrays. 
+\mytool~currently support one dimensional and two dimensional arrays. 
+Given a two dimensional array $a$ of size $n$ by $m$ where $n$ and $m$ are constants, 
+the tool transforms $a$ into a single dimensional array $a'$ of size 
+$n \times m$, and translates all array accesses $a[i][j]$ into accesses
+of the form $a'[i \times (n \times m) + j]$. 
+
+
+{\em Statements} can be assignment statements, control statements or 
+synchronization statements. Assignment statements modify the state of
+program by assigning new values to select program variables. Control 
+statements are used to modify the control state of the program by 
+selecting the next program location, possibly begin dictated by the 
+value of a certain term. \mytool~supports the 
+\cci{if-then-else} selection control statement and the \cci{while} loop
+control statement. 
+Synchronization statements start with the \cci{dotogether}  
+modifier, and are used to enforce the execution of a list of data-independent
+assignment or selection statements at the same program point
+(equivalently, at the same clock cycle).
+
+
+Additionally, \mytool~ provides support for {\em function definitions} and 
+{\em function calls}. Defining and calling a function is done in the same manner 
+as in a regular C++ program, with the exception that \cci{return}
+statements must always be present at the end of a function's body.
+\mytool~allows also allows the declaration of recursive functions.
+Expressions in \psqlanguage~extend the definition of terms presented in 
+Definition~\ref{def:term} of Chapter~\ref{chap:back} with the addition 
+of allowing terms to also be function calls, as depicted by the notation
+\cci{term\_with\_function\_call} on line 31 of Figure~\ref{fig:grammar}. 
+
+%% FOL properties
+\mytool~extends the subset of C++ above with support for FOL specifications,
+written in the form of {\em pre-condition}, {\em post-condition}
+pairs. FOL expressions are Boolean expressions that can be Boolean 
+terms or function calls, or {\em quantified expressions}. A quantified expression 
+is either universally (\cci{forall}) or existentially  (\cci{exists}) quantified.
+
+
+\begin{figure}[h!]
+\centering
+\begin{Verbatim}[fontsize=\relsize{-1.0}, numbersep=4pt,numbers=left]
+program: block+
+block: (declaration | statement)
+statement: assignment_statement | conditional_statement | 
+                        loop_statement | sync_statement		
+
+// declarations
+declaration: variable_declaration | function_declaration | property_declaration
+variable_declaration: modifier? type id (`[' num `]' (`[' num `]')?)?
+                      (`=' term)?
+function_declaration: type id `(' argument_list? `)'
+                      `{' block* return_statement `}'
+
+// statements
+assignment_statement: target `=' expression `;'
+sync_statement: `@dotogether' `{' (assignment_statement | conditional_statement)+ `}'
+conditional_statement: `if' `(' expresssion `)' `{' block `}'
+                       `else' `{' block+ `}'
+loop_statement: `while' `(' expression `)' 
+                `{' block+ `}'
+return_statement: `return' expression `;'
+
+// properties
+property_declaration: precondition | postcondition
+precondition: `@pre' id `{' property+ `}'
+postcondition: `@post' id `{' property+ `}'
+property: expression | quantified_property
+quantified_property: (`forall'|`exists') `(' range `)'
+                     `{' property+ `;' `}'   
+
+// expressions
+expression: term_with_function_call
+function call: id `(' call_arguments? `)'
+call_argument: id (`,' id)*
+
+argument_list: variable_declaration (`,' variable_declaration)*
+modifier: `wire' | `const'
+specifier: `int' | `bool'            
+target: id | target `[' expression `]'
+range: id `[' expression `...' expression `]' 
+\end{Verbatim}
+\caption{The \psqlanguage~imperative language}
+\label{fig:grammar}
+\end{figure}
+
+\section{Translation to AIG}
+\label{chap:c2aig:sec:translation}
+Given an imperative program \Pm written in the \psqlanguage~language, 
+and annotated with a FOL precondition postcondition 
+specification pair \pair{\Pre}{\Post}, 
+\mytool{} transforms the tuple (\Pm, \pair{\Pre}{\Post}) into an 
+\thislanguage~program \Pm'. The tool then synthesizes \Pm'
+into an equisatisfiable AIG $C$ having a single output
+representing the formula $\lnot \left( \Pre \land \Pm \implies \Post \right)$. 
+The tool then uses the ABC AIG solver to verify the validity 
+of $\lnot o$ and thus prove that \Pm satisfies its
+specification pair \pair{\Pre}{\Post} if successful. If the validity check fails, 
+the tool returns a counterexample to be used by the developer for debugging.
+
+%% Step 1 : some code transformations
+\subsection{Preprocessing} \label{chap:c2aig:subsec:preproc}
+\mytool~first starts by transforming 
+\Pm into an intermediate program \Pm' $= \rho ($\Pm$)$ where
+$\rho$ is a code transformation function that simplifies function calls, 
+recursive functions and properties. 
+%In what follows, we assume that we are given an imperative
+%program \Pm with a set of variables $V$.
+%
+\paragraph{Function calls.} 
+$\rho$ does not inline functions; instead, it uses a program counter mechanism to
+avoid inlining and reuse the same code and thus the same AIG after synthesis. 
+Key to that is the transformation of function class as follows. 
+%Details of this mechanism are presented in Section~\ref{chap:c2aig:sec:transformation_et}.
+Let $f(args_f)$ by a call to function declaration $f_d(args_{f_d}$ where $args_f$ is a list 
+of expressions passed as arguments to $f$, and $args_{f_d}$ is the list of 
+arguments declared in $f_d$. Let $ret(f_d)$ be the return variable of $f_d$, 
+and $args_f(i)$ and $args_{f_d}(i)$ be the i'th 
+argument passed to $f$ and declared in $f_d$, respectively, for $0 \leq i \leq |args_f|$.
+
+Consider the assignment statement $s = (target := f(args_f))$ where $target$ is the 
+target of the assignment as defined in line 38 of Figure~\ref{fig:grammar}.
+The transformation function $\rho(s)$ is defined as follows:
+\begin{equation}
+\rho(s) = 
+\begin{cases}
+ & \left(  ;_{i = 0}^{|args_f|} \left( args_{f_d}(i) := args_f(i) \right) \right) ; \\
+ & call\_func(f_d) ~;~\left( target := ret(f_d) \right) 
+\end{cases}
+\end{equation}
+The \cci{;} operator represents an ordering of the statements, where $s_1;s_2$
+means that $s_1$ executes before (or possibly at the same time as) $s_2$. 
+Intuitively, $\rho$ copies the arguments passed to the call $f$ onto
+the arguments declared in the function declaration $f_d$. It then 
+adds the \cci{call\_func($f_d$)} statement, a special statement
+that redirects the control of the program to the starting point of $f_d$'s body. 
+It finally assigns that $target$ of $s$ to the return variable of the function $f_d$. 
+
+
+%Given a function declaration $f_{dec}$, 
+%we denote by $args(f_{dec}) \subset V$ the list of arguments of $f_{dec}$,
+%by $ret(f_{dec}) \in V$ the return variable of $f_{dec}$, and by $body(f_{dec})$ 
+%the list of statements in the function $f_{dec}$. 
+%Given a function call $f$, we denote by $f_{dec} = dec(f)$ the function 
+%declaration corresponding to the call $f$, and by $args(f) \subset V$ 
+%the list of arguments passed to $f$. Additionally, 
+%we denote by $args(f)[i]$ and $args(f_{dec})[i]$ the i'th argument passed to $f$
+%and declared in $f_{dec}$, respectively. 
+%
+%\noindent Given an assignment of the form $x := f_c$ where $x \in V$, 
+%let $f_d = dec(f_c)$, $a_{f_c} = args(f_c)$ and $a_{f_d} = args(f_d)$,
+%the transformation function $\rho(x := f)$ is defined as:
+%\begin{equation}
+%\rho(x := f_c) = \begin{cases}
+%\left( \bigcirc_{i = 0}^{|a_{f_c}| - 1} a_{f_d}(i) := a_{f_c}(i) \right) \circ \\
+%\rho(body(f_d)) \circ \left( x := ret(f_d) \right)
+%\end{cases}
+%\end{equation}
+%%\set{args(dec(f))[i] := args(f)[i]~|~i \in 0\ldots|args(f)|} \\
+%where $\circ$ is the concatenation operator. 
+%\mytool~assigns all argument variables in $dec(f)$ to all variables passed
+%in the argument list of $f$, it then executes the list of statements in the 
+%body of the function, and replaces references to the function call $f$ 
+%by references to the return variable of $dec(f)$. Figure~\ref{fig:trans:function_call}
+%shows an example of applying the transformation function $\rho$ onto a program containing
+%a function call \cci{foo(x,y)}. The statement \cci{body(foo)} on line 5 of $\rho ( $ \Pm $)$
+%corresponds the actual execution of the body of the function \cci{foo}. 
+
+
+\begin{figure}[bt]
+\centering
+\begin{tabular}{p{0.33\textwidth}|p{0.01in}p{0.33\textwidth}}
+\begin{Verbatim}[fontsize=\relsize{-2.0}, numbersep=4pt,numbers=left,
+frame=topline, framesep=4mm, label=\fbox{Program \Pm}]
+int fact (int n) {
+   int result;
+   if (n == 0) {
+      result = 1;
+   } else {
+      result = n * fact(n-1);
+   } 
+   return result;
+}
+
+y = fact (x);
+\end{Verbatim}
+& &
+\begin{Verbatim} [fontsize=\relsize{-2.0}, numbersep=4pt,numbers=left,
+frame=topline, framesep=4mm, label=\fbox{Program $\rho ( $ \Pm $)$}]
+int fact::result [];
+int fact (int [] n) {
+    if (n[fact::sp] == 0) {
+        result[fact::sp] = 1;    
+    } else {
+        n[fact::sp + 1] = n[fact::sp] - 1;
+        fact::sp = fact::sp + 1;
+        call_func(fact);
+        fact::sp = fact::sp - 1;
+        result[fact::sp] = n[fact::sp]
+                   * fact::ret[fact::sp+1];    
+    }
+    return result[fact::sp];
+}
+
+fact::n[0] = x;
+call_func(fact);
+y = fact::ret[0];
+\end{Verbatim}
+\end{tabular}
+\caption{Transformation function $\rho$ on function calls}
+\label{fig:trans:function_call}
+\end{figure}
+%
+\paragraph{Recursive functions.} 
+Let $f_d (args_{f_d})$ be a recursive function with arguments $args_{f_d}$,
+and let $f(args_f)$ be a {\em recursive call} to $f_d$, i.e. a call to $f_d$
+from inside the body of $f_d$. Using $\rho$,
+\mytool~emulates recursion by (1) adding a stack pointer variable
+$sp_{f_d}$ that maintains the recursive depth of the current function call, 
+and (2) increasing the dimensionality of all arguments and local variable of $f_d$
+by 1. In other words, variables become arrays and arrays become two dimensional 
+arrays. Subsequently, all assignments and references to arguments or local variables
+of $f_d$ are replaced by array access terms indexed by the current value 
+of $sp_{f_d}$.
+The recursion depth (i.e. $sp_{f_d}$) is incremented before
+each {\em recursive call} $f$ and decremented once it returns. 
+
+Consider the assignment statement $s = (target := f(args_f))$ where $target$ is the 
+target of the assignment as defined in line 38 of Figure~\ref{fig:grammar}, and 
+$f$ is a recursive call to $f_d$.
+The transformation function $\rho(s)$ is then defined as follows:
+\begin{equation}
+\rho(s) = 
+\begin{cases}
+  & \left(  ;_{i = 0}^{|args_f|} \left( args_{f_d}(i)[sp_{f_d}+1] := args_f(i) \right) \right) ; \\
+ & \left( sp_{f_d} := sp_{f_d} + 1 \right) ; call\_func(f_d) ; \left( sp_{f_d} := sp_{f_d} - 1 \right) \\
+ & \left( target := ret(f_d)[sp_{f_d}+1] \right) ; 
+\end{cases}
+\end{equation}
+Note that arguments of $f_d$ to be assigned are indexed by the future 
+value of the recursion stack depth pointer (i.e. $sp_{f_d}+1$) before the
+the pointer is incremented. The same is applied to the return variable 
+of $f_d$ after the pointer has been decremented. 
+
+Additionally, consider the assignment statement $s = (target := f(args_f))$ where
+$f$ is a non-recursive call to $f_d$, $sp_{f_d}$ is guaranteed to have a value 
+of $0$ and the transformation function $\rho(s)$ is defined as:
+\begin{equation}
+\rho(s) = 
+\begin{cases}
+  & \left(  ;_{i = 0}^{|args_f|} \left( args_{f_d}(i)[0] := args_f(i) \right) \right) ; \\
+ &call\_func(f_d) ; \left( target := ret(f_d)[0] \right) ; 
+\end{cases}
+\end{equation}
+
+Figure~\ref{fig:trans:function_call}
+shows an example of applying the transformation function $\rho$ onto a program containing
+a recursive function call \cci{fact(n)} that computes the factorial 
+of an integer \cci{n}.
+The argument \cci{n} of \cci{fact} and the local variable \cci{result} are transformed into the
+arrays \cci{fact::n} and \cci{fact::result}. \cci{fact::sp} is the recursive stack pointer
+variable added by $\rho$ for the function \cci{fact}.
+Local references to \cci{n} are \cci{result} are replaced 
+by the sequence access terms \cci{fact::n[fact::sp]} and \cci{result[fact::sp]}.
+
+Lines 6-11 of $\rho(\Pm)$ in Figure~\ref{fig:trans:function_call} show the 
+result of applying $rho$ on the recursive function call \cci{fact(n-1)}
+on line 6 of the program \Pm. The next value of the argument $n$ is assigned
+to the current value of $n$ decremented by $1$, as shown in the statement
+\cci{fact::n[fact::sp + 1] = fact::n[fact::sp] - 1}. The stack pointer variable
+is then incremented before adding the function call statement \cci{call\_func(fact)}
+that gives the control to the body of the function \cci{fact}. Once the function
+call returns, the stack pointer variable is decremented, and any reference
+to the return variable of \cci{fact} is replaced by an array access term to the 
+next value of the stack pointer (\cci{fact::sp + 1}).
+Lines 16-18 of \Pm' shows the result of applying $\rho$ to a non-recursive call
+to \cci{fact}, in which the arguments and return variable of \cci{fact} are 
+replaced by array access terms indexed by $0$.
+%Given a recursive function declaration $f$,
+%the transformation function $\rho$ increases the dimension of all 
+%arguments and local variables of $f$ by $1$; i.e. variables are transformed 
+%into arrays and arrays into matrices. All assignments and references to an 
+%argument or a local variable are replaced by array or matrix access operators. 
+%These new array accesses are indexed by a special added variable, the 
+%{\em function stack pointer} \cci{sp}. This variable tracks the number of recursive
+%calls to $f$, and is incremented before each call to $f$, and decremented once 
+%the function call returns. 
+%
+%\noindent Given an assignment of the form $x := f_c$ where $x \in V$ and $f_c$
+%is a call to a recursive function, 
+%let $f_d = dec(f_c)$, $a_{f_c} = args(f_c)$, $a_{f_d} = args(f_d)$,
+%and $sp_f$ be the function stack pointer of $f_d$,
+%the transformation function $\rho(x := f)$ is defined as:
+%\begin{equation}
+%\rho(x := f_c) = \begin{cases}
+%\left( sp_f = sp_f + 1 \right) \circ
+%\left( \bigcirc_{i = 0}^{|a_{f_c}| - 1} a_{f_d}(i)[sp_f] := a_{f_c}(i)[sp_f] \right) \circ \\
+%\rho(body(f_d)) \circ \left( x := ret(f_d)[sp_f]  \right) \circ \left( sp_f = sp_f - 1 \right)
+%\end{cases}
+%\end{equation}
+%
+\paragraph{Quantifiers.} 
+Consider the assignment statement $s = \left(target := Q (i:[t_1 \ldots t_2]) \set{\mathcal{B}} \right)$
+where $target$ is the target variable of the assignment, $Q$ is either `$forall$' or `$exists$',
+$i$ is a quantified variable, $t_1$ and $t_2$ are terms representing the range of $i$, and 
+$\mathcal{B}$ is a Boolean FOL formula. $\rho(s)$ is defined as follows:
+\begin{equation}
+\rho(s) = 
+\begin{cases}
+\left( Q_r := true \right) ; \left( i := t_1 \right) ; \\
+while(i <= t_2) \{ \rho \left( Q_r := Q_r ~(\&\& ~or~ ||)~ \mathcal{B} \right) ; 
+\left( i := i + 1 \right) \}
+; \\ 
+\left( target := Q_r \right)   
+\end{cases}
+\end{equation}
+For the quantified expression $\left( Q (i:[t_1 \ldots t_2]) \set{\mathcal{B}} \right)$,
+$\rho$ adds a Boolean return variable $Q_r$ that is initialized to $true$ and holds
+the value of the expression. Then $\rho$ transforms the expression into a while loop
+that iterates over all possible values of $i$, and assigns the return variable $Q_r$
+to its current value conjuncted or disjuncted with the value of $\mathcal{B})$.
+The type of the operation performed is determined by the nature of the quantifier; 
+conjunction for the universal quantifier (`$forall$') and disjunction for the 
+existensial quantifier (`$exists$'). $\rho$ finally adds the actual assignment 
+statement of $target$ as $target := Q_r$. Note that $\rho$ is also applied 
+to the update assignment to the variable $Q_r$ in order to handle the cases
+where $\mathcal{B}$ is also quantified or it contains a function call. 
+
+
+Figure~\ref{fig:trans:forall} shows an example of applying the transformation 
+function $\rho$ on a program \Pm containing an assignment of the variable \cci{y}
+to a universal quantifier. 
+Note that we added the expression \cci{forall::ret} to the condition of the 
+\cci{while} loop in order to allow for early exit of the loop. 
+Additionally, in the case the bounds on the quantified variable are constants, 
+we optimize the transformation by unrolling the loop into a single large
+Boolean expression.
+
+\begin{figure}[bt]
+\centering
+\begin{tabular}{p{0.33\textwidth}|p{0.01in}p{0.33\textwidth}}
+\begin{Verbatim}[fontsize=\relsize{-2.5}, numbersep=4pt,numbers=left,
+frame=topline, framesep=4mm, label=\fbox{Program \Pm}]
+y = forall(int i:[0 .. N]) 
+               { a[i] != e };
+\end{Verbatim}
+& &
+\begin{Verbatim} [fontsize=\relsize{-2.5}, numbersep=4pt,numbers=left,
+frame=topline, framesep=4mm, label=\fbox{Program $\rho ( $ \Pm $)$}]
+forall::i = 0;
+forall::ret = true;
+
+while (forall::i <= N && forall::ret) {
+    forall::ret = forall::ret 
+                  && (a[i] != e);
+    forall::i = forall::i + 1;
+}
+
+y = forall::ret;
+\end{Verbatim}
+\end{tabular}
+\caption{Transformation function $\rho$ on universal quantifier}
+\label{fig:trans:forall}
+\end{figure}
+%
+\paragraph{Pre/Post conditions.} 
+Consider the \psqlanguage~
+precondition and postcondition declarations $@pre~ \Pre ~\{ \mathcal{B} \}$
+and $@post ~\Post ~\{ \mathcal{F} \}$ where $\mathcal{B}$ and $\mathcal{F}$ are 
+Boolean expressions. For brevity, we refer by $\Pre$ and $\Post$ to the precondition
+and postcondition delcarations, respectively.  
+The transformation function $\rho$ is defined as follows:
+%\begin{equation}
+\begin{eqnarray}
+& \rho(\Pre) = \rho \left( x_\Pre := \mathcal{B} \right) \\
+& \rho(\Post) = \rho \left( x_\Post := \mathcal{F} \right) ; assert(x_\Pre \implies x_\Post)
+\end{eqnarray}
+%\end{equation}
+$\rho$ creates for each declaration a Boolean variable that is used to hold its value
+across the program's execution. $\rho$ then replaces the precondition declaration \Pre~
+by a statement that assign its created variable $x_\Pre$ to its declared FOL 
+formula $\mathcal{B}$. Similarly, $\rho$ replaces the postcondition declaration 
+\Post~by the statement $x_\Post := \mathcal{F}$. In order to resolve quantification
+or function calls in $\mathcal{B}$ and $\mathcal{F}$, we also apply $\rho$ to the created
+statements. 
+
+Additionally, $\rho$ adds an assertion statement 
+$assert(x_\Pre \implies x_\Post)$ after the postcondition assignment statement. 
+This assertion statement will not 
+be evaluated, instead it used the help \mytool~ determine the outputs to pass
+to the ABC AIG solver for verification. 
+%%
+%%For each pre/post condition declaration, \mytool~
+%%creates a Boolean variable that is assigned to the value of the FOL formula representing
+%%the property. The property is evaluated and assigned to the declared variable at
+%%the same location where the pre/post condition is declared. 
+%%
+%%Additionally, for the postcondition declaration, \mytool~ adds an assertion statement 
+%%of the form $precondition \implies postcondition$. This assertion statement will not 
+%%be evaluated, instead it used the help the synthesizer described in
+%%Section~\ref{chap:c2aig:sec:transformation_et} determine the primary outputs to pass
+%%to the ABC sequential solver for verification. 
+
+
+All statements and expressions in \Pm~ that are not mentioned in 
+this Section are kept unchanged by the transformation function $\rho$. 
+
+\section{Tranformation to \thislanguage} \label{chap:c2aig:sec:transformation_et}
+\input{CtoETCircuit}
+
+\section{\thislanguage~to AIG}
+\label{chap:c2aig:sec:etcirc_to_aig}
+Given a bound $b$ on the bit width of variables,
+\mytool~synthesizes an AIG by a direct translation of a \thislanguage~program \aigcircuit~into
+a sequential circuit. The synthesis proceeds as follows.  
+Scalar register variables and array elements are translated into vectors 
+of $b$ bits registers, while Boolean variables and array elements are directly mapped
+onto one bit registers. The \cci{init} block of \aigcircuit~is used to determine the 
+initial value of the instantiated registers. 
+
+The \cci{next} block of \aigcircuit~infers the next state functions for all 
+registers in the AIG, including the program counter. For each variable, 
+we translate the expression of its next state function into a hierarchy of 
+multiplexers that reflect the ternary choice expressions in \aigcircuit's 
+assignment expressions.
+
+Finally, \mytool~builds the primary output of the AIG 
+as the negation of the assertion statement introduced in the 
+pre-processing step. Given a precondition \Pre~and 
+a postcondition  \Post, the primary output $o$ will
+be $\lnot (x_\Pre \implies x_\Post)$ where $x_\Pre$ and
+$x_\Post$ are the precondition and postcondition variables
+introduced in the pre-processing step. 

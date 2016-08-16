@@ -1,0 +1,402 @@
+%% Introduction section
+It is critical for software and hardware developers to design 
+correct and reliable systems. In particular, safety critical 
+systems such as medical equipment, navigation control and 
+targeting devices do not tolerate defects in the their logical 
+components. 
+%\todo{use the term defects instead of errors across the thesis.}
+A logical defect might lead to severe consequences including loss of human life. 
+A loss of precision due to a 
+conversion from 64-bits into 16-bits of an integer value, 
+caused the Ariane-5 missile to crash only 16 seconds after
+it has been launched. Additionally, a software bug in the control of a radiation
+therapy machine, ``Therac-25'', has lead to the death of six cancer patients between 
+1985 and 1987~\cite{baier2008principles}.
+
+%% Use this as intro for BIP
+In addition, information technology (IT) systems have made their 
+way into several aspects of modern life.
+Smart phones, TVs, personal computers, laptops, banking,
+money transfer and e-shopping rely on IT systems. 
+Logic defects in such systems can lead to loss of service, as well as other damages. 
+Intel had to recall its faulty Pentium processors, that had a bug in the floating point unit, 
+for a cost of 475 million US dollars~\cite{kropf1999introduction}.
+
+Researchers introduced techniques to 
+(1) accurately specify the requirements of logic components, 
+(2) validate that the implementation of a logic component respects the specifications for a finite bounded domain, 
+and (3) prove that a logic component respects its specifications for unbounded domains. 
+%\todo{what is the difference between 2 and 3? bounded and not bounded?} 
+{\em Dynamic analysis} techniques exercise the logical component for a given set of inputs, e.g. test cases, and 
+check the results against a correctness predicate or an oracle~\cite{baier2008principles}.
+Exhaustive testing is impossible in practical scenarios, because it involves exercising a 
+practically infinite number of test cases~\cite{ammann2008introduction}.
+
+{\em Static analysis} techniques are used to check and prove correctness 
+of logic components with respect to formal specifications. %\todo{you use units/components and design/system ... use one of each terms}
+Tools exist that synthesize, optimize, and check sequential circuits. 
+ABC~\cite{brayton2010abc} is an industrial strength academic sequential synthesis 
+and verification tool. It takes as input an And-Inverter-Graph (AIG) representation 
+of a sequential circuit, reduces it using synthesis and reduction algorithms, 
+and checks it for correctness using proof algorithms. An AIG is a directed acyclic graph with 
+two input AND gates, inverters and memory elements. Since AND gates and inverters
+(i.e. NAND gates) are functionally complete, the restriction of logic gates to 
+ANDs and inverters does not affect expressiveness.
+
+Software systems are usually designed in high level programming languages 
+such as C, C++ and JAVA. 
+Software verification tools such as CBMC~\cite{clarke2004tool}
+take as input software programs and check them for 
+memory safety, array access safety, and user defined assertions (invariants). 
+Given bounds on the unwinding depth of the loops, and on range of variables in the program, 
+CBMC unfolds the program
+into a Boolean {\em Conjunctive Normal Form} (CNF) formula that asserts the specified 
+properties. CBMC then uses Boolean {\em satisfiability} (SAT) solvers such as MiniSat~\cite{sorensson2005minisat}
+to check for correctness. CBMC verification tasks often fail to scale well 
+with the increase in the size of the problem; specifically, with the loop unwinding bound and 
+the complexity of the program. 
+
+%% Talk about hardware and embedded systems design. Introduce AIG + ABC and BIP
+% CBS
+Furthermore, in recent years, 
+the application area of embedded systems has witnessed a large expansion, especially with 
+the emergence of automotive electronics and mobile and control devices.
+Computations in embedded systems are subject to several physical and architectural 
+constraints that render the separation between software and hardware design impractical~\cite{henzinger2006embedded}.
+%The design of embedded systems involves
+%{\em Component-based systems} design 
+%and control devices
+%Furthermore, {\em component-based system} (CBS) design is gaining more prominence 
+%after the widespread of embedded systems, especially for mobile and control devices. 
+The Behavior-Interaction-Priority (BIP) framework 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Double check this todo note %%%%%%%%%%%%%%%%%%%%%%%%%%
+%\todo{lots of grammatical errors. plz check thoroughly. plural vs singular, missing noun between a sequence of qualitative adjectives/adverbs and the verbs, parallel structures}
+is a {\em Component-Based System} (CBS) design framework that uses a dedicated 
+language and tool-set in order to support a rigorous and layered design flow for emebedded systems.  
+%\todo{the introduction sentence of BIP is weak and obviously a sales statement repeating design several times.}
+It allows
+to build complex systems by coordinating the behavior of a set of atomic components~\cite{BasuBBCJNS11}.
+In order to check CBS,  the BIP framework uses: (1) DFinder~\cite{dfinder}, a compositional  
+and incremental verification tool-set, and (2) the NuSMV~\cite{nusmv} model checker.
+However, DFinder does not handle data transfer between individual 
+BIP components, and does not support checking for properties other than deadlock freedom. 
+Additionally, for complex systems, NuSMV often suffers from the state space explosion 
+problem~\cite{sipser2006introduction}, and fails to perform its verification tasks.
+
+In this thesis, we present two techniques with supporting tools 
+%\todo{and supporting tools?} 
+to address the verification of both software systems and CBSs: 
+(1) \mytool and (2) \biptool, respectively.
+\mytool~is a tool that takes 
+%\todo[inline=true]{tool versus technique? make up your mind.}
+an imperative program \Pm with a specification,
+a precondition and postcondition pair \pair{\Pre}{\Post},
+and checks
+whether \Pm satisfies the specification. This check 
+is performed  within a 
+bound $b$ on the domain of the program and specification
+variables (\prob);
+i.e. when the bounded inputs of \Pm satisfy \Pre, 
+the outputs of \Pm satisfy \Post. 
+The program is written in a subset of C++ that 
+includes integers, arrays, loops, and recursion,
+extended with a \cci{do\_together} construct.
+The specification consists of a precondition \Pre and
+a postcondition \Post, both written in 
+{\em first order logic} (FOL). 
+Our method translates the problem \prob~
+into an equisatisfiable AIG,
+and passes the AIG to ABC for
+sequential synthesis and model checking. 
+If successful, the check implies that the \Pm satisfies its 
+specification pair \pair{\Pre}{\Post}. Otherwise, it returns a counterexample
+and enables the developer to visualize it using the GtkWave~\cite{bybell2010gtkwave} waveform viewer for
+debugging. 
+
+\biptool~ is a tool that targets two design goals of the BIP framework:
+(1) verification and (2) code generation. Similarly to \mytool, it takes an input 
+BIP system with a set of optional specifications, 
+and translates it in an equisatisfiable AIG. It then uses the ABC model checker 
+to perform synthesis and verification. 
+Additionally, unlike the BIP code generator used in~\cite{BasuBBCJNS11} that
+uses a generic implementation of the BIP engine, 
+\biptool~generates an AIG system with a customized engine that is able to 
+execute multiple atomic component transitions simultaneously. 
+
+
+\section{Advantages of sequential circuits}
+\label{s:intro:advantages}
+We formally define sequential circuits in
+Chapter~\ref{chap:back}; for now a sequential
+circuit can be viewed as a restricted C++ program,
+specifically a multi-threaded program in which all
+variables are either integers, whose range is statically
+bounded, or Boolean-valued, and dynamic allocation is
+forbidden~\cite{edwards2005challenges}.
+%
+%Given a design with a property and a bound, we
+%automatically derive a sequential circuit and a Boolean
+%variable therein that serves as an {\em invariant}, i.e.,
+%the variable is stuck to $\mbox{true}$ if and only if the
+%property of the design is valid within the bound.
+
+There are two key advantages to compiling systems 
+into sequential circuits:
+\begin{description}
+\item[Advantage 1] Sequential encodings are much more 
+succinct than pure combinational SAT formulae.
+They are imperative and state-holding while CNF formulas, for example, are 
+declarative and state-free.  
+For example, they can naturally represent 
+the execution of quantifiers and loops without 
+the need for unrolling them.
+Moreover, they can store and reuse 
+intermediate results in local variables.
+In cases, SAT encoding algorithms produce a
+data structure that uses several orders of magnitude more 
+memory to represent.
+
+\item[Advantage 2]  Casting the decision problem for a 
+property of a system as an invariant check on a sequential 
+circuit allows us to make use of a number of powerful 
+automated analysis techniques that we discuss in 
+Chapter~\ref{chap:back}
+and that have no counterpart in CNF analysis. 
+\end{description}
+
+
+\mytool~and \biptool~use ABC~\cite{brayton2010abc} to automatically check
+invariants in AIGs. ABC is
+%We use ABC~\cite{brayton2010abc}, an open source sequential circuit 
+%solver tool, to automatically check invariants in sequential circuits. 
+%ABC is 
+a transformation-based 
+verification (TBV)~\cite{kuehlmann2001transformation} framework that 
+encompasses reduction and abstraction techniques such as 
+%{\bf TODO: all to those references citations to Mishenko}
+retiming~\cite{KuBa01}, redundancy 
+removal~\cite{HmBPK05,KuMP01,BjesseC00,aziz-fmsd-00}, logic
+rewriting~\cite{BjBo04}, interpolation~\cite{McMillan03}, 
+and localization~\cite{Wang03}.
+It operates on AIGs; Boolean netlists with
+memory elements, and iteratively and synergistically 
+calls numerous transformation and abstraction algorithms. 
+These algorithms simplify and decompose complex problems 
+until they become tractable for decision techniques such 
+as symbolic model checking,
+bounded model checking, induction, interpolation, 
+circuit SAT solving, and target
+%{\bf TODO: all to those references citations to Mishenko}
+enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}.
+
+In this thesis we make the following contributions. 
+\be
+\i We encode an imperative program \Pm with a first order logic 
+specification \pair{\Pre}{\Post} into an AIG with an invariant
+that is stuck to $\mathit{true}$ iff  \Pm satisfies \Post~ for all inputs that
+satisfy \Pre within a given bound on the range of the program variables. 
+
+\i We use a program counter semantics to encode the \Pm~ and
+\pair{\Pre}{\Post} into an AIG. 
+We use that to encode and compute
+a termination guarantee check within a bound on the number of
+iterations or recursive calls a program can make. 
+We use the termination guarantee bound to prove run time efficiency of given
+algorithms.
+%We also use the termination guarantee bound to prove conclusive correctness
+%using bounded model checking, in case other proof techniques did not return
+%conclusive results. 
+\i We encode a BIP system into an AIG with an invariant that is 
+stuck to $\mathit{true}$ iff the system is deadlock free, or satisfies 
+a set of specifications. The generated AIG system will have its own 
+customized engine that is able to execute multiple transitions simultaneously.
+
+\i We allow for simulation of the BIP system by generating a C++ code, 
+while allowing for optional user control over the interactions to execute. 
+
+\i We use the ABC sequential circuit verification framework to check the
+generated AIGs, and we check systems and programs that are orders of magnitude
+higher than those possible with the other techniques. 
+
+\i We implement our methods in two tools: \mytool~and \biptool. 
+
+\i We provide our tools and benchmarks online~\footnote{\label{fn:online}\url{
+http://webfea.fea.aub.edu.lb/fadi/dkwk/doku.php?id=sa}}. 
+\ee
+
+
+%% organization
+The rest of this thesis is orgranized as follows. Chapter~\ref{chap:back} gives an overview
+of the preliminary information needed throughout this thesis. Chapters~\ref{chap:c2aig}
+and~\ref{chap:bip2aig} present the techniques used in \mytool{} and \biptool{}, respectively. 
+Chapter~\ref{chap:implementation} highlights the main implementation details and gives a brief
+user manual for each of the two tools. We present our results in chapters~\ref{chap:results}
+and~\ref{chap:bipresults}. We discuss relevant related work in chapter~\ref{chap:related}
+to finally conclude in chapter~\ref{chap:conclusion}. 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%In  this thesis, we present a method that takes 
+%%an imperative program \Pm with a specification,
+%%a precondition and postcondition pair \pair{\Pre}{\Post},
+%%and checks
+%%whether \Pm satisfies the specification within a 
+%%bound $b$ on the domain of the program and specification
+%%variables (\prob);
+%%i.e. when the bounded inputs of \Pm satisfy \Pre, 
+%%the outputs of \Pm satisfy \Post. 
+%%The program is written in a subset of C++ that 
+%%includes integers, arrays, loops, and recursion,
+%%extended with a \cci{do\_together} construct.
+%%The specification consists of a precondition \Pre and
+%%a postcondition \Post, both written in 
+%%first order logic. 
+%%Our method translates the problem \prob~
+%%into an equisatisfiable sequential circuit,
+%%and passes the circuit to ABC~\cite{brayton2010abc}, 
+%%a sequential circuit solver, to decide its validity. 
+
+
+
+
+
+
+
+
+%% Then move to talking about the presented tools : psq and bipi
+%CBMC's check, if valid, is only as good as the bound
+
+
+%In particular, model checkers such as ABC~\cite{brayton2010abc}, 
+%take an And-Inverter-Graph (AIG),
+%a directed acyclic graph with two inputs AND gates, inverters and 
+%memory elements, 
+%reduce it using synthesis algorithms, and check it for correctness
+%using proof algorithms. 
+%At a higher level, existing techniques transform software programs
+%and embedded system design components into Conjunctive Normal Form (CNF)
+%formaulae or SMV code, and use satisfiability (SAT) solvers and symbolic
+%model checkers to check their validity. These techniques often fail to scale well with 
+%the increasing size of today's systems. 
+%
+%Safety critical systems such as medical equipment, navigation control and targeting devices 
+%rely on logical units such as software and hardware programs to provide accurate services.
+%Therefore it is critical for software and hardware
+%developers to design correct and reliable systems. 
+%Static analysis techniques are ones of the most used 
+%techniques to achieve such a goal.
+%A logical defect might lead to loss of human life. A simple loss of precision due to a 
+%conversion of a 64-bit value into a 16-bit integer, caused the Ariane-5 missile to crash only 16 seconds after
+%it has been launched. Additionally, a software bug in the control of a radiation
+%therapy machine, ``Therac-25'', has lead to the death of six cancer patients between the years of 
+%1985 and 1987~\cite{baier2008principles}.
+%%
+%
+%Researchers introduced techniques to (1) accurately specify the requirements of logical units, (2) validate
+%that the implementation of a logical unit respects the specifications for a given domain, 
+%and (3) prove that a logical unit respects the specifications. 
+%{\em Dynamic analysis} techniques exercise the logical unit for a given set of inputs, e.g. test cases, and checks
+%the results against a correctness predicate or an oracle~\cite{baier2008principles}.
+%Exhaustive testing is impossible in practical scenarios, because it involves exercising an infinite number of test cases~\cite{ammann2008introduction}.
+
+
+
+
+
+
+
+%Static analysis techniques include {\em theorem proving}, 
+%{\em model checking} and {\em bounded model checking}. 
+%Theorem proving techniques search a computational knowledge tree composed of meta-axioms, deduction 
+%rules and a set of assumptions for a valid sequence of statements that lead from the programs to 
+%the specifications~\cite{ouimet2007formal}. Model checking uses symbolic computations of a transition system that represents
+%the logical unit and symbolically computes reachable states~\cite{clarke1999model,d2008survey}.
+%Theorem proving and model checking suffer from the state explosion problem. 
+%Bounded model checking techniques such as SPIN~\cite{holzmann1997model}, CBMC~\cite{clarke2004tool} and KodKod~\cite{torlak2007kodkod}, validate that the specifications hold 
+%for a finite domain that is bounded by either the number of objects, the number of transitions, 
+%or the execution time of the logical unit. 
+%
+%
+%%-- CBMC --%
+%CBMC is a bounded model checking tool that checks for pointer safety, within bound
+%array access and user defined assertions in ANSI C programs~\cite{clarke2004tool}.
+%Given a C program and a bound on the range of variables, CBMC unfolds the program 
+%into a Boolean {\em Conjunctive Normal Form} (CNF) formula that asserts the specified properties. 
+%It then uses satisfiability (SAT) methods and tools such as MiniSat~\cite{sorensson2005minisat}
+%to check the CNF formula for counter examples. 
+%CBMC's check, if valid, is only as good as the bound for which 
+%it made the check, any bug that occurs beyond this bound is not detected.
+%
+%
+%%CBMC is one of the most famous tools to perform bounded model checking. It allows the checking of a
+%%C program against a set of assertions, written in the form of \CodeIn{assert} statements. Additionally,
+%%it allows checking the equivalence of a C model, to another model written in VHDL or Verilog~\cite{clarke2004tool}.  
+%%CBMC supports loop unwinding, recursion unwinding, and perform single static assignment (SSA) to handle
+%%branches, function calls and \CodeIn{goto} statements. After a series of transformation, CBMC will hopefully 
+%%generate a formula in conjunctive normal form (CNF) that is equivalent to the original program. The problem 
+%%is then reduced to a satisfiability (SAT) problem, and a SAT solver such as MiniSat~\cite{sorensson2005minisat}
+%% is used to perform the check.
+%%CBMC's check, if successful, is only as good as the bound for which it made the check, any bug that occurs
+%%beyond this bound can never be reached.
+%
+%%-- Alloy --%
+%Alloy is a small tool with a language targeted at describing structural properties. It presents an expressive 
+%language to formally describe the properties of a certain system, and then check whether such properties 
+%are valid, within a finite scope (bound), i.e. Alloy tries to generate a model that satisfies the given 
+%properties withing the finite scope~\cite{jackson2002alloy}. 
+%
+%%-- Kodkod --%
+%KodKod is a tool that combines first order logic (FOL) with relational algebra and transitive closure to 
+%express properties. Then given some properties and a bound, KodKod tries to find a model (or a partial model)
+%that satisfies (or partially satisfies) the properties. KodKod attempts to detect symmetries in a given 
+%problem, and predicates that break such a symmetries. It then translates such expressions into CNF 
+%and uses a SAT solver to find models for the properties~\cite{torlak2007kodkod}.
+%
+%%-- Previous work to build on --%
+%In~\cite{fz2007relational, fz2007program}, the usage of CNF formulas for checking C programs and performing relational 
+%analysis is replaced by the usage of sequential circuits and sequential verification techniques. 
+%The authors present SERA and SEBAC,
+%two algorithms for encoding Alloy formulas and C programs with assertions as sequential circuits, respectively. 
+%Sequential circuits allow for more succinct representations of the given problems than CNF. Additionally, 
+%sequential circuits analysis offers a wide range abstraction and verification techniques that can be applied 
+%to generate models, and validate systems. Furthermore, word level optimizations can be combined with 
+%circuit analysis techniques to further simplify the problem, and scale the verification of software 
+%systems into higher bounds.  
+%
+%In this work we build on~\cite{fz2007relational,fz2007program} and present an encoding of software programs 
+%and FOL properties as And Inverter Graphs (AIGs). Given an imperative program with a set of FOL properties, 
+%we generate an equivalent AIG with a primary output, such that the primary output is asserted if and only if
+%the program violates its properties, i.e. if there exists an execution path of the program that violates
+%the properties. We present an encoding of the control flow of the program in the AIG, thus reducing the 
+%explosion problem cause by SSA. Additionally, we present a novel synthesis technique of formulas written in 
+%Linear Temporal Logic (LTL) into finite state machines (FSM) with number of states linear in the number of 
+%propositions in a given formula. We also encode such FSMs as AIG. 
+%
+%%% TODO: add all the contributions
+%We make the following key contributions:
+%\begin{enumerate}
+% \item We fully synthesize the control flow and data path of a given program into AIGs.
+% \item We make use of bit level optimizations to reduce the amount of work needed to perform verification, 
+% thus allowing for larger bounds.
+% \item We allow the usage of recursive functions and encode them in the control flow of the program, 
+% without the need for unwinding. 
+% \item We present a novel synthesis technique for LTL formulas into AIGs. 
+% %\item We present a technique to compute the diameter of a synthesized circuit, in order to be able to 
+% perform BMC. 
+% \item We integrate the above techniques with the ABC framework~\cite{brayton2010abc}, and present them in one tool, {\bf \mytool}.
+% \item We present a debugging interface that lifts back the counter example of a failed verification to the 
+% original source, allowing for the localization of the faulty statement. 
+%\end{enumerate}
+
+%% Organization
+%The rest of this proposal is organized as follows: preliminary information 
+%is presented in Chapter~\ref{chap:prelim}.
+%The software verification technique using sequnetial circuit encoding is presented in chapter~\ref{chap:soft_analysis}. 
+%We present the novel LTL synthesis technique in chapter~\ref{chap:ltlSynth}.
+%Chapter~\ref{chap:related} compares against different other techniques present in the literature for 
+%both software verification and LTL synthesis.
+%We finally present a conclusion and a future time plan for the thesis in chapter~\ref{chap:conclusion}.

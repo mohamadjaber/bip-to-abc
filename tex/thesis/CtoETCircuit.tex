@@ -1,0 +1,310 @@
+%% C to ETCircuit transformation
+After preprocessing, \mytool~transforms the program $\Pm' = \rho(\Pm)$ into 
+an equisatisfiable \thislanguage~program $\mathcal{C}$. Synthesizing 
+an AIG from $\mathcal{C}$ is then a direct translation of variables into bit registers
+and building their next state function according to the \cci{next} block
+definition in $\mathcal{C}$. 
+\mytool~uses {\em program counter semantics} to translate \Pm'
+into $\mathcal{C}$. The program counter is used to ensure the
+correct sequencing of assignments in the program; i.e. to provide the concept of time.
+
+Our method assigns a unique {\em label} for each statement in the
+program \Pm'. Let $s$ be any statement in \Pm', 
+and let $s_a, s_i, s_w$, and $f_d$ be an assignment statement, 
+a conditional statement, a loop statement and a function declaration
+in \Pm', respectively. Additionally, let $e$ be an array access expression,
+and let $call(f_d)$ be an added \cci{call\_func} statement
+that calls the function declaration $f_d$. 
+Our method defines the following functions:
+\begin{itemize}
+ \item \cci{label($s$)}: The unique label identifying the statement $s$
+ \item \cci{next($s$)}: The label of the statement that directly follows $s$ in the program order.
+ \item \cci{condition($s_i$)}: The Boolean condition of the selection statement $s_i$.
+ \item \cci{then($s_i$)}: The label of the first statement in the {\em then} 
+ code block of $s_i$.
+ \item \cci{else($s_i$)}: The label of the first statement in the {\em else}
+ code block of $s_i$.
+ \item \cci{condition($s_w$)}: The Boolean condition of the loo statement $s_w$.
+ \item \cci{body($s_w$)}: The label of of the first statement in the body of the $s_w$.
+ \item \cci{last($s_w$)}: The last statement in the body of the loop $s_w$.
+ \item \cci{target($s_a$)}: The target variable of the assignment $s_a$.
+ \item \cci{expression($s_a$}: The expression to be assigned to the target of $s_a$.
+ \item \cci{body($f_d$)}: The label of the first statement in the body of the 
+ function $f_d$.
+ \item \cci{return($call(f_d)$)}: The label of the statement to which the function call 
+ statement should return after calling $f_d$.
+ \item \cci{base($e$)}: The array which the expression $e$ is indexing.
+ \item \cci{index($e$)}: The index at which the the base of the expression $e$ is indexed.
+\end{itemize}
+
+
+\begin{algorithm}[tb]
+\begin{algorithmic}[1]
+\State {\bf Input:} \psqlanguage~ program \Pm', $entry\_statement$
+\State {\bf Output:} \thislanguage~ program $\mathcal{C}$
+\State 
+\State // build the initialization list
+\State init\_list $[ ]$
+\ForAll { $v \in V$}
+ \If{used\_before\_assigned($v$)}
+  \State init\_list.insert ($``v = free\_inputs"$)
+ \EndIf
+\EndFor
+\State init\_list.insert ($``pc = label(entry\_statement)"$)
+\State
+\State // build the next state list for variables
+\State next\_state\_list $[ ]$
+\ForAll {$v \in V$}
+ \State $next_v = ``v = "$
+ \ForAll {Assignment statement $s$ such that $target(s) = v$}
+  \State $next_v += ``(pc==label(s))? ~expression(s) : "$
+ \EndFor
+ \State $next_v += ``v"$
+ \State next\_state\_list.insert $(next_v)$
+\EndFor
+\State 
+\State // build the next state for the program counter
+\State $n_{pc} = ``pc = "$
+\ForAll {statement $s$}
+ \If {is\_conditional\_statement ($s$)}
+   \State $n_{pc} += ``(pc==label(s))?~ (condition(s)?~then(s) : else(s)) :"$
+ \ElsIf {is\_loop\_statement ($s$)}
+   \State $n_{pc} += ``(pc==label(s))?~ (condition(s)?~body(s):next(s)) :"$ 
+ \ElsIf {is\_function\_call(s)}
+   \State $f_d :=$ function\_declaration\_of $(s)$
+   \State $n_{pc} += ``(pc==label(s))?~ (body(f_d)) :"$
+ \ElsIf {is\_return\_statement (s)}
+   \State $f_d :=$ function\_declaration\_of $(s)$
+   \State $n_{pc} += ``(pc==label(s))?~(return(call(f_d))) :"$
+ \Else 
+   \State $n_{pc} += ``(pc==label(s))?~(next(s)) :"$
+ \EndIf
+\EndFor
+\State next\_state\_list.insert $(n_{pc})$
+\end{algorithmic}
+\caption{\psqlanguage~to \thislanguage~transformation algorithm}
+\label{algo:psqtoettrans}
+\end{algorithm}
+
+Algorithm~\ref{algo:psqtoettrans} shows the procedure used 
+in \mytool~to translate a preprocessed \psqlanguage~program \Pm'
+with a set of variables $V$ and an initial entry statement, into an \thislanguage~program 
+$\mathcal{C}$, to be used for the synthesis of the equisatisfiable 
+AIG. Intuitively, the wire declarations, variable definitions and wire definitions are directly moved from 
+ \Pm' to their corresponding blocks in \aigcircuit.
+Additionally, in order to model time, \mytool~adds a new
+scalar variable to the program \Pm', the {\em program
+counter} \cci{pc}. This variable is key to avoid 
+inlining functions and unrolling loops. It is used to 
+ensure the proper sequencing of the statements of \Pm';
+the current value of the \cci{pc} variable defines which 
+statement is to be execute. For example, reassigning the 
+value of \cci{pc} to the starting point of a loop's body
+allows \mytool~to make use of the same code block (thus
+the same AIG) to execute a single loop infinitely many 
+times. 
+
+The algorithm starts by building the initialization list
+of \aigcircuit. It assigns the program counter variable
+\cci{pc} to the label of the entry statement of \Pm'.
+Then for each variable $v \in V$ that is used before
+being assigned (i.e. used with an undefined value), it 
+assigns $v$ to a set of free inputs (AIG primary inputs)
+who's values are to be set by the ABC AIG solver. 
+Note that since variables can be initialized at different
+points in the program (and not necessarily at the starting
+point of the algorithm), we delay their
+initialization step 
+into the \cci{next} block, where these variables
+will get their initial value at the appropriate \cci{pc}
+value.
+
+Subsequently, the algorithm moves to building the
+\cci{next} state block of \aigcircuit. For each 
+variable $v \in V$, and for each assignment statement 
+$s$ such that $target(s)=v$, the next state of $v$ will
+be $expression(s)$ iff $pc == label(s)$. If at a given 
+statement label, $v$ is not being assigned, it retains
+its current value. For example, consider the 
+following assignment
+statements for $v$:
+\begin{Verbatim}[fontsize=\relsize{-1.0}, numbersep=4pt,numbers=left]
+(l1): x = 1;
+(l2): x = 3;
+(l3): x = 5;
+\end{Verbatim}
+The algorithm builds the next state function of $x$ as 
+the following statement
+\begin{Verbatim}[fontsize=\relsize{-1.0}, numbersep=4pt,numbers=left]
+x = (pc == l1)? 1 : (pc == l2)? 3 : (pc == l3)? 5 : x;
+\end{Verbatim}
+
+After traversing all of \Pm's variables, the algorithm
+then builds the next state assignment for the program counter.
+At a given statement $s$, the default behavior of the \cci{pc} is to move from the current label $label (s)$
+to the label of the statement that directly follows
+$s$, i.e. $next(s)$. 
+Only control statements such as conditional statements, 
+loop statements, function call statements and return 
+statements are allowed to alter the default behavior of 
+\cci{pc}.
+
+Conditional statements alter the value of the 
+program counter based on the evaluation of their
+conditional expression. Consider a conditional statement
+$s$ and let $e = condition(s)$. When \cci{pc} is at 
+$label(s)$, its next value is either the label 
+of the first statement in then \cci{then} branch of $s$
+if $e$ evaluates to $true$, or to the first
+statement in the \cci{else} branch of $s$ otherwise. 
+Therefore at $label(s)$, the next state of the \cci{pc}
+is defined as $(e)?~ then(s) : else(s)$.
+
+Similarly, loop statements move the program counter
+into their body when their conditional expression evaluates
+to $true$, and to their next statement once it is $false$.
+Consider a loop statement $s$ and let $e = condition(s)$.
+At $label(s)$, the next state of \cci{pc} is defined
+as $(e)?~ body(s):next(s)$. Note that according to the 
+\psqlanguage, the loop statement block is considered 
+as a single statement, and thus the next statement 
+to follow $s$ would be the first statement outside its 
+body, i.e. its exit point. Additionally, for the last
+statement in the body of the loop, its next statement
+is defined as the loop statement itself. This ensure that
+once the \cci{pc} reaches that last statement in the 
+loop, it once again evaluates its condition in order to
+determine whether to exit or stay in the loop.  
+
+Finally, function call statements and return statements 
+redirect the program counter into the body of the function 
+and to the first statement after the call, respectively. 
+Note that for a non-recursive function, there is at most
+one active function call at a time, therefore it is easy
+to track the label at which the program counter 
+should return to.
+For a recursive function, we maintain a stack of function calls and redirect the control to statement after the 
+call that is on top of the stack. 
+
+\subsubsection*{Post-processing}
+After constructing the \thislanguage~program \aigcircuit,
+\mytool~employs a last post-processing step to resolve 
+array accessing. Given an array access expression 
+$a[i]$ where $a$ is an array and $i$ is an index, resolving
+this access expression is to transform it into an array
+access where the index is constant. An array access 
+expression with a constant index is handled as a regular 
+register variable in \aigcircuit. 
+
+The first part of algorithm~\ref{alg:resolv_target_exp} 
+shows the post
+processing of a reference to an array access expression 
+$e$. The algorithm pushes the variable index $i$ outside
+of the array access by creating a set of checks for the 
+value of $i$ at each possible index of the array $a$, and
+returning the appropriate array element accordingly.
+
+The second part of algorithm~\ref{alg:resolv_target_exp} 
+shows the 
+post processing of statement $s$ where $target(s)$
+is an array access of the form $a[i]$. Since this 
+assignment statement can be to any of the elements of the 
+array $a$, as dictated by the value of $i$, the algorithm
+creates an assignment statement for each possible 
+element of $a$. This ensure that only the correct element
+get assigned to the value of $expression(e)$ by creating
+a check for $i$ at each possible index of the array.  
+
+Figure~\ref{fig:trans:arrays} shows an \thislanguage~program 
+\aigcircuit~that contains array access assignments and 
+references. Post-processing transforms the assignment
+statement on line 14 of the program \aigcircuit into 
+assignment statements over all the elements of the
+array $a$, with added checks on the value of the index
+$i$. Also post-processing replaces the expression $b[k]$ 
+in the right hand side of the assignment statements 
+with the expression $(k==0)?~b[0] : b[1]$. This expression
+checks on the value of $k$ for all possible indices to the 
+array $b$ and returns the corresponding
+element. 
+
+\begin{figure}[bt]
+\centering
+\begin{tabular}{p{0.33\textwidth}|p{0.01in}p{0.33\textwidth}}
+\begin{Verbatim}[fontsize=\relsize{-2.5}, numbersep=4pt,numbers=left,
+frame=topline, framesep=4mm, label=\fbox{Program \aigcircuit}]
+int a [2];
+int b [2];
+int i, k;
+@dotogether {
+  a[0] = free_inputs;
+  a[1] = free_inputs;
+  i = free_inputs;
+  k = free_inputs;
+  b[0] = free_inputs;
+  b[1] = free_inputs;
+}
+ 
+@dotogether {
+  a[i] = (pc == l1)? b[k] : a[i];
+}
+\end{Verbatim}
+& &
+\begin{Verbatim} [fontsize=\relsize{-2.5}, numbersep=4pt,numbers=left,
+frame=topline, framesep=4mm, label=\fbox{\aigcircuit~after
+post-processing}]
+int a [2];
+int b [2];
+int i, k;
+@dotogether {
+  a[0] = free_inputs;
+  a[1] = free_inputs;
+  i = free_inputs;
+  k = free_inputs;
+  b[0] = free_inputs;
+  b[1] = free_inputs;
+}
+ 
+@dotogether {
+  a[0] = (i == 0)? 
+           ((pc == l1)? ((k == 0)? b[0] : b[1]) : a[0]) 
+           : a[0];
+  a[1] = (i == 1)? 
+           ((pc == l1)? ((k == 0)? b[0] : b[1]) : a[1]) 
+           : a[1];
+}
+\end{Verbatim}
+\end{tabular}
+\caption{Post processing of a \thislanguage~\aigcircuit}
+\label{fig:trans:arrays}
+\end{figure}
+
+
+\begin{algorithm}[h!]
+ \begin{algorithmic}[1]
+  \State // array access on right hand side
+ \State {\bf Input:} Array access expression $e$
+  \State {\bf Output:} Array access expressions $e'$ with 
+  constant indexing
+  \State $a := base(e)$
+  \State $i := index(e)$
+  \State $N := size(a) - 1$
+  \For{$j \in 0 \ldots N-1$}
+   \State $e' += (i == j)?~ a[j] :$
+  \EndFor
+  \State $e' += a[N]$
+  \State
+  \State // array access on left hand side
+  \State {\bf Input:} Statement of the form $a[i] = e$, 
+  $e$ is an expression
+  \State {\bf Output:} A list of statements where all array accesses have a constant index 
+  \State List\_of\_statements $[ ]$
+  \State $N := size(a) - 1$
+  \For{$j \in 0 \ldots N-1$}
+   \State List\_of\_statements.insert $(a[j] = (i == j)?~ e : a[j])$
+  \EndFor
+ \end{algorithmic}
+ \caption{Array access resolving algorithm}
+ \label{alg:resolv_target_exp}
+\end{algorithm}
+

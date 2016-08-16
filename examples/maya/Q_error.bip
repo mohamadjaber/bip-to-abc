@@ -1,0 +1,800 @@
+model Quorum42
+
+header {#
+#}
+port type SecondType1(int plug1_proposedValue)
+port type ThirdType1(int plug1_serverId, int plug1_decidedValueS)
+port type FirstType1
+port type FirstType2
+port type FirstType3
+port type FirstType4
+port type FirstType5
+port type plug2_SecondType(int plug2_proposedValue)
+port type ThirdType2(int plug2_serverId, int plug2_decidedValueS)
+port type FirstType6
+port type FirstType7
+port type FirstType8
+port type FirstType9
+port type FirstType10
+port type SecondType2(int plugC1_proposedValue)
+port type ThirdType7(int plugC1_serverId, int plugC1_decidedValue)
+port type ThirdType8(int plugC1_clientId, int plugC1_proposedValue)
+port type ThirdType9(int plugC1_clientId, int plugC1_proposedValue)
+port type ForthType1(int plugC1_clientId, int plugC1_serverId, int plugC1_decidedValue)
+port type SecondType3(int plugC2_proposedValue)
+port type ThirdType10(int plugC2_serverId, int plugC2_decidedValue)
+port type ThirdType11(int plugC2_clientId, int plugC2_proposedValue)
+port type ThirdType12(int plugC2_clientId, int plugC2_proposedValue)
+port type ForthType2(int plugC2_clientId, int plugC2_serverId, int plugC2_decidedValue)
+port type ThirdType13(int serverC1_clientIdRcv, int serverC1_proposed)
+port type ThirdType14(int serverC1_clientIdRcv, int serverC1_proposed)
+port type ThirdType15(int serverC1_clientIdSend, int serverC1_decided)
+port type ForthType3(int serverC1_clientIdSend, int serverC1_serverId, int serverC1_decided)
+port type FirstType13
+port type FirstType14
+port type ThirdType16(int serverC2_clientIdRcv, int serverC2_proposed)
+port type ThirdType17(int serverC2_clientIdRcv, int serverC2_proposed)
+port type ThirdType18(int serverC2_clientIdSend, int serverC2_decided)
+port type ForthType4(int serverC2_clientIdSend, int serverC2_serverId, int serverC2_decided)
+port type FirstType15
+port type FirstType16
+port type ThirdType3(int s1_ClientId, int s1_proposedValue)
+port type ThirdType4(int s1_ClientId, int s1_decidedValue)
+port type FirstType11
+port type ThirdType5(int s2_ClientId, int s2_proposedValue)
+port type ThirdType6(int s2_ClientId, int s2_decidedValue)
+port type FirstType12
+
+atomic type CustomerPlugQuorum2(int plug1_id
+)
+ data int plug1_proposedValue
+ data int plug1_decidedValueS
+ data int plug1_decidedValue
+ data bool plug1_trigger
+ data int plug1_serverId
+
+ export port SecondType1 plug1_sendToChannel(plug1_proposedValue)
+ export port ThirdType1 plug1_recieveFromServer(plug1_serverId,plug1_decidedValueS)
+ export port FirstType1 plug1_sendToClient
+ export port FirstType2 plug1_switchB
+ export port FirstType3 plug1_ticker
+ export port FirstType4 plug1_singleton1
+ export port FirstType5 plug1_singleton2
+
+ place S1,S2,S3,S4,S5,S6,S7,S8,S5temp,S6temp,S3temp
+ initial to S1 do { plug1_proposedValue=plug1_id;
+plug1_decidedValue=0;
+plug1_trigger=false;
+plug1_serverId=0;}
+ on plug1_sendToChannel from S1 to S2
+
+ on plug1_recieveFromServer from S2 to S3temp
+
+ on plug1_singleton1 from S3temp to S3
+ do{
+   plug1_decidedValue=plug1_decidedValueS;
+  }
+ on plug1_ticker from S2 to S4
+
+ on plug1_recieveFromServer from S4 to S6temp
+
+ on plug1_singleton1 from S6temp to S6
+ do{
+   plug1_decidedValue=plug1_decidedValueS;
+  }
+ on plug1_recieveFromServer from S3 to S5temp
+
+ on plug1_singleton1 from S5temp to S5
+  provided (plug1_decidedValue != plug1_decidedValueS) do{
+   plug1_trigger=false;
+   plug1_decidedValue=plug1_proposedValue;
+  }
+ on plug1_singleton2 from S5temp to S5
+  provided (plug1_decidedValue == plug1_decidedValueS) do{
+   plug1_trigger = true;
+  }
+ on plug1_ticker from S3 to S6
+
+ on plug1_switchB from S6 to S8
+
+ on plug1_switchB from S5 to S8
+  provided (!plug1_trigger)
+ on plug1_sendToClient from S5 to S7
+  provided (plug1_trigger)
+ on plug1_ticker from S7 to S7
+
+ on plug1_ticker from S8 to S8
+
+ on plug1_ticker from S4 to S4
+
+end 
+
+atomic type CustomerPlugQuorum1(int plug2_id
+)
+ data int plug2_proposedValue
+ data int plug2_decidedValueS
+ data int plug2_decidedValue
+ data bool plug2_trigger
+ data int plug2_serverId
+
+ export port plug2_SecondType plug2_sendToChannel(plug2_proposedValue)
+ export port ThirdType2 plug2_recieveFromServer(plug2_serverId,plug2_decidedValueS)
+ export port FirstType6 plug2_sendToClient
+ export port FirstType7 plug2_switchB
+ export port FirstType8 plug2_ticker
+ export port FirstType9 plug2_singleton1
+ export port FirstType10 plug2_singleton2
+
+ place S1,S2,S3,S4,S5,S6,S7,S8,S5temp,S6temp,S3temp
+ initial to S1 do { plug2_proposedValue=plug2_id;
+plug2_decidedValue=0;
+plug2_trigger=false;
+plug2_serverId=0;}
+ on plug2_sendToChannel from S1 to S2
+
+ on plug2_recieveFromServer from S2 to S3temp
+
+ on plug2_singleton1 from S3temp to S3
+ do{
+   plug2_decidedValue=plug2_decidedValueS;
+  }
+ on plug2_ticker from S2 to S4
+
+ on plug2_recieveFromServer from S4 to S6temp
+
+ on plug2_singleton1 from S6temp to S6
+ do{
+   plug2_decidedValue=plug2_decidedValueS;
+  }
+ on plug2_recieveFromServer from S3 to S5temp
+
+ on plug2_singleton1 from S5temp to S5
+  provided (plug2_decidedValue != plug2_decidedValueS) do{
+   plug2_trigger=false;
+   plug2_decidedValue=plug2_proposedValue;
+  }
+ on plug2_singleton2 from S5temp to S5
+  provided (plug2_decidedValue == plug2_decidedValueS) do{
+   plug2_trigger = true;
+  }
+ on plug2_ticker from S3 to S6
+
+ on plug2_switchB from S6 to S8
+
+ on plug2_switchB from S5 to S8
+  provided (!plug2_trigger)
+ on plug2_sendToClient from S5 to S7
+  provided (plug2_trigger)
+ on plug2_ticker from S7 to S7
+
+ on plug2_ticker from S8 to S8
+
+ on plug2_ticker from S4 to S4
+
+end 
+
+atomic type plugConnector1(int plugC1_id
+)
+ data int plugC1_clientId
+ data int plugC1_serverId
+ data bool plugC1_server1
+ data bool plugC1_server2
+ data int plugC1_proposedValue
+ data int plugC1_decidedValue
+
+ export port SecondType2 plugC1_rcvPlug(plugC1_proposedValue)
+ export port ThirdType7 plugC1_sendClient(plugC1_serverId,plugC1_decidedValue)
+ export port ThirdType8 plugC1_SendS1(plugC1_clientId,plugC1_proposedValue)
+ export port ThirdType9 plugC1_SendS2(plugC1_clientId,plugC1_proposedValue)
+ export port ForthType1 plugC1_rcvServer(plugC1_clientId,plugC1_serverId,plugC1_decidedValue)
+
+ place plugC1_start_rcvFServer,plugC1_sendServer_rcvFServer,plugC1_start_sendTClient,plugC1_sendServer_sendTClient
+ initial to plugC1_start_rcvFServer do { plugC1_server1=false;
+plugC1_server2=false;
+plugC1_clientId=plugC1_id;}
+ on plugC1_rcvPlug from plugC1_start_rcvFServer to plugC1_sendServer_rcvFServer
+
+ on plugC1_rcvPlug from plugC1_start_sendTClient to plugC1_sendServer_sendTClient
+
+ on plugC1_SendS1 from plugC1_sendServer_rcvFServer to plugC1_sendServer_rcvFServer
+  provided (!plugC1_server1) do{
+   plugC1_server1=true;
+  }
+ on plugC1_SendS1 from plugC1_sendServer_sendTClient to plugC1_sendServer_sendTClient
+  provided (!plugC1_server1) do{
+   plugC1_server1=true;
+  }
+ on plugC1_SendS2 from plugC1_sendServer_rcvFServer to plugC1_sendServer_rcvFServer
+  provided (!plugC1_server2) do{
+   plugC1_server2=true;
+   plugC1_server2=true;
+  }
+ on plugC1_SendS2 from plugC1_sendServer_sendTClient to plugC1_sendServer_sendTClient
+  provided (!plugC1_server2)
+ on plugC1_rcvServer from plugC1_start_rcvFServer to plugC1_start_sendTClient
+
+ on plugC1_rcvServer from plugC1_sendServer_rcvFServer to plugC1_sendServer_sendTClient
+
+ on plugC1_sendClient from plugC1_start_sendTClient to plugC1_start_rcvFServer
+
+ on plugC1_sendClient from plugC1_sendServer_sendTClient to plugC1_sendServer_rcvFServer
+
+end 
+
+atomic type plugConnector2(int plugC2_id
+)
+ data int plugC2_clientId
+ data int plugC2_serverId
+ data bool plugC2_server1
+ data bool plugC2_server2
+ data int plugC2_proposedValue
+ data int plugC2_decidedValue
+
+ export port SecondType3 plugC2_rcvPlug(plugC2_proposedValue)
+ export port ThirdType10 plugC2_sendClient(plugC2_serverId,plugC2_decidedValue)
+ export port ThirdType11 plugC2_SendS1(plugC2_clientId,plugC2_proposedValue)
+ export port ThirdType12 plugC2_SendS2(plugC2_clientId,plugC2_proposedValue)
+ export port ForthType2 plugC2_rcvServer(plugC2_clientId,plugC2_serverId,plugC2_decidedValue)
+
+ place plugC2_start_rcvFServer,plugC2_sendServer_rcvFServer,plugC2_start_sendTClient,plugC2_sendServer_sendTClient
+ initial to plugC2_start_rcvFServer do { plugC2_server1=false;
+plugC2_server2=false;
+plugC2_clientId=plugC2_id;}
+ on plugC2_rcvPlug from plugC2_start_rcvFServer to plugC2_sendServer_rcvFServer
+
+ on plugC2_rcvPlug from plugC2_start_sendTClient to plugC2_sendServer_sendTClient
+
+ on plugC2_SendS1 from plugC2_sendServer_rcvFServer to plugC2_sendServer_rcvFServer
+  provided (!plugC2_server1) do{
+   plugC2_server1=true;
+  }
+ on plugC2_SendS1 from plugC2_sendServer_sendTClient to plugC2_sendServer_sendTClient
+  provided (!plugC2_server1) do{
+   plugC2_server1=true;
+  }
+ on plugC2_SendS2 from plugC2_sendServer_rcvFServer to plugC2_sendServer_rcvFServer
+  provided (!plugC2_server2) do{
+   plugC2_server2=true;
+   plugC2_server2=true;
+  }
+ on plugC2_SendS2 from plugC2_sendServer_sendTClient to plugC2_sendServer_sendTClient
+  provided (!plugC2_server2)
+ on plugC2_rcvServer from plugC2_start_rcvFServer to plugC2_start_sendTClient
+
+ on plugC2_rcvServer from plugC2_sendServer_rcvFServer to plugC2_sendServer_sendTClient
+
+ on plugC2_sendClient from plugC2_start_sendTClient to plugC2_start_rcvFServer
+
+ on plugC2_sendClient from plugC2_sendServer_sendTClient to plugC2_sendServer_rcvFServer
+
+end 
+
+atomic type ServerConnector1(int serverC1_id
+)
+ data int serverC1_serverId
+ data int serverC1_proposed
+ data int serverC1_decided
+ data int serverC1_clientIdSend
+ data int serverC1_clientIdRcv
+
+ export port ThirdType13 serverC1_rcvPlugC(serverC1_clientIdRcv,serverC1_proposed)
+ export port ThirdType14 serverC1_sendServer(serverC1_clientIdRcv,serverC1_proposed)
+ export port ThirdType15 serverC1_rcvServer(serverC1_clientIdSend,serverC1_decided)
+ export port ForthType3 serverC1_sendPlug(serverC1_clientIdSend,serverC1_serverId,serverC1_decided)
+ export port FirstType13 serverC1_loose
+ export port FirstType14 serverC1_msglost
+
+ place serverC1_rcvPlug_rcvFServer,serverC1_sendTServer_rcvFServer,serverC1_crash_rcvFServer,serverC1_rcvPlug_sendPlugC,serverC1_sendTServer_sendPlugC,serverC1_crash_sendPlugC
+ initial to serverC1_rcvPlug_rcvFServer do { serverC1_serverId=serverC1_id;}
+ on serverC1_rcvPlugC from serverC1_rcvPlug_rcvFServer to serverC1_sendTServer_rcvFServer
+
+ on serverC1_rcvPlugC from serverC1_rcvPlug_sendPlugC to serverC1_sendTServer_sendPlugC
+
+ on serverC1_loose from serverC1_sendTServer_rcvFServer to serverC1_crash_rcvFServer
+
+ on serverC1_loose from serverC1_sendTServer_sendPlugC to serverC1_crash_sendPlugC
+
+ on serverC1_rcvPlugC from serverC1_crash_rcvFServer to serverC1_crash_rcvFServer
+
+ on serverC1_rcvPlugC from serverC1_crash_sendPlugC to serverC1_crash_sendPlugC
+
+ on serverC1_msglost from serverC1_sendTServer_rcvFServer to serverC1_rcvPlug_rcvFServer
+
+ on serverC1_msglost from serverC1_sendTServer_sendPlugC to serverC1_rcvPlug_sendPlugC
+
+ on serverC1_sendServer from serverC1_sendTServer_rcvFServer to serverC1_rcvPlug_rcvFServer
+
+ on serverC1_sendServer from serverC1_sendTServer_sendPlugC to serverC1_rcvPlug_sendPlugC
+
+ on serverC1_rcvServer from serverC1_rcvPlug_rcvFServer to serverC1_rcvPlug_sendPlugC
+
+ on serverC1_rcvServer from serverC1_sendTServer_rcvFServer to serverC1_sendTServer_sendPlugC
+
+ on serverC1_rcvServer from serverC1_crash_rcvFServer to serverC1_crash_sendPlugC
+
+ on serverC1_sendPlug from serverC1_rcvPlug_sendPlugC to serverC1_rcvPlug_rcvFServer
+
+ on serverC1_sendPlug from serverC1_sendTServer_sendPlugC to serverC1_sendTServer_rcvFServer
+
+ on serverC1_sendPlug from serverC1_crash_sendPlugC to serverC1_crash_rcvFServer
+
+end 
+
+atomic type ServerConnector2(int serverC2_id
+)
+ data int serverC2_serverId
+ data int serverC2_proposed
+ data int serverC2_decided
+ data int serverC2_clientIdSend
+ data int serverC2_clientIdRcv
+
+ export port ThirdType16 serverC2_rcvPlugC(serverC2_clientIdRcv,serverC2_proposed)
+ export port ThirdType17 serverC2_sendServer(serverC2_clientIdRcv,serverC2_proposed)
+ export port ThirdType18 serverC2_rcvServer(serverC2_clientIdSend,serverC2_decided)
+ export port ForthType4 serverC2_sendPlug(serverC2_clientIdSend,serverC2_serverId,serverC2_decided)
+ export port FirstType15 serverC2_loose
+ export port FirstType16 serverC2_msglost
+
+ place serverC2_rcvPlug_rcvFServer,serverC2_sendTServer_rcvFServer,serverC2_crash_rcvFServer,serverC2_rcvPlug_sendPlugC,serverC2_sendTServer_sendPlugC,serverC2_crash_sendPlugC
+ initial to serverC2_rcvPlug_rcvFServer do { serverC2_serverId=serverC2_id;}
+ on serverC2_rcvPlugC from serverC2_rcvPlug_rcvFServer to serverC2_sendTServer_rcvFServer
+
+ on serverC2_rcvPlugC from serverC2_rcvPlug_sendPlugC to serverC2_sendTServer_sendPlugC
+
+ on serverC2_loose from serverC2_sendTServer_rcvFServer to serverC2_crash_rcvFServer
+
+ on serverC2_loose from serverC2_sendTServer_sendPlugC to serverC2_crash_sendPlugC
+
+ on serverC2_rcvPlugC from serverC2_crash_rcvFServer to serverC2_crash_rcvFServer
+
+ on serverC2_rcvPlugC from serverC2_crash_sendPlugC to serverC2_crash_sendPlugC
+
+ on serverC2_msglost from serverC2_sendTServer_rcvFServer to serverC2_rcvPlug_rcvFServer
+
+ on serverC2_msglost from serverC2_sendTServer_sendPlugC to serverC2_rcvPlug_sendPlugC
+
+ on serverC2_sendServer from serverC2_sendTServer_rcvFServer to serverC2_rcvPlug_rcvFServer
+
+ on serverC2_sendServer from serverC2_sendTServer_sendPlugC to serverC2_rcvPlug_sendPlugC
+
+ on serverC2_rcvServer from serverC2_rcvPlug_rcvFServer to serverC2_rcvPlug_sendPlugC
+
+ on serverC2_rcvServer from serverC2_sendTServer_rcvFServer to serverC2_sendTServer_sendPlugC
+
+ on serverC2_rcvServer from serverC2_crash_rcvFServer to serverC2_crash_sendPlugC
+
+ on serverC2_sendPlug from serverC2_rcvPlug_sendPlugC to serverC2_rcvPlug_rcvFServer
+
+ on serverC2_sendPlug from serverC2_sendTServer_sendPlugC to serverC2_sendTServer_rcvFServer
+
+ on serverC2_sendPlug from serverC2_crash_sendPlugC to serverC2_crash_rcvFServer
+
+end 
+
+atomic type Server1(int s1_id
+)
+ data int s1_decidedValue
+ data int s1_proposedValue
+ data int s1_serverId
+ data int s1_ClientId
+
+ export port ThirdType3 s1_RcvFromChannel(s1_ClientId,s1_proposedValue)
+ export port ThirdType4 s1_SendToServerC(s1_ClientId,s1_decidedValue)
+ export port FirstType11 s1_singleton1
+
+ place RECEIVE,SEND,SEND_TEMP
+ initial to RECEIVE do { s1_serverId=s1_id;
+s1_decidedValue=0;}
+ on s1_RcvFromChannel from RECEIVE to SEND_TEMP
+
+ on s1_singleton1 from SEND_TEMP to SEND
+ do{
+   s1_decidedValue=s1_proposedValue;
+  }
+ on s1_RcvFromChannel from RECEIVE to SEND
+  provided (s1_decidedValue==0) do{
+   s1_decidedValue=s1_proposedValue;
+  }
+ on s1_RcvFromChannel from RECEIVE to SEND
+  provided (s1_decidedValue!=0)
+ on s1_SendToServerC from SEND to RECEIVE
+
+end 
+
+atomic type Server2(int s2_id
+)
+ data int s2_decidedValue
+ data int s2_proposedValue
+ data int s2_serverId
+ data int s2_ClientId
+
+ export port ThirdType5 s2_RcvFromChannel(s2_ClientId,s2_proposedValue)
+ export port ThirdType6 s2_SendToServerC(s2_ClientId,s2_decidedValue)
+ export port FirstType12 s2_singleton1
+
+ place RECEIVE,SEND,SEND_TEMP
+ initial to RECEIVE do { s2_serverId=s2_id;
+s2_decidedValue=0;}
+ on s2_RcvFromChannel from RECEIVE to SEND_TEMP
+
+ on s2_singleton1 from SEND_TEMP to SEND
+ do{
+   s2_decidedValue=s2_proposedValue;
+  }
+ on s2_RcvFromChannel from RECEIVE to SEND
+  provided (s2_decidedValue==0) do{
+   s2_decidedValue=s2_proposedValue;
+  }
+ on s2_RcvFromChannel from RECEIVE to SEND
+  provided (s2_decidedValue!=0)
+ on s2_SendToServerC from SEND to RECEIVE
+
+end 
+
+connector type Singleton1(FirstType1 plug1_sendToClient)
+ define plug1_sendToClient 
+ on plug1_sendToClient 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton2(FirstType6 plug2_sendToClient)
+ define plug2_sendToClient 
+ on plug2_sendToClient 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton5(FirstType2 plug1_switchB)
+ define plug1_switchB 
+ on plug1_switchB 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton6(FirstType7 plug2_switchB)
+ define plug2_switchB 
+ on plug2_switchB 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton9(FirstType3 plug1_ticker)
+ define plug1_ticker 
+ on plug1_ticker 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton10(FirstType8 plug2_ticker)
+ define plug2_ticker 
+ on plug2_ticker 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton17(FirstType13 serverC1_loose)
+ define serverC1_loose 
+ on serverC1_loose 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton18(FirstType14 serverC1_msglost)
+ define serverC1_msglost 
+ on serverC1_msglost 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton19(FirstType15 serverC2_loose)
+ define serverC2_loose 
+ on serverC2_loose 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton20(FirstType16 serverC2_msglost)
+ define serverC2_msglost 
+ on serverC2_msglost 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton51(FirstType4 plug1_singleton1)
+ define plug1_singleton1 
+ on plug1_singleton1 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton61(FirstType9 plug2_singleton1)
+ define plug2_singleton1 
+ on plug2_singleton1 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton71(FirstType11 s1_singleton1)
+ define s1_singleton1 
+ on s1_singleton1 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton81(FirstType12 s2_singleton1)
+ define s2_singleton1 
+ on s2_singleton1 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton52(FirstType5 plug1_singleton2)
+ define plug1_singleton2 
+ on plug1_singleton2 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type Singleton62(FirstType10 plug2_singleton2)
+ define plug2_singleton2 
+ on plug2_singleton2 
+  up{  }
+
+  down{  }
+
+end 
+
+connector type SendFromPlugToPlugConnector1(SecondType1 plug1_sendToChannel, SecondType2 plugC1_rcvPlug)
+ define plug1_sendToChannel plugC1_rcvPlug 
+ on plug1_sendToChannel plugC1_rcvPlug 
+  up{  }
+
+  down{  plugC1_rcvPlug.plugC1_proposedValue=plug1_sendToChannel.plug1_proposedValue;
+  }
+
+end 
+
+connector type SendFromPlugConToServerCon1(ThirdType8 plugC1_SendS1, ThirdType13 serverC1_rcvPlugC)
+ define plugC1_SendS1 serverC1_rcvPlugC 
+ on plugC1_SendS1 serverC1_rcvPlugC 
+  up{  }
+
+  down{  serverC1_rcvPlugC.serverC1_clientIdRcv=plugC1_SendS1.plugC1_clientId;
+  serverC1_rcvPlugC.serverC1_proposed=plugC1_SendS1.plugC1_proposedValue;
+  }
+
+end 
+
+connector type SendFromPlugConToServerCon2(ThirdType9 plugC1_SendS2, ThirdType16 serverC2_rcvPlugC)
+ define plugC1_SendS2 serverC2_rcvPlugC 
+ on plugC1_SendS2 serverC2_rcvPlugC 
+  up{  }
+
+  down{  serverC2_rcvPlugC.serverC2_clientIdRcv=plugC1_SendS2.plugC1_clientId;
+  serverC2_rcvPlugC.serverC2_proposed=plugC1_SendS2.plugC1_proposedValue;
+  }
+
+end 
+
+connector type SendFromServerConnToServer1(ThirdType14 serverC1_sendServer, ThirdType3 s1_RcvFromChannel)
+ define serverC1_sendServer s1_RcvFromChannel 
+ on serverC1_sendServer s1_RcvFromChannel 
+  up{  }
+
+  down{  s1_RcvFromChannel.s1_ClientId=serverC1_sendServer.serverC1_clientIdRcv;
+  s1_RcvFromChannel.s1_proposedValue=serverC1_sendServer.serverC1_proposed;
+  }
+
+end 
+
+connector type SendFromServerToServerC1(ThirdType4 s1_SendToServerC, ThirdType15 serverC1_rcvServer)
+ define s1_SendToServerC serverC1_rcvServer 
+ on s1_SendToServerC serverC1_rcvServer 
+  up{  }
+
+  down{  serverC1_rcvServer.serverC1_clientIdSend=s1_SendToServerC.s1_ClientId;
+  serverC1_rcvServer.serverC1_decided=s1_SendToServerC.s1_decidedValue;
+  }
+
+end 
+
+connector type ServerCPlugC1(ForthType3 serverC1_sendPlug, ForthType1 plugC1_rcvServer)
+ define serverC1_sendPlug plugC1_rcvServer 
+ on serverC1_sendPlug plugC1_rcvServer  provided (serverC1_sendPlug.serverC1_clientIdSend==plugC1_rcvServer.plugC1_clientId)
+  up{  }
+
+  down{  plugC1_rcvServer.plugC1_serverId=serverC1_sendPlug.serverC1_serverId;
+  plugC1_rcvServer.plugC1_decidedValue=serverC1_sendPlug.serverC1_decided;
+  }
+
+end 
+
+connector type ServerCPlugC2(ForthType3 serverC1_sendPlug, ForthType2 plugC2_rcvServer)
+ define serverC1_sendPlug plugC2_rcvServer 
+ on serverC1_sendPlug plugC2_rcvServer  provided (serverC1_sendPlug.serverC1_clientIdSend==plugC2_rcvServer.plugC2_clientId)
+  up{  }
+
+  down{  plugC2_rcvServer.plugC2_serverId=serverC1_sendPlug.serverC1_serverId;
+  plugC2_rcvServer.plugC2_decidedValue=serverC1_sendPlug.serverC1_decided;
+  }
+
+end 
+
+connector type PlugCToPlug1(ThirdType7 plugC1_sendClient, ThirdType1 plug1_recieveFromServer)
+ define plugC1_sendClient plug1_recieveFromServer 
+ on plugC1_sendClient plug1_recieveFromServer 
+  up{  }
+
+  down{  plug1_recieveFromServer.plug1_serverId=plugC1_sendClient.plugC1_serverId;
+  plug1_recieveFromServer.plug1_decidedValueS=plugC1_sendClient.plugC1_decidedValue;
+  }
+
+end 
+
+connector type SendFromPlugToPlugConnector2(plug2_SecondType plug2_sendToChannel, SecondType3 plugC2_rcvPlug)
+ define plug2_sendToChannel plugC2_rcvPlug 
+ on plug2_sendToChannel plugC2_rcvPlug 
+  up{  }
+
+  down{  plugC2_rcvPlug.plugC2_proposedValue=plug2_sendToChannel.plug2_proposedValue;
+  }
+
+end 
+
+connector type SendFromPlugConToServerCon3(ThirdType11 plugC2_SendS1, ThirdType13 serverC1_rcvPlugC)
+ define plugC2_SendS1 serverC1_rcvPlugC 
+ on plugC2_SendS1 serverC1_rcvPlugC 
+  up{  }
+
+  down{  serverC1_rcvPlugC.serverC1_clientIdRcv=plugC2_SendS1.plugC2_clientId;
+  serverC1_rcvPlugC.serverC1_proposed=plugC2_SendS1.plugC2_proposedValue;
+  }
+
+end 
+
+connector type SendFromPlugConToServerCon4(ThirdType12 plugC2_SendS2, ThirdType16 serverC2_rcvPlugC)
+ define plugC2_SendS2 serverC2_rcvPlugC 
+ on plugC2_SendS2 serverC2_rcvPlugC 
+  up{  }
+
+  down{  serverC2_rcvPlugC.serverC2_clientIdRcv=plugC2_SendS2.plugC2_clientId;
+  serverC2_rcvPlugC.serverC2_proposed=plugC2_SendS2.plugC2_proposedValue;
+  }
+
+end 
+
+connector type SendFromServerConnToServer2(ThirdType17 serverC2_sendServer, ThirdType5 s2_RcvFromChannel)
+ define serverC2_sendServer s2_RcvFromChannel 
+ on serverC2_sendServer s2_RcvFromChannel 
+  up{  }
+
+  down{  s2_RcvFromChannel.s2_ClientId=serverC2_sendServer.serverC2_clientIdRcv;
+  s2_RcvFromChannel.s2_proposedValue=serverC2_sendServer.serverC2_proposed;
+  }
+
+end 
+
+connector type SendFromServerToServerC2(ThirdType6 s2_SendToServerC, ThirdType18 serverC2_rcvServer)
+ define s2_SendToServerC serverC2_rcvServer 
+ on s2_SendToServerC serverC2_rcvServer 
+  up{  }
+
+  down{  s2_SendToServerC.s2_ClientId=serverC2_rcvServer.serverC2_clientIdSend;
+  s2_SendToServerC.s2_decidedValue=serverC2_rcvServer.serverC2_decided;
+  }
+
+end 
+
+connector type ServerCPlugC3(ForthType4 serverC2_sendPlug, ForthType1 plugC1_rcvServer)
+ define serverC2_sendPlug plugC1_rcvServer 
+ on serverC2_sendPlug plugC1_rcvServer  provided (serverC2_sendPlug.serverC2_clientIdSend==plugC1_rcvServer.plugC1_clientId)
+  up{  }
+
+  down{  plugC1_rcvServer.plugC1_serverId=serverC2_sendPlug.serverC2_serverId;
+  plugC1_rcvServer.plugC1_decidedValue=serverC2_sendPlug.serverC2_decided;
+  }
+
+end 
+
+connector type ServerCPlugC4(ForthType4 serverC2_sendPlug, ForthType2 plugC2_rcvServer)
+ define serverC2_sendPlug plugC2_rcvServer 
+ on serverC2_sendPlug plugC2_rcvServer  provided (serverC2_sendPlug.serverC2_clientIdSend==plugC2_rcvServer.plugC2_clientId)
+  up{  }
+
+  down{  plugC2_rcvServer.plugC2_serverId=serverC2_sendPlug.serverC2_serverId;
+  plugC2_rcvServer.plugC2_decidedValue=serverC2_sendPlug.serverC2_decided;
+  }
+
+end 
+
+connector type PlugCToPlug2(ThirdType10 plugC2_sendClient, ThirdType2 plug2_recieveFromServer)
+ define plugC2_sendClient plug2_recieveFromServer 
+ on plugC2_sendClient plug2_recieveFromServer 
+  up{  }
+
+  down{  plug2_recieveFromServer.plug2_serverId=plugC2_sendClient.plugC2_serverId;
+  plug2_recieveFromServer.plug2_decidedValueS=plugC2_sendClient.plugC2_decidedValue;
+  }
+
+end 
+
+compound type Root
+ component CustomerPlugQuorum2 plug1(1)
+ component CustomerPlugQuorum1 plug2(2)
+ component plugConnector1 plugC1(1)
+ component plugConnector2 plugC2(2)
+ component ServerConnector1 serverC1(1)
+ component ServerConnector2 serverC2(2)
+ component Server1 s1(1)
+ component Server2 s2(2)
+
+ connector Singleton1 c1(plug1.plug1_sendToClient)
+ connector Singleton2 c2(plug2.plug2_sendToClient)
+ connector Singleton5 c5(plug1.plug1_switchB)
+ connector Singleton6 c6(plug2.plug2_switchB)
+ connector Singleton9 c9(plug1.plug1_ticker)
+ connector Singleton10 c10(plug2.plug2_ticker)
+ connector Singleton17 c17(serverC1.serverC1_loose)
+ connector Singleton18 c18(serverC1.serverC1_msglost)
+ connector Singleton19 c19(serverC2.serverC2_loose)
+ connector Singleton20 c20(serverC2.serverC2_msglost)
+ connector Singleton51 c51(plug1.plug1_singleton1)
+ connector Singleton61 c61(plug2.plug2_singleton1)
+ connector Singleton71 c71(s1.s1_singleton1)
+ connector Singleton81 c81(s2.s2_singleton1)
+ connector Singleton52 c52(plug1.plug1_singleton2)
+ connector Singleton62 c62(plug2.plug2_singleton2)
+ connector SendFromPlugToPlugConnector1 PlugToPlugConn1(plug1.plug1_sendToChannel, plugC1.plugC1_rcvPlug)
+ connector SendFromPlugConToServerCon1 plugConn1Toserv1Conn(plugC1.plugC1_SendS1, serverC1.serverC1_rcvPlugC)
+ connector SendFromPlugConToServerCon2 plugConn1Toserv2Conn(plugC1.plugC1_SendS2, serverC2.serverC2_rcvPlugC)
+ connector SendFromServerConnToServer1 serverConnToServer(serverC1.serverC1_sendServer, s1.s1_RcvFromChannel)
+ connector SendFromServerToServerC1 server1ToserverC1(s1.s1_SendToServerC, serverC1.serverC1_rcvServer)
+ connector ServerCPlugC1 serverC1ToplugC1(serverC1.serverC1_sendPlug, plugC1.plugC1_rcvServer)
+ connector ServerCPlugC2 serverC1ToplugC2(serverC1.serverC1_sendPlug, plugC2.plugC2_rcvServer)
+ connector PlugCToPlug1 plugC1Toplug1(plugC1.plugC1_sendClient, plug1.plug1_recieveFromServer)
+ connector SendFromPlugToPlugConnector2 PlugToPlugConn2(plug2.plug2_sendToChannel, plugC2.plugC2_rcvPlug)
+ connector SendFromPlugConToServerCon3 plugConn2Toserv1Conn(plugC2.plugC2_SendS1, serverC1.serverC1_rcvPlugC)
+ connector SendFromPlugConToServerCon4 plugConn2Toserv2Conn(plugC2.plugC2_SendS2, serverC2.serverC2_rcvPlugC)
+ connector SendFromServerConnToServer2 serverConn2ToServer2(serverC2.serverC2_sendServer, s2.s2_RcvFromChannel)
+ connector SendFromServerToServerC2 server2ToserverC2(s2.s2_SendToServerC, serverC2.serverC2_rcvServer)
+ connector ServerCPlugC3 serverC2ToplugC1(serverC2.serverC2_sendPlug, plugC1.plugC1_rcvServer)
+ connector ServerCPlugC4 serverC2ToplugC2(serverC2.serverC2_sendPlug, plugC2.plugC2_rcvServer)
+ connector PlugCToPlug2 plugC2Toplug2(plugC2.plugC2_sendClient, plug2.plug2_recieveFromServer)
+end 
+
+
+component Root r 
+
+end
+

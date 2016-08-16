@@ -1,0 +1,286 @@
+\begin{table*}[bt]
+\centering
+\caption[ABC algorithms]{Example ABC techniques}
+\vspace{.4em}
+\begin{tabular} {|p{3.5cm}|p{8.0cm}|l|}
+\hline
+\centering{{\bf Technique}} & {\bf Description} & {\bf ABC command} \\
+\hline
+Balancing & Balancing reduces the number of AIG levels by applying associativity 
+transformations~\cite{brayton2010abc} & \cci{balance} \\
+\hline
+Structural Register Sweep (SRS) & SRS reduces the number of registers in the circuit
+by eliminating stuck-at-constant registers~\cite{mishchenko2008scalable} & \cci{scl -l} \\
+\hline
+Signal Correspondence (Scorr) & Scorr computes a set of classes of sequentially-equivalent
+nodes using $k$-step induction~\cite{mishchenko2008scalable} & \cci{ssweep} \\
+\hline
+Rewriting & AIG rewriting iteratively selects and replaces 
+rooted AIG subgraphs with smaller pre-computed subgraphs in order to reduce the size of 
+the AIG~\cite{bjesse2004dag} & \cci{rewrite} \\
+\hline
+Refactoring & AIG refactoring is a variation of AIG rewriting that uses a heuristic
+algorithm to compute one large cut for each AIG node, then replaces the structure
+of these cuts with a factored form if an improvement is observable~\cite{mishchenko2006dag} & \cci{refactor}  \\
+\hline
+Retiming & Retiming aims at manipulating registers over 
+combinational nodes in a given logic network, while maintaining the output 
+functionality and logic structure~\cite{hurst2007fast} & \cci{retime}\\
+\hline
+%-- Verification -- %
+Temporal Induction & Temporal induction uses SAT solvers to carry simple and k-step induction proofs
+over the time steps of the sequential circuit~\cite{een2003temporal} & \cci{ind} \\
+\hline
+Interpolation & Interpolation-based algorithms aim at finding interpolants 
+in order to derive an over-approximation of the reachable states of the
+AIG network with respect to the property~\cite{amla2005analysis} & \cci{int} \\
+\hline
+Property Directed Reachability (Pdr) & Pdr tries to prove that 
+there is no transition from an initial state of the AIG to a bad state~\cite{een2011efficient} & \cci{pdr} \\
+\hline
+\end{tabular}
+\normalsize
+\label{t:back:transforms}
+\end{table*}
+
+% -- Synthesis techniques -- %
+ABC is an open source sequential circuit solver that operates 
+on a sequential circuit in AIG format and checks the satisfiability 
+of a designated output gate therein. 
+ABC applies several reduction and abstraction
+techniques to simplify and decompose the problem into smaller problems. 
+It then calls decision techniques to decide the simplified problems. 
+In what follows we discuss some of the techniques that are briefly 
+listed in Table~\ref{t:back:transforms}. 
+
+%\subsection {Structural Register sweep \cci{ssweep}}
+\subsection{Structural Register Sweep (SRS)}
+SRS detects registers that are stuck-at-constant and eliminates 
+them from a given sequential AIG circuit. The technique starts by zeroing up all 
+initial values of registers in the circuit. It then uses the ternary simulation
+algorithm in order to detect stuck-at-constant registers. The algorithm starts from 
+the initial values of the registers and simulates the circuit using x values for the
+circuit's primary inputs. The simulation algorithm stops when a new ternary state is 
+equal to a previously computed ternary state. In this case, any register having the 
+same constant value at each reachable ternary state will be declared to be 
+stuck-at-constant and thus eliminated. The structural sweeping algorithm stop when 
+no further reduction in the number of registers is possible~\cite{mishchenko2008scalable}. 
+
+%\subsection {Signal correspondence \cci{scorr}}
+\subsection{Signal Correspondence (Scorr)} 
+Scorr uses $k$-step induction in order to detect and merge sets of classes of 
+sequentially-equivalent nodes~\cite{mishchenko2008scalable}. The base case for this algorithm is that the equivalence
+between the classes holds for the first $k$ frames, and the inductive case is that 
+given the base case, starting from any state, the equivalence holds in the 
+$(k+1)^{st}$ state. Key to the signal correspondence algorithm is the way the candidate
+equivalences are assumed for the base case. Abc implements speculative reduction, 
+originally presented in~\cite{mony2005exploiting}, which merges, but does not remove, any node of an equivalence 
+class onto its representative, in each of the first $k$ time frames. Instead of removing the 
+merged node, a constraint is added to assert that the node and its representative are equal. 
+This technique is claimed to decrease the number of constraints added to the SAT solved for 
+induction. 
+
+\subsection{Rewriting}
+Rewriting aims at finding nodes in a Directed Acyclic Graph (DAG) where by replacing subgraphs rooted 
+at these nodes by pre-computed subgraphs can introduce important reductions in the DAG size, while 
+keeping the functionality of these nodes intact. The algorithm traverses the DAG in depth-first post-order
+and gives a score for each root node. The score represents the number of nodes that would result
+from performing a rewrite at this node. If a rewrite exists such that the size of the DAG is decreased, such 
+a rewrite is performed and scores are recomputed accordingly.  
+Rewriting has been proposed initially in~\cite{bjesse2004dag}, targeted for Reduced Boolean Circuits (RBC); 
+it was later implemented and improved for ABC in~\cite{mishchenko2006dag}. 
+
+% Retiming
+\subsection{Retiming}
+Retiming a sequential circuit is a standard technique used in sequential synthesis, 
+aiming at the relocation of the registers in the circuit in order to optimize 
+some of the circuit characteristics. Retiming can either targets the minimization of the delay 
+in the circuit, or the minimization of the number of registers given a delay constraint, 
+or the unconstrained minimization of the number of registers in the circuit. It 
+does so while keeping the output functionality of the circuit intact~\cite{hurst2007fast}
+
+% -- Verification techniques -- %
+%\subsection {Property directed reachability \cci{pdr}}
+\subsection{Property Directed Reachability (Pdr)}
+The Pdr algorithm aims at proving that no 
+violating state is reachable from the initial state of a given AIG network. 
+It maintains a trace representing a list of over-approximations of the states
+reachable from the initial state, along with a set of {\em proof-obligations}, 
+which can be a set of bad states or a set of states from which a bad state is
+reachable. Given the trace and the set of obligations, the Pdr algorithm manipulates 
+them and keeps on adding facts to the trace until either an inductive invariant 
+is reached and the property is proved, or a counter example is found (a bad is state
+is proven to be reachable). The algorithm was originally developed by Aaron Bradley 
+in~\cite{bradley2011sat, bradley2007checking} and was later improved by Een et. al in~\cite{een2011efficient}.
+
+\subsection{Temporal Induction}
+Temporal induction carries an inductive proof of the property 
+over the time steps of a sequential circuit.
+Similar to a standard inductive proof, it consists of a base
+case and an inductive hypothesis. These steps are typically 
+expressed as SAT problems to be solved by traditional SAT solvers.  
+$k$-step induction strengthens simple temporal inductive proofs 
+by assuming that the property holds for the first $k$ time steps (states), 
+i.e. a longer base case needs to be proven~\cite{een2003temporal}. Since the target is
+to prove unsatisfiability (proving that the negation of the property 
+is unsatisfiable), if the base case is satisfiable, a counter-example 
+is returned. Otherwise, the induction step is checked by assuming that
+the property holds for all the states except the last one (the $(k+1)$'th 
+state)~\cite{biere2009handbook}.   
+
+\subsection{Interpolation}
+Given an unsatisfiable formula $A \land B$, an interpolant $I$ is
+a formula such that $A \implies I$, $I \land B$ is unsatisfiable and
+$I$ contains only common variables to $A$ and $B$. 
+Given a system $M$, a property $p$ and a bound $k$, interpolation
+based verification starts by attempting bounded model checking (BMC) with the bound $k$. 
+If a counter-example is found, the algorithm returns. Otherwise, it
+partitions the problem into a prefix $pre$ and a suffix $suf$, such that the 
+problem is the conjunction of the two. 
+Then the interpolant $I$ of $pre$ and $suf$ is computed, it represents
+an over-approximation of the set of states reachable in one step from the initial state
+of the algorithm. If $I$ contains no new states, a fixpoint is reached 
+and the property is proved. Otherwise, the algorithm reiterates and replaces
+the initial states with new states added by $I$~\cite{amla2005analysis}. 
+
+
+%The concept of TBV has been proposed to apply various
+%transformation techniques and algorithms iteratively to
+%simplify and reduce a large problem into sufficiently
+%small problems that may be discharged easier.  
+%TBV applies simplification and reduction techniques
+%iteratively on a sequential circuit to reduce the
+%verification complexity by reducing the number of logical
+%operations, register variables, and inputs in the circuit.
+%Then it attempts to solve the problem via decision
+%techniques such as bounded model checkers, circuit SAT
+%solvers, or semi-formal searches.  
+%The decision techniques
+%aim to find a satisfying trace that is an assignment to
+%the initial value functions of the register variables and
+%a sequence of input valuations that result in asserting
+%the output function to a $\mbox{true}$ value at the last
+%step of the trace.  
+%
+%There is an arsenal
+%of techniques for automatically optimizing sequential
+%circuits; examples include variable minimization via
+%retiming~\cite{KuBa01}, common subexpression
+%extraction~\cite{brayton82}, and exploiting reduced 
+%observability and controllability at internal 
+%components~\cite{aziz-s1s-tcad-00,saldanha89}.
+%In Table~\ref{t:back:transforms}, we
+%briefly describe various transforms 
+%and comment on their efficiency.
+%We discuss two techniques that were particularly useful in
+%our experiments.
+%
+%\subsection{Abstraction}
+%Consider the verification of library code $L$ which uses a
+%sophisticated memory allocator for performance.
+%
+%Let the library $L\ast$ be $L$ with $L$'s allocator
+%abstracted to a simpler allocator that
+%nondeterministically selects a block from the set of free
+%blocks.  Since the simpler allocator uses nondeterminism,
+%if an invariant holds of $L\ast$, it holds of $L$.  The
+%simpler allocator in $L\ast$ makes invariant verification
+%on $L\ast$ easier than it is on $L$.
+%
+%While there exist efficient algorithms for automatically 
+%identifying components for abstraction in sequential
+%circuits~\cite{kurshan93,Hari05expert}, abstraction for 
+%CNF formulas is much harder.  
+%This is because there is no structure in a CNF formula to 
+%guide the abstraction algorithm---the clauses are
+%unordered.
+%Work to extract some structure from CNF formula~\cite{FuMalik2007}
+%is less valuable when the original design is present.
+%
+%
+%Note that an invariant may fail on $L\ast$, but hold of 
+%$L$, e.g., $L$'s code makes use of details from the 
+%implementation of the allocator beyond those
+%exported from the abstract interface. 
+%The localization based abstraction (LOC) in
+%Table~\ref{t:back:transforms} 
+%will automatically identify a negative as false, and roll
+%back the abstraction~\cite{kurshan93,Hari05expert}.
+%
+%\subsection{Compositional minimization}  
+%Consider the verification of a spanning tree algorithm 
+%$T$ which uses a balanced search tree (BST) to
+%manipulate sets.
+%
+%With respect to its abstract interface, a BST
+%implementation of sets is functionally equivalent to a
+%list implementation of sets.  Let spanning tree algorithm
+%$T'$ be $T$ with sets implemented using lists.  Because a
+%BST is more complex than a list, verification of $T'$ is
+%easier than verification of $T$.  Since the list and BST
+%representations of sets are equivalent with respect to
+%their abstract interface, an invariant holds of $T$ iff it
+%holds of $T'$.
+%
+%There exist several techniques for automatically 
+%identifying components and minimizing them in 
+%sequential circuits~\cite{BjesseC00,aziz-fmsd-00}
+%including CMSA~\cite{Zara05} from
+%Table~\ref{t:back:transforms}.
+%These techniques are based on the notion of equivalent
+%states~\cite{hopcroft79}. Analogous techniques do not exist
+%for CNF formulas, as there is no notion of state.
+%
+%
+%\subsection{TBV flow}
+%
+%\begin{figure}
+%\center{
+%\resizebox{.8\columnwidth}{!}
+%%{\input{psfigs/tbv_flow.pstex_t}}
+%\caption{Typical TBV transform flow.}
+%\label{f:back:tbv_flow}
+%}
+%\end{figure}
+%
+%In Figure~\ref{f:back:tbv_flow} we show a sample iterative
+%TBV flow.  The netlist \CodeIn{RING} is presented with
+%$1.2\times 10^5$ registers and $2\times 10^4$ inputs and reduced to
+%$4,598$ registers and $8,453$ inputs before passing it to
+%SCH which happens to find a counter-example.  
+%The TBV flow starts with a redundancy removal transform
+%(COM-1), then retiming (RET) is applied.  The compositional
+%minimization transform (CMSA-1) re-encodes components in the
+%netlist and the result is passed to another redundancy
+%removal pass (EQV-1) to leverage the synergy between the two
+%algorithms.  The input reparamatrization transform (CUT)
+%further reduces the netlist and passes it to CMSA, COM,
+%and EQV again.  Then the netlist is passed to SCH which
+%finds a counter-example using its semi-formal search
+%algorithm.  
+%
+%SCH finds a counter-example for the netlist
+%presented to it with only $4,598$ registers and $8,453$
+%inputs in the form of a trace $t_8$.  SCH passes the trace
+%$t_8$ to the calling transform which is responsible 
+%for undoing the effects of its transformation on the
+%This process is called
+%trace lifting and it propagates the trace from one
+%transform to the other until we reach the root transform
+%where the trace $t_1$ matches the input netlist provided
+%by the user. 
+%
+%Finding well-tuned transform flows is not a trivial task.
+%First there are infinitely many flows to consider. Second,
+%many transforms, such as localization (LOC), are
+%irreversible and thus backtracking is needed.  Also, it
+%is difficult to measure the effectiveness of a given
+%transformation. Design size metrics such as the number of
+%inputs, registers and gates are generally good metrics but
+%may be misleading at times since, for example, a
+%transformation may decrease one metric but increase
+%another.  Techniques based on a large set of rules that
+%leverage synergy amongst algorithms and that is also based
+%on recorded and evaluated flow sequences automates the
+%process of finding successful flows of
+%transforms~\cite{Hari05expert}.

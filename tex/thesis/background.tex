@@ -1,0 +1,200 @@
+%% Background chapter
+In this chapter, we present formalisms used throughout this thesis. 
+A reader well-formed in logic verification and sequential circuits may
+wish to skip this section, using it only as a reference. 
+
+Let $V=\set{v_1,v_2,\ldots,v_m}$ be a set of scalar 
+variables and $A=\set{a_1,a_2,\ldots,a_n}$ be a set of 
+array variables. 
+\begin{definition}[terms] \label{def:term}
+  \rm A {\em term} is either
+  a variable $v\in V$,
+ a constant $c\in \mathbb{Z}$, or 
+ an indexed array variable of the form $a[t]$ 
+ which denotes the $t^{th}$ element of $a$ where $a\in A$ and 
+ $t$ is a term.
+ Arithmetic expressions of the form 
+ $-t, t_1+t_2, t_1-t_2, t_1*t_2, t_1/t_2, t_1\%t_2$ 
+ are all terms where $t,t_1,t_2$ are terms and 
+ $-,+,*,/,$ and $\%$ denote the substraction, 
+ addition, multiplication, division and remainder operations,
+ respectively. 
+\end{definition}
+
+\begin{definition}[Boolean term]
+  \rm A constant from the set $\mathbb{B}=\set{\true, \false}$
+  is a {\em Boolean term}. 
+  The expressions 
+  $t_1<t_2, t_1\le t2, t_1> t_2, t_1\ge t_2, t_1==t_2$ are
+  all Boolean terms where $t_1,t_2$ are terms and $<,\le,>,\ge,$ and $==$ 
+  denote smaller, less than or equal, bigger than, 
+  bigger than or equal, and equal,
+  respectively. 
+  The expressions $b_1\&\& b_2, b_1 \|\| b_2, !b_1, ->, ==$ are 
+  all Boolean terms where $b_1,b_2$ are Boolean terms and 
+  $\&\&, \|\|, !, -> ,$ and $==$ denote logical conjunction, disjunction,
+  negation, implication, and equivalence, respectively.
+\end{definition}
+
+\begin{definition}[First order logic formula]
+  \rm A Boolean term is a {\em first order formula}. 
+  A quantified formula of the form $Q q. b(q)$, where
+  $Q\in \set {\forall, \exists}$ is either a universal
+  or existential quantifier, $q$ is a 
+  quantified variable, and $b(q)$ is a first order
+  formula with $q$ as a free variable. 
+\end{definition}
+
+\section{Sequential circuits}
+\label{s:back:crct_semantics}
+The ABC solver operates on an sequential circuit 
+representation of a program.
+
+\begin{definition}[Sequential circuit]
+\rm A {\em sequential circuit} is a tuple $\big( (V, E),G,
+O\big)$.  The pair $(V,E)$ represents a directed graph on
+vertices $V$ and edges $E \subseteq V\times V$ where $E$
+is a totally ordered relation.  The function $G: V \mapsto
+{\mathit types}$ maps vertices to ${\mathit types}$.
+There are three disjoint types: {\em primary inputs}, {\em
+bit-registers} (which we often simply refer to as {\em
+registers}), and logical {\em gates}.  Registers have designated
+{\em initial values}, as well as {\em next-state
+functions}.  Gates describe logical functions such as
+the conjunction or disjunction of other vertices. 
+A subset $O$ of $V$ is specified as the {\em
+primary outputs} of $V$.  
+We will denote the set of primary input variables by $I$,
+and the set of bit-register variables by $R$.  
+\label{def:back:seq_circuit}
+\end{definition}
+
+\begin{definition}[Fanins]
+\rm We define the direct {\em fanin}s of a gate $u$ to be
+$\{v: (v,u)\in E\}$ the set of source vertices connected
+to $u$ in $E$.  We call the {\em support} of $u$ $\{v:
+(v\in I \vee v \in R) \wedge (v,u) \in \ast E\}$ all
+source vertices in $R$ or $I$ that are connected to $u$
+with $\ast E$, the transitive closure of $E$.
+\label{def:back:fanins} 
+\end{definition}
+
+%The ABC solver restricts gates to have 2~fanins, and
+%computes the NAND function; since NAND is functionally
+%complete, this is not a limitation.  
+%For the sequential
+%circuit to be syntactically well-formed, vertices in $I$
+%should have no fanins, vertices in $R$ should have
+%2~fanins (the next-state function and the initial-value
+%function of that register), gates should have two fanins,
+%and every cycle in the sequential circuit should contain
+%at least one vertex from $R$.  The initial-value functions
+%of $R$ shall have no registers in their support.  
+%All sequential circuits we consider will be well-formed. 
+
+The ABC solver reasons about {\em And-Inverter-Graphs (AIG)}
+which are acyclic sequential circuits with only AND gates and inverters.
+All AND gates are restricted to have 2 fanins. 
+Since AND gates and inverters are functionally complete, 
+this is not a limitation. 
+For the sequential
+circuit to be syntactically well-formed, vertices in $I$
+should have no fanins, vertices in $R$ should have
+2~fanins (the next-state function and the initial-value
+function of that register) and gates should have two fanins.
+%and every cycle in the sequential circuit should contain
+%at least one vertex from $R$.  
+The initial-value functions
+of $R$ shall have no registers in their support.  
+All sequential circuits we consider will be well-formed. 
+
+\begin{definition}[State]
+\rm A {\em state} is a Boolean valuation to vertices in $R$. 
+%A {\em concrete input} is a Boolean valuation to vertices 
+%in $I$.
+\end{definition}
+
+\begin{definition}[Trace]
+\rm A {\em trace} is a mapping $t: V \times \mathbb{N} \mapsto
+\mathbb{B}$ that assigns a valuation to all vertices in
+$V$ across time {\em steps} denoted as indexes from
+$\mathbb{N}$.  The mapping must be consistent with $E$ and
+$G$ as follows.  Term $u_{j}$ denotes the source vertex of
+the $j$-th incoming edge to $v$, implying that
+$(u_{j},v)\in E$.  The value of gate $v$ at time $i$ in
+trace $t$ is denoted by $t(v,i)$.
+\[
+t(v,i)=
+   \begin{cases}
+      s^i_{v}            &:v \in I \ \text{with sampled value $s_{v}^i$}\\
+      t(u_2, i-1)        &:v \in R,i>0,u_2:=\ \text{next-state of $v$}\\
+      t(u_1, 0)       &:v \in R,i=0,u_1:=\ \text{initial-state of $v$}\\
+      G_v\big(t(u_{1},i),...,t(u_{n},i)\big) &: v \ \text{is a combinational gate with function 
+$G_v$}
+   \end{cases} \newline
+\]
+\end{definition}
+
+The semantics of a sequential circuit are defined with
+respect to semantical traces.  Given an input valuation
+sequence and an initial state, the resulting trace is a
+sequence of Boolean valuations to all vertices in $V$
+which is consistent with the Boolean functions at the
+gates.  We will refer to the transition from one valuation
+to the next as a {\em step}.  A node in the circuit is
+justifiable if there is an input sequence which when
+applied to an initial state will result in that node
+taking value $\mbox{true}$.  A node in the circuit is
+valid if its negation is not justifiable.  We will refer
+to targets and invariants in the circuit; these are simply
+vertices in the circuit whose justifiability and validity
+is of interest respectively.
+
+\section{The \thislanguage component language}
+\label{s:back:etc}
+\input{etcircuit}
+
+%\section{Sequential circuits as C++ classes}
+%\label{s:back:circuit_as_cpp}
+%A sequential circuit can be seen as a C++ class with Boolean variables representing
+%its registers, an initialization function, a next state function and an output
+%function as shown in Figure~\ref{fig:seq_as_cpp}. 
+%%
+%The initialization function computes the set of initial values for all 
+%the registers in the circuit. The next state function is responsible for computing 
+%the next state functions and updating the values of all register variables in the 
+%circuit. The output function finally returns the result of the computation of the 
+%circuit given the values of the registers and the inputs.
+%\cci{done} is an internal variable signaling that the circuit has 
+%successfully executed. It is set by the \cci{nextStateComputation} function.
+%
+%\begin{figure}[bt]
+%\begin{Verbatim}[fontsize=\relsize{-2.5}, numbersep=4pt,numbers=left]
+%class SequentialCircuit {
+%	bool registers [];
+%	bool done;
+%	
+%	void intialiaze (bool inputs[]);
+%	void nextStateComputation (bool inputs[]);
+%	bool outputFunction (bool inputs[]);
+%	
+%	bool simulateCircuit (bool inputs[]) 
+%	{
+%		initialize(inputs);
+%		while (!done) {
+%			nextStateComputation (inputs);		
+%		}
+%		return outputFunction(inputs);
+%	}	
+%}
+%\end{Verbatim}
+%\caption{Sequential circuit as a C++ class}
+%\label{fig:seq_as_cpp}
+%\end{figure}
+
+
+\section{ABC sequential solver}
+\label{s:back:abc}
+\input{abc}
+
+

@@ -1,0 +1,94 @@
+% !TEX root = answers.tex
+\section{Reviewer 2 - Report 101-R-407}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+The paper present a method to verify BIP models. This is accomplished by
+translating the BIP specification into a synchronous circuit, and using ABC to
+perform the verification. The method is rather straightforward. Since BIP has
+essentially a state machine semantics, all is needed is to create a list of
+expressions that update the state variables at each clock cycle. Then, this
+representation is translated into an AIG circuit and fed to ABC for
+verification.
+
+Overall the paper is interesting from a tutorial point of view, however the
+method employed is not particularly innovative. Specifically, this kind of
+translations have already been developed for several high level models, such
+as the synchronous languages. For instance, Esterel can be compiled to Verilog
+or BLIF (see the Columbia Esterel Compiler). How does your method differ?
+
+\answer{TODO}
+
+I think the interesting part is the generation of the scheduler and the
+detection of the properties, which I think should be expanded at the expense
+of the details of the translations. For instance, it is rather obvious how one
+would go about translating the OLP into the AIG. Instead, it is not obvious
+how to generate the output that says whether the system is deadlock free: do
+you use DFinder to generate the corresponding invariant? Also, it is not clear
+how you define the invariants. You show them in the benchmarks. But are these
+part of the BIP specification, or are they defined separately?
+
+\answer{TODO}
+
+
+Regarding the scheduler, you describe the procedure in Section 5. Here, it
+would be easier for the reader if you explained the method by which you
+activate the interactions, rather than dividing the procedure into the various
+steps. Essentially you need to select an interaction, and you build a circuit
+to do so. Describe the circuit, and perhaps put a picture showing how the
+different arrays are related. I was in particular struck by this statement:
+
+"Currently, one interaction is selected to avoid executing conflicting
+interactions."
+
+Does the BIP framework do the same, or is it able to execute several
+interactions at a time, if they are not conflicting? If so, does this mean
+that your semantics is slightly different? To my understanding, wire
+"selector" makes a non-deterministic choice, which is evaluated under all
+possible values during verification. Is this right? I.e., does the
+verification account for all possible selections? But still, not for
+concurrent selections?
+
+
+\answer{TODO}
+
+
+It would be extremely interesting to compare the OLP to the code that is
+generated for NuSMV. In my understanding, NuSMV uses a very similar notation:
+the transition relation is defined using next-state expressions. In fact, I
+would argue that you could simply start from the generated NuSMV to derive the
+circuit, instead of introducing the OLP. Why didn't you follow this path? Are
+there differences in the way for instance the schedulers are generated?
+
+Understanding these differences could also shed light into the evaluation:
+right now, it is difficult to tell whether the improvement in performance is
+because ABC is a lot better than NuSMV, or whether the code that you generate
+for ABC is better than the one you generate for NuSMV. What if, for instance,
+you were to generate NuSMV code out of the OLP? How would NuSMV perform
+compared to the original code? Also, you mention you perform certain
+reductions outside ABC. Do you include these reductions also for NuSMV?
+
+\answer{TODO}
+
+A few minor things:
+
+\begin{itemize}
+\item The text of the second paragraph of step 2 (section 5, page 9) must be
+revised ("is true either"? "interaction greater with an index greater"?).
+\answer{todo}
+
+\item On page 3, I don't understand the meaning of: "The interaction bit vector is
+evaluated in real-time". Does the traditional BIP main loop not evaluate the
+interactions in real time?
+\answer{todo}
+
+\item There is confusion when you says that you denote by p.X the set of variables
+assigned to the port p. X was previously (two lines above) used to denote
+the set of all variables (I assume), and now you use it to denote $x_p$, which
+was defined as a subset of X. Please change notation.
+\answer{todo}
+\end{itemize}
+
+
+

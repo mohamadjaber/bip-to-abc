@@ -1,0 +1,50 @@
+
+The work in\cite{seraICSE07} takes a declarative 
+formula $\phi$ in first order logic
+(FOL) with transitive closure and a bound on the 
+universe of discourse and
+translates it to a %n equisatisfiable 
+sequential circuit expressed in VHDL. 
+It then passes the sequential circuit to a sequential 
+circuit solver and decides
+the validity of $\phi$ within the bound. 
+It scales to bounds larger than what is possible with 
+Kodkod~\cite{kodkodTJ2007}
+which translates $\phi$ into a propositional Boolean 
+formula in conjunctive
+normal form (CNF) and checks its validity with a 
+Boolean satisfiability solver. 
+
+The work in\cite{sebacASE07} translates an imperative 
+C program, with an assertion
+statement therein, and a bound on the input size, 
+into a %n equisatisfiable
+sequential circuit expressed in VHDL. 
+It then passes the sequential circuit to a 
+sequential circuit solver and decides
+the validity of the assertion within the bound. 
+It scales to bounds larger than what is possible 
+with CBMC\cite{cbmcDAC03} which
+translates the program with a bound on the input 
+size and the number of loop
+iterations into a propositional Boolean formula 
+in conjunctive normal form (CNF)
+and checks for correctness using a Boolean 
+satisfiability solver. 
+
+Our method extends the work in \cite{seraICSE07,sebacASE07} in that
+\be
+\i it supports function calls including recursion, and requires a bound on
+recursion depth only if the recursive function uses local variables, 
+\i it enables a termination guarantee check within a bound on execution
+time, it then uses the execution time bound with bounded model checking to
+decide correctness,
+\i it directly translates the program into bit level representation using {\em
+and inverted graphs} (AIG) instead of the VHDL representation that requires a
+VHDL compiler to be translated into bit level,
+\i it uses ABC~\cite{brayton2010abc}, an open source sequential circuit solver, instead of
+SixthSense~\cite{mony2004scalable} an IBM internal sequential circuit solver, 
+\i and it is an open source tool available online
+~\footnote{\label{fn:online}\url{
+http://webfea.fea.aub.edu.lb/fadi/dkwk/doku.php?id=sa}}.
+\ee

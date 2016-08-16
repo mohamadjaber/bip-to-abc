@@ -1,0 +1,759 @@
+%%%%%%%%%%%%%%%%%%%%%% PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\RequirePackage{mathabx}
+\RequirePackage{relsize}
+\RequirePackage{fancyvrb}
+\RequirePackage{ifthen}
+\RequirePackage{multirow}
+
+\RequirePackage{amsmath}
+\RequirePackage{amsthm}
+\RequirePackage{amssymb}
+\RequirePackage{latexsym}
+\RequirePackage{xspace}
+\RequirePackage{url}
+\RequirePackage[pdftex]{graphicx}
+\RequirePackage{color}
+\RequirePackage{mathpartir}
+
+%\usepackage{graphviz}
+\usepackage{dot2texi}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.8}
+
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{color,soul}
+
+%----------------------------------------------------------------------------%
+\usepackage{tikz}
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+    decorations.pathreplacing,decorations.pathmorphing,shapes,%
+    matrix,shapes.symbols}
+\tikzset{
+>=stealth',
+  punktchain/.style={
+    rectangle, 
+    rounded corners, 
+    % fill=black!10,
+    draw=black, very thick,
+    text width=10em, 
+    minimum height=3em, 
+    text centered, 
+    on chain},
+  line/.style={draw, thick, <-},
+  element/.style={
+    tape,
+    top color=white,
+    bottom color=blue!50!black!60!,
+    minimum width=8em,
+    draw=blue!40!black!90, very thick,
+    text width=10em, 
+    minimum height=3.5em, 
+    text centered, 
+    on chain},
+  every join/.style={->, thick,shorten >=1pt},
+  decoration={brace},
+  tuborg/.style={decorate},
+  tubnode/.style={midway, right=2pt},
+}
+%----------------------------------------------------------------------------%
+
+%---------------------
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{framed}
+\usepackage{tikz}
+\usepackage{pifont}
+%\usepackage[Conny]{fncychap}
+%\bibliographystyle{plain}
+\usepackage{wrapfig}
+\usepackage{subfig}
+
+%\usepackage[dvips]{graphicx}
+\usepackage{latexsym}
+%\usepackage{epsf}
+%\usepackage{epsfig}
+\usepackage{a4}
+%
+%\usepackage{amsmath} % real numbers, natural numbers, ...
+%\usepackage{amssymb}
+%\usepackage{amsthm}  % used for theorems and definitions 
+%\usepackage{amsxtra}
+%\usepackage{amsxtra}
+%\usepackage{amsfonts}
+%
+\usepackage{fancyhdr}
+\usepackage{tocbibind} %bibliography in the table of contents
+\usepackage{enumerate}
+%\usepackage{amsthm}
+\usepackage{amsbsy}
+%
+%\usepackage{tikz}
+%
+\usepackage{booktabs}
+\usepackage{paralist}
+%
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%
+%\usepackage{graphics}
+%\usepackage{color}
+%%\usepackage[usenames,dvipsnames]{xcolor}
+%\usepackage{graphicx}
+%\usepackage{enumerate}
+\usepackage{fancyvrb}
+%%\usepackage{alltt}
+%\usepackage{url}
+%
+%\usepackage{colortbl}
+%\usepackage{multirow}
+\usepackage{chngpage}
+\usepackage{tabularx}
+%
+%\usepackage{amsfonts}
+%\newcommand{\Yes}{\checkmark}
+%\usepackage{pifont}
+%\newcommand{\No}{\hspace{1pt}\ding{55}}
+%
+%\usepackage{relsize}
+%\include{geometry}
+
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{darkgreen}{rgb}{0.0,0.6,0.0}
+
+\usepackage{listings}
+\lstset{ %
+language=C,                % choose the language of the code
+basicstyle=\tiny,       % the size of the fonts that are used for the code
+numberstyle=\tiny,      % the size of the fonts that are used for the line-numbers
+frame=tb,
+rulesep=.4pt,
+mathescape, % Allows escaping to (La)TeX mode within $$,
+stringstyle=\color{redb},
+morekeywords={Boolean, dotogether, foreach, endfor, endif, Let},
+showstringspaces = false,
+basicstyle=\scriptsize\ttfamily,
+keywordstyle=\color{darkblue}\bf,
+commentstyle=\color{darkgreen},
+numbers=left,
+stepnumber=1,
+%
+breaklines=true
+}
+
+
+\input{cmdComment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPECCHECK SPECIFIC SYMBOLS
+\newcommand{\MATH}[1]{\ensuremath{#1}\xspace}
+
+\newcommand{\aff}{[\ff,\ldots,\ff]} 
+\newcommand{\att}{[\tt,\ldots,\tt]}  
+\newcommand{\arr}[1]{[#1]}  
+
+
+%% Algorithm names
+\newcommand{\mkAdeq}{\textsf{MakeAdequate}}
+\newcommand{\constFor}{\textsf{ConstructFormula}}
+
+\newcommand{\checkAd}{\textsf{CheckAdequacy}}
+\newcommand{\checkAdA}[1]{\textsf{CheckAdequacy}$(#1)$}
+
+%% theories
+\newcommand{\gth}{\MATH{\gamma}}                              % generic theory
+\newcommand{\tth}{\MATH{\tau}}                                     % type theory
+\renewcommand{\eth}{\MATH{\varepsilon}}                       % equivalence theory
+\newcommand{\eps}{\ensuremath{\varepsilon}\xspace}
+\newcommand{\voc}{\MATH{\mathit{\nu}}}                        % vocabulary
+
+\newcommand{\Vt}{\MATH{V_\tau}}                                   % assignment to type theory                            
+\newcommand{\Ve}{\MATH{V_\varepsilon}}                        % assignment to equivalence theory                            
+\newcommand{\Vv}{\MATH{V_\voc}}                                  % assignment to vocabulary
+
+%% bounded theories
+\newcommand{\ethb}[1]{\MATH{\varepsilon_{#1}}}             % bounded equivalence theory
+\newcommand{\vocb}[1]{\MATH{\mathit{\nu}_{#1}}}           % bounded vocabulary
+
+\newcommand{\Veb}[1]{\MATH{V_{\varepsilon_{#1}}}}         % assignment to bounded equivalence theory 
+%\newcommand{\Veb}[1]{\MATH{V_{\varepsilon}^{#1}}}                   % assignment to bounded equivalence theory 
+
+             
+\newcommand{\Vvb}[1]{\MATH{V_{\voc}^{#1}}}                         % assignment to bounded vocabulary
+
+%% metasyntax
+\newcommand{\ethm}{\MATH{\hat{\varepsilon}}}
+\newcommand{\ethmb}[1]{\MATH{\hat{\varepsilon}_{#1}}}
+
+
+
+%% formulae
+\newcommand{\Pm}{\ensuremath{\mathcal{S}}\xspace}         % program
+\newcommand{\Sp}{\ensuremath{\mathcal{S}}\xspace}         % specification
+\newcommand{\cfor}[1]{\MATH{\mathit{cfor}[#1]}}               % correction formula for inadequate vocabulary
+\newcommand{\for}[1]{\MATH{\mathit{fm}(#1)}}                     % formula corresponding to an assignment
+\newcommand{\Fo}{\ensuremath{\mathcal{F}}\xspace}
+\newcommand{\Pre}{\ensuremath{\mathcal{P}}}                                % precondition
+\newcommand{\Post}{\ensuremath{\mathcal{Q}}}                              % postcondition
+
+%% tool
+\newcommand{\mytool}{\ensuremath{\{\mathcal{P}\}\mathcal{S}\{\mathcal{Q}\}}} % the name of our tool
+\newcommand{\thislanguage}{\ensuremath{\mathcal{CAIG}} }
+\newcommand{\biptool}{\ensuremath{\mathcal{BIP\{I\}}}}
+\newcommand{\psqlanguage}{\ensuremath{\mathcal{T}iny}}
+\newcommand{\aigcircuit}{\ensuremath{\mathcal{C}}}
+
+\newcommand{\lft}{\ensuremath{\mathcal{left}}\xspace}
+\newcommand{\rgt}{\ensuremath{\mathcal{right}}\xspace}
+\newcommand{\eina}{\ensuremath{\mathcal{eina}}\xspace}
+
+%% model theory
+\renewcommand{\th}{\MATH{\beta}}                                 % threshold for satisfiability checking
+\newcommand{\md}[1]{\MATH{[ #1 ]}}                               % set of points satisfying a formula ``model''
+%\newcommand{\md}[1]{\ensuremath{[ #1 ]}\xspace}
+\newcommand{\Bool}{\set{\tt,\ff}}                                % the Boolean type
+\newcommand{\Part}{\ensuremath{\set{\vtt,\vff}}\xspace}          % the partition of D
+\newcommand{\asg}{\ensuremath{\sigma}}                         % assignment, ie state
+\newcommand{\beh}{\ensuremath{\sigma}}                         % behavior
+\newcommand{\behi}{\ensuremath{\beh_i}}                      % input behavior
+\newcommand{\beho}{\ensuremath{\beh_o}}                    % output behavior
+\newcommand{\Beh}{\ensuremath{\Sigma}\xspace}             % the set of behaviors
+\newcommand{\D}{\ensuremath{\MATH{D}}}
+\newcommand{\U}{\ensuremath{\MATH{U}}}
+
+
+
+%% logic
+\newcommand{\IL}{\ensuremath{L_{\omega_{1},\omega}}\xspace}
+
+%% variables
+\newcommand{\sv}{x}   % vars used in specification
+
+%% ranges
+
+
+
+
+%% old?
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\redTo}{\ensuremath{\rhd}}
+\newcommand{\FS}{\mathcal{F}}
+\newcommand{\PS}{\mathcal{P}}
+\newcommand{\M}{\mathcal{M}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% END SPECCHECK SPECIFIC SYMBOLS
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Abbreviations
+\newcommand{\assig}{\ensuremath{\sigma}}
+\newcommand{\sg}{\ensuremath{\sigma}}
+\newcommand{\tf}{\ensuremath{\{\tt, \ff\}}}
+\newcommand{\form}{\ensuremath{\mathit{form}}}
+\newcommand{\vphi}{\ensuremath{\varphi}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% Lists
+\newcommand{\be}{\begin{itemize}}
+\newcommand{\ee}{\end{itemize}}
+\newcommand{\bdn}{\begin{description}}
+\newcommand{\edn}{\end{description}}
+\newcommand{\bn}{\begin{enumerate}}
+\newcommand{\en}{\end{enumerate}}
+\renewcommand{\i}{\item}
+
+\newenvironment{closeitemize}{\begin{list}%
+{$\bullet$}%
+{\setlength{\itemsep}{-0.2\baselineskip}%
+\setlength{\topsep}{0.2\baselineskip}}}%
+{\end{list}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MISC
+
+\newcommand{\remove}[1]{}
+
+%\newcommand{\case}[2]{\vspace{1.5ex} \noindent \textit{Case} #1: \emph{#2}.}
+\newcommand{\scase}[2]{\vspace{1.5ex} \noindent \textit{Subcase} #1: #2.}
+\newcommand{\sscase}[2]{\vspace{1.0ex} \noindent \textit{Subsubcase} #1: #2.}
+
+%\newcommand{\defn}[1]{\textit{#1}}
+\newcommand{\defi}[1]{\textit{#1}:}
+
+\newcommand{\lb}{\linebreak}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% FOOTNOTES AND THEOREMS
+
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Text
+\newcommand{\smpage}{\noindent \parbox{\textwidth}}
+\newcommand{\samep}{\parbox{\textwidth}}   % put onto the same page
+
+
+\newcommand{\mathid}[1]{\ensuremath{\mathit{#1}}\xspace}
+
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+%\newcommand{\ul}{\underline}
+\newcommand{\bs}{\bigskip}
+%\newcommand{\ms}{\medskip}
+%\renewcommand{\ss}{\smallskip}
+
+\newcommand{\bfg}{\begin{figure}}
+\newcommand{\efg}{\end{figure}}
+
+\renewcommand{\ss}{\smallskip}
+\newcommand{\Eg}{E.g.,\xspace}
+\newcommand{\eg}{e.g.,\xspace}
+\newcommand{\ie}{i.e.,\xspace}
+
+
+\newcommand{\intr}{\empi}
+\newcommand{\intrdef}{\emph}
+
+\newcommand{\emp}[1]{\textbf{#1}}
+\newcommand{\empp}[1]{\emph{#1}}
+\newcommand{\empb}[1]{\textbf{#1}}
+\newcommand{\empi}[1]{\textit{#1}}
+\newcommand{\empbi}[1]{\textbf{\textit{#1}}}
+
+\newcommand{\ind}{\hspace*{3.0em}}
+
+%%%%%From Nancy's book directory:  This spaces the symbols within a
+%%%%%word nicely, in math mode.
+\newcommand{\ms}[1]{%
+        \relax\ifmmode
+                \mathord{\mathcode`\-="702D\it #1\mathcode`\-="2200}%
+        \else
+                $\mathord{\mathcode`\-="702D\it #1\mathcode`\-="2200}$%
+        \fi
+}
+
+
+\newcommand{\cmnt}{\`//}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% GENERAL MATH SYMBOLS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Adj}{\mathop{\rm Adj}\nolimits}
+\newcommand{\abs}[1]{\left| #1\right|}
+\newcommand{\card}[1]{\left| #1\right|}
+\newcommand{\ar}{\rightarrow}
+%\newcommand{\ar}{\longrightarrow}
+\newcommand{\al}{\alpha}
+\renewcommand{\b}[1]{\overline{#1}}
+\newcommand{\cat}{\mathbin{\frown}}
+\newcommand{\choice}{\mbox{$[\hspace*{-1.0pt}]$}}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\renewcommand{\d}{\, . \,}      % separator in quantified formulae
+\newcommand{\df}{\triangleq}
+%\newcommand{\df}{\mbox{$\:\stackrel{\rm df}{=\!\!=}\:$}}
+\newcommand{\dn}{\mbox{$\hspace{-0.1em}\downarrow\hspace{-0.1em}$}}
+\newcommand{\Ex}{\mathop{\rm Ex}}
+\newcommand{\es}{``"}   %empty string
+\newcommand{\expect}[1]{{\rm E}\left[ #1 \right]}
+\newcommand{\expectsq}[1]{{\rm E}^2\left[ #1 \right]}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\renewcommand{\ge}{\geqslant}
+\newcommand{\given}{\mid}
+\newcommand{\halfind}{\hspace*{1.5em}}
+\newcommand{\ifof}{\Longleftrightarrow} % logical equivalence
+\newcommand{\img}{\mathrm{Image}}
+\newcommand{\ints}{\cap}
+\renewcommand{\l}{\ell}
+\newcommand{\la}[1]{\mbox{$\, \stackrel{#1}{\rightarrow} \,$}}
+\renewcommand{\le}{\leqslant}
+\newcommand{\lra}{\mbox{$\longrightarrow$}}
+%\newcommand{\mod}{\ \mathrm{mod}\ }
+\newcommand{\oneton}{\{1,\,\ldots, n\}}
+\newcommand{\n}{\ensuremath{[1:n]}} 
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\pair}[2]{\ensuremath{(#1, #2)}}
+\newcommand{\pind}{\hspace*{3.0em}}
+\newcommand{\pj}{\!\upharpoonright\!}
+\newcommand{\proj}{\pj}
+\newcommand{\preimg}{\mathrm{PreImage}}
+\newcommand{\pl}{\!\parallel\!}
+\newcommand{\s}{\mbox{$\hspace{-1pt}-\hspace{-2pt}$}}
+\newcommand{\set}[1]{\ensuremath{\{ #1 \}}\xspace}
+%\newcommand{\set}[1]{\{#1\}}
+\newcommand{\seq}{\approx}
+\newcommand{\spc}{\mbox{\vspace{-0.25in}}}
+\newcommand{\stt}{\ | \ }
+%\newcommand{\st}[1]{\ensuremath{[ #1 ]}\xspace}
+\newcommand{\sub}{\subseteq}
+\newcommand{\twodots}{\mathinner{\ldotp\ldotp}}
+\newcommand{\tiff}{\textup{\ iff\ }}
+\newcommand{\tl}[1]{\mbox{$\tilde{#1}$}}% abbreviated tilde
+\newcommand{\tpl}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\un}{\cup}
+\newcommand{\union}{\bigcup}
+\newcommand{\up}{\mbox{$\hspace{-0.1em}\uparrow\hspace{-0.1em}$}}
+\newcommand{\Var}{\mathop{\rm Var}\nolimits}
+\newcommand{\variance}[1]{{\rm Var}\left[ #1 \right]}
+\newcommand{\w}{\omega}
+
+
+%%%%%%%%%%%%%%%%%%% Ints, Reals, etc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\reals}{{\mathbb R}}
+\newcommand{\integers}{{\mathbb Z}}
+\newcommand{\naturals}{{\mathbb N}}
+\newcommand{\nat}{\naturals}
+\newcommand{\nats}{\naturals}
+\newcommand{\rationals}{{\mathbb Q}}
+\newcommand{\complex}{{\mathbb C}}
+\newcommand{\complexes}{{\mathbb C}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%% MATH MACROS AND ENVIRONMENTS %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\newcommand{\se}[3]{\ensuremath{#1[#2 .. #3]}}
+\newcommand{\se}[3]{\ensuremath{#1[#2 \! : \! #3]}}
+%\newcommand{\se}[3]{\ensuremath{#1[#2,\ldots,#3]}}
+
+
+\newcommand{\ang}[1]{\ifmmode{\left\langle #1 \right\rangle}
+   \else{$\left\langle${#1}$\right\rangle$}\fi}
+        % the \if allows use outside mathmode,
+        % but will swallow following space there!
+
+\newcommand{\struct}[2]{\raisebox{-0.1in}{$\stackrel { \displaystyle
+#1} {\scriptstyle #2}\,$}}
+
+\newcommand{\pbx}[2]{\stackrel{\fbox{\begin{Beqnarray*} #1\\.\\.\\.\\#2 \end{Beqnarray*}}}{}}      % proof box
+
+\newcommand{\asrt}[1]{\ensuremath{\{ #1 \}}}
+
+%%%%%%%%%%%%%%%%%%%%%%% Hoare Logic Symbols
+\newcommand{\lng}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\htp}[3]{\ensuremath{\{#1\}\,#2\,\{#3\}}}
+\newcommand{\htptc}[3]{\ensuremath{\langle#1\rangle\,#2\,\langle#3\rangle}}
+\newcommand{\var}{\ensuremath{\varphi}}
+
+\newcommand{\as}[1]{\ensuremath{\{#1\}}}               % partial correctness asserion
+%\newcommand{\ts}[1]{\ensuremath{\langle #1 \rangle}}   % termination correctness asserion
+
+\newcommand{\ch}{\mbox{[\hspace{-0.15ex}]}}
+
+\newcommand{\pa}[1]{\{\ensuremath{#1}\}}
+%\newcommand{\ta}[1]{$<$#1$>$}
+\newcommand{\ta}[1]{$\langle$\ensuremath{#1}$\rangle$}
+
+\newcommand{\pre}[1]{\textsf{Precondition: #1}}
+\newcommand{\post}[1]{\textsf{Postcondition: #1}}
+
+\newcommand{\satt}{\equiv}
+\newcommand{\sat}{\models}
+\newcommand{\satf}{\mbox{\ensuremath{=\hspace*{-5pt}|}}}   % satisfiable - backward turnstile
+%\newcommand{\satf}{\mbox{\ensuremath{=\!\!\!\!|}}}   % satisfiable - backward turnstile
+
+
+\newcommand{\yld}{\vdash}
+\newcommand{\yldd}{\equiv}
+%\newcommand{\yldd}{\dashv \vdash}
+
+\newcommand{\prob}{\ensuremath{\Pm \sat \pair{\Pre}{\Post}|_b }}
+
+
+
+\newcommand{\pc}[1]{{#1}}    %% font for pseudocode
+%\newcommand{\pc}[1]{\codetext{#1}}    %% font for pseudocode
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% JUSTIFY EXAMPLE MACROS
+\newcommand{\valpha}{\ensuremath{\mathit{alpha}}}
+\newcommand{\numeric}{\ensuremath{\mathit{numeric}}}
+\newcommand{\wspace}{\ensuremath{\mathit{wspace}}}
+\newcommand{\vnewline}{\ensuremath{\mathit{newline}}}
+\newcommand{\blank}{\ensuremath{\mathit{blank}}}
+\newcommand{\word}{\ensuremath{\mathit{word}}}
+\newcommand{\lline}{\ensuremath{\mathit{line}}}
+\newcommand{\para}{\ensuremath{\mathit{para}}}
+\newcommand{\numWords}{\ensuremath{\mathit{numWords}}}
+\newcommand{\selectWord}{\ensuremath{\mathit{selectWord}}}
+\newcommand{\numLines}{\ensuremath{\mathit{numLines}}}
+
+
+%\RequirePackage{metre}
+
+\newcommand{\nl}{\ensuremath{\backslash n}}
+\newcommand{\bl}{\textvisiblespace}
+\newcommand{\tx}{tx}
+
+
+
+%%%%%%%%%%%%%% MACROS FOR NUMBERED LINES IN CODE TABBING ENVIRONMENT %%%%%%%%%%%%%%%%
+
+\newcounter{lctr}
+
+\newcommand{\li}{\addtocounter{lctr}{1}\arabic{lctr}.}
+\newcommand{\lio}[1]{\addtocounter{lctr}{1}\arabic{lctr}.\>\ensuremath{#1}\\}
+\newcommand{\lit}[1]{\addtocounter{lctr}{1}\arabic{lctr}.\>\>\ensuremath{#1}\\}
+\newcommand{\lih}[1]{\addtocounter{lctr}{1}\arabic{lctr}.\>\>\>\ensuremath{#1}\\}
+
+%%%% 2'nd argument is for a commment
+\newcommand{\lioc}[2]{\addtocounter{lctr}{1}\arabic{lctr}.\>\ensuremath{#1}\`{#2}\\}
+\newcommand{\litc}[2]{\addtocounter{lctr}{1}\arabic{lctr}.\>\>\ensuremath{#1}\`{#2}\\}
+\newcommand{\lihc}[2]{\addtocounter{lctr}{1}\arabic{lctr}.\>\>\>\ensuremath{#1}\`{#2}\\}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% PSEUDOCODE SECTION
+
+\newcommand{\gt}{\ensuremath{:=}}   % assignment
+%\newcommand{\gt}{\ensuremath{\leftarrow}}   % assignment
+\newcommand{\swap}{\ensuremath{\leftrightarrow}}   % swap two vars
+
+\newcommand{\pseudocode}[1]{\ensuremath{\mathbf{#1}}\xspace}
+%\newcommand{\pseudocode}[1]{\ensuremath{\mathbf{#1}\ }}
+\newcommand{\pseudocodensp}[1]{\ensuremath{\mathbf{#1}}}
+%\newcommand{\pseudocode}[1]{\mbox{${\bf #1}$}\xspace}
+
+\newcommand{\IFC}[1]{\pseudocode{if}\ (\ensuremath{#1})}
+\newcommand{\WHILEC}[1]{\pseudocode{while}\ (\ensuremath{#1})}
+\newcommand{\RETURNE}[1]{\pseudocodensp{return}(\ensuremath{#1})}
+
+\newcommand{\IF}{\pseudocode{if}}
+\newcommand{\FI}{\pseudocode{fi}}
+\newcommand{\THEN}{\pseudocode{then}}
+\newcommand{\ELSE}{\pseudocode{else}}
+\newcommand{\ELSF}{\pseudocode{else\ if}}
+\newcommand{\ENDIF}{\pseudocodensp{endif}}
+
+\newcommand{\WHILE}{\pseudocode{while}}
+\newcommand{\ENDWHILE}{\pseudocode{endwhile}}
+\newcommand{\FOR}{\pseudocode{for}}
+\newcommand{\FORALL}{\pseudocode{forall}}
+\newcommand{\FOREACH}{\pseudocode{foreach}}
+\newcommand{\CONTINUE}{\pseudocode{continue}}
+\newcommand{\ENDFOR}{\pseudocodensp{endfor}}
+\newcommand{\DO}{\pseudocode{do}}
+\newcommand{\OD}{\pseudocode{od}}
+
+\newcommand{\BEGIN}{\pseudocode{begin}}
+\newcommand{\END}{\pseudocode{end}}
+\newcommand{\PROC}{\pseudocode{procedure}}
+\newcommand{\CALL}{\pseudocode{call}}
+\newcommand{\VAL}{\pseudocode{value}}
+\newcommand{\VALRES}{\pseudocode{value\!-\!result}}
+\newcommand{\RES}{\pseudocode{result}}
+\newcommand{\RETURN}{\pseudocodensp{return}}
+\newcommand{\DOWNTO}{\pseudocode{downto}}
+\newcommand{\TO}{\pseudocode{to}}
+
+\newcommand{\function}{\pseudocode{function}}
+\newcommand{\operation}{\pseudocode{operation}}
+
+\newcommand{\newo}{\pseudocode{new}}
+\renewcommand{\int}{\pseudocode{int}}
+
+\newcommand{\skipp}{\pseudocode{skip}}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Boolean Constants
+
+
+
+
+\newcommand{\T}{\mbox{\rm T}}
+\newcommand{\F}{\mbox{\rm F}}
+\newcommand{\Fa}{\mbox{\rm F}}
+
+\newcommand{\true}{\ensuremath{\mathit{true}}}
+\renewcommand{\tt}{\ensuremath{\mathit{tt}}}
+\newcommand{\vtt}{\ensuremath{\mathit{vtt}}\xspace}
+%\newcommand{\true}{\mbox{\textsc{true}}\xspace}
+
+\newcommand{\false}{\ensuremath{\mathit{false}}}
+\newcommand{\ff}{\ensuremath{\mathit{ff}}}
+\newcommand{\vff}{\ensuremath{\mathit{vff}}\xspace}
+%\newcommand{\false}{\mbox{\textsc{false}}\xspace}
+
+%\newcommand{\TT}{\top}
+%\newcommand{\FF}{\bot}
+
+\newcommand{\TT}{\mathit{true}}
+\newcommand{\FF}{\mathit{false}}
+
+\newcommand{\andw}{\mbox{ and }}
+
+%\newcommand{\ANDW}{\mbox{\bf and \xspace}}
+%\newcommand{\OR}{{\bf or} }
+%\newcommand{\NOT}{{\bf not} }
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Boolean Connectives
+
+\renewcommand{\iff}{\equiv}
+%\renewcommand{\iff}{\Leftrightarrow}
+\newcommand{\imp}{\Rightarrow}
+\newcommand{\ev}{\equiv}
+%\newcommand{\implies}{\Rightarrow}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% QUANTIFIERS
+
+\newcommand{\qt}[3]{#1\,#2\,#3}
+\newcommand{\qtr}[4]{(#1\,#2 : #3 : #4)}
+
+\newcommand{\Q}{\mbox{${\bf Q}$}\xspace}
+\newcommand{\q}{\mbox{${\bf q}$}\xspace}
+
+%% quantifiers
+\newcommand{\AND}{\bigwedge}
+\newcommand{\INTER}{\bigcap}
+\newcommand{\OR}{\bigvee}
+\newcommand{\UN}{\bigcup}
+\newcommand{\SUM}{\Sigma}
+%\newcommand{\INT}{\bigcap}
+
+%% Logical Quantifiers
+\newcommand{\fa}{\ensuremath{\forall\,}}
+%\newcommand{\fa}{\mbox{${\mathbf{\forall}}$}\xspace}
+\newcommand{\ex}{\ensuremath{\exists\,}}
+%\newcommand{\ex}{\mbox{${\mathbf{\exists}}$}\xspace}
+
+\newcommand{\LQ}{\mbox{${\bf LQ}$}\xspace}
+
+
+%% Arithmetic Quantifiers
+%\renewcommand{\S}{\Sigma\,}
+%\renewcommand{\S}{\mbox{${\mathbf{\Sigma}}$}\xspace}
+\renewcommand{\P}{\Pi\,}
+\newcommand{\N}{\ensuremath{\mathrm{N}\,}}
+\newcommand{\AQ}{\ensuremath{\mathrm{AQ}\,}}
+\newcommand{\MAX}{\ensuremath{\mathrm{MAX}\,}}
+\newcommand{\MIN}{\ensuremath{\mathrm{MIN}\,}}
+
+
+%%%%%%%%%%%%%%%%% ENVIRONMENTS
+\newcommand{\bd}{\begin{definition}}
+\newcommand{\ed}{\end{definition}}
+
+%%%%%%%%%%%%%%%%% EQUATION ENVIRONMENTS
+\newcommand{\beqn}{\begin{centeqn}}
+\newcommand{\eeqn}{\end{centeqn}}
+\newcommand{\beqnnbsp}{\begin{centeqn-nbsp}}
+\newcommand{\eeqnnbsp}{\end{centeqn-nbsp}}
+\newcommand{\bleqn}[1]{\begin{centlabeqn}{#1}}
+\newcommand{\eleqn}{\end{centlabeqn}}
+\newcommand{\bleqnnbsp}[1]{\begin{centlabeqn-nbsp}{#1}}
+\newcommand{\eleqnnbsp}{\end{centlabeqn-nbsp}}
+
+\newenvironment{centeqn}	% centered equation environment
+   {{\ss\\ \hspace*{\fill}}}
+   {\hspace*{\fill}\ss\\}
+
+\newsavebox{\EqnLabel}
+\newenvironment{centlabeqn}[1]	% centered labeled equation environment
+   {\sbox{\EqnLabel}{#1}
+    {\medskip\\ \hspace*{\fill}}
+   }
+   {\hfill{\makebox[0in][r]{\usebox{\EqnLabel}}}\medskip\\}
+
+\newenvironment{centeqn-nbsp} % centered equation - no vertical space at the bottom
+   {{\medskip\\ \hspace*{\fill}}}
+   {\hspace*{\fill}}
+
+
+
+
+%%%%%%%%%%%%%%%% SpecCheck Specific macros
+
+\newcommand{\cd}[1]{{\small\texttt{#1}}}
+\newcommand{\cci}[1]{\mbox{\textup{\texttt{#1}}}}
+%\newcommand{\cci}[1]{{\small\texttt{#1}}}
+%\newcommand{\chci}[1]{`\cci{#1}'}
+\newcommand{\chci}[1]{\cci{#1}}
+
+\newcommand{\good}{\cci{good}\xspace}
+\newcommand{\bad}{\cci{bad}\xspace}
+\newcommand{\dc}{\cci{dontCare}\xspace}
+\newcommand{\tgood}{\tiny\texttt{good}\xspace}
+\newcommand{\tbad}{\tiny\texttt{bad}\xspace}
+\newcommand{\tdc}{\tiny\texttt{dontCare}\xspace}
+
+\newcommand{\ord}{\sqsubseteq}
+\newcommand{\ordne}{\sqsubset}
+
+\newcommand{\white}{\ensuremath{\mathit{white}}\xspace}
+\newcommand{\black}{\ensuremath{\mathit{black}}\xspace}
+
+\newcommand{\ls}{\cd{ls}}
+\newcommand{\af}{f}
+
+
+
+\newcommand{\vit}{{\cal T}_I}
+\newcommand{\vst}{{\cal T}_S}
+\newcommand{\vocrm}{\mathit{voc}_R^M}
+\newcommand{\tp}{\mathit{type}}
+\newcommand{\tll}{\mathit{tail}}
+\newcommand{\hdd}{\mathit{head}}
+
+
+
+
+\newcommand{\Data}{\mathrm{Data}}
+\newcommand{\func}{\mathit{func}}
+\newcommand{\port}{\mathit{port}}
+\newcommand{\export}{\mathit{export}}
+
+\newcommand{\guard}{\mathit{guard}}
+\newcommand{\source}{\mathit{src}}
+\newcommand{\dest}{\mathit{dest}}
+%\DeclareMathOperator{\var}{var}
+
+\newcommand{\ignore}[1]{}
+%\newcommand{\ie}{i.e.,}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\defas}{\stackrel{\mathrm{\scriptscriptstyle def}}{=}}
+
+%\newcommand{\true}{\ensuremath{\mathtt{true}}}
+%\newcommand{\false}{\ensuremath{\mathtt{false}}}
+\newcommand{\goesto}[1][]{\stackrel{#1}{\longrightarrow}} % -->
+
+\newcommand{\valu}[1]{\mathbf{#1}}

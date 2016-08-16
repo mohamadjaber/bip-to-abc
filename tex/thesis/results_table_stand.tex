@@ -1,0 +1,38 @@
+\begin{table}[bt]
+\caption{Results of standard benchmarks}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\cline{3-10}
+\multicolumn{1}{c}{} & \multicolumn{1}{c}{} & \multicolumn{3}{|c|}{Before reduction} & \multicolumn{3}{c|}{After reduction} & \multicolumn{2}{c|}{Time (s)} & \multicolumn{1}{c}{}  \\ \hline
+\Pm & $b$ & lat & and & lev & lat & and & lev & Ver. & Total & Check \\ \hline
+ls & 2 & 86 & 719 & 24 & 41 & 313 & 15 & 0.33 & 4.36 & \checkmark \\ \hline
+ls & 3 & 118 & 1064 & 27 & 68 & 568 & 19 & 3.89 & 12.4 & \checkmark \\ \hline
+ls & 4 & 174 & 1781 & 30 & 119 & 1116 & 21 & 2.41 & 16.87 & \checkmark \\ \hline
+ls & 5 & 286 & 3362 & 45 & 226 & 2346 & 24 & 1.43 & 33.67 & \checkmark \\ \hline
+ls & 6 & 526 & 6895 & 78 & 461 & 5100 & 26 & 4.57 & 99.64 & \checkmark \\ \hline
+ls & 7 & 1054 & 14780 & 143 & 984 & 11315 & 28 & 21.32 & 396.981 & \checkmark \\ \hline
+ls & 8 & 4798 & 70742 & 529 & 4718 & 55364 & 33 & 682.11 & 8022.11 & \checkmark \\ \hline
+\hline
+bsort & 2 & 114 & 1198 & 29 & 44 & 393 & 16 & 0.29 & 5.79 & \checkmark \\ \hline
+bsort & 3 & 169 & 2218 & 35 & 68 & 885 & 20 & 17.1 & 31.09 & \checkmark \\ \hline
+bsort & 4 & 276 & 5607 & 47 & 117 & 2106 & 22 & 1390.25 & 1426.98 & N/A \\ \hline
+\hline
+ss & 2 & 112 & 1208 & 27 & 43 & 427 & 15 & 0.53 & 5.81 & \checkmark \\ \hline
+ss & 3 & 167 & 2239 & 35 & 69 & 949 & 19 & 209.37 & 223.54 & \checkmark \\ \hline
+ss & 4 & 280 & 5676 & 47 & 125 & 2236 & 22 & 1800 & 1852.76 & N/A \\ \hline
+\hline
+a-p & 2 & 110 & 1896 & 33 & 57 & 689 & 19 & 0.87 & 2.79 & \checkmark \\ \hline
+a-p & 3 & 147 & 2509 & 34 & 87 & 1174 & 24 & 93.47 & 97.56 & \checkmark \\ \hline
+a-p & 4 & 208 & 3829 & 38 & 141 & 2419 & 29 & 2127 & 2135.7 & N/A \\ \hline
+\hline
+lli & 2 & 237 & 4310 & 38 & 98 & 871 & 19 & 109.63 & 118.89 & \checkmark \\ \hline
+lli & 3 & 344 & 6117 & 41 & 179 & 1693 & 26 & 1800 & 1811 & N/A \\ \hline
+\hline
+llr & 2 & 197 & 2906 & 33 & 84 & 722 & 21 & 47.72 & 71.3829 & \checkmark \\ \hline
+llr & 3 & 293 & 4454 & 39 & 157 & 1387 & 25 & 1800.15 & 1830.21 & N/A \\ \hline
+\hline
+bs & 3 & 94 & 879 & 30 & 56 & 555 & 19 & 0.11 & 1.04 & \checkmark \\ \hline
+bs & 4 & 151 & 1832 & 42 & 83 & 850 & 17 & 0.54 & 1.47 & \checkmark \\ \hline
+bs & 5 & 268 & 5185 & 62 & 143 & 1943 & 20 & 25.42 & 27.69 & \checkmark \\ \hline
+\end{tabular}
+\label{tb:psq:standard}
+\end{table}

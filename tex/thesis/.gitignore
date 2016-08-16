@@ -1,0 +1,14 @@
+presentation.pdf
+thesis.pdf
+*.aux
+*.log
+*.lof
+*.lot
+*.toc
+*.bll
+*.blg
+*.nav
+*.bbl
+*.snm
+*.out
+*.synctex.gz

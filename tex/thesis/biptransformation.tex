@@ -1,0 +1,327 @@
+%% bip transformation
+
+%% defintions
+\input{bip}
+
+%% the algorithm
+\section{BIP to \thislanguage}
+\label{chap3:bip2aig:bip2etc}
+Given a BIP system $\Pm = (B, Init, v)$, \biptool~translates \Pm into 
+an \thislanguage~program \aigcircuit~with its own customized execution engine. 
+Listing~\ref{alg:bip2aig} shows the algorithm used by \biptool~to implement 
+this translation. The algorithm is divided into 4 steps: (1) wire and variable
+declarations, (2) wire definitions, (3) \cci{init} block and (4) \cci{next} block construction. 
+The lists \cci{decl-list}, \cci{wiredef-list}, \cci{init-list} and \cci{next-list}
+represent the list of declarations and lists of statements  used in the 
+declaration, wire definition, \cci{init} and \cci{next} blocks of \aigcircuit, respectively. 
+
+% ${\bf Input:}~ (\pi\big(\gamma(\{B_i\}_{i \in I})\big)$, K), where $\gamma = \{a_j\}_{j \in J}$
+\begin{lstlisting}[caption=BIP to \thislanguage~transformation algorithm,label=alg:bip2aig,float=bt]
+${\bf Input:}~ (\pi\big(\gamma(\{B_i\}_{i \in I})\big)$), where $\gamma = \{a_j\}_{j \in J}$
+${\bf Output:}~ \thislanguage~program~ \aigcircuit$
+
+/***************** declarations ******************/
+// interaction wires
+decl-list += wire bool ie[|J|]; // interaction enablement 
+decl-list += wire bool ip[|J|]; // interaction priority
+decl-list += wire bool is[|J|]; // interaction selected
+
+decl-list += wire int selector; // non-deterministic priority selector
+
+decl-list += bool cycle; // cycle denotes whether we are executing an interaction or a transition 
+
+foreach $i \in [1..|I|]$
+  foreach $j \in [1..|B_i.P|]$ 
+    decl-list += wire bool $B_i.p_j.e$; // port enablement
+    decl-list += wire bool $B_i.p_j.s$; // port selected
+  
+  decl-list += int $B_i.\ell$;
+  foreach $j \in [1..|B_i.X|]$ 
+    decl-list += int $B_i.x_j$; // variable registers
+
+/***************** wire list definitions ******************/
+foreach $j \in [1..|J|]$
+  wiredef-list += ie[j] := $a_j.guard \wedge \bigwedge_{p\in a_i.P} component(p).p.e$ 
+  wiredef-list += ip[j] := ie[j] $\wedge \,(\forall k \neq j: ie[k] \Rightarrow a_k < a_j)$ 
+  wiredef-list += is[j] := ip[j] $\wedge \,(selector = j \vee (\lnot ip[selector] \land \forall k > j: \neg ip[k])$   
+
+foreach $i \in [1..|I|]$
+  foreach $j \in [1..|B_i.P|]$ // where $B_i.P = \{p_1, \ldots, p_{|B_i.P|}\}$ 
+    wiredef-list += $B_i.p_j.e := \bigvee_{\tau \in transitions(B_i.p)} \tau.guard \land B_i.\ell = \tau.src$; 
+    wiredef-list += $B_i.p_j.s := \bigvee_{a_k \in interactions(B_i.p_j)} is[k]$; 
+
+/***************** init list definitions ******************/
+init-list += $cycle := 0$; 
+foreach $i \in [1..|I|]$
+  init-list += $B_i.\ell := Init.B_i$; 
+  foreach $j \in [1..|B_i.X|]$
+    init-list += $B_i.x_j := v(B_i.x_j)$; // v is the initial valuation
+
+/***************** next list definitions ******************/
+foreach $i \in [1..|I|]$
+  foreach $j \in [1..|B_i.X|]$ 
+    st = $B_i.x_j$ := (cycle = 0)?
+    foreach $k \in [1..|J|]$
+      foreach assignment $\sigma \in a_k.action$
+        if($B_i.x_j = \sigma.term$)
+          st += $is[k]?\, \sigma.expr:$
+    
+    foreach $\tau \in B_i.T$ 
+      foreach assignment $\sigma \in \tau.action$
+        if($B_i.x_j = \sigma.term$)
+          st += $B_i.port(\tau).s?\, \sigma.expr:$
+    st += $B_i.x_j$; 
+    
+    st += $B_i.\ell := (cycle = 1)?$
+    foreach $\tau \in B_i.T$
+      st += $B_i.port(\tau).s?\, \tau.dest:$
+    st += $B_i.\ell$    
+    
+    next-list += st;  
+  next-list += $cycle := \neg cycle$; 
+\end{lstlisting}
+
+
+Given a port $p$ from the system \Pm, we define the function
+$interaction(p) = \set{a \in \gamma~|~p \in a.P}$ where $\gamma$
+is the set of interactions in the composite component $B$ of \Pm.
+This function returns the set of interactions in which the port 
+$p$ takes part. Additionally, the function 
+$component(p) = B_i$ such that $p \in B_i.P$ for $i \in I$ defines
+the component to which the port $p$ belongs. Furthermore the function
+$transitions(p) = \set{\tau \in component(p)~|~\tau \in B.T \land \tau.port = p}$ defines the 
+set of transitions $\tau$ in the component $B = component(p)$ such that $\tau$ 
+is labeled by $p$. 
+
+Intuitively, for each component $B_i$ in $B$, \biptool~defined a scalar variable 
+$B_i.l$ that represents the control location $l \in B_i.L$ at which the 
+component $B_i$ is currently at. Additionally, it declares a scalar variable
+$B_i.x_j$ for each variable $x_j \in B_i.X$. 
+The algorithm defines the initial values for control locations and data variables 
+based on the $Init$ relation of the system \Pm. It thus builds the initialization 
+list by adding the assignments $``B_i.\ell := Init.B_i"$ and $``B_i.x_j := v(B_i.x_j)"$
+for $j \in [1\ldots|B_i.X|]$ and $i \in [1\ldots|I|]$, where $Init.B_i$ is 
+the initial location from which $B_i$ starts and $v(B_i.x_j)$ is the initial valuation of the
+variable $x_j \in B_i.X$.
+
+
+For each atomic component $B_i$ in $B$, and for every port $p \in B_i.P$, 
+\biptool~defines two Boolean wires. 
+(1) The {\em port enablement} wire ($B_i.p_j.e$) that is set to \true~iff the port $p_j \in B_i$ is 
+{\em enabled}. The port $p_j$ is enabled iff there exists a transition $\tau \in transitions(p_j)$
+such that the guard of $\tau$ evaluates to \true~and $B_i$ is in the control location $l = \tau.src$.
+(2) The {\em port selected} wire ($B_i.p_j.s$) that is set to \true{} iff the port $p_j \in B_i$ is
+{\em selected}. The port $p_j$ is selected iff there exists an interaction $a \in interactions(p_j)$
+that is selected for execution by the BIP engine.
+
+For each interaction $a_k \in \gamma$, \biptool~defines three Boolean wires. 
+(1) The {\em interaction enablement} wire, $ie[k]$, that is set to \true{} iff the interaction
+$a_k$ is enabled. $a_k$ is enabled iff the guard of the interaction $a_k.guard$ evaluates
+to \true{} and all ports $p \in a_k.P$ are enabled.  
+(2) The {\em interaction priority} wire, $ip[k]$, that is set to \true{} iff the interaction 
+$a_k$ is enabled and there does not exist any interaction $a_j \in \gamma$ such that 
+$a_j$ is enabled and has a higher priority than $a_k$.
+(3) The {\em interaction selected} wire, $is[k]$, that is set to \true{} iff the
+interaction $a_k$ is selected for execution. Given a set of enabled interactions 
+with equal priority, the BIP engine synthesized by \biptool{}
+selects interactions for execution based on the following procedure. It makes use of a
+non-deterministic selector (the \cci{selector} scalar wire defined on line 10 
+of Listing~\ref{alg:bip2aig}) and selects the active interaction $a_j$ having 
+an index $j$ equal to the non-deterministic value of the selector wire.
+If no such interaction exists, the engine selects the interaction with the largest 
+index. 
+This is depicted by the assignment $``is[j] = ip[j] \land \left( (selector = j) 
+\land (\lnot (ip[selector] \land \forall{k > j}\,:\lnot ip[k])) \right)"$ on line 32 of Listing~\ref{alg:bip2aig}.
+
+%% the bip engine we use
+\biptool{} synthesizes a BIP execution engine that is based on a two clock cycles 
+approach. In the first cycle, the engine selects an interaction $a \in \gamma$ 
+and executes its actions. In the second cycle, the engine checks for possible
+transitions $\tau \in B_i$ such that $\tau.port$ is selected, for $i \in [1\ldots|I|]$,
+and executes their actions $\tau.actions$. Contrarily to the BIP engine in~\cite{BasuBBCJNS11},
+\biptool's engine executes the actions of all possible transitions simultaneously.
+Additionally, the engine updates the locations of the atomic components $B_i$ of $B$
+in accordance with the executed transitions; \ie{} executing a transition $\tau \in B_i.L$ 
+transitions $B_i$ from control location $l_1 = \tau.src$ to location $l_2 = \tau.dest$.
+
+\biptool{} updates the values of the data variables in accordance with the 
+actions of the executed interactions and transitions. An assignment statement 
+$\sigma \in a_k.actions$ where $a_k \in \gamma$ is an interaction executes 
+and updates the value of its target data variable iff the interaction $a_k$ 
+is selected for execution, \ie when $is[k]$ evaluate to \true{} and the engine
+is in its first cycle. Similarly $\sigma \in \tau.actions$ where $\tau$ is a transition
+executes and update the value of its target data variable iff the transitions $\tau$
+is allowed to execute, \ie when $\tau.port$ is selected and the engine is in its
+second cycle. Updates to data variable are shown on lines 61 and 69 of the 
+algorithm in Listing~\ref{alg:bip2aig}.
+
+\biptool{} uses the same AIG synthesis engine used in \mytool{} in order to 
+synthesize an AIG from the generated \thislanguage{} program \aigcircuit. 
+If the developer wishes the check for deadlock freedom, \biptool{} adds 
+an assertion statement to \aigcircuit{} to check that at each cycle, 
+there is at least one interaction enabled for execution. Additionally, 
+developers can also add custom assertions defined as FOL properties. These assertions
+are handled in the same manner that \mytool{} handles them, and \biptool{}
+uses the ABC AIG solver to check for the validity of the assertions. 
+
+\section{Illustrative Example}
+Table~\ref{tb:bip:exec} shows a sample execution trace of \mytool's BIP engine
+on the traffic light example presented in Figure~\ref{fig:traffic:bip}. The variables 
+$timer.t$, $timer.n$, $timer.\ell$, $light.\ell$ and $light.m$ represent $t$, $n$
+and the control location variable in the timer component, and the control location variable
+and $m$ in the light component, respectively. 
+We start at cycle $c$ where that state of the BIP system is $$\left(timer.t = 9, timer.n = 10,
+timer.\ell = s_0, light.\ell = G, light.m = 3\right)$$
+and we assume that the execution engine has picked the interaction involving the 
+$timer$ port of the timer component has been selected and executed. 
+
+At cycle $c+1$, the engine executes the internal transition in the timer component
+that corresponds to the $timer.timer$ port being selected and the component is in location $s_0$. 
+Therefore the variable $timer.t$ is incremented and the component 
+remains in the same control location $s_0$. Since the light component
+had no ports involved in the executed interaction, it will not change 
+state. 
+
+At cycle $c+2$, the guard $t \geq n$ is enabled and thus the $timer.done$ and $light.done$ ports are enabled. 
+The engine selects the interaction connecting the two components
+for execution. It executes the actions associated with this interaction 
+and transfers the value of the variable $done.m$ to the variable $done.n$.
+
+At cycle $c+3$, the engine executes the interaction transitions that 
+correspond to the interaction executed at cycle $c+2$. In the timer 
+component, the variable $timer.t$ is reset $0$ and the control location 
+remains in location $s_0$. In the light component, the variable 
+$light.m$ takes the value $5$ and the control location moves to location 
+$Y$ corresponding to the yellow light being displayed. 
+
+\begin{table}[bt]
+\centering
+\caption{Sample of \biptool{} execution}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Cycle & $timer.t$ & $timer.n$ & $timer.\ell$ & $light.\ell$ & $light.m$ \\ 
+\hline
+$c$ & $9$ & $10$ & $s_0$ & $G$ & $3$ \\
+		\hline
+		$c+1$ & $10$ & $10$ & $s_0$ & $G$ & $3$ \\
+			\hline
+			$c+2$ & $10$ & $3$ & $s_0$ & $G$ & $3$ \\
+				\hline
+	  $c+3$ & $0$ & $3$ & $s_0$ & $Y$ & $5$ \\
+	  \hline
+\end{tabular}
+\label{tb:bip:exec}
+\end{table}
+
+Listing~\ref{sample:code:bip} shows a code snippet from the code that \biptool{} generates
+when applied to the traffic light controller BIP system shown in Figure~\ref{fig:traffic:bip}.
+Lines 2 to 19 show the wire definitions for the system. The interaction 
+labeled by $0$ corresponds to the interaction involving the $timer.timer$
+port, while the interaction labeled $1$ correspond to the interaction 
+involving the ports $timer.done$ and $light.done$. 
+Interaction $0$ is enabled ($ie[0]$) when its guard is enabled ($true$ 
+in this case) and the port $timer.timer$ that it involves is enabled, 
+\ie{} the wire $timer.timer.e$ is set to $true$. 
+Similarly, interaction $1$ is enabled ($ie[1]$) when its guard is
+enabled and the ports $timer.done$ and $light.done$ are enabled 
+($timer.done.e \land light.done.e$).
+
+The wires $ip[0]$ and $ip[1]$ are asserted when each of the two interactions 
+is prioritized. We assume in our case that interaction $1$ has a higher
+priority, and thus interaction $0$ is only prioritized when it is enabled
+and interaction $1$ is not. In any other case, it is interaction $1$ that
+is prioritized by the engine. 
+
+Furthermore, the wires $is[0]$ and $is[1]$ represent the execution of the 
+engine's interaction selection procedure. The wire $selector$ is
+a non-deterministic wire used by the engine to make non-deterministic
+choices when several interactions are prioritized. 
+The interaction $0$ is selected
+when it is prioritized and either the non-deterministic selector 
+selects it ($selector == 0$)
+or the interaction $1$ is not prioritized. 
+The interaction $1$ is selected when it is prioritized and either 
+the selector selects it ($selector == 1$) or the selector wire
+has selected an interaction that is not prioritized. Since interaction
+$1$ has the largest index, it is
+directly selected when the value of the selector corresponds
+to an interaction that is not prioritized ($\lnot ip[selector]$).
+
+The wires $component.port.e$ and $component.port.s$ represent the 
+port enabled and selected wires, respectively. 
+For example, the timer port 
+in the timer component ($timer.timer.e$) is enabled when the 
+component is in control location $s_0$ and the guard $timer.t < n$ is
+enabled. Additionally, this port is selected when the interaction $0$ 
+in which it is involved has been selected ($timer.timer.s = is[0]$).
+
+Lines 21 to 38 show the next state functions for each of the variables
+and control variables of the components of the system. 
+In the first execution cycle ($cycle == 0$), 
+the engine selects and executes interactions.
+In the second execution cycle ($cycle == 1$), 
+it executes internal transitions. 
+When the interaction $1$ is selected ($is[1]$) and the engine is 
+in its first cycle, the value of the variable $light.m$ is transfered
+to the variable $timer.n$. Otherwise, $timer.n$ retains its current
+value.
+
+In the internal transition execution cycle, the next state value of
+the variable $light.m$ is dictated by the control location at which the component is currently at, and whether the port $light.done$
+is selected (equivalently the interaction $1$ has been selected).
+For example, if the port $light.done$ is selected and the component 
+is at the yellow light location ($Y$), the value of
+$light.m$ will be 10. 
+
+Finally, the control location variables $timer.\ell$ and 
+$light.\ell$ are also updated according to the internal transitions of the 
+atomic components. For example when the $light.done$ port is selected
+and the light component is in the green control location ($G$), 
+ $light.\ell$ moves from $G$ to $Y$. 
+
+\begin{lstlisting}[caption=Sample of \biptool{} generated code,label=sample:code:bip,float=bt]
+/** Wire definitions **/
+$ie[0] = true \land timer.timer.e$
+$ie[1] = true \land timer.done.e \land light.done.e$
+
+$ip[0] = ie[0] \land \lnot ie[1]$
+$ip[1] = ie[1]$
+
+$is[0] = ip[0] \land ((selector == 0) \lor (\lnot ip[selector] \land \lnot ip[1]))$
+$is[1] = ip[1] \land ((selector == 1) \lor (\lnot ip[selector]))$
+
+$timer.timer.e = (timer.\ell == s_0) \land (t < n)$
+$timer.done.e = (timer.\ell == s_0) \land (t \geq n)$
+$light.done.e = true \land ((light.\ell == G)$ 
+             $||(light.\ell == R)$
+             $||(light.\ell == Y))$
+             
+$timer.timer.s = is[0]$
+$timer.done.s = is[1]$
+$light.done.s = is[1]$
+
+/** Next state functions: Interactions **/
+$timer.n = (cycle == 0)? (is[1]? light.m : timer.n) : timer.n$
+
+/** Next state functions: Transitions **/
+$timer.t = (cycle == 1)?$ 
+   $((timer.timer.s)? (timer.t + 1) :$
+   $((timer.done.s)? 0 : timer.t)) : timer.t$;
+$light.m = (cycle == 1)?$
+   $((light.done.s \land light.\ell == G)? 5 :$
+   $((light.done.s \land light.\ell == Y)? 10 :$
+   $((light.done.s \land light.\ell == R)? 3 : light.m))) : light.m$
+$timer.\ell = (cycle == 1)?$
+   $((timer.timer.s)? s_0:$
+   $((timer.done.s)? s_0:timer.\ell)):timer.\ell$
+$light.\ell = (cycle == 1)?$
+   $((light.done.s \land light.\ell == G)? Y :$
+   $((light.done.s \land light.\ell == Y)? R :$
+   $((light.done.s \land light.\ell == R)? G : light.\ell))) : light.\ell$
+\end{lstlisting}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%
+%%This section presents how we translate a BIP system $(B,\mathit{Init}, v)$ to its corresponding sequential circuit  $\big( (V, E),G, O\big)$. 

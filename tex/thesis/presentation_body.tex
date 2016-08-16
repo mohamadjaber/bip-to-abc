@@ -1,0 +1,302 @@
+%% presentation body
+
+%% Introduction
+\section{Introduction}
+
+\begin{frame}{Heartbleed}
+%\resizebox{1.0\textwidth}{!}{
+\begin{figure}
+ \centering
+ \includegraphics[scale=0.4]{figures/heartbleed}
+\end{figure}
+%}
+\end{frame}
+
+\begin{frame}{Program defects }
+  \begin{itemize}
+  \item
+    %Safety critical systems rely on software and hardware programs to provide accurate services. 
+    Correct and reliable software and hardware systems are desirable
+  \begin{itemize}
+   \item Safety critical systems (medical, navigation, and military)
+  \end{itemize}
+  \item
+	Defects may lead to significant losses: possible loss of life
+  \begin{itemize}
+   \item 
+    The Ariane 5 missile, the Therac-25 machine~\cite{ammann2008introduction}
+   \item
+    The buggy Intel Pentium processors  (\$475 million)~\cite{kropf1999introduction}
+  \end{itemize}
+%  \item 
+%    e.g. The Ariane 5 missile, The Therac-25 machine, \dots~\cite{ammann2008introduction}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Proposed solutions: dynamic analysis}
+	 \begin{itemize}
+	 	\item 
+		 Given a program $\mathcal{P}$
+		 \begin{itemize}
+		   \item A set of inputs $\mathcal{I}$, and outputs $\mathcal{O}$
+		   \item A set of input and expected output pairs $\mathcal{T} \subset \mathcal{I} \times \mathcal{O}$
+		 \end{itemize}
+		\item 
+		 Check $\forall (i,o) \in \mathcal{T},~\mathcal{P}(i) \stackrel{?}{=} o$
+		\item 
+		 Exhaustive testing is infeasible
+	 \end{itemize}
+	 \begin{block}{Program Testing}
+	 Testing can show the existence of bugs, not their absence~\cite{ammann2008introduction}
+	 \end{block}
+\end{frame}
+
+
+\begin{frame}{Proposed solutions: static analysis}
+  % - Difference between validation and proof : Validation is an argument whose conclusion is always true, 
+  %   whenever its premises are true. 
+  % - Proof is a process designed to establish or discover a fact or a truth.
+  \begin{itemize}
+	 	\item 
+		 Accurately specify the specifications of SW/HW/Em systems
+		\item 
+		 Prove that the implementation satisfies the specifications 
+      \begin{itemize}
+        \item Theorem proving: limited  to decidable theories~\cite{ouimet2007formal}
+        \item Symbolic model checking: State space explosion~\cite{baier2008principles}
+        \item {\em Bounded model checking over a finite domain}~\cite{biere2003bounded}
+	    \end{itemize}
+		\item
+	     Establish correctness by construction 
+      \begin{itemize}
+        \item {\em Component based systems (CBS)}, compositional approaches, automated logic synthesis
+	    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+%%%%%%	 \begin{itemize}
+%%%%%%	  \item Theorem proving~\cite{ouimet2007formal}: 
+%%%%%%	   \begin{itemize}
+%%%%%%	    \item
+%%%%%%	    Given axioms, assumptions and deduction rules
+%%%%%%	    \item 
+%%%%%%	    Search for theorem in all possible logical sequences 
+%%%%%%	    \item 
+%%%%%%	    All possible logical sequences are infinite
+%%%%%%	   \end{itemize}
+%%%%%%	  \item Model checking~\cite{baier2008principles}:
+%%%%%%	   \begin{itemize}
+%%%%%%	   \item
+%%%%%%	   Symbolically compute reachable states of a transition system
+%%%%%%	   \item 
+%%%%%%	   Suffers from the state space explosion problem
+%%%%%%	  \end{itemize}
+%%%%%%	  \end{itemize}
+
+%%\begin{frame}{Bounded Model Checking (BMC)}
+%%\begin{itemize}
+%%	  \item 
+%%	  Bounded model checking~\cite{biere2003bounded}:
+%%	  \begin{itemize}
+%%	   \item
+%%	   Validate that the specifications hold for a finite domain bounded by
+%%	   the number of objects or transitions, the execution time, \ldots
+%%	   \item
+%%	   Proof as good as the provided bound
+%%	   \item 
+%%	   Not always possible to generate formula for SAT checking
+%%	  \end{itemize}
+%%\end{itemize}
+%%\end{frame}
+
+\begin{frame}{Bounded model checking (BMC) tools (1) }
+  \framesubtitle{C-BMC: CNF SAT solver for C bounded model checking} 
+%% Alloy Analyzer, is a solver that takes the constraints of a model 
+%% and finds structures that satisfy them
+%% Alloy entity, relation : For example for the file system, there are entities 
+%% and relations between them (e.g. root folder, parent, files, children folders, ...)
+  \begin{itemize}
+  	\item
+	 CBMC~\cite{clarke2004tool} 
+	\begin{itemize}
+	 \item
+	 (C code, bound) $\rightarrow$ Conjunctive Normal Form (CNF) $\rightarrow$ Satisfiability (SAT)
+	 \item
+	  The size of the generated CNF grows with the program size and the bound
+	 \item
+	  Can generate false negatives due to unwinding assertions 
+  \item
+    The unwinding bound needed to prove the specifications depends on the runtime of the program (if it terminates)
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Bounded model checking (BMC) tools (2) }
+  \framesubtitle{Alloy: CNF SAT solver for FOL with TC bounded model checking} 
+  \begin{itemize}
+	\item 
+ Alloy~\cite{jackson2002alloy}
+	 \begin{itemize}
+  \item 
+	  (First Order Logic (FOL) + Transitive Closure (TC), bound) $\rightarrow$ CNF $\rightarrow$ SAT
+	  \item The generated CNF formulae can be very large 
+	  \item Analysis is limited to small bounds, e.g. 10 entities in a file system~\cite{fz2007relational}
+	 \end{itemize}
+	 \item 
+  CBMC, Alloy, and other existing CNF based solutions do not scale well to large bounds
+ \end{itemize}
+\end{frame}
+
+%% ABC 
+\begin{frame}{ABC~\cite{brayton2010abc}}
+ \begin{itemize}
+  \item 
+   Industrial strength sequential synthesis and verification tool
+  \item 
+   Takes as input an And-Inverter-Graph (AIG) representation of a sequential circuit
+ \begin{itemize}
+  \item Sequential circuit is a Boolean formula with memory elements
+ \end{itemize}
+  \item Reduces AIG with synthesis algorithms 
+  \item Checks correctness of reduced AIG with proof algorithms
+ \end{itemize}
+\end{frame}
+
+%% CBS design 
+\begin{frame}{CBS design}
+  %% Talk about cbs design and bip and what then use
+  %% in terms of NuSMV and DFinder
+  \begin{itemize}
+   \item {\em Behavior-Interaction-Priority} (BIP) is a framework for CBS design 
+   \item It allows for creating complex systems by coordinating the behavior of 
+   a set of components
+   \item 
+    It aims at generating correct by construction code for embedded systems
+%%   \item It supports three layers of modeling
+%%    \begin{enumerate}
+%%     \item Behavior: described by {\em Labeled Transition Systems} (LTS) 
+%%     with data and C functions
+%%     \item Interaction: synchronization and data transfer between components
+%%     \item Priority: express scheduling policies between interactions
+%%    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+%% BIP verification 
+\begin{frame}{BIP verification}
+  %% BIP verification: NuSMV and DFinder
+%  \begin{itemize}
+%   \item Existing techniques for verifying BIP modes include
+    \begin{itemize}
+     \item DFinder~\cite{dfinder}: a tool for checking invariants and deadlock freedom of BIP systems
+      \begin{itemize}
+%       \item Computes invariants of the system in a compositional way
+%       \item Checks for the SAT of the generated formula
+       \item Does not handle data transfer between components
+      \end{itemize}
+     \item NuSMV~\cite{nusmv}: translate BIP systems to NuSMV models and perform model checking
+      \begin{itemize}
+%       \item Uses SAT and {\em Binary Decision Diagrams} (BDD) based model checking techniques
+%       \item Supports {\em Computational Tree Logic} (CTL) and {\em Linear Temporal Logic} (LTL)
+%       specifications
+       \item Does not always scale well due the state space explosion problem 
+      \end{itemize}
+    \end{itemize}
+%  \end{itemize}
+\end{frame}
+
+
+%% our work presentation starts here
+\input{presentation_ourwork}
+
+\section{Preliminaries}
+\input{presentation_prelim}
+
+\section{\mytool{}}
+\input{psq_presentation}
+
+\section{\biptool{}}
+\input{bipi_presentation}
+
+\section{Conclusion}
+\input{presentation_conclusion}
+
+
+%% bibliography
+\section*{References}
+\begin{frame}[allowframebreaks]{References}
+\bibliographystyle{alpha}
+\bibliography{references/refs}
+\end{frame}
+
+
+%%%% Backup slides
+\section*{Backup slides}
+\begin{frame}[c]
+  \LARGE{BACKUP SLIDES}
+\end{frame}
+
+\begin{frame}{AIG Example}
+ \begin{exampleblock}{Or gate}
+  Consider the formula $F := (a \lor b)$ where $a$ and $b$ are primary inputs
+ \end{exampleblock}
+ \begin{itemize}
+   \item We can write $F$ as $\lnot ( \lnot a \land \lnot b )$
+ \end{itemize}
+ \begin{center}
+ 	\resizebox{0.2\textwidth}{!}{
+		 \input{figures/aig_ex.pdftex_t}
+ 	}
+ \end{center}
+\end{frame}
+
+\begin{frame}{ABC reduction}
+\scriptsize{
+\begin{tabular} {|p{2.5cm}|p{6.5cm}|l|}
+\hline
+\centering{{\bf Technique}} & {\bf Description} & {\bf ABC command} \\
+\hline
+Balancing & Balancing reduces the number of AIG levels by applying associativity 
+transformations~\cite{brayton2010abc} & \cci{balance} \\
+\hline
+Structural Register Sweep (SRS) & SRS reduces the number of registers in the circuit
+by eliminating stuck-at-constant registers~\cite{mishchenko2008scalable} & \cci{scl -l} \\
+\hline
+Signal Correspondence (Scorr) & Scorr computes a set of classes of sequentially-equivalent
+nodes using $k$-step induction~\cite{mishchenko2008scalable} & \cci{ssweep} \\
+\hline
+Rewriting & AIG rewriting iteratively selects and replaces 
+rooted AIG subgraphs with smaller pre-computed subgraphs in order to reduce the size of 
+the AIG~\cite{bjesse2004dag} & \cci{rewrite} \\
+\hline
+Refactoring & AIG refactoring is a variation of AIG rewriting that uses a heuristic
+algorithm to compute one large cut for each AIG node, then replaces the structure
+of these cuts with a factored form if an improvement is observable~\cite{mishchenko2006dag} & \cci{refactor}  \\
+\hline
+Retiming & Retiming aims at manipulating registers over 
+combinational nodes in a given logic network, while maintaining the output 
+functionality and logic structure~\cite{hurst2007fast} & \cci{retime}\\
+\hline
+\end{tabular}}
+\end{frame}
+
+\begin{frame}
+\scriptsize{
+\begin{tabular} {|p{2.5cm}|p{6.5cm}|l|}
+\hline
+\centering{{\bf Technique}} & {\bf Description} & {\bf ABC command} \\
+\hline
+%-- Verification -- %
+Temporal Induction & Temporal induction uses SAT solvers to carry simple and k-step induction proofs
+over the time steps of the sequential circuit~\cite{een2003temporal} & \cci{ind} \\
+\hline
+Interpolation & Interpolation-based algorithms aim at finding interpolants 
+in order to derive an over-approximation of the reachable states of the
+AIG network with respect to the property~\cite{amla2005analysis} & \cci{int} \\
+\hline
+Property Directed Reachability (Pdr) & Pdr tries to prove that 
+there is no transition from an initial state of the AIG to a bad state~\cite{een2011efficient} & \cci{pdr} \\
+\hline
+\end{tabular}}
+\end{frame}
+

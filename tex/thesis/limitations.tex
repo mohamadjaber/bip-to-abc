@@ -1,0 +1,60 @@
+
+
+Recent advances in SAT enabled tools like the 
+Alloy Analyzer~\cite{jackson2002alloy} and CBMC to check designs of real systems.
+However,
+these designs often need to be partial, leaving out 
+important functionality aspects of the systems, 
+to enable the analysis to complete.  
+Moreover, the analysis is typically bound to
+relatively small limits, e.g., fewer than 7 nodes in 
+a tree structure with the Alloy Analyzer.
+
+There are three limiting aspects of translating high-level 
+programs to SAT.  
+\begin{description}
+
+\item[Disadvantage 1]
+The translation to CNF depends on
+the bounds; a small increase in the bound on variable
+ranges can cause a large increase in the size of the
+translated CNF formula due to unwinding loop and recursion
+structures in programs, or eliminating quantifiers 
+%and unrolling transitive closure 
+in declarative first order logic.
+%for
+%example, for an undirected seven-node tree the translation
+%from Alloy to CNF generates a formula with over one million
+%variables and five million clauses.  
+
+\item[Disadvantage 2] 
+The SAT solver is restricted to
+using optimizations, such as symmetry
+breaking~\cite{Aloul02SymSAT} and observability don't
+cares (ODC)~\cite{FuYuMalik2005}, that apply at the level
+of CNF formulas.  
+However these optimizations usually aim
+at increasing the speed of the solver and often result in
+larger formulas as they add literals and clauses to the
+CNF formula to encode symmetry and ODC
+optimizations~\cite{ZhuKu06SATSweepODC}.  
+Often times when
+the analyzer successfully generates a large CNF formula,
+the underlying solver requires intractable resources.
+
+\item[Disadvantage 3] 
+Often times the CNF formula
+generated needs to be regenerated with higher bounds in
+case the unwinding bounds were not large enough for the
+loops to complete as is the case with CBMC. 
+Note that multiple bounds exist and they need not be all
+increased during one iteration.
+\end{description}
+
+To extend the applicability of static analysis to a wider
+class of programs as well as to check more
+sophisticated specifications 
+and gain more confidence in the
+results, we need to scale the analysis to significantly
+larger bounds; limits on the range of design and program
+variables.

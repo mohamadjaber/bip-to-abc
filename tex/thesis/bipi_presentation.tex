@@ -1,0 +1,314 @@
+%% bip tool presentation
+\subsection*{Methodology}
+
+\begin{frame}{\biptool}
+\begin{itemize}
+ \item Given a BIP system \Pm
+ \begin{itemize}
+  \item an invariant $\mathcal{I}$
+  \item a bound $b$ on the data width of variables 
+ \end{itemize}
+ \item \biptool{} translates $\Pm \models \mathcal{I}|_b$ into an  AIG problem
+ \item It uses ABC to reduce and check the AIG problem
+ \item Translation is done using an intermediate \thislanguage program \aigcircuit
+\end{itemize}
+\end{frame}
+
+\begin{frame}{BIP by example}
+\begin{figure}
+\centering
+\resizebox{0.8\textwidth}{!}{
+  \input{figures/traffic.pdftex_t}
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}{BIP in short}
+ \begin{itemize}
+   \item A BIP design is a collection of components connected with interactions
+   \item An interaction is a connection between component ports, 
+   \begin{itemize} \item labeled with guards, and data transfer actions (assignment statements)\end{itemize}
+   \item Each component has a finite state machine 
+   \begin{itemize} \item transitions are labeled with ports, guards, and actions \end{itemize} 
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{BIP Execution model}
+   The progress of the BIP model is divided into two steps:
+    \begin{enumerate}
+      \item First step \begin{itemize}
+          \item computes the enabled interactions, \item selects non-conflicting active interactions, 
+          and \item executes interaction data transfer actions\end{itemize}
+	 \item Second step 
+  \begin{itemize}  \item executes the atomic component transitions involved in the selected interactions. \end{itemize}
+	\end{enumerate} 
+\end{frame}
+
+\begin{frame}{Example}
+\begin{itemize}
+\item
+ Assume that we are in the following state:
+ $$(t = 9, n = 10, timer\_location = s_0) \land (light\_location = G, m = 3)$$
+ \end{itemize}
+ \begin{columns}[c]
+  \column{0.5\textwidth}
+  \begin{tabular}{|c|c|c|c|c|c|}
+	  \hline
+	  Step & $t$ & $n$ & $tl$ & $ll$ & $m$ \\ 
+	  \hline
+	     $s$ & $9$ & $10$ & $s_0$ & $G$ & $3$ \\
+	     \hline
+	     $s+1$ & $10$ & $10$ & $s_0$ & $G$ & $3$ \\
+	  \hline
+	     $s+2$ & $10$ & $3$ & $s_0$ & $G$ & $3$ \\
+	  \hline
+	  $s+3$ & $0$ & $3$ & $s_0$ & $Y$ & $5$ \\
+	  \hline
+  \end{tabular}
+   \column{0.5\textwidth}
+   \resizebox{0.8\textwidth}{!}{
+  \input{figures/traffic.pdftex_t}
+}
+ \end{columns}
+\end{frame}
+
+\begin{frame}{BIP components}
+\begin{itemize}
+\item An atomic component $B$ is a tuple $\left(X,P,L,T\right)$ where 
+\begin{itemize}
+ \item $X$: set of data variables, e.g. \{$t$, $n$, \ldots\}
+ \item $P$: set of ports, e.g. \{done, timer\}
+ \begin{itemize}
+  \item Each port can have a set of variables $X_p \subseteq X$
+ \end{itemize}
+ \item $L$: set of control locations, e.g \{$s_0, G, R, Y$\}
+ \item $T \subset L \times P \times \mathbb{B}[X] \times Exp[X] \times L$: transition relation
+ \begin{itemize}
+  \item $\mathbb{B}[X]$: set of Boolean guards over $X$, e.g. $x \geq n$
+  \item $f_\tau \in Exp[X]$: partial mapping $x \in X \mapsto expression~ f_\tau^{x}(X)$, e.g.
+  $t = 0$
+ \end{itemize}
+\end{itemize}
+\item Using dot notation: $B_i.P$ the set of ports of atomic component $B_i$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{BIP interaction}
+\begin{itemize}
+ \item An interaction $a$ is a tuple $(P_a, G_a, F_a)$ where
+ \begin{itemize}
+  \item $P_a \subseteq \cup_{i=1}^{N} B_i.P$: non empty set of ports 
+  \begin{itemize}
+   \item $\forall{i}:1 \leq i \leq N	: |B_i.P \cap P_a| \leq 1$
+  \end{itemize}
+  \item $G_a$: Boolean guard over variables $X_a = \bigcup_{p \in P_a} X_p$
+  \item $F_a$: Update function $X_a \mapsto X_a$
+ \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]{BIP to \thislanguage: Declarations}
+  \begin{lstlisting}[basicstyle=\scriptsize\ttfamily]
+// |J|: number of interactions, |I|: number of atomic components
+wire bool ie[|J|]; // interaction enablement 
+wire bool ip[|J|]; // interaction priority
+wire bool is[|J|]; // interaction selected
+
+wire int selector; // non-deterministic priority selector
+bool cycle; 
+
+foreach $i \in [1..|I|]$
+  int $B_i.\ell$;
+  foreach $j \in [1..|B_i.P|]$ 
+    wire bool $B_i.p_j.e$; // port enablement
+    wire bool $B_i.p_j.s$; // port selected
+  endfor 
+    
+  foreach $j \in [1..|B_i.X|]$ 
+    int $B_i.x_j$; // variable registers
+  endfor
+endfor
+  \end{lstlisting}
+% \end{columns}
+\end{frame}
+
+\begin{frame}[containsverbatim]{BIP to \thislanguage: Interactions}
+\begin{itemize}
+ \item {\small Assume interaction0 = $(true,\set{timer},\emptyset)$
+ and interaction1 = $(true, \set{B_0.done, B_1.done}, B_0.done.n = B_1.done.m)$}
+\end{itemize}
+\begin{columns}
+ \column{0.5\textwidth}
+ \begin{lstlisting}
+ie[0] = $true \land B_0.timer.e$
+ie[1] = $true \land B_0.done.e \land B_1.done.e$
+
+ip[0] = $ie[0] \land \lnot ie[1]$
+ip[1] = $ie[1]$
+
+is[0] = $ip[0] \land ((selector == 0) \lor \lnot ip[1])$
+is[1] = $ip[1] \land ((selector == 1) \lor true)$
+ \end{lstlisting}
+ \column{0.5\textwidth}
+    \resizebox{0.9\textwidth}{!}{
+  \input{figures/traffic.pdftex_t}
+}
+\end{columns}
+\end{frame}
+
+\begin{frame}[containsverbatim]{BIP to \thislanguage: Ports}
+\begin{columns}
+ \column{0.5\textwidth}
+ \begin{lstlisting}
+$B_0.timer.e = (B_0.\ell == s_0) \land (t < n)$
+$B_0.done.e = (B_0.\ell == s_0) \land (t \geq n)$
+$B_1.done.e = true \land ((B_1.\ell == G)$ 
+             $||(B_1.\ell == R)$
+             $||(B_1.\ell == Y))$
+             
+$B_0.timer.s = is[0]$
+$B_0.done.s = is[1]$
+$B_0.done.s = is[1]$
+ \end{lstlisting}
+ \column{0.5\textwidth}
+    \resizebox{0.9\textwidth}{!}{
+  \input{figures/traffic.pdftex_t}
+}
+\end{columns}
+\end{frame}
+
+\begin{frame}[containsverbatim]{BIP to \thislanguage: Initialization}
+\begin{columns}
+ \column{0.5\textwidth}
+ \begin{lstlisting}
+$B_0.\ell = s_1$
+$t = 0$
+
+$B_1.\ell = G$
+$n = 10$
+$m = 3$
+ \end{lstlisting}
+ \column{0.5\textwidth}
+    \resizebox{0.9\textwidth}{!}{
+  \input{figures/traffic.pdftex_t}
+}
+\end{columns}
+\end{frame}
+
+\begin{frame}[containsverbatim]{BIP to \thislanguage: Interaction execution}
+\begin{columns}
+ \column{0.5\textwidth}
+ \begin{lstlisting}
+$n = (cycle == 0)? (is[1]? m : n) : n$
+ \end{lstlisting}
+ \column{0.5\textwidth}
+    \resizebox{0.9\textwidth}{!}{
+  \input{figures/traffic.pdftex_t}
+}
+\end{columns}
+\end{frame}
+
+\begin{frame}[containsverbatim]{BIP to \thislanguage: Transition execution}
+\begin{columns}
+ \column{0.5\textwidth}
+ \begin{lstlisting}
+$t = (cycle == 1)?$ 
+   $((B_0.timer.s)? (t + 1) :$
+   $((B_0.done.s)? 0 : t)) : t$;
+$m = (cycle == 1)?$
+   $((B_1.done.s \land B_1.\ell == G)? 5 :$
+   $((B_1.done.s \land B_1.\ell == Y)? 10 :$
+   $((B_1.done.s \land B_1.\ell == R)? 3 : m))) : m$
+$B_0.\ell = (cycle == 1)?$
+   $((B_0.timer.s)? s_0:$
+   $((B_0.done.s)? s_0:B_0.\ell)):B_0.\ell$
+$B_1.\ell = (cycle == 1)?$
+   $((B_1.done.s \land B_1.\ell == G)? Y :$
+   $((B_1.done.s \land B_1.\ell == Y)? R :$
+   $((B_1.done.s \land B_1.\ell == R)? G : B_1.\ell))) : B_1.\ell$
+ \end{lstlisting}
+ \column{0.5\textwidth}
+    \resizebox{0.9\textwidth}{!}{
+  \input{figures/traffic.pdftex_t}
+}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Results}
+\begin{frame}{Evaluation}
+\begin{itemize}
+ \item We evaluated \biptool{} against two benchmarks
+ \begin{enumerate}
+  \item An Automatic Teller Machine (ATM) system~\cite{atm}
+  \item The Quorum consensus protocol~\cite{guerraoui2012speculative}
+ \end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{ATM system}
+\begin{itemize}
+ \item Composed of 3 components: User, ATM and Bank
+ \item User enter card and secret code before timer expires
+ \item The ATM 
+ \begin{enumerate}
+  \item checks for correctness of the entered code and ejects card if wrong
+  \item waits for user to enter amount of money 
+  \item checks with the bank if transaction is valid and transfers money
+  \item eject card on completed or failed transaction
+  \end{enumerate}
+ \item We assume the presence of single bank and multiple ATMs and users
+ \item We need to check the deadlock freedom of such a system 	
+\end{itemize}
+\end{frame}
+
+\begin{frame}{ATM results}
+\begin{itemize}
+ \item \biptool{} outperforms NuSMV as the number of users and ATMS increases
+\end{itemize}
+\begin{table}
+\centering
+\small{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\cline {2-10}
+\multicolumn{1}{c|}{} &  \multicolumn{3}{c|}{Original} & \multicolumn{3}{c|}{After reduction} &  \multicolumn{3}{c|}{Time(s)} \\ \hline
+ATMs & lat & and & lev & lat & and & lev & Ver. & Total& NuSMV \\ \hline
+2 & 78 & 2308 & 125 & 37 & 552 & 25 & 21.83 & 26.1 & 1.4\\ \hline
+3 & 102 & 3689 & 197 & 50 & 804 & 29 & 32.65 & 38.87 & 142.6 \\ \hline
+4 & 146 & 5669 & 234 & 63 & 1036 & 29 & 590  & 597 & 3361 \\ \hline
+\end{tabular}}
+\end{table}
+\end{frame}
+
+\begin{frame}{The Quorum protocol}
+\begin{itemize}
+ \item Consensus protocols between multiple clients to decide on a value
+ \item System is composed of several communicating clients and servers
+ \item Clients suggest values and wait for acceptance notifications from servers
+ \item All clients converge to a single decided value under perfect channel conditions
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Quorum results}
+\begin{itemize}
+ \item \biptool{} verified the system satisfies its invariant
+ for $2$ servers and $4$ clients while NuSMV failed
+ \item \biptool{} found defects in the system when NuSMV failed
+\end{itemize}
+\begin{table}
+\centering
+\small{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\cline{2-9}
+\multicolumn{1}{c|}{} & \multicolumn{ 3}{c|}{Original} & \multicolumn{ 3}{c|}{After reduction} & \multicolumn{ 2}{c|}{Time (s)} & \multicolumn{1}{l}{} \\ \hline
+Design & lat & and & lev & lat & and & lev & Ver. & Tot. & Decision \\ \hline
+2-2-v & 264 & 3614 & 105 & 66 & 641 & 29 & 240.6 & 245 & $\checkmark$\\ \hline
+2-2-d & 264 & 3508 & 101 & 65 & 923 & 51 & 0.11 & 0.78 & $\chi$\\ \hline
+4-2-v & 390 & 6453 & 151 & 117 & 1170 & 30 & \multicolumn{2}{c|}{58 hours}& $\checkmark$\\ \hline
+4-2-d & 390 & 6305 & 145 & 117 & 1129 & 50 & 0.24 & 0.31 & $\chi$ \\ \hline
+\end{tabular}}
+\end{table}
+\end{frame}

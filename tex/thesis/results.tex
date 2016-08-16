@@ -1,0 +1,91 @@
+We evaluate \mytool{} against three different program verification benchmarks. 
+We first present a case study of linear and binary search and compare 
+\mytool's results with those obtained from CBMC.
+The second
+set of benchmarks 
+contains standard functions such as searching, sorting, linked list operations
+and array partitioning. 
+The third set contains benchmarks
+from the second competition on Software Verification
+(SV-COMP 2013)~\cite{svcomp}, a competition aimed at the thorough evaluation of 
+automatic program verification tools. We ran all experiments on an
+Intel Core i7 machine with 8 GB memory. 
+
+\section{Searching: \mytool{} and CBMC}
+\label{chap:res:casestudies}
+\input{cases}
+
+\section{Standard benchmarks}
+\label{chap:res:standardbench}
+\input{results_table_stand}
+Table~\ref{tb:psq:standard} shows the results of applying 
+\mytool{} on a set of standard program functions. The first column shows
+the program \Pm to verify. \cci{ls} stands for {\em linear search}, 
+\cci{bs} stands for {\em binary search}, \cci{bsort} stands for 
+{\em bubble sort}, \cci{ss} stands for {\em selection sort},
+\cci{a-p} stands for {\em array partitioning}, \cci{lli} stands for 
+{\em linked list insert} and \cci{llr} stands for {\em linked list remove}. 
+The column $b$ shows the chosen bit width for the variables in \Pm. 
+Table~\ref{tb:psq:properties:standard} lists the properties verified for each of the 
+standard benchmarks. 
+
+\input{tb_properties}
+
+To evaluate the size of the generated AIGs, we report on the 
+number of latches (\cci{lat}), the number of AND  gates (\cci{and})
+and the number of logic levels (\cci{lev}) as recorded by the 
+ABC tool. We show the size of the AIGs before and after applying 
+synthesis and reduction algorithms. We use common synthesis 
+algorithms such structural sweeping ({\em ssweep}), 
+retiming ({\em retime}), refactoring ({\em refactore})
+and several other combinations of algorithms provided by ABC. 
+
+For performance evaluation, the column {\em Ver.} shows the 
+time taken by the verification algorithm and the column {\em Total} 
+shows the total time taken by ABC to perform both synthesis (reduction)
+and verification. 
+The set of provided programs are all correct (\ie
+contain no bugs), the {\em Check} column shows the result of the 
+proof algorithm applied by ABC. A conclusive check ($\checkmark$) 
+indicates that the solver was able to assert that the program
+satisfies its specifications. A non conclusive check (N/A) 
+indicates that the solver hit the time limit before returning 
+a validity answer. We set a time-out of $1800$ seconds on induction based
+proof algorithm and a $1000000$ {\em Binary Decision Diagrams} 
+(BDD) size limit for algorithms based on 
+BDD reachability. The amount of memory that \mytool{} 
+is allowed to use is only limited by the machine's physical limit, \ie $8$ GB.
+
+The results in Table~\ref{tb:psq:standard} clearly show the advantage that
+using the sequential circuit encoding provides. The ABC synthesis engine is always
+able to rewrite the generated AIG in a way to greatly reduce the number of AND gates
+and logic levels. For example, for the linear search algorithm with a bit bound of 
+8, ABC achieved a $93\%$ reduction in the number of logic levels (from 529 to 33), 
+and a $21\%$ reduction in the number of AND gates. For more complex designs,
+such as the linked list insertion, the reduction algorithms achieved $50\%$
+reduction in the number of logic levels, 
+$80\%$ reduction in the number of AND gates 
+and $58\%$ reduction in the number of latches. 
+
+On average, the ABC synthesis algorithms achieved $43\%$ reduction in the 
+number of latches, $53\%$ reduction in the number of AND gates and 
+$47\%$ reduction in the number of logic levels. Therefore we can conclude
+that \mytool{} can effectively make use of ABC's synthesis algorithm to 
+reduce the problem by half and thus help the proof algorithms. Furthermore, 
+we note that even in the cases where the ABC solver was not able to 
+provide a conclusive result about the properties to verify, \mytool{} was
+still able to generate and efficiently reduce the AIG circuits. This in fact
+allows us to try the validity checks using higher time-out limits and BDD size limits, 
+or  try new proof algorithms in the future.
+%The reduction rate that the ABC synthesis algorithms can achieve in terms
+%of the number of latches can be sometime limited by the nature of the 
+%program \Pm, and the number of variables in it. Since we wrote our algorithms
+%in a way to minimize unused variables in the code
+%Since the number of latches in the AIG is highly dependent on the 
+%number of variables in the program \Pm and the provided bit width, 
+%the reduction rate that the ABC synthesis algorithms can be sometimes 
+%limited 
+
+\section{SV-COMP 2013 benchmarks}
+\label{chap:res:svcompbench}
+\input{svcomp}

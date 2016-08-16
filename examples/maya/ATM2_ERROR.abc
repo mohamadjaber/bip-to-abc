@@ -1,0 +1,835 @@
+int var_valid_x_valid;
+int var_veto_y_veto;
+int var_atm0_t1_atm0;
+int var_atm0_t2_atm0;
+int var_atm1_t2_atm1;
+int var_atm1_t1_atm1;
+wire int wire_selector;
+int valid_currentState;
+int veto_currentState;
+int user0_currentState;
+int user1_currentState;
+int atm0_currentState;
+int atm1_currentState;
+wire boolean wire_port_loc_en_valid_valid_tick;
+wire boolean wire_port_en_valid_valid_tick;
+wire boolean wire_port_loc_en_valid_valid_authorized;
+wire boolean wire_port_en_valid_valid_authorized;
+wire boolean wire_port_loc_en_valid_valid_nonauthorized;
+wire boolean wire_port_en_valid_valid_nonauthorized;
+wire boolean wire_port_loc_en_valid_valid_validate;
+wire boolean wire_port_en_valid_valid_validate;
+wire boolean wire_port_loc_en_veto_veto_tick;
+wire boolean wire_port_en_veto_veto_tick;
+wire boolean wire_port_loc_en_veto_veto_veto;
+wire boolean wire_port_en_veto_veto_veto;
+wire boolean wire_port_loc_en_veto_veto_transaction;
+wire boolean wire_port_en_veto_veto_transaction;
+wire boolean wire_port_loc_en_veto_veto_fiat;
+wire boolean wire_port_en_veto_veto_fiat;
+wire boolean wire_port_loc_en_user0_user0_invalid;
+wire boolean wire_port_en_user0_user0_invalid;
+wire boolean wire_port_loc_en_user0_user0_withdraw;
+wire boolean wire_port_en_user0_user0_withdraw;
+wire boolean wire_port_loc_en_user0_user0_success;
+wire boolean wire_port_en_user0_user0_success;
+wire boolean wire_port_loc_en_user0_user0_fail;
+wire boolean wire_port_en_user0_user0_fail;
+wire boolean wire_port_loc_en_user0_user0_cancel;
+wire boolean wire_port_en_user0_user0_cancel;
+wire boolean wire_port_loc_en_user0_user0_insert;
+wire boolean wire_port_en_user0_user0_insert;
+wire boolean wire_port_loc_en_user0_user0_amount;
+wire boolean wire_port_en_user0_user0_amount;
+wire boolean wire_port_loc_en_user0_user0_enter;
+wire boolean wire_port_en_user0_user0_enter;
+wire boolean wire_port_loc_en_user0_user0_validated;
+wire boolean wire_port_en_user0_user0_validated;
+wire boolean wire_port_loc_en_user0_user0_eject;
+wire boolean wire_port_en_user0_user0_eject;
+wire boolean wire_port_loc_en_user0_user0_accept;
+wire boolean wire_port_en_user0_user0_accept;
+wire boolean wire_port_loc_en_user1_user1_eject;
+wire boolean wire_port_en_user1_user1_eject;
+wire boolean wire_port_loc_en_user1_user1_amount;
+wire boolean wire_port_en_user1_user1_amount;
+wire boolean wire_port_loc_en_user1_user1_accept;
+wire boolean wire_port_en_user1_user1_accept;
+wire boolean wire_port_loc_en_user1_user1_invalid;
+wire boolean wire_port_en_user1_user1_invalid;
+wire boolean wire_port_loc_en_user1_user1_fail;
+wire boolean wire_port_en_user1_user1_fail;
+wire boolean wire_port_loc_en_user1_user1_success;
+wire boolean wire_port_en_user1_user1_success;
+wire boolean wire_port_loc_en_user1_user1_insert;
+wire boolean wire_port_en_user1_user1_insert;
+wire boolean wire_port_loc_en_user1_user1_validated;
+wire boolean wire_port_en_user1_user1_validated;
+wire boolean wire_port_loc_en_user1_user1_enter;
+wire boolean wire_port_en_user1_user1_enter;
+wire boolean wire_port_loc_en_user1_user1_withdraw;
+wire boolean wire_port_en_user1_user1_withdraw;
+wire boolean wire_port_loc_en_user1_user1_cancel;
+wire boolean wire_port_en_user1_user1_cancel;
+wire boolean wire_port_loc_en_atm0_atm0_validate;
+wire boolean wire_port_en_atm0_atm0_validate;
+wire boolean wire_port_loc_en_atm0_atm0_tick;
+wire boolean wire_port_en_atm0_atm0_tick;
+wire boolean wire_port_loc_en_atm0_atm0_success;
+wire boolean wire_port_en_atm0_atm0_success;
+wire boolean wire_port_loc_en_atm0_atm0_fail;
+wire boolean wire_port_en_atm0_atm0_fail;
+wire boolean wire_port_loc_en_atm0_atm0_accept;
+wire boolean wire_port_en_atm0_atm0_accept;
+wire boolean wire_port_loc_en_atm0_atm0_amount;
+wire boolean wire_port_en_atm0_atm0_amount;
+wire boolean wire_port_loc_en_atm0_atm0_validated;
+wire boolean wire_port_en_atm0_atm0_validated;
+wire boolean wire_port_loc_en_atm0_atm0_enter;
+wire boolean wire_port_en_atm0_atm0_enter;
+wire boolean wire_port_loc_en_atm0_atm0_cancel;
+wire boolean wire_port_en_atm0_atm0_cancel;
+wire boolean wire_port_loc_en_atm0_atm0_eject;
+wire boolean wire_port_en_atm0_atm0_eject;
+wire boolean wire_port_loc_en_atm0_atm0_transaction;
+wire boolean wire_port_en_atm0_atm0_transaction;
+wire boolean wire_port_loc_en_atm0_atm0_veto;
+wire boolean wire_port_en_atm0_atm0_veto;
+wire boolean wire_port_loc_en_atm0_atm0_invalid;
+wire boolean wire_port_en_atm0_atm0_invalid;
+wire boolean wire_port_loc_en_atm0_atm0_insert;
+wire boolean wire_port_en_atm0_atm0_insert;
+wire boolean wire_port_loc_en_atm0_atm0_fiat;
+wire boolean wire_port_en_atm0_atm0_fiat;
+wire boolean wire_port_loc_en_atm0_atm0_authorized;
+wire boolean wire_port_en_atm0_atm0_authorized;
+wire boolean wire_port_loc_en_atm0_atm0_withdraw;
+wire boolean wire_port_en_atm0_atm0_withdraw;
+wire boolean wire_port_loc_en_atm0_atm0_nonauthorized;
+wire boolean wire_port_en_atm0_atm0_nonauthorized;
+wire boolean wire_port_loc_en_atm1_atm1_invalid;
+wire boolean wire_port_en_atm1_atm1_invalid;
+wire boolean wire_port_loc_en_atm1_atm1_tick;
+wire boolean wire_port_en_atm1_atm1_tick;
+wire boolean wire_port_loc_en_atm1_atm1_authorized;
+wire boolean wire_port_en_atm1_atm1_authorized;
+wire boolean wire_port_loc_en_atm1_atm1_eject;
+wire boolean wire_port_en_atm1_atm1_eject;
+wire boolean wire_port_loc_en_atm1_atm1_amount;
+wire boolean wire_port_en_atm1_atm1_amount;
+wire boolean wire_port_loc_en_atm1_atm1_cancel;
+wire boolean wire_port_en_atm1_atm1_cancel;
+wire boolean wire_port_loc_en_atm1_atm1_veto;
+wire boolean wire_port_en_atm1_atm1_veto;
+wire boolean wire_port_loc_en_atm1_atm1_validate;
+wire boolean wire_port_en_atm1_atm1_validate;
+wire boolean wire_port_loc_en_atm1_atm1_accept;
+wire boolean wire_port_en_atm1_atm1_accept;
+wire boolean wire_port_loc_en_atm1_atm1_transaction;
+wire boolean wire_port_en_atm1_atm1_transaction;
+wire boolean wire_port_loc_en_atm1_atm1_enter;
+wire boolean wire_port_en_atm1_atm1_enter;
+wire boolean wire_port_loc_en_atm1_atm1_success;
+wire boolean wire_port_en_atm1_atm1_success;
+wire boolean wire_port_loc_en_atm1_atm1_fiat;
+wire boolean wire_port_en_atm1_atm1_fiat;
+wire boolean wire_port_loc_en_atm1_atm1_fail;
+wire boolean wire_port_en_atm1_atm1_fail;
+wire boolean wire_port_loc_en_atm1_atm1_validated;
+wire boolean wire_port_en_atm1_atm1_validated;
+wire boolean wire_port_loc_en_atm1_atm1_insert;
+wire boolean wire_port_en_atm1_atm1_insert;
+wire boolean wire_port_loc_en_atm1_atm1_nonauthorized;
+wire boolean wire_port_en_atm1_atm1_nonauthorized;
+wire boolean wire_port_loc_en_atm1_atm1_withdraw;
+wire boolean wire_port_en_atm1_atm1_withdraw;
+wire boolean[38] interactions_enablement;
+wire boolean[38] interactions_first_enable;
+const int state_valid_l1 = 1;
+const int state_valid_l0 = 0;
+const int state_veto_l1 = 1;
+const int state_veto_l0 = 0;
+const int state_user0_l4 = 4;
+const int state_user0_l5 = 5;
+const int state_user0_l0 = 0;
+const int state_user0_l3 = 3;
+const int state_user0_l2 = 2;
+const int state_user0_l7 = 7;
+const int state_user0_l1 = 1;
+const int state_user0_l6 = 6;
+const int state_user1_l7 = 7;
+const int state_user1_l3 = 3;
+const int state_user1_l6 = 6;
+const int state_user1_l1 = 1;
+const int state_user1_l5 = 5;
+const int state_user1_l0 = 0;
+const int state_user1_l2 = 2;
+const int state_user1_l4 = 4;
+const int state_atm0_l0 = 0;
+const int state_atm0_l4 = 4;
+const int state_atm0_l1 = 1;
+const int state_atm0_l12 = 12;
+const int state_atm0_l7 = 7;
+const int state_atm0_l11 = 11;
+const int state_atm0_l8 = 8;
+const int state_atm0_l10 = 10;
+const int state_atm0_l14 = 14;
+const int state_atm0_l9 = 9;
+const int state_atm0_l13 = 13;
+const int state_atm0_l6 = 6;
+const int state_atm0_l5 = 5;
+const int state_atm0_l2 = 2;
+const int state_atm0_l3 = 3;
+const int state_atm1_l0 = 0;
+const int state_atm1_l2 = 2;
+const int state_atm1_l4 = 4;
+const int state_atm1_l5 = 5;
+const int state_atm1_l10 = 10;
+const int state_atm1_l14 = 14;
+const int state_atm1_l1 = 1;
+const int state_atm1_l9 = 9;
+const int state_atm1_l11 = 11;
+const int state_atm1_l13 = 13;
+const int state_atm1_l7 = 7;
+const int state_atm1_l8 = 8;
+const int state_atm1_l12 = 12;
+const int state_atm1_l3 = 3;
+const int state_atm1_l6 = 6;
+@do_together {
+  var_valid_x_valid = 0; 
+  valid_currentState = 0;
+  var_veto_y_veto = 0; 
+  veto_currentState = 0;
+  
+  user0_currentState = 0;
+  
+  user1_currentState = 0;
+  
+  atm0_currentState = 0;
+  
+  atm1_currentState = 0;
+}
+while(true) {
+  @do_together {
+    wire_port_loc_en_valid_valid_tick = (false || ((state_valid_l1 == valid_currentState) && var_valid_x_valid < 2));
+    wire_port_loc_en_valid_valid_authorized = (false || ((state_valid_l1 == valid_currentState) && var_valid_x_valid >= 1));
+    wire_port_loc_en_valid_valid_nonauthorized = (false || ((state_valid_l1 == valid_currentState) && var_valid_x_valid >= 1));
+    wire_port_loc_en_valid_valid_validate = (false || (state_valid_l0 == valid_currentState));
+    wire_port_loc_en_veto_veto_tick = (false || ((state_veto_l1 == veto_currentState) && var_veto_y_veto < 4));
+    wire_port_loc_en_veto_veto_veto = (false || ((state_veto_l1 == veto_currentState) && var_veto_y_veto >= 2));
+    wire_port_loc_en_veto_veto_transaction = (false || (state_veto_l0 == veto_currentState));
+    wire_port_loc_en_veto_veto_fiat = (false || ((state_veto_l1 == veto_currentState) && var_veto_y_veto >= 2));
+    wire_port_loc_en_user0_user0_invalid = (false || (state_user0_l2 == user0_currentState));
+    wire_port_loc_en_user0_user0_withdraw = (false || (state_user0_l7 == user0_currentState));
+    wire_port_loc_en_user0_user0_success = (false || (state_user0_l6 == user0_currentState));
+    wire_port_loc_en_user0_user0_fail = (false || (state_user0_l6 == user0_currentState));
+    wire_port_loc_en_user0_user0_cancel = (false || (state_user0_l4 == user0_currentState));
+    wire_port_loc_en_user0_user0_insert = (false || (state_user0_l0 == user0_currentState));
+    wire_port_loc_en_user0_user0_amount = (false || (state_user0_l3 == user0_currentState));
+    wire_port_loc_en_user0_user0_enter = (false || (state_user0_l1 == user0_currentState));
+    wire_port_loc_en_user0_user0_validated = (false || (state_user0_l2 == user0_currentState));
+    wire_port_loc_en_user0_user0_eject = (false || (state_user0_l5 == user0_currentState));
+    wire_port_loc_en_user0_user0_accept = (false || (state_user0_l4 == user0_currentState));
+    wire_port_loc_en_user1_user1_eject = (false || (state_user1_l5 == user1_currentState));
+    wire_port_loc_en_user1_user1_amount = (false || (state_user1_l3 == user1_currentState));
+    wire_port_loc_en_user1_user1_accept = (false || (state_user1_l4 == user1_currentState));
+    wire_port_loc_en_user1_user1_invalid = (false || (state_user1_l2 == user1_currentState));
+    wire_port_loc_en_user1_user1_fail = (false || (state_user1_l6 == user1_currentState));
+    wire_port_loc_en_user1_user1_success = (false || (state_user1_l6 == user1_currentState));
+    wire_port_loc_en_user1_user1_insert = (false || (state_user1_l0 == user1_currentState));
+    wire_port_loc_en_user1_user1_validated = (false || (state_user1_l2 == user1_currentState));
+    wire_port_loc_en_user1_user1_enter = (false || (state_user1_l1 == user1_currentState));
+    wire_port_loc_en_user1_user1_withdraw = (false || (state_user1_l7 == user1_currentState));
+    wire_port_loc_en_user1_user1_cancel = (false || (state_user1_l4 == user1_currentState));
+    wire_port_loc_en_atm0_atm0_validate = (false || ((state_atm0_l2 == atm0_currentState) && var_atm0_t1_atm0 > 1));
+    wire_port_loc_en_atm0_atm0_tick = ((false || ((state_atm0_l2 == atm0_currentState) && var_atm0_t1_atm0 < 5)) || ((state_atm0_l8 == atm0_currentState) && var_atm0_t2_atm0 < 6));
+    wire_port_loc_en_atm0_atm0_success = (false || (state_atm0_l11 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_fail = (false || (state_atm0_l13 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_accept = (false || ((state_atm0_l8 == atm0_currentState) && var_atm0_t2_atm0 >= 3));
+    wire_port_loc_en_atm0_atm0_amount = (false || (state_atm0_l7 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_validated = (false || (state_atm0_l4 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_enter = (false || (state_atm0_l1 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_cancel = (false || ((state_atm0_l8 == atm0_currentState) && var_atm0_t2_atm0 >= 3));
+    wire_port_loc_en_atm0_atm0_eject = (false || (state_atm0_l6 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_transaction = (false || (state_atm0_l9 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_veto = (false || (state_atm0_l10 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_invalid = (false || (state_atm0_l5 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_insert = (false || (state_atm0_l0 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_fiat = (false || (state_atm0_l10 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_authorized = (false || (state_atm0_l3 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_withdraw = (false || (state_atm0_l12 == atm0_currentState));
+    wire_port_loc_en_atm0_atm0_nonauthorized = (false || (state_atm0_l3 == atm0_currentState));
+    wire_port_loc_en_atm1_atm1_invalid = (false || (state_atm1_l5 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_tick = ((false || ((state_atm1_l2 == atm1_currentState) && var_atm1_t1_atm1 < 5)) || ((state_atm1_l8 == atm1_currentState) && var_atm1_t2_atm1 < 6));
+    wire_port_loc_en_atm1_atm1_authorized = (false || (state_atm1_l3 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_eject = (false || (state_atm1_l6 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_amount = (false || (state_atm1_l7 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_cancel = (false || ((state_atm1_l8 == atm1_currentState) && var_atm1_t2_atm1 >= 3));
+    wire_port_loc_en_atm1_atm1_veto = (false || (state_atm1_l10 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_validate = (false || ((state_atm1_l2 == atm1_currentState) && var_atm1_t1_atm1 > 1));
+    wire_port_loc_en_atm1_atm1_accept = (false || ((state_atm1_l8 == atm1_currentState) && var_atm1_t2_atm1 >= 3));
+    wire_port_loc_en_atm1_atm1_transaction = (false || (state_atm1_l9 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_enter = (false || (state_atm1_l1 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_success = (false || (state_atm1_l11 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_fiat = (false || (state_atm1_l10 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_fail = (false || (state_atm1_l13 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_validated = (false || (state_atm1_l4 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_insert = (false || (state_atm1_l0 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_nonauthorized = (false || (state_atm1_l3 == atm1_currentState));
+    wire_port_loc_en_atm1_atm1_withdraw = (false || (state_atm1_l12 == atm1_currentState));
+    interactions_first_enable[22] = ((true && wire_port_loc_en_user1_user1_accept) && wire_port_loc_en_atm1_atm1_accept);
+    interactions_first_enable[3] = ((true && wire_port_loc_en_user0_user0_validated) && wire_port_loc_en_atm0_atm0_validated);
+    interactions_first_enable[14] = ((true && wire_port_loc_en_veto_veto_transaction) && wire_port_loc_en_atm0_atm0_transaction);
+    interactions_first_enable[11] = ((true && wire_port_loc_en_valid_valid_validate) && wire_port_loc_en_atm0_atm0_validate);
+    interactions_first_enable[1] = ((true && wire_port_loc_en_user0_user0_enter) && wire_port_loc_en_atm0_atm0_enter);
+    interactions_first_enable[15] = ((true && wire_port_loc_en_veto_veto_veto) && wire_port_loc_en_atm0_atm0_veto);
+    interactions_first_enable[18] = ((true && wire_port_loc_en_user1_user1_enter) && wire_port_loc_en_atm1_atm1_enter);
+    interactions_first_enable[5] = ((true && wire_port_loc_en_user0_user0_accept) && wire_port_loc_en_atm0_atm0_accept);
+    interactions_first_enable[35] = (true && wire_port_loc_en_atm1_atm1_tick);
+    interactions_first_enable[28] = ((true && wire_port_loc_en_valid_valid_validate) && wire_port_loc_en_atm1_atm1_validate);
+    interactions_first_enable[36] = (true && wire_port_loc_en_veto_veto_tick);
+    interactions_first_enable[4] = ((true && wire_port_loc_en_user0_user0_amount) && wire_port_loc_en_atm0_atm0_amount);
+    interactions_first_enable[33] = ((true && wire_port_loc_en_veto_veto_fiat) && wire_port_loc_en_atm1_atm1_fiat);
+    interactions_first_enable[8] = ((true && wire_port_loc_en_user0_user0_fail) && wire_port_loc_en_atm0_atm0_fail);
+    interactions_first_enable[9] = ((true && wire_port_loc_en_user0_user0_success) && wire_port_loc_en_atm0_atm0_success);
+    interactions_first_enable[31] = ((true && wire_port_loc_en_veto_veto_transaction) && wire_port_loc_en_atm1_atm1_transaction);
+    interactions_first_enable[6] = ((true && wire_port_loc_en_user0_user0_cancel) && wire_port_loc_en_atm0_atm0_cancel);
+    interactions_first_enable[37] = (true && wire_port_loc_en_valid_valid_tick);
+    interactions_first_enable[24] = ((true && wire_port_loc_en_user1_user1_eject) && wire_port_loc_en_atm1_atm1_eject);
+    interactions_first_enable[12] = ((true && wire_port_loc_en_valid_valid_authorized) && wire_port_loc_en_atm0_atm0_authorized);
+    interactions_first_enable[10] = ((true && wire_port_loc_en_user0_user0_withdraw) && wire_port_loc_en_atm0_atm0_withdraw);
+    interactions_first_enable[32] = ((true && wire_port_loc_en_veto_veto_veto) && wire_port_loc_en_atm1_atm1_veto);
+    interactions_first_enable[30] = ((true && wire_port_loc_en_valid_valid_nonauthorized) && wire_port_loc_en_atm1_atm1_nonauthorized);
+    interactions_first_enable[7] = ((true && wire_port_loc_en_user0_user0_eject) && wire_port_loc_en_atm0_atm0_eject);
+    interactions_first_enable[25] = ((true && wire_port_loc_en_user1_user1_fail) && wire_port_loc_en_atm1_atm1_fail);
+    interactions_first_enable[29] = ((true && wire_port_loc_en_valid_valid_authorized) && wire_port_loc_en_atm1_atm1_authorized);
+    interactions_first_enable[19] = ((true && wire_port_loc_en_user1_user1_invalid) && wire_port_loc_en_atm1_atm1_invalid);
+    interactions_first_enable[13] = ((true && wire_port_loc_en_valid_valid_nonauthorized) && wire_port_loc_en_atm0_atm0_nonauthorized);
+    interactions_first_enable[17] = ((true && wire_port_loc_en_user1_user1_insert) && wire_port_loc_en_atm1_atm1_insert);
+    interactions_first_enable[20] = ((true && wire_port_loc_en_user1_user1_validated) && wire_port_loc_en_atm1_atm1_validated);
+    interactions_first_enable[2] = ((true && wire_port_loc_en_user0_user0_invalid) && wire_port_loc_en_atm0_atm0_invalid);
+    interactions_first_enable[34] = (true && wire_port_loc_en_atm0_atm0_tick);
+    interactions_first_enable[0] = ((true && wire_port_loc_en_user0_user0_insert) && wire_port_loc_en_atm0_atm0_insert);
+    interactions_first_enable[27] = ((true && wire_port_loc_en_user1_user1_withdraw) && wire_port_loc_en_atm1_atm1_withdraw);
+    interactions_first_enable[16] = ((true && wire_port_loc_en_veto_veto_fiat) && wire_port_loc_en_atm0_atm0_fiat);
+    interactions_first_enable[23] = ((true && wire_port_loc_en_user1_user1_cancel) && wire_port_loc_en_atm1_atm1_cancel);
+    interactions_first_enable[26] = ((true && wire_port_loc_en_user1_user1_success) && wire_port_loc_en_atm1_atm1_success);
+    interactions_first_enable[21] = ((true && wire_port_loc_en_user1_user1_amount) && wire_port_loc_en_atm1_atm1_amount);
+    interactions_enablement[0] = (interactions_first_enable[0] && ((wire_selector == 0) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[1]) ) && ( ! interactions_first_enable[2]) ) && ( ! interactions_first_enable[3]) ) && ( ! interactions_first_enable[4]) ) && ( ! interactions_first_enable[5]) ) && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[1] = (interactions_first_enable[1] && ((wire_selector == 1) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[2]) ) && ( ! interactions_first_enable[3]) ) && ( ! interactions_first_enable[4]) ) && ( ! interactions_first_enable[5]) ) && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[2] = (interactions_first_enable[2] && ((wire_selector == 2) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[3]) ) && ( ! interactions_first_enable[4]) ) && ( ! interactions_first_enable[5]) ) && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[3] = (interactions_first_enable[3] && ((wire_selector == 3) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[4]) ) && ( ! interactions_first_enable[5]) ) && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[4] = (interactions_first_enable[4] && ((wire_selector == 4) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[5]) ) && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[5] = (interactions_first_enable[5] && ((wire_selector == 5) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[6]) ) && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[6] = (interactions_first_enable[6] && ((wire_selector == 6) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[7]) ) && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[7] = (interactions_first_enable[7] && ((wire_selector == 7) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((((((((true && ( ! interactions_first_enable[8]) ) && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[8] = (interactions_first_enable[8] && ((wire_selector == 8) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((((((true && ( ! interactions_first_enable[9]) ) && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[9] = (interactions_first_enable[9] && ((wire_selector == 9) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((((((true && ( ! interactions_first_enable[10]) ) && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[10] = (interactions_first_enable[10] && ((wire_selector == 10) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((((true && ( ! interactions_first_enable[11]) ) && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[11] = (interactions_first_enable[11] && ((wire_selector == 11) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((((true && ( ! interactions_first_enable[12]) ) && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[12] = (interactions_first_enable[12] && ((wire_selector == 12) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((((true && ( ! interactions_first_enable[13]) ) && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[13] = (interactions_first_enable[13] && ((wire_selector == 13) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((((true && ( ! interactions_first_enable[14]) ) && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[14] = (interactions_first_enable[14] && ((wire_selector == 14) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((((true && ( ! interactions_first_enable[15]) ) && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[15] = (interactions_first_enable[15] && ((wire_selector == 15) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((((true && ( ! interactions_first_enable[16]) ) && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[16] = (interactions_first_enable[16] && ((wire_selector == 16) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((((true && ( ! interactions_first_enable[17]) ) && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[17] = (interactions_first_enable[17] && ((wire_selector == 17) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((((true && ( ! interactions_first_enable[18]) ) && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[18] = (interactions_first_enable[18] && ((wire_selector == 18) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((((true && ( ! interactions_first_enable[19]) ) && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[19] = (interactions_first_enable[19] && ((wire_selector == 19) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((((true && ( ! interactions_first_enable[20]) ) && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[20] = (interactions_first_enable[20] && ((wire_selector == 20) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((((true && ( ! interactions_first_enable[21]) ) && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[21] = (interactions_first_enable[21] && ((wire_selector == 21) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((((true && ( ! interactions_first_enable[22]) ) && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[22] = (interactions_first_enable[22] && ((wire_selector == 22) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((((true && ( ! interactions_first_enable[23]) ) && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[23] = (interactions_first_enable[23] && ((wire_selector == 23) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((((true && ( ! interactions_first_enable[24]) ) && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[24] = (interactions_first_enable[24] && ((wire_selector == 24) || (( ! interactions_first_enable[wire_selector])  && (((((((((((((true && ( ! interactions_first_enable[25]) ) && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[25] = (interactions_first_enable[25] && ((wire_selector == 25) || (( ! interactions_first_enable[wire_selector])  && ((((((((((((true && ( ! interactions_first_enable[26]) ) && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[26] = (interactions_first_enable[26] && ((wire_selector == 26) || (( ! interactions_first_enable[wire_selector])  && (((((((((((true && ( ! interactions_first_enable[27]) ) && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[27] = (interactions_first_enable[27] && ((wire_selector == 27) || (( ! interactions_first_enable[wire_selector])  && ((((((((((true && ( ! interactions_first_enable[28]) ) && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[28] = (interactions_first_enable[28] && ((wire_selector == 28) || (( ! interactions_first_enable[wire_selector])  && (((((((((true && ( ! interactions_first_enable[29]) ) && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[29] = (interactions_first_enable[29] && ((wire_selector == 29) || (( ! interactions_first_enable[wire_selector])  && ((((((((true && ( ! interactions_first_enable[30]) ) && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[30] = (interactions_first_enable[30] && ((wire_selector == 30) || (( ! interactions_first_enable[wire_selector])  && (((((((true && ( ! interactions_first_enable[31]) ) && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[31] = (interactions_first_enable[31] && ((wire_selector == 31) || (( ! interactions_first_enable[wire_selector])  && ((((((true && ( ! interactions_first_enable[32]) ) && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[32] = (interactions_first_enable[32] && ((wire_selector == 32) || (( ! interactions_first_enable[wire_selector])  && (((((true && ( ! interactions_first_enable[33]) ) && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[33] = (interactions_first_enable[33] && ((wire_selector == 33) || (( ! interactions_first_enable[wire_selector])  && ((((true && ( ! interactions_first_enable[34]) ) && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[34] = (interactions_first_enable[34] && ((wire_selector == 34) || (( ! interactions_first_enable[wire_selector])  && (((true && ( ! interactions_first_enable[35]) ) && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[35] = (interactions_first_enable[35] && ((wire_selector == 35) || (( ! interactions_first_enable[wire_selector])  && ((true && ( ! interactions_first_enable[36]) ) && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[36] = (interactions_first_enable[36] && ((wire_selector == 36) || (( ! interactions_first_enable[wire_selector])  && (true && ( ! interactions_first_enable[37]) ))));
+    interactions_enablement[37] = (interactions_first_enable[37] && ((wire_selector == 37) || (( ! interactions_first_enable[wire_selector])  && true)));
+    wire_port_en_valid_valid_tick = (false || interactions_enablement[37]);
+    wire_port_en_valid_valid_authorized = ((false || interactions_enablement[12]) || interactions_enablement[29]);
+    wire_port_en_valid_valid_nonauthorized = ((false || interactions_enablement[13]) || interactions_enablement[30]);
+    wire_port_en_valid_valid_validate = ((false || interactions_enablement[11]) || interactions_enablement[28]);
+    wire_port_en_veto_veto_tick = (false || interactions_enablement[36]);
+    wire_port_en_veto_veto_veto = ((false || interactions_enablement[15]) || interactions_enablement[32]);
+    wire_port_en_veto_veto_transaction = ((false || interactions_enablement[14]) || interactions_enablement[31]);
+    wire_port_en_veto_veto_fiat = ((false || interactions_enablement[16]) || interactions_enablement[33]);
+    wire_port_en_user0_user0_invalid = (false || interactions_enablement[2]);
+    wire_port_en_user0_user0_withdraw = (false || interactions_enablement[10]);
+    wire_port_en_user0_user0_success = (false || interactions_enablement[9]);
+    wire_port_en_user0_user0_fail = (false || interactions_enablement[8]);
+    wire_port_en_user0_user0_cancel = (false || interactions_enablement[6]);
+    wire_port_en_user0_user0_insert = (false || interactions_enablement[0]);
+    wire_port_en_user0_user0_amount = (false || interactions_enablement[4]);
+    wire_port_en_user0_user0_enter = (false || interactions_enablement[1]);
+    wire_port_en_user0_user0_validated = (false || interactions_enablement[3]);
+    wire_port_en_user0_user0_eject = (false || interactions_enablement[7]);
+    wire_port_en_user0_user0_accept = (false || interactions_enablement[5]);
+    wire_port_en_user1_user1_eject = (false || interactions_enablement[24]);
+    wire_port_en_user1_user1_amount = (false || interactions_enablement[21]);
+    wire_port_en_user1_user1_accept = (false || interactions_enablement[22]);
+    wire_port_en_user1_user1_invalid = (false || interactions_enablement[19]);
+    wire_port_en_user1_user1_fail = (false || interactions_enablement[25]);
+    wire_port_en_user1_user1_success = (false || interactions_enablement[26]);
+    wire_port_en_user1_user1_insert = (false || interactions_enablement[17]);
+    wire_port_en_user1_user1_validated = (false || interactions_enablement[20]);
+    wire_port_en_user1_user1_enter = (false || interactions_enablement[18]);
+    wire_port_en_user1_user1_withdraw = (false || interactions_enablement[27]);
+    wire_port_en_user1_user1_cancel = (false || interactions_enablement[23]);
+    wire_port_en_atm0_atm0_validate = (false || interactions_enablement[11]);
+    wire_port_en_atm0_atm0_tick = (false || interactions_enablement[34]);
+    wire_port_en_atm0_atm0_success = (false || interactions_enablement[9]);
+    wire_port_en_atm0_atm0_fail = (false || interactions_enablement[8]);
+    wire_port_en_atm0_atm0_accept = (false || interactions_enablement[5]);
+    wire_port_en_atm0_atm0_amount = (false || interactions_enablement[4]);
+    wire_port_en_atm0_atm0_validated = (false || interactions_enablement[3]);
+    wire_port_en_atm0_atm0_enter = (false || interactions_enablement[1]);
+    wire_port_en_atm0_atm0_cancel = (false || interactions_enablement[6]);
+    wire_port_en_atm0_atm0_eject = (false || interactions_enablement[7]);
+    wire_port_en_atm0_atm0_transaction = (false || interactions_enablement[14]);
+    wire_port_en_atm0_atm0_veto = (false || interactions_enablement[15]);
+    wire_port_en_atm0_atm0_invalid = (false || interactions_enablement[2]);
+    wire_port_en_atm0_atm0_insert = (false || interactions_enablement[0]);
+    wire_port_en_atm0_atm0_fiat = (false || interactions_enablement[16]);
+    wire_port_en_atm0_atm0_authorized = (false || interactions_enablement[12]);
+    wire_port_en_atm0_atm0_withdraw = (false || interactions_enablement[10]);
+    wire_port_en_atm0_atm0_nonauthorized = (false || interactions_enablement[13]);
+    wire_port_en_atm1_atm1_invalid = (false || interactions_enablement[19]);
+    wire_port_en_atm1_atm1_tick = (false || interactions_enablement[35]);
+    wire_port_en_atm1_atm1_authorized = (false || interactions_enablement[29]);
+    wire_port_en_atm1_atm1_eject = (false || interactions_enablement[24]);
+    wire_port_en_atm1_atm1_amount = (false || interactions_enablement[21]);
+    wire_port_en_atm1_atm1_cancel = (false || interactions_enablement[23]);
+    wire_port_en_atm1_atm1_veto = (false || interactions_enablement[32]);
+    wire_port_en_atm1_atm1_validate = (false || interactions_enablement[28]);
+    wire_port_en_atm1_atm1_accept = (false || interactions_enablement[22]);
+    wire_port_en_atm1_atm1_transaction = (false || interactions_enablement[31]);
+    wire_port_en_atm1_atm1_enter = (false || interactions_enablement[18]);
+    wire_port_en_atm1_atm1_success = (false || interactions_enablement[26]);
+    wire_port_en_atm1_atm1_fiat = (false || interactions_enablement[33]);
+    wire_port_en_atm1_atm1_fail = (false || interactions_enablement[25]);
+    wire_port_en_atm1_atm1_validated = (false || interactions_enablement[20]);
+    wire_port_en_atm1_atm1_insert = (false || interactions_enablement[17]);
+    wire_port_en_atm1_atm1_nonauthorized = (false || interactions_enablement[30]);
+    wire_port_en_atm1_atm1_withdraw = (false || interactions_enablement[27]);
+    if(((valid_currentState == state_valid_l1) && wire_port_en_valid_valid_tick)) {
+      valid_currentState = state_valid_l1;
+    }
+    else {
+      if(((valid_currentState == state_valid_l1) && wire_port_en_valid_valid_nonauthorized)) {
+        valid_currentState = state_valid_l0;
+      }
+      else {
+        if(((valid_currentState == state_valid_l1) && wire_port_en_valid_valid_authorized)) {
+          valid_currentState = state_valid_l0;
+        }
+        else {
+          if(((valid_currentState == state_valid_l0) && wire_port_en_valid_valid_validate)) {
+            valid_currentState = state_valid_l1;
+          }
+          else {
+            valid_currentState = valid_currentState;
+          }
+        }
+      }
+    }
+    if(((valid_currentState == state_valid_l0) && wire_port_en_valid_valid_validate)) {
+      var_valid_x_valid = 0;
+    }
+    else {
+      if(((valid_currentState == state_valid_l1) && wire_port_en_valid_valid_tick)) {
+        var_valid_x_valid = var_valid_x_valid + 1;
+      }
+      else {
+        var_valid_x_valid = var_valid_x_valid;
+      }
+    }
+    if(((veto_currentState == state_veto_l1) && wire_port_en_veto_veto_tick)) {
+      veto_currentState = state_veto_l1;
+    }
+    else {
+      if(((veto_currentState == state_veto_l1) && wire_port_en_veto_veto_veto)) {
+        veto_currentState = state_veto_l0;
+      }
+      else {
+        if(((veto_currentState == state_veto_l1) && wire_port_en_veto_veto_fiat)) {
+          veto_currentState = state_veto_l0;
+        }
+        else {
+          if(((veto_currentState == state_veto_l0) && wire_port_en_veto_veto_transaction)) {
+            veto_currentState = state_veto_l1;
+          }
+          else {
+            veto_currentState = veto_currentState;
+          }
+        }
+      }
+    }
+    if(((veto_currentState == state_veto_l0) && wire_port_en_veto_veto_transaction)) {
+      var_veto_y_veto = 0;
+    }
+    else {
+      if(((veto_currentState == state_veto_l1) && wire_port_en_veto_veto_tick)) {
+        var_veto_y_veto = var_veto_y_veto - 1;
+      }
+      else {
+        var_veto_y_veto = var_veto_y_veto;
+      }
+    }
+    if(((user0_currentState == state_user0_l4) && wire_port_en_user0_user0_cancel)) {
+      user0_currentState = state_user0_l5;
+    }
+    else {
+      if(((user0_currentState == state_user0_l4) && wire_port_en_user0_user0_accept)) {
+        user0_currentState = state_user0_l6;
+      }
+      else {
+        if(((user0_currentState == state_user0_l5) && wire_port_en_user0_user0_eject)) {
+          user0_currentState = state_user0_l0;
+        }
+        else {
+          if(((user0_currentState == state_user0_l0) && wire_port_en_user0_user0_insert)) {
+            user0_currentState = state_user0_l1;
+          }
+          else {
+            if(((user0_currentState == state_user0_l3) && wire_port_en_user0_user0_amount)) {
+              user0_currentState = state_user0_l4;
+            }
+            else {
+              if(((user0_currentState == state_user0_l2) && wire_port_en_user0_user0_validated)) {
+                user0_currentState = state_user0_l3;
+              }
+              else {
+                if(((user0_currentState == state_user0_l2) && wire_port_en_user0_user0_invalid)) {
+                  user0_currentState = state_user0_l5;
+                }
+                else {
+                  if(((user0_currentState == state_user0_l7) && wire_port_en_user0_user0_withdraw)) {
+                    user0_currentState = state_user0_l5;
+                  }
+                  else {
+                    if(((user0_currentState == state_user0_l1) && wire_port_en_user0_user0_enter)) {
+                      user0_currentState = state_user0_l2;
+                    }
+                    else {
+                      if(((user0_currentState == state_user0_l6) && wire_port_en_user0_user0_fail)) {
+                        user0_currentState = state_user0_l5;
+                      }
+                      else {
+                        if(((user0_currentState == state_user0_l6) && wire_port_en_user0_user0_success)) {
+                          user0_currentState = state_user0_l7;
+                        }
+                        else {
+                          user0_currentState = user0_currentState;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if(((user1_currentState == state_user1_l7) && wire_port_en_user1_user1_withdraw)) {
+      user1_currentState = state_user1_l5;
+    }
+    else {
+      if(((user1_currentState == state_user1_l3) && wire_port_en_user1_user1_amount)) {
+        user1_currentState = state_user1_l4;
+      }
+      else {
+        if(((user1_currentState == state_user1_l6) && wire_port_en_user1_user1_fail)) {
+          user1_currentState = state_user1_l5;
+        }
+        else {
+          if(((user1_currentState == state_user1_l6) && wire_port_en_user1_user1_success)) {
+            user1_currentState = state_user1_l7;
+          }
+          else {
+            if(((user1_currentState == state_user1_l1) && wire_port_en_user1_user1_enter)) {
+              user1_currentState = state_user1_l2;
+            }
+            else {
+              if(((user1_currentState == state_user1_l5) && wire_port_en_user1_user1_eject)) {
+                user1_currentState = state_user1_l0;
+              }
+              else {
+                if(((user1_currentState == state_user1_l0) && wire_port_en_user1_user1_insert)) {
+                  user1_currentState = state_user1_l1;
+                }
+                else {
+                  if(((user1_currentState == state_user1_l2) && wire_port_en_user1_user1_validated)) {
+                    user1_currentState = state_user1_l3;
+                  }
+                  else {
+                    if(((user1_currentState == state_user1_l2) && wire_port_en_user1_user1_invalid)) {
+                      user1_currentState = state_user1_l5;
+                    }
+                    else {
+                      if(((user1_currentState == state_user1_l4) && wire_port_en_user1_user1_cancel)) {
+                        user1_currentState = state_user1_l5;
+                      }
+                      else {
+                        if(((user1_currentState == state_user1_l4) && wire_port_en_user1_user1_accept)) {
+                          user1_currentState = state_user1_l6;
+                        }
+                        else {
+                          user1_currentState = user1_currentState;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if(((atm0_currentState == state_atm0_l0) && wire_port_en_atm0_atm0_insert)) {
+      atm0_currentState = state_atm0_l1;
+    }
+    else {
+      if(((atm0_currentState == state_atm0_l4) && wire_port_en_atm0_atm0_validated)) {
+        atm0_currentState = state_atm0_l7;
+      }
+      else {
+        if(((atm0_currentState == state_atm0_l1) && wire_port_en_atm0_atm0_enter)) {
+          atm0_currentState = state_atm0_l2;
+        }
+        else {
+          if(((atm0_currentState == state_atm0_l12) && wire_port_en_atm0_atm0_withdraw)) {
+            atm0_currentState = state_atm0_l6;
+          }
+          else {
+            if(((atm0_currentState == state_atm0_l7) && wire_port_en_atm0_atm0_amount)) {
+              atm0_currentState = state_atm0_l8;
+            }
+            else {
+              if(((atm0_currentState == state_atm0_l11) && wire_port_en_atm0_atm0_success)) {
+                atm0_currentState = state_atm0_l12;
+              }
+              else {
+                if(((atm0_currentState == state_atm0_l8) && wire_port_en_atm0_atm0_tick)) {
+                  atm0_currentState = state_atm0_l8;
+                }
+                else {
+                  if(((atm0_currentState == state_atm0_l8) && wire_port_en_atm0_atm0_accept)) {
+                    atm0_currentState = state_atm0_l9;
+                  }
+                  else {
+                    if(((atm0_currentState == state_atm0_l8) && wire_port_en_atm0_atm0_cancel)) {
+                      atm0_currentState = state_atm0_l6;
+                    }
+                    else {
+                      if(((atm0_currentState == state_atm0_l10) && wire_port_en_atm0_atm0_veto)) {
+                        atm0_currentState = state_atm0_l13;
+                      }
+                      else {
+                        if(((atm0_currentState == state_atm0_l10) && wire_port_en_atm0_atm0_fiat)) {
+                          atm0_currentState = state_atm0_l11;
+                        }
+                        else {
+                          if(((atm0_currentState == state_atm0_l9) && wire_port_en_atm0_atm0_transaction)) {
+                            atm0_currentState = state_atm0_l10;
+                          }
+                          else {
+                            if(((atm0_currentState == state_atm0_l13) && wire_port_en_atm0_atm0_fail)) {
+                              atm0_currentState = state_atm0_l6;
+                            }
+                            else {
+                              if(((atm0_currentState == state_atm0_l6) && wire_port_en_atm0_atm0_eject)) {
+                                atm0_currentState = state_atm0_l0;
+                              }
+                              else {
+                                if(((atm0_currentState == state_atm0_l5) && wire_port_en_atm0_atm0_invalid)) {
+                                  atm0_currentState = state_atm0_l6;
+                                }
+                                else {
+                                  if(((atm0_currentState == state_atm0_l2) && wire_port_en_atm0_atm0_tick)) {
+                                    atm0_currentState = state_atm0_l2;
+                                  }
+                                  else {
+                                    if(((atm0_currentState == state_atm0_l2) && wire_port_en_atm0_atm0_validate)) {
+                                      atm0_currentState = state_atm0_l3;
+                                    }
+                                    else {
+                                      if(((atm0_currentState == state_atm0_l3) && wire_port_en_atm0_atm0_authorized)) {
+                                        atm0_currentState = state_atm0_l4;
+                                      }
+                                      else {
+                                        if(((atm0_currentState == state_atm0_l3) && wire_port_en_atm0_atm0_nonauthorized)) {
+                                          atm0_currentState = state_atm0_l5;
+                                        }
+                                        else {
+                                          atm0_currentState = atm0_currentState;
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if(((atm0_currentState == state_atm0_l1) && wire_port_en_atm0_atm0_enter)) {
+      var_atm0_t1_atm0 = 0;
+    }
+    else {
+      if(((atm0_currentState == state_atm0_l2) && wire_port_en_atm0_atm0_tick)) {
+        var_atm0_t1_atm0 = var_atm0_t1_atm0 + 1;
+      }
+      else {
+        var_atm0_t1_atm0 = var_atm0_t1_atm0;
+      }
+    }
+    if(((atm0_currentState == state_atm0_l7) && wire_port_en_atm0_atm0_amount)) {
+      var_atm0_t2_atm0 = 0;
+    }
+    else {
+      if(((atm0_currentState == state_atm0_l8) && wire_port_en_atm0_atm0_tick)) {
+        var_atm0_t2_atm0 = var_atm0_t2_atm0 + 1;
+      }
+      else {
+        var_atm0_t2_atm0 = var_atm0_t2_atm0;
+      }
+    }
+    if(((atm1_currentState == state_atm1_l0) && wire_port_en_atm1_atm1_insert)) {
+      atm1_currentState = state_atm1_l1;
+    }
+    else {
+      if(((atm1_currentState == state_atm1_l2) && wire_port_en_atm1_atm1_tick)) {
+        atm1_currentState = state_atm1_l2;
+      }
+      else {
+        if(((atm1_currentState == state_atm1_l2) && wire_port_en_atm1_atm1_validate)) {
+          atm1_currentState = state_atm1_l3;
+        }
+        else {
+          if(((atm1_currentState == state_atm1_l4) && wire_port_en_atm1_atm1_validated)) {
+            atm1_currentState = state_atm1_l7;
+          }
+          else {
+            if(((atm1_currentState == state_atm1_l5) && wire_port_en_atm1_atm1_invalid)) {
+              atm1_currentState = state_atm1_l6;
+            }
+            else {
+              if(((atm1_currentState == state_atm1_l10) && wire_port_en_atm1_atm1_veto)) {
+                atm1_currentState = state_atm1_l13;
+              }
+              else {
+                if(((atm1_currentState == state_atm1_l10) && wire_port_en_atm1_atm1_fiat)) {
+                  atm1_currentState = state_atm1_l11;
+                }
+                else {
+                  if(((atm1_currentState == state_atm1_l1) && wire_port_en_atm1_atm1_enter)) {
+                    atm1_currentState = state_atm1_l2;
+                  }
+                  else {
+                    if(((atm1_currentState == state_atm1_l9) && wire_port_en_atm1_atm1_transaction)) {
+                      atm1_currentState = state_atm1_l10;
+                    }
+                    else {
+                      if(((atm1_currentState == state_atm1_l11) && wire_port_en_atm1_atm1_success)) {
+                        atm1_currentState = state_atm1_l12;
+                      }
+                      else {
+                        if(((atm1_currentState == state_atm1_l13) && wire_port_en_atm1_atm1_fail)) {
+                          atm1_currentState = state_atm1_l6;
+                        }
+                        else {
+                          if(((atm1_currentState == state_atm1_l7) && wire_port_en_atm1_atm1_amount)) {
+                            atm1_currentState = state_atm1_l8;
+                          }
+                          else {
+                            if(((atm1_currentState == state_atm1_l8) && wire_port_en_atm1_atm1_tick)) {
+                              atm1_currentState = state_atm1_l8;
+                            }
+                            else {
+                              if(((atm1_currentState == state_atm1_l8) && wire_port_en_atm1_atm1_accept)) {
+                                atm1_currentState = state_atm1_l9;
+                              }
+                              else {
+                                if(((atm1_currentState == state_atm1_l8) && wire_port_en_atm1_atm1_cancel)) {
+                                  atm1_currentState = state_atm1_l6;
+                                }
+                                else {
+                                  if(((atm1_currentState == state_atm1_l12) && wire_port_en_atm1_atm1_withdraw)) {
+                                    atm1_currentState = state_atm1_l6;
+                                  }
+                                  else {
+                                    if(((atm1_currentState == state_atm1_l3) && wire_port_en_atm1_atm1_authorized)) {
+                                      atm1_currentState = state_atm1_l4;
+                                    }
+                                    else {
+                                      if(((atm1_currentState == state_atm1_l3) && wire_port_en_atm1_atm1_nonauthorized)) {
+                                        atm1_currentState = state_atm1_l5;
+                                      }
+                                      else {
+                                        if(((atm1_currentState == state_atm1_l6) && wire_port_en_atm1_atm1_eject)) {
+                                          atm1_currentState = state_atm1_l0;
+                                        }
+                                        else {
+                                          atm1_currentState = atm1_currentState;
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if(((atm1_currentState == state_atm1_l7) && wire_port_en_atm1_atm1_amount)) {
+      var_atm1_t2_atm1 = 0;
+    }
+    else {
+      if(((atm1_currentState == state_atm1_l8) && wire_port_en_atm1_atm1_tick)) {
+        var_atm1_t2_atm1 = var_atm1_t2_atm1 + 1;
+      }
+      else {
+        var_atm1_t2_atm1 = var_atm1_t2_atm1;
+      }
+    }
+    if(((atm1_currentState == state_atm1_l1) && wire_port_en_atm1_atm1_enter)) {
+      var_atm1_t1_atm1 = 0;
+    }
+    else {
+      if(((atm1_currentState == state_atm1_l2) && wire_port_en_atm1_atm1_tick)) {
+        var_atm1_t1_atm1 = var_atm1_t1_atm1 + 1;
+      }
+      else {
+        var_atm1_t1_atm1 = var_atm1_t1_atm1;
+      }
+    }
+  }
+}

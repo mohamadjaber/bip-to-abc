@@ -1,0 +1,244 @@
+%% related work 
+%% file : Literature.tex
+%% Literature review for LTL synthesis
+
+%\chapter{Related Work} \label{chap:related}
+
+%% intro for software verification
+%Ever since the success of formal verification methods in the hardware domain, researchers in the 
+%software area have been trying to port the success of such techniques from hardware to software.
+\section{Verification of software programs}
+The need to design correct software and hardware systems has pushed researchers to design verification 
+techniques and tools targeted towards software, hardware and embedded systems.
+SPIN is a model checking tool targeting the verification of process interactions. It presents 
+a front-end with a high level specification language called Promela, aimed at allowing users
+to provide descriptions of concurrent systems or distributed algorithms~\cite{holzmann1997model}. 
+SPIN accepts {\em Linear Temporal Properties} (LTL) specifications 
+as input, and translates them into B\"uchi automaton using simple on-the-fly construction. 
+In fact, SPIN considers the input specifications as impossible conditions, i.e. conditions that should 
+never be met for correct behavior of a given system. Therefore it aims at checking whether the
+language of the design and that of the specification do not intersect. If such an intersection 
+exists, SPIN returns a counter example. Otherwise the design is considered to be correct. 
+\mytool{} differs from SPIN in that it takes a imperative program \Pm and 
+FOL precondition-postcondition pair \pair{\Pre}{\Post}, 
+and translates them into an equisatisfiable AIG. On the resulting 
+AIG, several reduction and proof algorithms can be applied to perform model checking, most
+of which have no counterpart in SPIN.
+
+%% Alloy and CBMC
+Alloy~\cite{jackson2002alloy} and CBMC~\cite{clarke2004tool} are  tools 
+that perform bounded model checking. CBMC accepts ANSI-C input code and supports
+several standard C libraries. It checks for pointer operations and within bound array access, 
+and allows for dynamic memory allocation using \cci{new} and \cci{malloc}. 
+CBMC takes an input program and 
+an unwinding bound, and generates a CNF formula that describes the behavior of the program. CBMC 
+uses {\em Single Static Assignment} (SSA) transformations and loop unwinding in order to generate the appropriate CNF formula.   
+
+Similarly, Alloy takes input structural specifications where entities can either be 
+sets, functions or relations, and allows operations on these three elementary types. 
+It then transforms such specifications into CNF formulae and uses SAT solvers to generate
+satisfying models. Alloy differs from CBMC in that it
+is aimed at generating systems that satisfy the given specifications, i.e. find models for the 
+structural specifications, while CBMC is aimed at the verification of a given design against
+a set of specifications. Both Alloy and CBMC transform the given problems into SAT 
+problems and use an off the shelf SAT solver~\cite{goldberg2007berkmin, marques1999grasp, sorensson2005minisat} 
+to try and find a model for the generated CNF formula. The model will then be a counter example
+for CBMC, and a correct system for Alloy. 
+
+Techniques based on loop unwinding and translation to CNF suffer from the rapid increase 
+in the size of the generated CNF formulae with respect to the size of the input programs and
+specifications, and the unwinding bounds. Additionally, the generated CNF formula may need to be
+regenerated in cases where the unwinding bounds were not large enough. This iterative procedure
+is costly and might require intractable resources. 
+
+%% start here for BIP
+\section{Verification of embedded systems}
+The overlap between software and hardware design in embedded systems creates more challenges 
+for the verification process. SystemC~\cite{systemc} is a modeling platform based on C++ that provides
+design abstractions at the {\em Register Transfer Level} (RTL), behavior, and system levels. 
+It aims at providing a common design environment for embedded system design and hardware-software
+co-design. SystemC designers write their systems in C++ using SystemC class libraries that 
+provide implementations for hardware specific objects such as concurrent modules and clocks.
+Therefore the input systems can be compiled using standard C++ compilers to generate binaries
+for simulation. SystemC allows for the communication between different components of a system
+through the usage of ports, interfaces and channels.  
+
+The BIP framework differs from SystemC in that it presents a dedicated language and supporting
+tool-set that describes the behavior of individual system components as symbolic LTS. 
+Communication between components in BIP is ensured through ports and interactions.   
+BIP operates at a higher level than SystemC and does not provide support for circuit level 
+constructs.
+
+Verification techniques for SystemC and BIP make use of symbolic model checking tools. 
+NuSMV2~\cite{nusmv} is a symbolic model checker that employs both 
+SAT and BDD based model checking techniques. It processes an input 
+describing the logical system design as a finite state machine, and a set of specifications
+expressed in LTL, Computational Tree Logic (CTL) and Property Specification Language (PSL).
+Given a system $\Pm$ and a set of specifications $P$, NuSMV2 first flattens $\Pm$ and $P$ by 
+resolving all module instantiations and creating modules and processes, thus generating one 
+synchronous design. It then performs a Boolean encoding step to eliminate all scalar variables, 
+arithmetic and set operations and thus encode them as Boolean functions.   
+
+In order to avoid the state space explosion problem, NuSMV2 performs a cone of 
+influence reduction~\cite{berezin1998compositional} step in order to eliminate
+non-needed parts of the flattened model and specifications. The cone of influence
+reduction abstraction technique aims at simplifying the model in hand by only 
+referring to variables that are of interest to the verification procedure, i.e. variables
+that influence the specifications to check~\cite{clarke1999model}.
+
+DFinder~\cite{dfinder} is an automated verification tool for checking invariants
+on systems described in the BIP language. Given a BIP system \Pm and 
+an invariant $\mathcal{I}$, DFinder operates  compositionally and iteratively
+to compute invariants $\mathcal{X}$ of the interactions and the atomic 
+components of \Pm. It then uses the Yices {\em Satisfiability Modulo
+Theory} (SMT) solver~\cite{dutertre2006fast} to check for the validity 
+of the formula $\mathcal{X} \land \lnot \mathcal{I} = false$. 
+Additionally, DFinder checks the deadlock freedom of  \Pm by building an invariant 
+$\mathcal{I}_d$ that represents the states of of \Pm in which no interactions 
+are enabled, \ie{} a deadlock occurs. It then checks the for the formula
+$\mathcal{X} \land \mathcal{I}_d = false$, \ie{} none of the deadlock states
+are reachable in \Pm.   
+
+Techniques based on symbolic model checking for the verification of 
+BIP designs suffer from the state space explosion problem, and often 
+fail to scale with the size and the complexity of the systems. 
+On the other hand, DFinder does not handle data transfer between 
+atomic components, thus limiting the range of practical applications 
+on which it can be applied. Our technique handles data transfers and uses the wide range of synthesis 
+and reduction algorithms provided by ABC to effectively reduce the size and 
+the complexity of the verification problem. Most of these algorithms have no counterpart
+in symbolic model checking.  
+
+
+%The work in\cite{seraICSE07} takes a declarative 
+%formula $\phi$ in first order logic
+%(FOL) with transitive closure and a bound on the 
+%universe of discourse and
+%translates it to a %n equisatisfiable 
+%sequential circuit expressed in VHDL. 
+%It then passes the sequential circuit to a sequential 
+%circuit solver and decides
+%the validity of $\phi$ within the bound. 
+%It scales to bounds larger than what is possible with 
+%Kodkod~\cite{kodkodTJ2007}
+%which translates $\phi$ into a propositional Boolean 
+%formula in conjunctive
+%normal form (CNF) and checks its validity with a 
+%Boolean satisfiability solver. 
+%
+%The work in\cite{sebacASE07} translates an imperative 
+%C program, with an assertion
+%statement therein, and a bound on the input size, 
+%into a %n equisatisfiable
+%sequential circuit expressed in VHDL. 
+%It then passes the sequential circuit to a 
+%sequential circuit solver and decides
+%the validity of the assertion within the bound. 
+%It scales to bounds larger than what is possible 
+%with CBMC\cite{cbmcDAC03} which
+%translates the program with a bound on the input 
+%size and the number of loop
+%iterations into a propositional Boolean formula 
+%in conjunctive normal form (CNF)
+%and checks for correctness using a Boolean 
+%satisfiability solver. 
+%
+%Our method extends the work in \cite{seraICSE07,sebacASE07} in that
+%\be
+%\i it supports function calls including recursion, and requires a bound on
+%recursion depth only if the recursive function uses local variables, 
+%\i it enables a termination guarantee check within a bound on execution
+%time, it then uses the execution time bound with bounded model checking to
+%decide correctness,
+%\i it directly translates the program into bit level representation using {\em
+%and inverted graphs} (AIG) instead of the VHDL representation that requires a
+%VHDL compiler to be translated into bit level,
+%\i it uses ABC~\cite{brayton2010abc}, an open source sequential circuit solver, instead of
+%SixthSense~\cite{mony2004scalable} an IBM internal sequential circuit solver, 
+%\i and it is an open source tool available online
+%~\ref{fn:online}
+%\ee
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% NuSVM
+%NuSMV2~\cite{cimatti2002nusmv} is a symbolic model checking tool that employs both 
+%satisfiability (SAT) and BDD based model checking techniques. It processes an input 
+%describing the logical system design as a finite state machine, and a set of specifications
+%expressed in LTL, Computational Tree Logic and Property Specification Language.
+%Given a model $M$ and a set of specifications $P$, NuSMV2 first flattens $M$ and $P$ by 
+%resolving all module instantiations and creating modules and processes, thus generating one 
+%synchronous design. It then performs a boolean encoding step to eliminate all scalar variables, 
+%arithmetic and set operations and thus encode them as boolean functions.   
+%
+%In order to avoid the state space explosion problem, NuSMV2 performs a cone of 
+%influence reduction~\cite{berezin1998compositional} step in order to eliminate
+%non-needed parts of the flattened model and specifications. The cone of influence
+%reduction abstraction technique aims at simplifying the model in hand by only 
+%referring to variables that are of interest to the verification procedure, i.e. variables
+%that influence the specifications to check~\cite{clarke1999model}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\mytool{} differs from CBMC and Alloy in that it translates an input imperative program with 
+%FOL specifications into a sequential circuit, encoded as an AIG. Such a representation is much 
+%more succinct than CNF, and allows for much more opportunity for bit level optimizations and
+%abstraction techniques that can reduce the size and the complexity of the problem. Additionally,
+%it is worthy to note that network in AIG format can be easily translated in CNF formulas, so
+%in the case where CNF and SAT solving outperforms sequential verification, \mytool{} can 
+%perform as well as CBMC and Alloy. \mytool{} is also equipped with a debugger that allows
+%a step by step inspection of the state of the each element in the code in the generated counter
+%example. Such a debugger can help developers locate possible problems in their code, and even
+%in their specifications.   
+
+%%% Introduction
+%Several techniques have been developed in the literature in order to synthesize LTL formulas, 
+%usually describing properties that hold over real-life hardware systems and designs. These synthesis
+%techniques have different targets, some aim to generate complete and correct systems based on 
+%input specifications, while others are targeted at generating monitors to ensure correct
+%functionality of systems through assertion checking.
+%
+%%% FoCs
+%FoCs is an industrial tool developed at IBM research labs, targeted at generating simulation 
+%checkers from formal specifications~\cite{p:Focs}. The tool's goal is to reduce, or possibly eliminate the 
+%amount of human intervention in writing and maintaining functional checkers. FoCs takes input specification
+%expressed in RCTL~\cite{p:rctl}, and generates formal checkers written in VHDL. These checkers
+%are then linked with the original VHDL and executed on a set of test programs. The role of the formal checkers 
+%is to make sure that the original design never goes into any error state. 
+%
+%The generation of the formal checkers from the RCTL specifications is done in three steps. First, the RCTL is 
+%translated into a NFA according to the algorithm described in~\cite{p:rctl}. This NFA will have a set of error
+%states, which represent the states that the design should never go into if it meets the required specifications.  
+%In order to be able generate the VHDL checkers, the NFA has to be translated into a DFA, which is in turn translated
+%into a VDHL process. This process will then be run alongside the original design to check for any violations of the 
+%specifications. 
+%
+%The key drawback of FoCs' approach is that transformation algorithm generates a DFA that can be exponential 
+%in the number of states of the NFA, which takes us back to the state-space explosion problem. The authors claim 
+%that such a limitation does not exist in their case, since the simulation is rather sensitive to the number 
+%of VHDL lines in the generated checker, which is at most quadratic in the size of the property to check. 
+%Our approach differs from FoCs in that it aims at generating a DFA with auxiliary variables that is linear in 
+%the size of the property, without generating any NFAs. Therefore, it can help rendering the generated VHDL checker 
+%even smaller in terms of the lines of code. 
+%
+%%% Wring
+%Daniele et. al presented an explicit state automaton based approach for model checking formulas expressed in 
+%LTL~\cite{p:wring}. Explicit state refers to the fact that the automaton explicitly enumerates all of the states 
+%in the system, as opposed to symbolic techniques that tend to group several states into Order Binary Decision 
+%Diagrams (OBDD).
+%
+%In this approach,  both the system and the `negation' of the input specification are translated into automata on 
+%infinite words, specifically B\"{u}chi automaton. Then, a synchronous product is applied to both of the 
+%automata. If the product is empty, then the system can never go into a state that satisfies the negation 
+%of the input property, i.e. the property is always satisfied and the system is correct with respect to the 
+%given property. Otherwise, there exists a path that can take the system into a state that violates the 
+%input specification (by satisfying its negation), and the system does not adhere to the property.  
+%
+%The presented algorithm, namely \texttt{`LTL2AUT'}, aims at generating a labeled B\"{u}chi automaton 
+%that recognizes all of the paths that model a given LTL formula $\psi$. \texttt{LTL2AUT} in fact 
+%shares its core structure with two previous algorithms, GPVW and GPVW+~\cite{p:gpvw}. Each 
+%algorithm differs from the two others with the implementation of certain routines present in the 
+%shared main core. The authors claim that using \texttt{LTL2AUT}, they were able to generated automata 
+%with an improvement in both time (time for generation) and space (number of states) complexities, when
+%compared to the other two algorithms. 
+%
+%%%TODO: include the rest of the literature review and compare against it

@@ -1,0 +1,1816 @@
+model ATMSYSTEM_T
+
+header {#
+int x_valid;
+int state0;
+int y_veto;
+int state1;
+int state2;
+int state3;
+int t1_atm0;
+int t2_atm0;
+int state4;
+int t1_atm1;
+int t2_atm1;
+int state5;
+#}
+port type Port1(int x_valid, int state0)
+port type Port2(int x_valid, int state0)
+port type Port3(int x_valid, int state0)
+port type Port4(int x_valid, int state0)
+port type Port1D(int x_valid, int state0)
+port type Port2D(int x_valid, int state0)
+port type Port3D(int x_valid, int state0)
+port type Port4D(int x_valid, int state0)
+port type Port5(int y_veto, int state1)
+port type Port6(int y_veto, int state1)
+port type Port7(int y_veto, int state1)
+port type Port8(int y_veto, int state1)
+port type Port5D(int y_veto, int state1)
+port type Port6D(int y_veto, int state1)
+port type Port7D(int y_veto, int state1)
+port type Port8D(int y_veto, int state1)
+port type Port9(int state2)
+port type Port10(int state2)
+port type Port11(int state2)
+port type Port12(int state2)
+port type Port13(int state2)
+port type Port14(int state2)
+port type Port15(int state2)
+port type Port16(int state2)
+port type Port17(int state2)
+port type Port18(int state2)
+port type Port19(int state2)
+port type Port9D(int state2)
+port type Port10D(int state2)
+port type Port11D(int state2)
+port type Port12D(int state2)
+port type Port13D(int state2)
+port type Port14D(int state2)
+port type Port15D(int state2)
+port type Port16D(int state2)
+port type Port17D(int state2)
+port type Port18D(int state2)
+port type Port19D(int state2)
+port type Port20(int state3)
+port type Port21(int state3)
+port type Port22(int state3)
+port type Port23(int state3)
+port type Port24(int state3)
+port type Port25(int state3)
+port type Port26(int state3)
+port type Port27(int state3)
+port type Port28(int state3)
+port type Port29(int state3)
+port type Port30(int state3)
+port type Port20D(int state3)
+port type Port21D(int state3)
+port type Port22D(int state3)
+port type Port23D(int state3)
+port type Port24D(int state3)
+port type Port25D(int state3)
+port type Port26D(int state3)
+port type Port27D(int state3)
+port type Port28D(int state3)
+port type Port29D(int state3)
+port type Port30D(int state3)
+port type Port31(int t1_atm0, int t2_atm0, int state4)
+port type Port32(int t1_atm0, int t2_atm0, int state4)
+port type Port33(int t1_atm0, int t2_atm0, int state4)
+port type Port34(int t1_atm0, int t2_atm0, int state4)
+port type Port35(int t1_atm0, int t2_atm0, int state4)
+port type Port36(int t1_atm0, int t2_atm0, int state4)
+port type Port37(int t1_atm0, int t2_atm0, int state4)
+port type Port38(int t1_atm0, int t2_atm0, int state4)
+port type Port39(int t1_atm0, int t2_atm0, int state4)
+port type Port40(int t1_atm0, int t2_atm0, int state4)
+port type Port41(int t1_atm0, int t2_atm0, int state4)
+port type Port42(int t1_atm0, int t2_atm0, int state4)
+port type Port43(int t1_atm0, int t2_atm0, int state4)
+port type Port44(int t1_atm0, int t2_atm0, int state4)
+port type Port45(int t1_atm0, int t2_atm0, int state4)
+port type Port46(int t1_atm0, int t2_atm0, int state4)
+port type Port47(int t1_atm0, int t2_atm0, int state4)
+port type Port48(int t1_atm0, int t2_atm0, int state4)
+port type Port31D(int t1_atm0, int t2_atm0, int state4)
+port type Port32D(int t1_atm0, int t2_atm0, int state4)
+port type Port33D(int t1_atm0, int t2_atm0, int state4)
+port type Port34D(int t1_atm0, int t2_atm0, int state4)
+port type Port35D(int t1_atm0, int t2_atm0, int state4)
+port type Port36D(int t1_atm0, int t2_atm0, int state4)
+port type Port37D(int t1_atm0, int t2_atm0, int state4)
+port type Port38D(int t1_atm0, int t2_atm0, int state4)
+port type Port39D(int t1_atm0, int t2_atm0, int state4)
+port type Port40D(int t1_atm0, int t2_atm0, int state4)
+port type Port41D(int t1_atm0, int t2_atm0, int state4)
+port type Port42D(int t1_atm0, int t2_atm0, int state4)
+port type Port43D(int t1_atm0, int t2_atm0, int state4)
+port type Port44D(int t1_atm0, int t2_atm0, int state4)
+port type Port45D(int t1_atm0, int t2_atm0, int state4)
+port type Port46D(int t1_atm0, int t2_atm0, int state4)
+port type Port47D(int t1_atm0, int t2_atm0, int state4)
+port type Port48D(int t1_atm0, int t2_atm0, int state4)
+port type Port49(int t1_atm1, int t2_atm1, int state5)
+port type Port50(int t1_atm1, int t2_atm1, int state5)
+port type Port51(int t1_atm1, int t2_atm1, int state5)
+port type Port52(int t1_atm1, int t2_atm1, int state5)
+port type Port53(int t1_atm1, int t2_atm1, int state5)
+port type Port54(int t1_atm1, int t2_atm1, int state5)
+port type Port55(int t1_atm1, int t2_atm1, int state5)
+port type Port56(int t1_atm1, int t2_atm1, int state5)
+port type Port57(int t1_atm1, int t2_atm1, int state5)
+port type Port58(int t1_atm1, int t2_atm1, int state5)
+port type Port59(int t1_atm1, int t2_atm1, int state5)
+port type Port60(int t1_atm1, int t2_atm1, int state5)
+port type Port61(int t1_atm1, int t2_atm1, int state5)
+port type Port62(int t1_atm1, int t2_atm1, int state5)
+port type Port63(int t1_atm1, int t2_atm1, int state5)
+port type Port64(int t1_atm1, int t2_atm1, int state5)
+port type Port65(int t1_atm1, int t2_atm1, int state5)
+port type Port66(int t1_atm1, int t2_atm1, int state5)
+port type Port49D(int t1_atm1, int t2_atm1, int state5)
+port type Port50D(int t1_atm1, int t2_atm1, int state5)
+port type Port51D(int t1_atm1, int t2_atm1, int state5)
+port type Port52D(int t1_atm1, int t2_atm1, int state5)
+port type Port53D(int t1_atm1, int t2_atm1, int state5)
+port type Port54D(int t1_atm1, int t2_atm1, int state5)
+port type Port55D(int t1_atm1, int t2_atm1, int state5)
+port type Port56D(int t1_atm1, int t2_atm1, int state5)
+port type Port57D(int t1_atm1, int t2_atm1, int state5)
+port type Port58D(int t1_atm1, int t2_atm1, int state5)
+port type Port59D(int t1_atm1, int t2_atm1, int state5)
+port type Port60D(int t1_atm1, int t2_atm1, int state5)
+port type Port61D(int t1_atm1, int t2_atm1, int state5)
+port type Port62D(int t1_atm1, int t2_atm1, int state5)
+port type Port63D(int t1_atm1, int t2_atm1, int state5)
+port type Port64D(int t1_atm1, int t2_atm1, int state5)
+port type Port65D(int t1_atm1, int t2_atm1, int state5)
+port type Port66D(int t1_atm1, int t2_atm1, int state5)
+
+atomic type BankValidation
+ extern data int x_valid
+ extern data int state0
+
+ export port Port1 valid_validate(x_valid,state0)
+ export port Port2 valid_authorized(x_valid,state0)
+ export port Port3 valid_nonauthorized(x_valid,state0)
+ export port Port4 valid_tick(x_valid,state0)
+
+ place one
+ initial to one do { state0 = 0;
+x_valid=0;}
+ on valid_validate from one to one
+
+ on valid_tick from one to one
+
+ on valid_nonauthorized from one to one
+
+ on valid_authorized from one to one
+
+end 
+
+atomic type BankValidationD
+ extern data int x_valid
+ extern data int state0
+
+ export port Port1D valid_validateD(x_valid,state0)
+ export port Port2D valid_authorizedD(x_valid,state0)
+ export port Port3D valid_nonauthorizedD(x_valid,state0)
+ export port Port4D valid_tickD(x_valid,state0)
+
+ place one
+ initial to one
+ on valid_validateD from one to one
+
+ on valid_tickD from one to one
+
+ on valid_nonauthorizedD from one to one
+
+ on valid_authorizedD from one to one
+
+end 
+
+atomic type BankVeto
+ extern data int y_veto
+ extern data int state1
+
+ export port Port5 veto_veto(y_veto,state1)
+ export port Port6 veto_fiat(y_veto,state1)
+ export port Port7 veto_transaction(y_veto,state1)
+ export port Port8 veto_tick(y_veto,state1)
+
+ place one
+ initial to one do { state1 = 0;
+y_veto=0;}
+ on veto_transaction from one to one
+
+ on veto_tick from one to one
+
+ on veto_veto from one to one
+
+ on veto_fiat from one to one
+
+end 
+
+atomic type BankVetoD
+ extern data int y_veto
+ extern data int state1
+
+ export port Port5D veto_vetoD(y_veto,state1)
+ export port Port6D veto_fiatD(y_veto,state1)
+ export port Port7D veto_transactionD(y_veto,state1)
+ export port Port8D veto_tickD(y_veto,state1)
+
+ place one
+ initial to one
+ on veto_transactionD from one to one
+
+ on veto_tickD from one to one
+
+ on veto_vetoD from one to one
+
+ on veto_fiatD from one to one
+
+end 
+
+atomic type user_0
+ extern data int state2
+
+ export port Port9 user0_insert(state2)
+ export port Port10 user0_enter(state2)
+ export port Port11 user0_invalid(state2)
+ export port Port12 user0_validated(state2)
+ export port Port13 user0_amount(state2)
+ export port Port14 user0_cancel(state2)
+ export port Port15 user0_accept(state2)
+ export port Port16 user0_success(state2)
+ export port Port17 user0_fail(state2)
+ export port Port18 user0_eject(state2)
+ export port Port19 user0_withdraw(state2)
+
+ place one
+ initial to one do { state2 = 0;}
+ on user0_insert from one to one
+
+ on user0_enter from one to one
+
+ on user0_validated from one to one
+
+ on user0_invalid from one to one
+
+ on user0_amount from one to one
+
+ on user0_cancel from one to one
+
+ on user0_accept from one to one
+
+ on user0_eject from one to one
+
+ on user0_fail from one to one
+
+ on user0_success from one to one
+
+ on user0_withdraw from one to one
+
+end 
+
+atomic type user_0D
+ extern data int state2
+
+ export port Port9D user0_insertD(state2)
+ export port Port10D user0_enterD(state2)
+ export port Port11D user0_invalidD(state2)
+ export port Port12D user0_validatedD(state2)
+ export port Port13D user0_amountD(state2)
+ export port Port14D user0_cancelD(state2)
+ export port Port15D user0_acceptD(state2)
+ export port Port16D user0_successD(state2)
+ export port Port17D user0_failD(state2)
+ export port Port18D user0_ejectD(state2)
+ export port Port19D user0_withdrawD(state2)
+
+ place one
+ initial to one
+ on user0_insertD from one to one
+
+ on user0_enterD from one to one
+
+ on user0_validatedD from one to one
+
+ on user0_invalidD from one to one
+
+ on user0_amountD from one to one
+
+ on user0_cancelD from one to one
+
+ on user0_acceptD from one to one
+
+ on user0_ejectD from one to one
+
+ on user0_failD from one to one
+
+ on user0_successD from one to one
+
+ on user0_withdrawD from one to one
+
+end 
+
+atomic type user_1
+ extern data int state3
+
+ export port Port20 user1_insert(state3)
+ export port Port21 user1_enter(state3)
+ export port Port22 user1_invalid(state3)
+ export port Port23 user1_validated(state3)
+ export port Port24 user1_amount(state3)
+ export port Port25 user1_cancel(state3)
+ export port Port26 user1_accept(state3)
+ export port Port27 user1_success(state3)
+ export port Port28 user1_fail(state3)
+ export port Port29 user1_eject(state3)
+ export port Port30 user1_withdraw(state3)
+
+ place one
+ initial to one do { state3 = 0;}
+ on user1_insert from one to one
+
+ on user1_enter from one to one
+
+ on user1_validated from one to one
+
+ on user1_invalid from one to one
+
+ on user1_amount from one to one
+
+ on user1_cancel from one to one
+
+ on user1_accept from one to one
+
+ on user1_eject from one to one
+
+ on user1_fail from one to one
+
+ on user1_success from one to one
+
+ on user1_withdraw from one to one
+
+end 
+
+atomic type user_1D
+ extern data int state3
+
+ export port Port20D user1_insertD(state3)
+ export port Port21D user1_enterD(state3)
+ export port Port22D user1_invalidD(state3)
+ export port Port23D user1_validatedD(state3)
+ export port Port24D user1_amountD(state3)
+ export port Port25D user1_cancelD(state3)
+ export port Port26D user1_acceptD(state3)
+ export port Port27D user1_successD(state3)
+ export port Port28D user1_failD(state3)
+ export port Port29D user1_ejectD(state3)
+ export port Port30D user1_withdrawD(state3)
+
+ place one
+ initial to one
+ on user1_insertD from one to one
+
+ on user1_enterD from one to one
+
+ on user1_validatedD from one to one
+
+ on user1_invalidD from one to one
+
+ on user1_amountD from one to one
+
+ on user1_cancelD from one to one
+
+ on user1_acceptD from one to one
+
+ on user1_ejectD from one to one
+
+ on user1_failD from one to one
+
+ on user1_successD from one to one
+
+ on user1_withdrawD from one to one
+
+end 
+
+atomic type ATM_0
+ extern data int t1_atm0
+ extern data int t2_atm0
+ extern data int state4
+
+ export port Port31 atm0_insert(t1_atm0,t2_atm0,state4)
+ export port Port32 atm0_enter(t1_atm0,t2_atm0,state4)
+ export port Port33 atm0_validate(t1_atm0,t2_atm0,state4)
+ export port Port34 atm0_authorized(t1_atm0,t2_atm0,state4)
+ export port Port35 atm0_nonauthorized(t1_atm0,t2_atm0,state4)
+ export port Port36 atm0_invalid(t1_atm0,t2_atm0,state4)
+ export port Port37 atm0_validated(t1_atm0,t2_atm0,state4)
+ export port Port38 atm0_amount(t1_atm0,t2_atm0,state4)
+ export port Port39 atm0_cancel(t1_atm0,t2_atm0,state4)
+ export port Port40 atm0_accept(t1_atm0,t2_atm0,state4)
+ export port Port41 atm0_transaction(t1_atm0,t2_atm0,state4)
+ export port Port42 atm0_veto(t1_atm0,t2_atm0,state4)
+ export port Port43 atm0_fiat(t1_atm0,t2_atm0,state4)
+ export port Port44 atm0_fail(t1_atm0,t2_atm0,state4)
+ export port Port45 atm0_eject(t1_atm0,t2_atm0,state4)
+ export port Port46 atm0_success(t1_atm0,t2_atm0,state4)
+ export port Port47 atm0_withdraw(t1_atm0,t2_atm0,state4)
+ export port Port48 atm0_tick(t1_atm0,t2_atm0,state4)
+
+ place one
+ initial to one do { state4 = 0;}
+ on atm0_insert from one to one
+
+ on atm0_enter from one to one
+
+ on atm0_tick from one to one
+
+ on atm0_validate from one to one
+
+ on atm0_authorized from one to one
+
+ on atm0_nonauthorized from one to one
+
+ on atm0_invalid from one to one
+
+ on atm0_eject from one to one
+
+ on atm0_validated from one to one
+
+ on atm0_amount from one to one
+
+ on atm0_tick from one to one
+
+ on atm0_accept from one to one
+
+ on atm0_cancel from one to one
+
+ on atm0_transaction from one to one
+
+ on atm0_veto from one to one
+
+ on atm0_fiat from one to one
+
+ on atm0_fail from one to one
+
+ on atm0_success from one to one
+
+ on atm0_withdraw from one to one
+
+end 
+
+atomic type ATM_0D
+ extern data int t1_atm0
+ extern data int t2_atm0
+ extern data int state4
+
+ export port Port31D atm0_insertD(t1_atm0,t2_atm0,state4)
+ export port Port32D atm0_enterD(t1_atm0,t2_atm0,state4)
+ export port Port33D atm0_validateD(t1_atm0,t2_atm0,state4)
+ export port Port34D atm0_authorizedD(t1_atm0,t2_atm0,state4)
+ export port Port35D atm0_nonauthorizedD(t1_atm0,t2_atm0,state4)
+ export port Port36D atm0_invalidD(t1_atm0,t2_atm0,state4)
+ export port Port37D atm0_validatedD(t1_atm0,t2_atm0,state4)
+ export port Port38D atm0_amountD(t1_atm0,t2_atm0,state4)
+ export port Port39D atm0_cancelD(t1_atm0,t2_atm0,state4)
+ export port Port40D atm0_acceptD(t1_atm0,t2_atm0,state4)
+ export port Port41D atm0_transactionD(t1_atm0,t2_atm0,state4)
+ export port Port42D atm0_vetoD(t1_atm0,t2_atm0,state4)
+ export port Port43D atm0_fiatD(t1_atm0,t2_atm0,state4)
+ export port Port44D atm0_failD(t1_atm0,t2_atm0,state4)
+ export port Port45D atm0_ejectD(t1_atm0,t2_atm0,state4)
+ export port Port46D atm0_successD(t1_atm0,t2_atm0,state4)
+ export port Port47D atm0_withdrawD(t1_atm0,t2_atm0,state4)
+ export port Port48D atm0_tickD(t1_atm0,t2_atm0,state4)
+
+ place one
+ initial to one
+ on atm0_insertD from one to one
+
+ on atm0_enterD from one to one
+
+ on atm0_tickD from one to one
+
+ on atm0_validateD from one to one
+
+ on atm0_authorizedD from one to one
+
+ on atm0_nonauthorizedD from one to one
+
+ on atm0_invalidD from one to one
+
+ on atm0_ejectD from one to one
+
+ on atm0_validatedD from one to one
+
+ on atm0_amountD from one to one
+
+ on atm0_tickD from one to one
+
+ on atm0_acceptD from one to one
+
+ on atm0_cancelD from one to one
+
+ on atm0_transactionD from one to one
+
+ on atm0_vetoD from one to one
+
+ on atm0_fiatD from one to one
+
+ on atm0_failD from one to one
+
+ on atm0_successD from one to one
+
+ on atm0_withdrawD from one to one
+
+end 
+
+atomic type ATM_1
+ extern data int t1_atm1
+ extern data int t2_atm1
+ extern data int state5
+
+ export port Port49 atm1_insert(t1_atm1,t2_atm1,state5)
+ export port Port50 atm1_enter(t1_atm1,t2_atm1,state5)
+ export port Port51 atm1_validate(t1_atm1,t2_atm1,state5)
+ export port Port52 atm1_authorized(t1_atm1,t2_atm1,state5)
+ export port Port53 atm1_nonauthorized(t1_atm1,t2_atm1,state5)
+ export port Port54 atm1_invalid(t1_atm1,t2_atm1,state5)
+ export port Port55 atm1_validated(t1_atm1,t2_atm1,state5)
+ export port Port56 atm1_amount(t1_atm1,t2_atm1,state5)
+ export port Port57 atm1_cancel(t1_atm1,t2_atm1,state5)
+ export port Port58 atm1_accept(t1_atm1,t2_atm1,state5)
+ export port Port59 atm1_transaction(t1_atm1,t2_atm1,state5)
+ export port Port60 atm1_veto(t1_atm1,t2_atm1,state5)
+ export port Port61 atm1_fiat(t1_atm1,t2_atm1,state5)
+ export port Port62 atm1_fail(t1_atm1,t2_atm1,state5)
+ export port Port63 atm1_eject(t1_atm1,t2_atm1,state5)
+ export port Port64 atm1_success(t1_atm1,t2_atm1,state5)
+ export port Port65 atm1_withdraw(t1_atm1,t2_atm1,state5)
+ export port Port66 atm1_tick(t1_atm1,t2_atm1,state5)
+
+ place one
+ initial to one do { state5 = 0;}
+ on atm1_insert from one to one
+
+ on atm1_enter from one to one
+
+ on atm1_tick from one to one
+
+ on atm1_validate from one to one
+
+ on atm1_authorized from one to one
+
+ on atm1_nonauthorized from one to one
+
+ on atm1_invalid from one to one
+
+ on atm1_eject from one to one
+
+ on atm1_validated from one to one
+
+ on atm1_amount from one to one
+
+ on atm1_tick from one to one
+
+ on atm1_accept from one to one
+
+ on atm1_cancel from one to one
+
+ on atm1_transaction from one to one
+
+ on atm1_veto from one to one
+
+ on atm1_fiat from one to one
+
+ on atm1_fail from one to one
+
+ on atm1_success from one to one
+
+ on atm1_withdraw from one to one
+
+end 
+
+atomic type ATM_1D
+ extern data int t1_atm1
+ extern data int t2_atm1
+ extern data int state5
+
+ export port Port49D atm1_insertD(t1_atm1,t2_atm1,state5)
+ export port Port50D atm1_enterD(t1_atm1,t2_atm1,state5)
+ export port Port51D atm1_validateD(t1_atm1,t2_atm1,state5)
+ export port Port52D atm1_authorizedD(t1_atm1,t2_atm1,state5)
+ export port Port53D atm1_nonauthorizedD(t1_atm1,t2_atm1,state5)
+ export port Port54D atm1_invalidD(t1_atm1,t2_atm1,state5)
+ export port Port55D atm1_validatedD(t1_atm1,t2_atm1,state5)
+ export port Port56D atm1_amountD(t1_atm1,t2_atm1,state5)
+ export port Port57D atm1_cancelD(t1_atm1,t2_atm1,state5)
+ export port Port58D atm1_acceptD(t1_atm1,t2_atm1,state5)
+ export port Port59D atm1_transactionD(t1_atm1,t2_atm1,state5)
+ export port Port60D atm1_vetoD(t1_atm1,t2_atm1,state5)
+ export port Port61D atm1_fiatD(t1_atm1,t2_atm1,state5)
+ export port Port62D atm1_failD(t1_atm1,t2_atm1,state5)
+ export port Port63D atm1_ejectD(t1_atm1,t2_atm1,state5)
+ export port Port64D atm1_successD(t1_atm1,t2_atm1,state5)
+ export port Port65D atm1_withdrawD(t1_atm1,t2_atm1,state5)
+ export port Port66D atm1_tickD(t1_atm1,t2_atm1,state5)
+
+ place one
+ initial to one
+ on atm1_insertD from one to one
+
+ on atm1_enterD from one to one
+
+ on atm1_tickD from one to one
+
+ on atm1_validateD from one to one
+
+ on atm1_authorizedD from one to one
+
+ on atm1_nonauthorizedD from one to one
+
+ on atm1_invalidD from one to one
+
+ on atm1_ejectD from one to one
+
+ on atm1_validatedD from one to one
+
+ on atm1_amountD from one to one
+
+ on atm1_tickD from one to one
+
+ on atm1_acceptD from one to one
+
+ on atm1_cancelD from one to one
+
+ on atm1_transactionD from one to one
+
+ on atm1_vetoD from one to one
+
+ on atm1_fiatD from one to one
+
+ on atm1_failD from one to one
+
+ on atm1_successD from one to one
+
+ on atm1_withdrawD from one to one
+
+end 
+
+connector type rendezvous2(Port9 user0_insert, Port31 atm0_insert, Port9D user0_insertD, Port31D atm0_insertD)
+ define user0_insert atm0_insert user0_insertD atm0_insertD 
+ data int user0_insert_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_insert_state4
+
+ on user0_insert atm0_insert user0_insertD  provided (user0_insert.state2==0 && ((atm0_insert.state4==0 ) ))
+  up{  if( user0_insert.state2==0 ){
+  user0_insert_state2= user0_insert.state2;
+  }
+  if( atm0_insert.state4==0 ){
+  t1_atm0= atm0_insert.t1_atm0;
+  t2_atm0= atm0_insert.t2_atm0;
+  atm0_insert_state4= atm0_insert.state4;
+  }
+  }
+
+  down{  if( user0_insert.state2==0 ){
+  user0_insertD.state2=1;
+  }
+  if( atm0_insert.state4==0 ){
+  atm0_insertD.state4=1;
+  }
+  }
+
+end 
+
+connector type rendezvous3(Port10 user0_enter, Port32 atm0_enter, Port10D user0_enterD, Port32D atm0_enterD)
+ define user0_enter atm0_enter user0_enterD atm0_enterD 
+ data int user0_enter_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_enter_state4
+
+ on user0_enter atm0_enter user0_enterD  provided (user0_enter.state2==1 && ((atm0_enter.state4==1 ) ))
+  up{  if( user0_enter.state2==1 ){
+  user0_enter_state2= user0_enter.state2;
+  }
+  if( atm0_enter.state4==1 ){
+  t1_atm0= atm0_enter.t1_atm0;
+  t2_atm0= atm0_enter.t2_atm0;
+  atm0_enter_state4= atm0_enter.state4;
+  }
+  }
+
+  down{  if( user0_enter.state2==1 ){
+  user0_enterD.state2=2;
+  }
+  if( atm0_enter.state4==1 ){
+  atm0_enterD.t1_atm0=0;
+  atm0_enterD.state4=2;
+  }
+  }
+
+end 
+
+connector type rendezvous4(Port11 user0_invalid, Port36 atm0_invalid, Port11D user0_invalidD, Port36D atm0_invalidD)
+ define user0_invalid atm0_invalid user0_invalidD atm0_invalidD 
+ data int user0_invalid_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_invalid_state4
+
+ on user0_invalid atm0_invalid user0_invalidD  provided (user0_invalid.state2==2 && ((atm0_invalid.state4==5 ) ))
+  up{  if( user0_invalid.state2==2 ){
+  user0_invalid_state2= user0_invalid.state2;
+  }
+  if( atm0_invalid.state4==5 ){
+  t1_atm0= atm0_invalid.t1_atm0;
+  t2_atm0= atm0_invalid.t2_atm0;
+  atm0_invalid_state4= atm0_invalid.state4;
+  }
+  }
+
+  down{  if( user0_invalid.state2==2 ){
+  user0_invalidD.state2=5;
+  }
+  if( atm0_invalid.state4==5 ){
+  atm0_invalidD.state4=6;
+  }
+  }
+
+end 
+
+connector type rendezvous5(Port12 user0_validated, Port37 atm0_validated, Port12D user0_validatedD, Port37D atm0_validatedD)
+ define user0_validated atm0_validated user0_validatedD atm0_validatedD 
+ data int user0_validated_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_validated_state4
+
+ on user0_validated atm0_validated user0_validatedD  provided (user0_validated.state2==2 && ((atm0_validated.state4==4 ) ))
+  up{  if( user0_validated.state2==2 ){
+  user0_validated_state2= user0_validated.state2;
+  }
+  if( atm0_validated.state4==4 ){
+  t1_atm0= atm0_validated.t1_atm0;
+  t2_atm0= atm0_validated.t2_atm0;
+  atm0_validated_state4= atm0_validated.state4;
+  }
+  }
+
+  down{  if( user0_validated.state2==2 ){
+  user0_validatedD.state2=3;
+  }
+  if( atm0_validated.state4==4 ){
+  atm0_validatedD.state4=7;
+  }
+  }
+
+end 
+
+connector type rendezvous6(Port13 user0_amount, Port38 atm0_amount, Port13D user0_amountD, Port38D atm0_amountD)
+ define user0_amount atm0_amount user0_amountD atm0_amountD 
+ data int user0_amount_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_amount_state4
+
+ on user0_amount atm0_amount user0_amountD  provided (user0_amount.state2==3 && ((atm0_amount.state4==7 ) ))
+  up{  if( user0_amount.state2==3 ){
+  user0_amount_state2= user0_amount.state2;
+  }
+  if( atm0_amount.state4==7 ){
+  t1_atm0= atm0_amount.t1_atm0;
+  t2_atm0= atm0_amount.t2_atm0;
+  atm0_amount_state4= atm0_amount.state4;
+  }
+  }
+
+  down{  if( user0_amount.state2==3 ){
+  user0_amountD.state2=4;
+  }
+  if( atm0_amount.state4==7 ){
+  atm0_amountD.t2_atm0=0;
+  atm0_amountD.state4=8;
+  }
+  }
+
+end 
+
+connector type rendezvous7(Port15 user0_accept, Port40 atm0_accept, Port15D user0_acceptD, Port40D atm0_acceptD)
+ define user0_accept atm0_accept user0_acceptD atm0_acceptD 
+ data int user0_accept_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_accept_state4
+
+ on user0_accept atm0_accept user0_acceptD  provided (user0_accept.state2==4 && ((atm0_accept.t2_atm0>=3 && atm0_accept.state4==8 ) ))
+  up{  if( user0_accept.state2==4 ){
+  user0_accept_state2= user0_accept.state2;
+  }
+  if( atm0_accept.state4==8 ){
+  t1_atm0= atm0_accept.t1_atm0;
+  t2_atm0= atm0_accept.t2_atm0;
+  atm0_accept_state4= atm0_accept.state4;
+  }
+  }
+
+  down{  if( user0_accept.state2==4 ){
+  user0_acceptD.state2=6;
+  }
+  if( atm0_accept.state4==8 ){
+  atm0_acceptD.state4=9;
+  }
+  }
+
+end 
+
+connector type rendezvous8(Port14 user0_cancel, Port39 atm0_cancel, Port14D user0_cancelD, Port39D atm0_cancelD)
+ define user0_cancel atm0_cancel user0_cancelD atm0_cancelD 
+ data int user0_cancel_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_cancel_state4
+
+ on user0_cancel atm0_cancel user0_cancelD  provided (user0_cancel.state2==4 && ((atm0_cancel.t2_atm0>=3 && atm0_cancel.state4==8 ) ))
+  up{  if( user0_cancel.state2==4 ){
+  user0_cancel_state2= user0_cancel.state2;
+  }
+  if( atm0_cancel.state4==8 ){
+  t1_atm0= atm0_cancel.t1_atm0;
+  t2_atm0= atm0_cancel.t2_atm0;
+  atm0_cancel_state4= atm0_cancel.state4;
+  }
+  }
+
+  down{  if( user0_cancel.state2==4 ){
+  user0_cancelD.state2=5;
+  }
+  if( atm0_cancel.state4==8 ){
+  atm0_cancelD.state4=6;
+  }
+  }
+
+end 
+
+connector type rendezvous9(Port18 user0_eject, Port45 atm0_eject, Port18D user0_ejectD, Port45D atm0_ejectD)
+ define user0_eject atm0_eject user0_ejectD atm0_ejectD 
+ data int user0_eject_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_eject_state4
+
+ on user0_eject atm0_eject user0_ejectD  provided (user0_eject.state2==5 && ((atm0_eject.state4==6 ) ))
+  up{  if( user0_eject.state2==5 ){
+  user0_eject_state2= user0_eject.state2;
+  }
+  if( atm0_eject.state4==6 ){
+  t1_atm0= atm0_eject.t1_atm0;
+  t2_atm0= atm0_eject.t2_atm0;
+  atm0_eject_state4= atm0_eject.state4;
+  }
+  }
+
+  down{  if( user0_eject.state2==5 ){
+  user0_ejectD.state2=0;
+  }
+  if( atm0_eject.state4==6 ){
+  atm0_ejectD.state4=0;
+  }
+  }
+
+end 
+
+connector type rendezvous10(Port17 user0_fail, Port44 atm0_fail, Port17D user0_failD, Port44D atm0_failD)
+ define user0_fail atm0_fail user0_failD atm0_failD 
+ data int user0_fail_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_fail_state4
+
+ on user0_fail atm0_fail user0_failD  provided (user0_fail.state2==6 && ((atm0_fail.state4==13 ) ))
+  up{  if( user0_fail.state2==6 ){
+  user0_fail_state2= user0_fail.state2;
+  }
+  if( atm0_fail.state4==13 ){
+  t1_atm0= atm0_fail.t1_atm0;
+  t2_atm0= atm0_fail.t2_atm0;
+  atm0_fail_state4= atm0_fail.state4;
+  }
+  }
+
+  down{  if( user0_fail.state2==6 ){
+  user0_failD.state2=5;
+  }
+  if( atm0_fail.state4==13 ){
+  atm0_failD.state4=6;
+  }
+  }
+
+end 
+
+connector type rendezvous11(Port16 user0_success, Port46 atm0_success, Port16D user0_successD, Port46D atm0_successD)
+ define user0_success atm0_success user0_successD atm0_successD 
+ data int user0_success_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_success_state4
+
+ on user0_success atm0_success user0_successD  provided (user0_success.state2==6 && ((atm0_success.state4==11 ) ))
+  up{  if( user0_success.state2==6 ){
+  user0_success_state2= user0_success.state2;
+  }
+  if( atm0_success.state4==11 ){
+  t1_atm0= atm0_success.t1_atm0;
+  t2_atm0= atm0_success.t2_atm0;
+  atm0_success_state4= atm0_success.state4;
+  }
+  }
+
+  down{  if( user0_success.state2==6 ){
+  user0_successD.state2=7;
+  }
+  if( atm0_success.state4==11 ){
+  atm0_successD.state4=12;
+  }
+  }
+
+end 
+
+connector type rendezvous12(Port19 user0_withdraw, Port47 atm0_withdraw, Port19D user0_withdrawD, Port47D atm0_withdrawD)
+ define user0_withdraw atm0_withdraw user0_withdrawD atm0_withdrawD 
+ data int user0_withdraw_state2
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_withdraw_state4
+
+ on user0_withdraw atm0_withdraw user0_withdrawD  provided (user0_withdraw.state2==7 && ((atm0_withdraw.state4==12 ) ))
+  up{  if( user0_withdraw.state2==7 ){
+  user0_withdraw_state2= user0_withdraw.state2;
+  }
+  if( atm0_withdraw.state4==12 ){
+  t1_atm0= atm0_withdraw.t1_atm0;
+  t2_atm0= atm0_withdraw.t2_atm0;
+  atm0_withdraw_state4= atm0_withdraw.state4;
+  }
+  }
+
+  down{  if( user0_withdraw.state2==7 ){
+  user0_withdrawD.state2=5;
+  }
+  if( atm0_withdraw.state4==12 ){
+  atm0_withdrawD.state4=6;
+  }
+  }
+
+end 
+
+connector type rendezvous13(Port1 valid_validate, Port33 atm0_validate, Port1D valid_validateD, Port33D atm0_validateD)
+ define valid_validate atm0_validate valid_validateD atm0_validateD 
+ data int x_valid
+ data int valid_validate_state0
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_validate_state4
+
+ on valid_validate atm0_validate valid_validateD  provided (valid_validate.state0==0 && ((atm0_validate.t1_atm0>1 && atm0_validate.state4==2 ) ))
+  up{  if( valid_validate.state0==0 ){
+  x_valid= valid_validate.x_valid;
+  valid_validate_state0= valid_validate.state0;
+  }
+  if( atm0_validate.state4==2 ){
+  t1_atm0= atm0_validate.t1_atm0;
+  t2_atm0= atm0_validate.t2_atm0;
+  atm0_validate_state4= atm0_validate.state4;
+  }
+  }
+
+  down{  if( valid_validate.state0==0 ){
+  valid_validateD.x_valid=0;
+  valid_validateD.state0=1;
+  }
+  if( atm0_validate.state4==2 ){
+  atm0_validateD.state4=3;
+  }
+  }
+
+end 
+
+connector type rendezvous14(Port2 valid_authorized, Port34 atm0_authorized, Port2D valid_authorizedD, Port34D atm0_authorizedD)
+ define valid_authorized atm0_authorized valid_authorizedD atm0_authorizedD 
+ data int x_valid
+ data int valid_authorized_state0
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_authorized_state4
+
+ on valid_authorized atm0_authorized valid_authorizedD  provided (valid_authorized.x_valid>=1 && valid_authorized.state0==1 && ((atm0_authorized.state4==3 ) ))
+  up{  if( valid_authorized.state0==1 ){
+  x_valid= valid_authorized.x_valid;
+  valid_authorized_state0= valid_authorized.state0;
+  }
+  if( atm0_authorized.state4==3 ){
+  t1_atm0= atm0_authorized.t1_atm0;
+  t2_atm0= atm0_authorized.t2_atm0;
+  atm0_authorized_state4= atm0_authorized.state4;
+  }
+  }
+
+  down{  if( valid_authorized.state0==1 ){
+  valid_authorizedD.state0=0;
+  }
+  if( atm0_authorized.state4==3 ){
+  atm0_authorizedD.state4=4;
+  }
+  }
+
+end 
+
+connector type rendezvous15(Port3 valid_nonauthorized, Port35 atm0_nonauthorized, Port3D valid_nonauthorizedD, Port35D atm0_nonauthorizedD)
+ define valid_nonauthorized atm0_nonauthorized valid_nonauthorizedD atm0_nonauthorizedD 
+ data int x_valid
+ data int valid_nonauthorized_state0
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_nonauthorized_state4
+
+ on valid_nonauthorized atm0_nonauthorized valid_nonauthorizedD  provided (valid_nonauthorized.x_valid>=1 && valid_nonauthorized.state0==1 && ((atm0_nonauthorized.state4==3 ) ))
+  up{  if( valid_nonauthorized.state0==1 ){
+  x_valid= valid_nonauthorized.x_valid;
+  valid_nonauthorized_state0= valid_nonauthorized.state0;
+  }
+  if( atm0_nonauthorized.state4==3 ){
+  t1_atm0= atm0_nonauthorized.t1_atm0;
+  t2_atm0= atm0_nonauthorized.t2_atm0;
+  atm0_nonauthorized_state4= atm0_nonauthorized.state4;
+  }
+  }
+
+  down{  if( valid_nonauthorized.state0==1 ){
+  valid_nonauthorizedD.state0=0;
+  }
+  if( atm0_nonauthorized.state4==3 ){
+  atm0_nonauthorizedD.state4=5;
+  }
+  }
+
+end 
+
+connector type rendezvous16(Port7 veto_transaction, Port41 atm0_transaction, Port7D veto_transactionD, Port41D atm0_transactionD)
+ define veto_transaction atm0_transaction veto_transactionD atm0_transactionD 
+ data int y_veto
+ data int veto_transaction_state1
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_transaction_state4
+
+ on veto_transaction atm0_transaction veto_transactionD  provided (veto_transaction.state1==0 && ((atm0_transaction.state4==9 ) ))
+  up{  if( veto_transaction.state1==0 ){
+  y_veto= veto_transaction.y_veto;
+  veto_transaction_state1= veto_transaction.state1;
+  }
+  if( atm0_transaction.state4==9 ){
+  t1_atm0= atm0_transaction.t1_atm0;
+  t2_atm0= atm0_transaction.t2_atm0;
+  atm0_transaction_state4= atm0_transaction.state4;
+  }
+  }
+
+  down{  if( veto_transaction.state1==0 ){
+  veto_transactionD.y_veto=0;
+  veto_transactionD.state1=1;
+  }
+  if( atm0_transaction.state4==9 ){
+  atm0_transactionD.state4=10;
+  }
+  }
+
+end 
+
+connector type rendezvous17(Port5 veto_veto, Port42 atm0_veto, Port5D veto_vetoD, Port42D atm0_vetoD)
+ define veto_veto atm0_veto veto_vetoD atm0_vetoD 
+ data int y_veto
+ data int veto_veto_state1
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_veto_state4
+
+ on veto_veto atm0_veto veto_vetoD  provided (veto_veto.y_veto>=2 && veto_veto.state1==1 && ((atm0_veto.state4==10 ) ))
+  up{  if( veto_veto.state1==1 ){
+  y_veto= veto_veto.y_veto;
+  veto_veto_state1= veto_veto.state1;
+  }
+  if( atm0_veto.state4==10 ){
+  t1_atm0= atm0_veto.t1_atm0;
+  t2_atm0= atm0_veto.t2_atm0;
+  atm0_veto_state4= atm0_veto.state4;
+  }
+  }
+
+  down{  if( veto_veto.state1==1 ){
+  veto_vetoD.state1=0;
+  }
+  if( atm0_veto.state4==10 ){
+  atm0_vetoD.state4=13;
+  }
+  }
+
+end 
+
+connector type rendezvous18(Port6 veto_fiat, Port43 atm0_fiat, Port6D veto_fiatD, Port43D atm0_fiatD)
+ define veto_fiat atm0_fiat veto_fiatD atm0_fiatD 
+ data int y_veto
+ data int veto_fiat_state1
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_fiat_state4
+
+ on veto_fiat atm0_fiat veto_fiatD  provided (veto_fiat.y_veto>=2 && veto_fiat.state1==1 && ((atm0_fiat.state4==10 ) ))
+  up{  if( veto_fiat.state1==1 ){
+  y_veto= veto_fiat.y_veto;
+  veto_fiat_state1= veto_fiat.state1;
+  }
+  if( atm0_fiat.state4==10 ){
+  t1_atm0= atm0_fiat.t1_atm0;
+  t2_atm0= atm0_fiat.t2_atm0;
+  atm0_fiat_state4= atm0_fiat.state4;
+  }
+  }
+
+  down{  if( veto_fiat.state1==1 ){
+  veto_fiatD.state1=0;
+  }
+  if( atm0_fiat.state4==10 ){
+  atm0_fiatD.state4=11;
+  }
+  }
+
+end 
+
+connector type rendezvous19(Port20 user1_insert, Port49 atm1_insert, Port20D user1_insertD, Port49D atm1_insertD)
+ define user1_insert atm1_insert user1_insertD atm1_insertD 
+ data int user1_insert_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_insert_state5
+
+ on user1_insert atm1_insert user1_insertD  provided (user1_insert.state3==0 && ((atm1_insert.state5==0 ) ))
+  up{  if( user1_insert.state3==0 ){
+  user1_insert_state3= user1_insert.state3;
+  }
+  if( atm1_insert.state5==0 ){
+  t1_atm1= atm1_insert.t1_atm1;
+  t2_atm1= atm1_insert.t2_atm1;
+  atm1_insert_state5= atm1_insert.state5;
+  }
+  }
+
+  down{  if( user1_insert.state3==0 ){
+  user1_insertD.state3=1;
+  }
+  if( atm1_insert.state5==0 ){
+  atm1_insertD.state5=1;
+  }
+  }
+
+end 
+
+connector type rendezvous20(Port21 user1_enter, Port50 atm1_enter, Port21D user1_enterD, Port50D atm1_enterD)
+ define user1_enter atm1_enter user1_enterD atm1_enterD 
+ data int user1_enter_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_enter_state5
+
+ on user1_enter atm1_enter user1_enterD  provided (user1_enter.state3==1 && ((atm1_enter.state5==1 ) ))
+  up{  if( user1_enter.state3==1 ){
+  user1_enter_state3= user1_enter.state3;
+  }
+  if( atm1_enter.state5==1 ){
+  t1_atm1= atm1_enter.t1_atm1;
+  t2_atm1= atm1_enter.t2_atm1;
+  atm1_enter_state5= atm1_enter.state5;
+  }
+  }
+
+  down{  if( user1_enter.state3==1 ){
+  user1_enterD.state3=2;
+  }
+  if( atm1_enter.state5==1 ){
+  atm1_enterD.t1_atm1=0;
+  atm1_enterD.state5=2;
+  }
+  }
+
+end 
+
+connector type rendezvous21(Port22 user1_invalid, Port54 atm1_invalid, Port22D user1_invalidD, Port54D atm1_invalidD)
+ define user1_invalid atm1_invalid user1_invalidD atm1_invalidD 
+ data int user1_invalid_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_invalid_state5
+
+ on user1_invalid atm1_invalid user1_invalidD  provided (user1_invalid.state3==2 && ((atm1_invalid.state5==5 ) ))
+  up{  if( user1_invalid.state3==2 ){
+  user1_invalid_state3= user1_invalid.state3;
+  }
+  if( atm1_invalid.state5==5 ){
+  t1_atm1= atm1_invalid.t1_atm1;
+  t2_atm1= atm1_invalid.t2_atm1;
+  atm1_invalid_state5= atm1_invalid.state5;
+  }
+  }
+
+  down{  if( user1_invalid.state3==2 ){
+  user1_invalidD.state3=5;
+  }
+  if( atm1_invalid.state5==5 ){
+  atm1_invalidD.state5=6;
+  }
+  }
+
+end 
+
+connector type rendezvous22(Port23 user1_validated, Port55 atm1_validated, Port23D user1_validatedD, Port55D atm1_validatedD)
+ define user1_validated atm1_validated user1_validatedD atm1_validatedD 
+ data int user1_validated_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_validated_state5
+
+ on user1_validated atm1_validated user1_validatedD  provided (user1_validated.state3==2 && ((atm1_validated.state5==4 ) ))
+  up{  if( user1_validated.state3==2 ){
+  user1_validated_state3= user1_validated.state3;
+  }
+  if( atm1_validated.state5==4 ){
+  t1_atm1= atm1_validated.t1_atm1;
+  t2_atm1= atm1_validated.t2_atm1;
+  atm1_validated_state5= atm1_validated.state5;
+  }
+  }
+
+  down{  if( user1_validated.state3==2 ){
+  user1_validatedD.state3=3;
+  }
+  if( atm1_validated.state5==4 ){
+  atm1_validatedD.state5=7;
+  }
+  }
+
+end 
+
+connector type rendezvous23(Port24 user1_amount, Port56 atm1_amount, Port24D user1_amountD, Port56D atm1_amountD)
+ define user1_amount atm1_amount user1_amountD atm1_amountD 
+ data int user1_amount_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_amount_state5
+
+ on user1_amount atm1_amount user1_amountD  provided (user1_amount.state3==3 && ((atm1_amount.state5==7 ) ))
+  up{  if( user1_amount.state3==3 ){
+  user1_amount_state3= user1_amount.state3;
+  }
+  if( atm1_amount.state5==7 ){
+  t1_atm1= atm1_amount.t1_atm1;
+  t2_atm1= atm1_amount.t2_atm1;
+  atm1_amount_state5= atm1_amount.state5;
+  }
+  }
+
+  down{  if( user1_amount.state3==3 ){
+  user1_amountD.state3=4;
+  }
+  if( atm1_amount.state5==7 ){
+  atm1_amountD.t2_atm1=0;
+  atm1_amountD.state5=8;
+  }
+  }
+
+end 
+
+connector type rendezvous24(Port26 user1_accept, Port58 atm1_accept, Port26D user1_acceptD, Port58D atm1_acceptD)
+ define user1_accept atm1_accept user1_acceptD atm1_acceptD 
+ data int user1_accept_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_accept_state5
+
+ on user1_accept atm1_accept user1_acceptD  provided (user1_accept.state3==4 && ((atm1_accept.t2_atm1>=3 && atm1_accept.state5==8 ) ))
+  up{  if( user1_accept.state3==4 ){
+  user1_accept_state3= user1_accept.state3;
+  }
+  if( atm1_accept.state5==8 ){
+  t1_atm1= atm1_accept.t1_atm1;
+  t2_atm1= atm1_accept.t2_atm1;
+  atm1_accept_state5= atm1_accept.state5;
+  }
+  }
+
+  down{  if( user1_accept.state3==4 ){
+  user1_acceptD.state3=6;
+  }
+  if( atm1_accept.state5==8 ){
+  atm1_acceptD.state5=9;
+  }
+  }
+
+end 
+
+connector type rendezvous25(Port25 user1_cancel, Port57 atm1_cancel, Port25D user1_cancelD, Port57D atm1_cancelD)
+ define user1_cancel atm1_cancel user1_cancelD atm1_cancelD 
+ data int user1_cancel_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_cancel_state5
+
+ on user1_cancel atm1_cancel user1_cancelD  provided (user1_cancel.state3==4 && ((atm1_cancel.t2_atm1>=3 && atm1_cancel.state5==8 ) ))
+  up{  if( user1_cancel.state3==4 ){
+  user1_cancel_state3= user1_cancel.state3;
+  }
+  if( atm1_cancel.state5==8 ){
+  t1_atm1= atm1_cancel.t1_atm1;
+  t2_atm1= atm1_cancel.t2_atm1;
+  atm1_cancel_state5= atm1_cancel.state5;
+  }
+  }
+
+  down{  if( user1_cancel.state3==4 ){
+  user1_cancelD.state3=5;
+  }
+  if( atm1_cancel.state5==8 ){
+  atm1_cancelD.state5=6;
+  }
+  }
+
+end 
+
+connector type rendezvous26(Port29 user1_eject, Port63 atm1_eject, Port29D user1_ejectD, Port63D atm1_ejectD)
+ define user1_eject atm1_eject user1_ejectD atm1_ejectD 
+ data int user1_eject_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_eject_state5
+
+ on user1_eject atm1_eject user1_ejectD  provided (user1_eject.state3==5 && ((atm1_eject.state5==6 ) ))
+  up{  if( user1_eject.state3==5 ){
+  user1_eject_state3= user1_eject.state3;
+  }
+  if( atm1_eject.state5==6 ){
+  t1_atm1= atm1_eject.t1_atm1;
+  t2_atm1= atm1_eject.t2_atm1;
+  atm1_eject_state5= atm1_eject.state5;
+  }
+  }
+
+  down{  if( user1_eject.state3==5 ){
+  user1_ejectD.state3=0;
+  }
+  if( atm1_eject.state5==6 ){
+  atm1_ejectD.state5=0;
+  }
+  }
+
+end 
+
+connector type rendezvous27(Port28 user1_fail, Port62 atm1_fail, Port28D user1_failD, Port62D atm1_failD)
+ define user1_fail atm1_fail user1_failD atm1_failD 
+ data int user1_fail_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_fail_state5
+
+ on user1_fail atm1_fail user1_failD  provided (user1_fail.state3==6 && ((atm1_fail.state5==13 ) ))
+  up{  if( user1_fail.state3==6 ){
+  user1_fail_state3= user1_fail.state3;
+  }
+  if( atm1_fail.state5==13 ){
+  t1_atm1= atm1_fail.t1_atm1;
+  t2_atm1= atm1_fail.t2_atm1;
+  atm1_fail_state5= atm1_fail.state5;
+  }
+  }
+
+  down{  if( user1_fail.state3==6 ){
+  user1_failD.state3=5;
+  }
+  if( atm1_fail.state5==13 ){
+  atm1_failD.state5=6;
+  }
+  }
+
+end 
+
+connector type rendezvous28(Port27 user1_success, Port64 atm1_success, Port27D user1_successD, Port64D atm1_successD)
+ define user1_success atm1_success user1_successD atm1_successD 
+ data int user1_success_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_success_state5
+
+ on user1_success atm1_success user1_successD  provided (user1_success.state3==6 && ((atm1_success.state5==11 ) ))
+  up{  if( user1_success.state3==6 ){
+  user1_success_state3= user1_success.state3;
+  }
+  if( atm1_success.state5==11 ){
+  t1_atm1= atm1_success.t1_atm1;
+  t2_atm1= atm1_success.t2_atm1;
+  atm1_success_state5= atm1_success.state5;
+  }
+  }
+
+  down{  if( user1_success.state3==6 ){
+  user1_successD.state3=7;
+  }
+  if( atm1_success.state5==11 ){
+  atm1_successD.state5=12;
+  }
+  }
+
+end 
+
+connector type rendezvous29(Port30 user1_withdraw, Port65 atm1_withdraw, Port30D user1_withdrawD, Port65D atm1_withdrawD)
+ define user1_withdraw atm1_withdraw user1_withdrawD atm1_withdrawD 
+ data int user1_withdraw_state3
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_withdraw_state5
+
+ on user1_withdraw atm1_withdraw user1_withdrawD  provided (user1_withdraw.state3==7 && ((atm1_withdraw.state5==12 ) ))
+  up{  if( user1_withdraw.state3==7 ){
+  user1_withdraw_state3= user1_withdraw.state3;
+  }
+  if( atm1_withdraw.state5==12 ){
+  t1_atm1= atm1_withdraw.t1_atm1;
+  t2_atm1= atm1_withdraw.t2_atm1;
+  atm1_withdraw_state5= atm1_withdraw.state5;
+  }
+  }
+
+  down{  if( user1_withdraw.state3==7 ){
+  user1_withdrawD.state3=5;
+  }
+  if( atm1_withdraw.state5==12 ){
+  atm1_withdrawD.state5=6;
+  }
+  }
+
+end 
+
+connector type rendezvous30(Port1 valid_validate, Port51 atm1_validate, Port1D valid_validateD, Port51D atm1_validateD)
+ define valid_validate atm1_validate valid_validateD atm1_validateD 
+ data int x_valid
+ data int valid_validate_state0
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_validate_state5
+
+ on valid_validate atm1_validate valid_validateD  provided (valid_validate.state0==0 && ((atm1_validate.t1_atm1>1 && atm1_validate.state5==2 ) ))
+  up{  if( valid_validate.state0==0 ){
+  x_valid= valid_validate.x_valid;
+  valid_validate_state0= valid_validate.state0;
+  }
+  if( atm1_validate.state5==2 ){
+  t1_atm1= atm1_validate.t1_atm1;
+  t2_atm1= atm1_validate.t2_atm1;
+  atm1_validate_state5= atm1_validate.state5;
+  }
+  }
+
+  down{  if( valid_validate.state0==0 ){
+  valid_validateD.x_valid=0;
+  valid_validateD.state0=1;
+  }
+  if( atm1_validate.state5==2 ){
+  atm1_validateD.state5=3;
+  }
+  }
+
+end 
+
+connector type rendezvous31(Port2 valid_authorized, Port52 atm1_authorized, Port2D valid_authorizedD, Port52D atm1_authorizedD)
+ define valid_authorized atm1_authorized valid_authorizedD atm1_authorizedD 
+ data int x_valid
+ data int valid_authorized_state0
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_authorized_state5
+
+ on valid_authorized atm1_authorized valid_authorizedD  provided (valid_authorized.x_valid>=1 && valid_authorized.state0==1 && ((atm1_authorized.state5==3 ) ))
+  up{  if( valid_authorized.state0==1 ){
+  x_valid= valid_authorized.x_valid;
+  valid_authorized_state0= valid_authorized.state0;
+  }
+  if( atm1_authorized.state5==3 ){
+  t1_atm1= atm1_authorized.t1_atm1;
+  t2_atm1= atm1_authorized.t2_atm1;
+  atm1_authorized_state5= atm1_authorized.state5;
+  }
+  }
+
+  down{  if( valid_authorized.state0==1 ){
+  valid_authorizedD.state0=0;
+  }
+  if( atm1_authorized.state5==3 ){
+  atm1_authorizedD.state5=4;
+  }
+  }
+
+end 
+
+connector type rendezvous32(Port3 valid_nonauthorized, Port53 atm1_nonauthorized, Port3D valid_nonauthorizedD, Port53D atm1_nonauthorizedD)
+ define valid_nonauthorized atm1_nonauthorized valid_nonauthorizedD atm1_nonauthorizedD 
+ data int x_valid
+ data int valid_nonauthorized_state0
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_nonauthorized_state5
+
+ on valid_nonauthorized atm1_nonauthorized valid_nonauthorizedD  provided (valid_nonauthorized.x_valid>=1 && valid_nonauthorized.state0==1 && ((atm1_nonauthorized.state5==3 ) ))
+  up{  if( valid_nonauthorized.state0==1 ){
+  x_valid= valid_nonauthorized.x_valid;
+  valid_nonauthorized_state0= valid_nonauthorized.state0;
+  }
+  if( atm1_nonauthorized.state5==3 ){
+  t1_atm1= atm1_nonauthorized.t1_atm1;
+  t2_atm1= atm1_nonauthorized.t2_atm1;
+  atm1_nonauthorized_state5= atm1_nonauthorized.state5;
+  }
+  }
+
+  down{  if( valid_nonauthorized.state0==1 ){
+  valid_nonauthorizedD.state0=0;
+  }
+  if( atm1_nonauthorized.state5==3 ){
+  atm1_nonauthorizedD.state5=5;
+  }
+  }
+
+end 
+
+connector type rendezvous33(Port7 veto_transaction, Port59 atm1_transaction, Port7D veto_transactionD, Port59D atm1_transactionD)
+ define veto_transaction atm1_transaction veto_transactionD atm1_transactionD 
+ data int y_veto
+ data int veto_transaction_state1
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_transaction_state5
+
+ on veto_transaction atm1_transaction veto_transactionD  provided (veto_transaction.state1==0 && ((atm1_transaction.state5==9 ) ))
+  up{  if( veto_transaction.state1==0 ){
+  y_veto= veto_transaction.y_veto;
+  veto_transaction_state1= veto_transaction.state1;
+  }
+  if( atm1_transaction.state5==9 ){
+  t1_atm1= atm1_transaction.t1_atm1;
+  t2_atm1= atm1_transaction.t2_atm1;
+  atm1_transaction_state5= atm1_transaction.state5;
+  }
+  }
+
+  down{  if( veto_transaction.state1==0 ){
+  veto_transactionD.y_veto=0;
+  veto_transactionD.state1=1;
+  }
+  if( atm1_transaction.state5==9 ){
+  atm1_transactionD.state5=10;
+  }
+  }
+
+end 
+
+connector type rendezvous34(Port5 veto_veto, Port60 atm1_veto, Port5D veto_vetoD, Port60D atm1_vetoD)
+ define veto_veto atm1_veto veto_vetoD atm1_vetoD 
+ data int y_veto
+ data int veto_veto_state1
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_veto_state5
+
+ on veto_veto atm1_veto veto_vetoD  provided (veto_veto.y_veto>=2 && veto_veto.state1==1 && ((atm1_veto.state5==10 ) ))
+  up{  if( veto_veto.state1==1 ){
+  y_veto= veto_veto.y_veto;
+  veto_veto_state1= veto_veto.state1;
+  }
+  if( atm1_veto.state5==10 ){
+  t1_atm1= atm1_veto.t1_atm1;
+  t2_atm1= atm1_veto.t2_atm1;
+  atm1_veto_state5= atm1_veto.state5;
+  }
+  }
+
+  down{  if( veto_veto.state1==1 ){
+  veto_vetoD.state1=0;
+  }
+  if( atm1_veto.state5==10 ){
+  atm1_vetoD.state5=13;
+  }
+  }
+
+end 
+
+connector type rendezvous35(Port6 veto_fiat, Port61 atm1_fiat, Port6D veto_fiatD, Port61D atm1_fiatD)
+ define veto_fiat atm1_fiat veto_fiatD atm1_fiatD 
+ data int y_veto
+ data int veto_fiat_state1
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_fiat_state5
+
+ on veto_fiat atm1_fiat veto_fiatD  provided (veto_fiat.y_veto>=2 && veto_fiat.state1==1 && ((atm1_fiat.state5==10 ) ))
+  up{  if( veto_fiat.state1==1 ){
+  y_veto= veto_fiat.y_veto;
+  veto_fiat_state1= veto_fiat.state1;
+  }
+  if( atm1_fiat.state5==10 ){
+  t1_atm1= atm1_fiat.t1_atm1;
+  t2_atm1= atm1_fiat.t2_atm1;
+  atm1_fiat_state5= atm1_fiat.state5;
+  }
+  }
+
+  down{  if( veto_fiat.state1==1 ){
+  veto_fiatD.state1=0;
+  }
+  if( atm1_fiat.state5==10 ){
+  atm1_fiatD.state5=11;
+  }
+  }
+
+end 
+
+connector type single1(Port48 atm0_tick, Port48D atm0_tickD)
+ define atm0_tick atm0_tickD 
+ data int t1_atm0
+ data int t2_atm0
+ data int atm0_tick_state4
+
+ on atm0_tick atm0_tickD  provided ((atm0_tick.t1_atm0<5 && atm0_tick.state4==2) || (atm0_tick.t2_atm0<6 && atm0_tick.state4==8))
+  up{  if( atm0_tick.state4==2 ){
+  t1_atm0= atm0_tick.t1_atm0;
+  t2_atm0= atm0_tick.t2_atm0;
+  atm0_tick_state4= atm0_tick.state4;
+  }
+  
+
+  if( atm0_tick.state4==8 ){
+  t1_atm0= atm0_tick.t1_atm0;
+  t2_atm0= atm0_tick.t2_atm0;
+  atm0_tick_state4= atm0_tick.state4;
+  }
+  }
+
+  down{  if( atm0_tick.state4==2 ){
+  atm0_tickD.t1_atm0=t1_atm0+1;
+  atm0_tickD.state4=2;
+  }
+  
+
+  if( atm0_tick.state4==8 ){
+  atm0_tickD.t2_atm0=t2_atm0+1;
+  atm0_tickD.state4=8;
+  }
+  }
+
+end 
+
+connector type single2(Port66 atm1_tick, Port66D atm1_tickD)
+ define atm1_tick atm1_tickD 
+ data int t1_atm1
+ data int t2_atm1
+ data int atm1_tick_state5
+
+ on atm1_tick atm1_tickD  provided ((atm1_tick.t1_atm1<5 && atm1_tick.state5==2) || (atm1_tick.t2_atm1<6 && atm1_tick.state5==8))
+  up{  if( atm1_tick.state5==2 ){
+  t1_atm1= atm1_tick.t1_atm1;
+  t2_atm1= atm1_tick.t2_atm1;
+  atm1_tick_state5= atm1_tick.state5;
+  }
+  
+
+  if( atm1_tick.state5==8 ){
+  t1_atm1= atm1_tick.t1_atm1;
+  t2_atm1= atm1_tick.t2_atm1;
+  atm1_tick_state5= atm1_tick.state5;
+  }
+  }
+
+  down{  if( atm1_tick.state5==2 ){
+  atm1_tickD.t1_atm1=t1_atm1+1;
+  atm1_tickD.state5=2;
+  }
+  
+
+  if( atm1_tick.state5==8 ){
+  atm1_tickD.t2_atm1=t2_atm1+1;
+  atm1_tickD.state5=8;
+  }
+  }
+
+end 
+
+connector type single3(Port8 veto_tick, Port8D veto_tickD)
+ define veto_tick veto_tickD 
+ data int y_veto
+ data int veto_tick_state1
+
+ on veto_tick veto_tickD  provided (veto_tick.y_veto<4 && veto_tick.state1==1)
+  up{  if( veto_tick.state1==1 ){
+  y_veto= veto_tick.y_veto;
+  veto_tick_state1= veto_tick.state1;
+  }
+  }
+
+  down{  if( veto_tick.state1==1 ){
+  veto_tickD.y_veto=y_veto-1;
+  veto_tickD.state1=1;
+  }
+  }
+
+end 
+
+connector type single4(Port4 valid_tick, Port4D valid_tickD)
+ define valid_tick valid_tickD 
+ data int x_valid
+ data int valid_tick_state0
+
+ on valid_tick valid_tickD  provided (valid_tick.x_valid<2 && valid_tick.state0==1)
+  up{  if( valid_tick.state0==1 ){
+  x_valid= valid_tick.x_valid;
+  valid_tick_state0= valid_tick.state0;
+  }
+  }
+
+  down{  if( valid_tick.state0==1 ){
+  valid_tickD.x_valid=x_valid+1;
+  valid_tickD.state0=1;
+  }
+  }
+
+end 
+
+compound type AtmSystemType
+ component BankValidation valid
+ component BankValidationD validD
+ component BankVeto veto
+ component BankVetoD vetoD
+ component user_0 user0
+ component user_0D user0D
+ component user_1 user1
+ component user_1D user1D
+ component ATM_0 atm0
+ component ATM_0D atm0D
+ component ATM_1 atm1
+ component ATM_1D atm1D
+
+ connector rendezvous2 u0_atm0_insert(user0.user0_insert, atm0.atm0_insert, user0D.user0_insertD, atm0D.atm0_insertD)
+ connector rendezvous3 u0_atm0_enter(user0.user0_enter, atm0.atm0_enter, user0D.user0_enterD, atm0D.atm0_enterD)
+ connector rendezvous4 u0_atm0_invalid(user0.user0_invalid, atm0.atm0_invalid, user0D.user0_invalidD, atm0D.atm0_invalidD)
+ connector rendezvous5 u0_atm0_validated(user0.user0_validated, atm0.atm0_validated, user0D.user0_validatedD, atm0D.atm0_validatedD)
+ connector rendezvous6 u0_atm0_amount(user0.user0_amount, atm0.atm0_amount, user0D.user0_amountD, atm0D.atm0_amountD)
+ connector rendezvous7 u0_atm0_accept(user0.user0_accept, atm0.atm0_accept, user0D.user0_acceptD, atm0D.atm0_acceptD)
+ connector rendezvous8 u0_atm0_cancel(user0.user0_cancel, atm0.atm0_cancel, user0D.user0_cancelD, atm0D.atm0_cancelD)
+ connector rendezvous9 u0_atm0_eject(user0.user0_eject, atm0.atm0_eject, user0D.user0_ejectD, atm0D.atm0_ejectD)
+ connector rendezvous10 u0_atm0_fail(user0.user0_fail, atm0.atm0_fail, user0D.user0_failD, atm0D.atm0_failD)
+ connector rendezvous11 u0_atm0_success(user0.user0_success, atm0.atm0_success, user0D.user0_successD, atm0D.atm0_successD)
+ connector rendezvous12 u0_atm0_withdraw(user0.user0_withdraw, atm0.atm0_withdraw, user0D.user0_withdrawD, atm0D.atm0_withdrawD)
+ connector rendezvous13 bank_atm0_validate(valid.valid_validate, atm0.atm0_validate, validD.valid_validateD, atm0D.atm0_validateD)
+ connector rendezvous14 bank_atm0_authorized(valid.valid_authorized, atm0.atm0_authorized, validD.valid_authorizedD, atm0D.atm0_authorizedD)
+ connector rendezvous15 bank_atm0_nonauthorized(valid.valid_nonauthorized, atm0.atm0_nonauthorized, validD.valid_nonauthorizedD, atm0D.atm0_nonauthorizedD)
+ connector rendezvous16 veto_atm0_transaction(veto.veto_transaction, atm0.atm0_transaction, vetoD.veto_transactionD, atm0D.atm0_transactionD)
+ connector rendezvous17 veto_atm0_veto(veto.veto_veto, atm0.atm0_veto, vetoD.veto_vetoD, atm0D.atm0_vetoD)
+ connector rendezvous18 veto_atm0_fiat(veto.veto_fiat, atm0.atm0_fiat, vetoD.veto_fiatD, atm0D.atm0_fiatD)
+ connector rendezvous19 u_1_atm1_insert(user1.user1_insert, atm1.atm1_insert, user1D.user1_insertD, atm1D.atm1_insertD)
+ connector rendezvous20 u1_atm1_enter(user1.user1_enter, atm1.atm1_enter, user1D.user1_enterD, atm1D.atm1_enterD)
+ connector rendezvous21 u1_atm1_invalid(user1.user1_invalid, atm1.atm1_invalid, user1D.user1_invalidD, atm1D.atm1_invalidD)
+ connector rendezvous22 u1_atm1_validated(user1.user1_validated, atm1.atm1_validated, user1D.user1_validatedD, atm1D.atm1_validatedD)
+ connector rendezvous23 u1_atm1_amount(user1.user1_amount, atm1.atm1_amount, user1D.user1_amountD, atm1D.atm1_amountD)
+ connector rendezvous24 u1_atm1_accept(user1.user1_accept, atm1.atm1_accept, user1D.user1_acceptD, atm1D.atm1_acceptD)
+ connector rendezvous25 u1_atm1_cancel(user1.user1_cancel, atm1.atm1_cancel, user1D.user1_cancelD, atm1D.atm1_cancelD)
+ connector rendezvous26 u1_atm1_eject(user1.user1_eject, atm1.atm1_eject, user1D.user1_ejectD, atm1D.atm1_ejectD)
+ connector rendezvous27 u1_atm1_fail(user1.user1_fail, atm1.atm1_fail, user1D.user1_failD, atm1D.atm1_failD)
+ connector rendezvous28 u1_atm1_success(user1.user1_success, atm1.atm1_success, user1D.user1_successD, atm1D.atm1_successD)
+ connector rendezvous29 u1_atm1_withdraw(user1.user1_withdraw, atm1.atm1_withdraw, user1D.user1_withdrawD, atm1D.atm1_withdrawD)
+ connector rendezvous30 bank_atm1_validate(valid.valid_validate, atm1.atm1_validate, validD.valid_validateD, atm1D.atm1_validateD)
+ connector rendezvous31 bank_atm1_authorized(valid.valid_authorized, atm1.atm1_authorized, validD.valid_authorizedD, atm1D.atm1_authorizedD)
+ connector rendezvous32 bank_atm1_nonauthorized(valid.valid_nonauthorized, atm1.atm1_nonauthorized, validD.valid_nonauthorizedD, atm1D.atm1_nonauthorizedD)
+ connector rendezvous33 veto_atm1_transaction(veto.veto_transaction, atm1.atm1_transaction, vetoD.veto_transactionD, atm1D.atm1_transactionD)
+ connector rendezvous34 veto_atm1_veto(veto.veto_veto, atm1.atm1_veto, vetoD.veto_vetoD, atm1D.atm1_vetoD)
+ connector rendezvous35 veto_atm1_fiat(veto.veto_fiat, atm1.atm1_fiat, vetoD.veto_fiatD, atm1D.atm1_fiatD)
+ connector single1 atm0_tick_single(atm0.atm0_tick, atm0D.atm0_tickD)
+ connector single2 atm1_tick_single(atm1.atm1_tick, atm1D.atm1_tickD)
+ connector single3 veto_tick_single(veto.veto_tick, vetoD.veto_tickD)
+ connector single4 verif_tick_single(valid.valid_tick, validD.valid_tickD)
+end 
+
+
+component AtmSystemType atmSystem 
+
+end
+

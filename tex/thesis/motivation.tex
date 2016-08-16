@@ -1,0 +1,128 @@
+\begin{figure}[tb]
+  \centering
+  \small {
+  \begin{tabular}{p{2.5in}|p{.01in}p{2.9in}}
+\begin{Verbatim}[fontsize=\relsize{-2.5}, numbersep=4pt,numbers=left,
+frame=topline, framesep=4mm, label=\fbox{(a) Array search program}]
+int ArraySearch(int [] a, int d, int s, int e, int n) {
+@pre as { 0 <= s && s <= e && e < n && n <= MAXSIZE; }
+  int i = s;          // pc = pc+1
+  while(i <= e) {     // pc = (i <= e) ? 5 : 10;
+    if (a[i] == d) {  // pc = (a[i] == d) ? 6 : 8;
+      break;}         // pc = 10;
+    else {
+      i = i+1;}       // pc = 4;
+  }
+  return i;           // pc = 11; rv = i;
+@post as {
+  ((rv >= s && rv <= e) -> a[rv] == d) xor 
+  (rv == -1 -> forall(int i:[s .. e]) { a[i] != d })
+} }
+\end{Verbatim}
+& &
+%\begin{Verbatim}[fontsize=\relsize{-2}], numbersep=4pt,numbers=left]
+\begin{Verbatim} [fontsize=\relsize{-2.5}, numbersep=4pt,numbers=left,
+frame=topline, framesep=4mm, label=\fbox{(b) Program with program counter}]
+dotogether {
+  preas = 0 <= s && s <= e && e < n && n <= MAXSIZE;
+  //initial values
+  pc = 0; notdone = true; postas = true; }
+while (notdone) { dotogether {   // next state functions
+  i = (pc == 3) ? s : (pc == 8) ? i+1 : i;
+  notdone = (pc == 11) ? false : true;
+  rv = (pc == 10) ? i : rv;
+  pc = (pc == 0) ? 3: (pc == 3) ? 4 : 
+    (pc == 4) ? ( (i <= e) ? 5 : 10 ) :
+    (pc == 5) ? (a[i] == d) ? 6 : 8 ) :
+    (pc == 6) ? 10 :
+    (pc == 8) ? 4  : 
+    (pc == 10) ? 11 : pc; }
+  postas = ((rv >= s && rv <= e) -> a[rv] == d) xor
+    (rv == -1 -> forall(int i:[s .. e]) { a[i] != d }); }
+\end{Verbatim}
+\end{tabular}
+}
+\caption{(a) Array search program, and (b) equivalent array search program with program
+counter}
+\label{f:arraysearch}
+\end{figure}
+
+The Array search program in Figure~\ref{f:arraysearch}(a) takes as input an array $a$, 
+a start index $s$, an end index $e$, a data value $d$, and the number of 
+elements in the array $n$.
+It is annotated with a specification consisting of a precondition and a postcondition. 
+The precondition states that the start $s$ and end $e$ indices are within array
+bounds and that the array size $n$ is within the bound on array sizes. 
+The postcondition states that if $rv$ is valid between $s$ and $e$ inclusive, 
+then $a[rv]$ must be equal to $d$, 
+otherwise, $rv$ must be invalid (-1) and all entries in $a$ between $s$ 
+and $e$ inclusive are not equal to $d$. 
+
+Figure~\ref{f:arraysearch}(b) shows an equivalent encoding of the array search 
+program using a program counter execution model. 
+The equivalent program introduces Boolean variables \cci{preas}, \cci{postas}, and 
+\cci{notdone} to encode the preconditon, the postcondition, and the running
+state of the program, respectively. 
+The equivalent program also introduces a program counter variable
+\cci{pc} which encodes the control flow of the program as indicated in 
+the comments of Figure~\ref{f:arraysearch}(a). 
+The \cci{rv} variable denotes the return value of the original program. 
+
+The \cci{notdone} variable is initialized to $true$, and \cci{pc} 
+program counter is initialized to the first executable line of the program $3$. 
+Once \cci{pc} reaches the last executable line of the program $13$, 
+the program terminates and thus \cci{notdone} becomes $false$. 
+Assignment statements are grouped by target variables, and encoded
+into conditional assignment statements that depend on the value of \cci{pc}. 
+For example, the iterator $i$ is assigned to $s$ when \cci{pc} is $3$, incremented
+when \cci{pc} is $8$, and remains the same otherwise. 
+
+The program in Figure~\ref{f:arraysearch}(b) is semantically equivalent to the original
+program in Figure~\ref{f:arraysearch}(a). 
+Furthermore, the assignment statements on Lines 1 and 3 assign initial values to the 
+target variables. 
+The assignment statements inside the \cci{while} loop (Lines 5 to 13) compute 
+the next state value of each of the target variables of the program. 
+
+Our method translates the program in Figure~\ref{f:arraysearch}(b) to a sequential 
+circuit where an iteration of the \cci{while} loop
+is equivalent to a single time step in the sequential circuit. 
+The method represents each Boolean variable with one register, and each scalar 
+variable with a finite vector (bit-vector) of registers 
+with initial value and next state functions. 
+The initial state functions of the vector of registers corresponding to
+a variable are connected to a vector of gates that represents the right hand 
+side initial value assignment statement of the variable. 
+For example, 
+\cci{pc} ranges from $0$ to $11$ and can be encoded using $4$ registers.
+%\todo{Add a figure for the sequential circuits}.
+%The sequential circuit in Figure~\ref{f:pccircuit} shows the registers,
+%their initial value functions set to $0$, and their next state functions
+%set to gates representing multiplexers that choose the next value of the
+%\cci{pc} registers based on the current state of the cuicuit. 
+
+
+Program variables that are not initialized in the code are considered
+input variables and the methods connects their initial value functions 
+to free primary inputs.
+The method connects the next state functions of register vectors corresponding to 
+program variables to gates that represent
+the right hand side of the next state assignment.
+The conditional, arithmetic, and Boolean operations in the right hand side
+expressions are encoded as combinational logic circuits in the usual manner. 
+
+Our method takes the resulting sequential circuit, designates a gate therein that 
+represents $preas \wedge done \rightarrow postas$ as the output gate, passes
+the circuit to ABC, and checks for the validity of the designated gate.
+The ABC solver returns a counterexample $a=[0 0 0],s=0,e=1,n=3,d=1,rv=2$ 
+where $d$ is not in $a$, and the return value is $e+1$, while the postcondition
+requires an invalid index (-1). 
+
+The provided counter example can be used to fix the program. 
+A possible fix is to replace Line 6 with \cci{return i;}, and Line 10 with
+\cci{return -1;}.
+Our method takes the fixed program, transforms it into a sequential circuit,
+and passes it to ABC which validates the correctness of the program modulo the 
+finite size of the variable vectors using symbolic model checking. 
+
+

@@ -1,0 +1,36 @@
+%% svcompetition benchmarks
+We evaluated \mytool{} against a select set of benchmarks obtained from the
+second competition on Software Verification SVCOMP'13~\cite{svcomp}.
+We selected the benchmarks from the {\em ControlFlowInteger} and the {\em Loops}
+and compare the execution time obtained from running \mytool{} with the 
+tools ranked first, second and third in each of the two categories. 
+
+\input{table_svcomp}
+
+Table~\ref{tb:svcomp} summarizes the results obtained from running \mytool{} on the
+select set of SVCOMP'13 benchmarks. The first column shows the name of the 
+benchmark as presented in the competition. The {\em status} column shows the decision 
+that \mytool{} returned, it is colored in green to indicate that the results are accurate, \ie
+\mytool{} produced no false negative nor false positives. 
+We report on the total execution time taken by \mytool{}, the winner on the category ({\em gold}),
+the first runner ({\em silver}) and the second runner ({\em bronze}) for each of the selected
+benchmarks. Additionally, we report on the average execution time taken by each of the four 
+tools for each of the two categories from which we selected the benchmarks. 
+The benchmarks labeled \cci{locks\_*} belong to the {\em ControlFlowInteger} category,
+while the remaining benchmarks belong to the {\em Loops} category. 
+
+In the {\em ControlFlowInteger} category, \mytool{} outperformed the bronze tool 
+on all of the benchmarks. It was also able to outperform the silver tool
+on the first six safe benchmarks and outperform the golden tool on the 
+first two. For the unsafe benchmarks, \mytool{} surpassed the other tools 
+and was able to find a counterexample $1.7$ times faster than the fastest tool.
+On average, \mytool{} topped the bronze tool and was ranked very closely behind
+the silver one. 
+
+In the {\em Loops} category, \mytool{} surpassed both of the silver and the 
+bronze tools on all of the benchmarks and came very close the gold tool.
+In fact, the silver tool produced a false counterexample on the \cci{count\_up\_down\_s}
+benchmark and the bronze tool produced a false counterexample on the \cci{invert\_string\_s}
+benchmark. \mytool{} was able to accurately verify and disprove all of the benchmarks. 
+On average, \mytool{} ranked second outperforming both the silver and the bronze tools, and
+came very closely behind the gold tool. 

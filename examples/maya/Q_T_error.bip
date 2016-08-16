@@ -1,0 +1,3058 @@
+model Quorum42_T
+
+header {#
+int plug1_proposedValue;
+int plug1_decidedValueS;
+int plug1_decidedValue;
+bool plug1_trigger;
+int plug1_serverId;
+int state0;
+int plug2_proposedValue;
+int plug2_decidedValueS;
+int plug2_decidedValue;
+bool plug2_trigger;
+int plug2_serverId;
+int state1;
+int plugC1_clientId;
+int plugC1_serverId;
+bool plugC1_server1;
+bool plugC1_server2;
+int plugC1_proposedValue;
+int plugC1_decidedValue;
+int state4;
+int plugC2_clientId;
+int plugC2_serverId;
+bool plugC2_server1;
+bool plugC2_server2;
+int plugC2_proposedValue;
+int plugC2_decidedValue;
+int state5;
+int serverC1_serverId;
+int serverC1_proposed;
+int serverC1_decided;
+int serverC1_clientIdSend;
+int serverC1_clientIdRcv;
+int state6;
+int serverC2_serverId;
+int serverC2_proposed;
+int serverC2_decided;
+int serverC2_clientIdSend;
+int serverC2_clientIdRcv;
+int state7;
+int s1_decidedValue;
+int s1_proposedValue;
+int s1_serverId;
+int s1_ClientId;
+int state2;
+int s2_decidedValue;
+int s2_proposedValue;
+int s2_serverId;
+int s2_ClientId;
+int state3;
+#}
+port type SecondType1(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type ThirdType1(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type FirstType1(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type FirstType2(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type FirstType3(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type FirstType4(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type FirstType5(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type SecondType1D(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type ThirdType1D(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type FirstType1D(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type FirstType2D(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type FirstType3D(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type FirstType4D(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type FirstType5D(int plug1_proposedValue, int plug1_decidedValueS, int plug1_decidedValue, bool plug1_trigger, int plug1_serverId, int state0)
+port type plug2_SecondType(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type ThirdType2(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type FirstType6(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type FirstType7(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type FirstType8(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type FirstType9(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type FirstType10(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type plug2_SecondTypeD(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type ThirdType2D(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type FirstType6D(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type FirstType7D(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type FirstType8D(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type FirstType9D(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type FirstType10D(int plug2_proposedValue, int plug2_decidedValueS, int plug2_decidedValue, bool plug2_trigger, int plug2_serverId, int state1)
+port type SecondType2(int plugC1_clientId, int plugC1_serverId, bool plugC1_server1, bool plugC1_server2, int plugC1_proposedValue, int plugC1_decidedValue, int state4)
+port type ThirdType7(int plugC1_clientId, int plugC1_serverId, bool plugC1_server1, bool plugC1_server2, int plugC1_proposedValue, int plugC1_decidedValue, int state4)
+port type ThirdType8(int plugC1_clientId, int plugC1_serverId, bool plugC1_server1, bool plugC1_server2, int plugC1_proposedValue, int plugC1_decidedValue, int state4)
+port type ThirdType9(int plugC1_clientId, int plugC1_serverId, bool plugC1_server1, bool plugC1_server2, int plugC1_proposedValue, int plugC1_decidedValue, int state4)
+port type ForthType1(int plugC1_clientId, int plugC1_serverId, bool plugC1_server1, bool plugC1_server2, int plugC1_proposedValue, int plugC1_decidedValue, int state4)
+port type SecondType2D(int plugC1_clientId, int plugC1_serverId, bool plugC1_server1, bool plugC1_server2, int plugC1_proposedValue, int plugC1_decidedValue, int state4)
+port type ThirdType7D(int plugC1_clientId, int plugC1_serverId, bool plugC1_server1, bool plugC1_server2, int plugC1_proposedValue, int plugC1_decidedValue, int state4)
+port type ThirdType8D(int plugC1_clientId, int plugC1_serverId, bool plugC1_server1, bool plugC1_server2, int plugC1_proposedValue, int plugC1_decidedValue, int state4)
+port type ThirdType9D(int plugC1_clientId, int plugC1_serverId, bool plugC1_server1, bool plugC1_server2, int plugC1_proposedValue, int plugC1_decidedValue, int state4)
+port type ForthType1D(int plugC1_clientId, int plugC1_serverId, bool plugC1_server1, bool plugC1_server2, int plugC1_proposedValue, int plugC1_decidedValue, int state4)
+port type SecondType3(int plugC2_clientId, int plugC2_serverId, bool plugC2_server1, bool plugC2_server2, int plugC2_proposedValue, int plugC2_decidedValue, int state5)
+port type ThirdType10(int plugC2_clientId, int plugC2_serverId, bool plugC2_server1, bool plugC2_server2, int plugC2_proposedValue, int plugC2_decidedValue, int state5)
+port type ThirdType11(int plugC2_clientId, int plugC2_serverId, bool plugC2_server1, bool plugC2_server2, int plugC2_proposedValue, int plugC2_decidedValue, int state5)
+port type ThirdType12(int plugC2_clientId, int plugC2_serverId, bool plugC2_server1, bool plugC2_server2, int plugC2_proposedValue, int plugC2_decidedValue, int state5)
+port type ForthType2(int plugC2_clientId, int plugC2_serverId, bool plugC2_server1, bool plugC2_server2, int plugC2_proposedValue, int plugC2_decidedValue, int state5)
+port type SecondType3D(int plugC2_clientId, int plugC2_serverId, bool plugC2_server1, bool plugC2_server2, int plugC2_proposedValue, int plugC2_decidedValue, int state5)
+port type ThirdType10D(int plugC2_clientId, int plugC2_serverId, bool plugC2_server1, bool plugC2_server2, int plugC2_proposedValue, int plugC2_decidedValue, int state5)
+port type ThirdType11D(int plugC2_clientId, int plugC2_serverId, bool plugC2_server1, bool plugC2_server2, int plugC2_proposedValue, int plugC2_decidedValue, int state5)
+port type ThirdType12D(int plugC2_clientId, int plugC2_serverId, bool plugC2_server1, bool plugC2_server2, int plugC2_proposedValue, int plugC2_decidedValue, int state5)
+port type ForthType2D(int plugC2_clientId, int plugC2_serverId, bool plugC2_server1, bool plugC2_server2, int plugC2_proposedValue, int plugC2_decidedValue, int state5)
+port type ThirdType13(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type ThirdType14(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type ThirdType15(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type ForthType3(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type FirstType13(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type FirstType14(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type ThirdType13D(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type ThirdType14D(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type ThirdType15D(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type ForthType3D(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type FirstType13D(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type FirstType14D(int serverC1_serverId, int serverC1_proposed, int serverC1_decided, int serverC1_clientIdSend, int serverC1_clientIdRcv, int state6)
+port type ThirdType16(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type ThirdType17(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type ThirdType18(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type ForthType4(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type FirstType15(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type FirstType16(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type ThirdType16D(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type ThirdType17D(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type ThirdType18D(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type ForthType4D(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type FirstType15D(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type FirstType16D(int serverC2_serverId, int serverC2_proposed, int serverC2_decided, int serverC2_clientIdSend, int serverC2_clientIdRcv, int state7)
+port type ThirdType3(int s1_decidedValue, int s1_proposedValue, int s1_serverId, int s1_ClientId, int state2)
+port type ThirdType4(int s1_decidedValue, int s1_proposedValue, int s1_serverId, int s1_ClientId, int state2)
+port type FirstType11(int s1_decidedValue, int s1_proposedValue, int s1_serverId, int s1_ClientId, int state2)
+port type ThirdType3D(int s1_decidedValue, int s1_proposedValue, int s1_serverId, int s1_ClientId, int state2)
+port type ThirdType4D(int s1_decidedValue, int s1_proposedValue, int s1_serverId, int s1_ClientId, int state2)
+port type FirstType11D(int s1_decidedValue, int s1_proposedValue, int s1_serverId, int s1_ClientId, int state2)
+port type ThirdType5(int s2_decidedValue, int s2_proposedValue, int s2_serverId, int s2_ClientId, int state3)
+port type ThirdType6(int s2_decidedValue, int s2_proposedValue, int s2_serverId, int s2_ClientId, int state3)
+port type FirstType12(int s2_decidedValue, int s2_proposedValue, int s2_serverId, int s2_ClientId, int state3)
+port type ThirdType5D(int s2_decidedValue, int s2_proposedValue, int s2_serverId, int s2_ClientId, int state3)
+port type ThirdType6D(int s2_decidedValue, int s2_proposedValue, int s2_serverId, int s2_ClientId, int state3)
+port type FirstType12D(int s2_decidedValue, int s2_proposedValue, int s2_serverId, int s2_ClientId, int state3)
+
+atomic type CustomerPlugQuorum2(int plug1_id
+)
+ extern data int plug1_proposedValue
+ extern data int plug1_decidedValueS
+ extern data int plug1_decidedValue
+ extern data bool plug1_trigger
+ extern data int plug1_serverId
+ extern data int state0
+
+ export port SecondType1 plug1_sendToChannel(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port ThirdType1 plug1_recieveFromServer(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port FirstType1 plug1_sendToClient(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port FirstType2 plug1_switchB(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port FirstType3 plug1_ticker(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port FirstType4 plug1_singleton1(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port FirstType5 plug1_singleton2(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+
+ place one
+ initial to one do { state0 = 0;
+plug1_proposedValue=plug1_id;
+plug1_decidedValue=0;
+plug1_trigger=false;
+plug1_serverId=0;}
+ on plug1_sendToChannel from one to one
+
+ on plug1_recieveFromServer from one to one
+
+ on plug1_singleton1 from one to one
+
+ on plug1_ticker from one to one
+
+ on plug1_recieveFromServer from one to one
+
+ on plug1_singleton1 from one to one
+
+ on plug1_recieveFromServer from one to one
+
+ on plug1_singleton1 from one to one
+
+ on plug1_singleton2 from one to one
+
+ on plug1_ticker from one to one
+
+ on plug1_switchB from one to one
+
+ on plug1_switchB from one to one
+
+ on plug1_sendToClient from one to one
+
+ on plug1_ticker from one to one
+
+ on plug1_ticker from one to one
+
+ on plug1_ticker from one to one
+
+end 
+
+atomic type CustomerPlugQuorum2D
+ extern data int plug1_proposedValue
+ extern data int plug1_decidedValueS
+ extern data int plug1_decidedValue
+ extern data bool plug1_trigger
+ extern data int plug1_serverId
+ extern data int state0
+
+ export port SecondType1D plug1_sendToChannelD(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port ThirdType1D plug1_recieveFromServerD(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port FirstType1D plug1_sendToClientD(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port FirstType2D plug1_switchBD(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port FirstType3D plug1_tickerD(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port FirstType4D plug1_singleton1D(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+ export port FirstType5D plug1_singleton2D(plug1_proposedValue,plug1_decidedValueS,plug1_decidedValue,plug1_trigger,plug1_serverId,state0)
+
+ place one
+ initial to one
+ on plug1_sendToChannelD from one to one
+
+ on plug1_recieveFromServerD from one to one
+
+ on plug1_singleton1D from one to one
+
+ on plug1_tickerD from one to one
+
+ on plug1_recieveFromServerD from one to one
+
+ on plug1_singleton1D from one to one
+
+ on plug1_recieveFromServerD from one to one
+
+ on plug1_singleton1D from one to one
+
+ on plug1_singleton2D from one to one
+
+ on plug1_tickerD from one to one
+
+ on plug1_switchBD from one to one
+
+ on plug1_switchBD from one to one
+
+ on plug1_sendToClientD from one to one
+
+ on plug1_tickerD from one to one
+
+ on plug1_tickerD from one to one
+
+ on plug1_tickerD from one to one
+
+end 
+
+atomic type CustomerPlugQuorum1(int plug2_id
+)
+ extern data int plug2_proposedValue
+ extern data int plug2_decidedValueS
+ extern data int plug2_decidedValue
+ extern data bool plug2_trigger
+ extern data int plug2_serverId
+ extern data int state1
+
+ export port plug2_SecondType plug2_sendToChannel(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port ThirdType2 plug2_recieveFromServer(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port FirstType6 plug2_sendToClient(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port FirstType7 plug2_switchB(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port FirstType8 plug2_ticker(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port FirstType9 plug2_singleton1(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port FirstType10 plug2_singleton2(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+
+ place one
+ initial to one do { state1 = 0;
+plug2_proposedValue=plug2_id;
+plug2_decidedValue=0;
+plug2_trigger=false;
+plug2_serverId=0;}
+ on plug2_sendToChannel from one to one
+
+ on plug2_recieveFromServer from one to one
+
+ on plug2_singleton1 from one to one
+
+ on plug2_ticker from one to one
+
+ on plug2_recieveFromServer from one to one
+
+ on plug2_singleton1 from one to one
+
+ on plug2_recieveFromServer from one to one
+
+ on plug2_singleton1 from one to one
+
+ on plug2_singleton2 from one to one
+
+ on plug2_ticker from one to one
+
+ on plug2_switchB from one to one
+
+ on plug2_switchB from one to one
+
+ on plug2_sendToClient from one to one
+
+ on plug2_ticker from one to one
+
+ on plug2_ticker from one to one
+
+ on plug2_ticker from one to one
+
+end 
+
+atomic type CustomerPlugQuorum1D
+ extern data int plug2_proposedValue
+ extern data int plug2_decidedValueS
+ extern data int plug2_decidedValue
+ extern data bool plug2_trigger
+ extern data int plug2_serverId
+ extern data int state1
+
+ export port plug2_SecondTypeD plug2_sendToChannelD(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port ThirdType2D plug2_recieveFromServerD(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port FirstType6D plug2_sendToClientD(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port FirstType7D plug2_switchBD(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port FirstType8D plug2_tickerD(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port FirstType9D plug2_singleton1D(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+ export port FirstType10D plug2_singleton2D(plug2_proposedValue,plug2_decidedValueS,plug2_decidedValue,plug2_trigger,plug2_serverId,state1)
+
+ place one
+ initial to one
+ on plug2_sendToChannelD from one to one
+
+ on plug2_recieveFromServerD from one to one
+
+ on plug2_singleton1D from one to one
+
+ on plug2_tickerD from one to one
+
+ on plug2_recieveFromServerD from one to one
+
+ on plug2_singleton1D from one to one
+
+ on plug2_recieveFromServerD from one to one
+
+ on plug2_singleton1D from one to one
+
+ on plug2_singleton2D from one to one
+
+ on plug2_tickerD from one to one
+
+ on plug2_switchBD from one to one
+
+ on plug2_switchBD from one to one
+
+ on plug2_sendToClientD from one to one
+
+ on plug2_tickerD from one to one
+
+ on plug2_tickerD from one to one
+
+ on plug2_tickerD from one to one
+
+end 
+
+atomic type plugConnector1(int plugC1_id
+)
+ extern data int plugC1_clientId
+ extern data int plugC1_serverId
+ extern data bool plugC1_server1
+ extern data bool plugC1_server2
+ extern data int plugC1_proposedValue
+ extern data int plugC1_decidedValue
+ extern data int state4
+
+ export port SecondType2 plugC1_rcvPlug(plugC1_clientId,plugC1_serverId,plugC1_server1,plugC1_server2,plugC1_proposedValue,plugC1_decidedValue,state4)
+ export port ThirdType7 plugC1_sendClient(plugC1_clientId,plugC1_serverId,plugC1_server1,plugC1_server2,plugC1_proposedValue,plugC1_decidedValue,state4)
+ export port ThirdType8 plugC1_SendS1(plugC1_clientId,plugC1_serverId,plugC1_server1,plugC1_server2,plugC1_proposedValue,plugC1_decidedValue,state4)
+ export port ThirdType9 plugC1_SendS2(plugC1_clientId,plugC1_serverId,plugC1_server1,plugC1_server2,plugC1_proposedValue,plugC1_decidedValue,state4)
+ export port ForthType1 plugC1_rcvServer(plugC1_clientId,plugC1_serverId,plugC1_server1,plugC1_server2,plugC1_proposedValue,plugC1_decidedValue,state4)
+
+ place one
+ initial to one do { state4 = 0;
+plugC1_server1=false;
+plugC1_server2=false;
+plugC1_clientId=plugC1_id;}
+ on plugC1_rcvPlug from one to one
+
+ on plugC1_rcvPlug from one to one
+
+ on plugC1_SendS1 from one to one
+
+ on plugC1_SendS1 from one to one
+
+ on plugC1_SendS2 from one to one
+
+ on plugC1_SendS2 from one to one
+
+ on plugC1_rcvServer from one to one
+
+ on plugC1_rcvServer from one to one
+
+ on plugC1_sendClient from one to one
+
+ on plugC1_sendClient from one to one
+
+end 
+
+atomic type plugConnector1D
+ extern data int plugC1_clientId
+ extern data int plugC1_serverId
+ extern data bool plugC1_server1
+ extern data bool plugC1_server2
+ extern data int plugC1_proposedValue
+ extern data int plugC1_decidedValue
+ extern data int state4
+
+ export port SecondType2D plugC1_rcvPlugD(plugC1_clientId,plugC1_serverId,plugC1_server1,plugC1_server2,plugC1_proposedValue,plugC1_decidedValue,state4)
+ export port ThirdType7D plugC1_sendClientD(plugC1_clientId,plugC1_serverId,plugC1_server1,plugC1_server2,plugC1_proposedValue,plugC1_decidedValue,state4)
+ export port ThirdType8D plugC1_SendS1D(plugC1_clientId,plugC1_serverId,plugC1_server1,plugC1_server2,plugC1_proposedValue,plugC1_decidedValue,state4)
+ export port ThirdType9D plugC1_SendS2D(plugC1_clientId,plugC1_serverId,plugC1_server1,plugC1_server2,plugC1_proposedValue,plugC1_decidedValue,state4)
+ export port ForthType1D plugC1_rcvServerD(plugC1_clientId,plugC1_serverId,plugC1_server1,plugC1_server2,plugC1_proposedValue,plugC1_decidedValue,state4)
+
+ place one
+ initial to one
+ on plugC1_rcvPlugD from one to one
+
+ on plugC1_rcvPlugD from one to one
+
+ on plugC1_SendS1D from one to one
+
+ on plugC1_SendS1D from one to one
+
+ on plugC1_SendS2D from one to one
+
+ on plugC1_SendS2D from one to one
+
+ on plugC1_rcvServerD from one to one
+
+ on plugC1_rcvServerD from one to one
+
+ on plugC1_sendClientD from one to one
+
+ on plugC1_sendClientD from one to one
+
+end 
+
+atomic type plugConnector2(int plugC2_id
+)
+ extern data int plugC2_clientId
+ extern data int plugC2_serverId
+ extern data bool plugC2_server1
+ extern data bool plugC2_server2
+ extern data int plugC2_proposedValue
+ extern data int plugC2_decidedValue
+ extern data int state5
+
+ export port SecondType3 plugC2_rcvPlug(plugC2_clientId,plugC2_serverId,plugC2_server1,plugC2_server2,plugC2_proposedValue,plugC2_decidedValue,state5)
+ export port ThirdType10 plugC2_sendClient(plugC2_clientId,plugC2_serverId,plugC2_server1,plugC2_server2,plugC2_proposedValue,plugC2_decidedValue,state5)
+ export port ThirdType11 plugC2_SendS1(plugC2_clientId,plugC2_serverId,plugC2_server1,plugC2_server2,plugC2_proposedValue,plugC2_decidedValue,state5)
+ export port ThirdType12 plugC2_SendS2(plugC2_clientId,plugC2_serverId,plugC2_server1,plugC2_server2,plugC2_proposedValue,plugC2_decidedValue,state5)
+ export port ForthType2 plugC2_rcvServer(plugC2_clientId,plugC2_serverId,plugC2_server1,plugC2_server2,plugC2_proposedValue,plugC2_decidedValue,state5)
+
+ place one
+ initial to one do { state5 = 0;
+plugC2_server1=false;
+plugC2_server2=false;
+plugC2_clientId=plugC2_id;}
+ on plugC2_rcvPlug from one to one
+
+ on plugC2_rcvPlug from one to one
+
+ on plugC2_SendS1 from one to one
+
+ on plugC2_SendS1 from one to one
+
+ on plugC2_SendS2 from one to one
+
+ on plugC2_SendS2 from one to one
+
+ on plugC2_rcvServer from one to one
+
+ on plugC2_rcvServer from one to one
+
+ on plugC2_sendClient from one to one
+
+ on plugC2_sendClient from one to one
+
+end 
+
+atomic type plugConnector2D
+ extern data int plugC2_clientId
+ extern data int plugC2_serverId
+ extern data bool plugC2_server1
+ extern data bool plugC2_server2
+ extern data int plugC2_proposedValue
+ extern data int plugC2_decidedValue
+ extern data int state5
+
+ export port SecondType3D plugC2_rcvPlugD(plugC2_clientId,plugC2_serverId,plugC2_server1,plugC2_server2,plugC2_proposedValue,plugC2_decidedValue,state5)
+ export port ThirdType10D plugC2_sendClientD(plugC2_clientId,plugC2_serverId,plugC2_server1,plugC2_server2,plugC2_proposedValue,plugC2_decidedValue,state5)
+ export port ThirdType11D plugC2_SendS1D(plugC2_clientId,plugC2_serverId,plugC2_server1,plugC2_server2,plugC2_proposedValue,plugC2_decidedValue,state5)
+ export port ThirdType12D plugC2_SendS2D(plugC2_clientId,plugC2_serverId,plugC2_server1,plugC2_server2,plugC2_proposedValue,plugC2_decidedValue,state5)
+ export port ForthType2D plugC2_rcvServerD(plugC2_clientId,plugC2_serverId,plugC2_server1,plugC2_server2,plugC2_proposedValue,plugC2_decidedValue,state5)
+
+ place one
+ initial to one
+ on plugC2_rcvPlugD from one to one
+
+ on plugC2_rcvPlugD from one to one
+
+ on plugC2_SendS1D from one to one
+
+ on plugC2_SendS1D from one to one
+
+ on plugC2_SendS2D from one to one
+
+ on plugC2_SendS2D from one to one
+
+ on plugC2_rcvServerD from one to one
+
+ on plugC2_rcvServerD from one to one
+
+ on plugC2_sendClientD from one to one
+
+ on plugC2_sendClientD from one to one
+
+end 
+
+atomic type ServerConnector1(int serverC1_id
+)
+ extern data int serverC1_serverId
+ extern data int serverC1_proposed
+ extern data int serverC1_decided
+ extern data int serverC1_clientIdSend
+ extern data int serverC1_clientIdRcv
+ extern data int state6
+
+ export port ThirdType13 serverC1_rcvPlugC(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+ export port ThirdType14 serverC1_sendServer(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+ export port ThirdType15 serverC1_rcvServer(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+ export port ForthType3 serverC1_sendPlug(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+ export port FirstType13 serverC1_loose(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+ export port FirstType14 serverC1_msglost(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+
+ place one
+ initial to one do { state6 = 0;
+serverC1_serverId=serverC1_id;}
+ on serverC1_rcvPlugC from one to one
+
+ on serverC1_rcvPlugC from one to one
+
+ on serverC1_loose from one to one
+
+ on serverC1_loose from one to one
+
+ on serverC1_rcvPlugC from one to one
+
+ on serverC1_rcvPlugC from one to one
+
+ on serverC1_msglost from one to one
+
+ on serverC1_msglost from one to one
+
+ on serverC1_sendServer from one to one
+
+ on serverC1_sendServer from one to one
+
+ on serverC1_rcvServer from one to one
+
+ on serverC1_rcvServer from one to one
+
+ on serverC1_rcvServer from one to one
+
+ on serverC1_sendPlug from one to one
+
+ on serverC1_sendPlug from one to one
+
+ on serverC1_sendPlug from one to one
+
+end 
+
+atomic type ServerConnector1D
+ extern data int serverC1_serverId
+ extern data int serverC1_proposed
+ extern data int serverC1_decided
+ extern data int serverC1_clientIdSend
+ extern data int serverC1_clientIdRcv
+ extern data int state6
+
+ export port ThirdType13D serverC1_rcvPlugCD(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+ export port ThirdType14D serverC1_sendServerD(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+ export port ThirdType15D serverC1_rcvServerD(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+ export port ForthType3D serverC1_sendPlugD(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+ export port FirstType13D serverC1_looseD(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+ export port FirstType14D serverC1_msglostD(serverC1_serverId,serverC1_proposed,serverC1_decided,serverC1_clientIdSend,serverC1_clientIdRcv,state6)
+
+ place one
+ initial to one
+ on serverC1_rcvPlugCD from one to one
+
+ on serverC1_rcvPlugCD from one to one
+
+ on serverC1_looseD from one to one
+
+ on serverC1_looseD from one to one
+
+ on serverC1_rcvPlugCD from one to one
+
+ on serverC1_rcvPlugCD from one to one
+
+ on serverC1_msglostD from one to one
+
+ on serverC1_msglostD from one to one
+
+ on serverC1_sendServerD from one to one
+
+ on serverC1_sendServerD from one to one
+
+ on serverC1_rcvServerD from one to one
+
+ on serverC1_rcvServerD from one to one
+
+ on serverC1_rcvServerD from one to one
+
+ on serverC1_sendPlugD from one to one
+
+ on serverC1_sendPlugD from one to one
+
+ on serverC1_sendPlugD from one to one
+
+end 
+
+atomic type ServerConnector2(int serverC2_id
+)
+ extern data int serverC2_serverId
+ extern data int serverC2_proposed
+ extern data int serverC2_decided
+ extern data int serverC2_clientIdSend
+ extern data int serverC2_clientIdRcv
+ extern data int state7
+
+ export port ThirdType16 serverC2_rcvPlugC(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+ export port ThirdType17 serverC2_sendServer(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+ export port ThirdType18 serverC2_rcvServer(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+ export port ForthType4 serverC2_sendPlug(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+ export port FirstType15 serverC2_loose(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+ export port FirstType16 serverC2_msglost(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+
+ place one
+ initial to one do { state7 = 0;
+serverC2_serverId=serverC2_id;}
+ on serverC2_rcvPlugC from one to one
+
+ on serverC2_rcvPlugC from one to one
+
+ on serverC2_loose from one to one
+
+ on serverC2_loose from one to one
+
+ on serverC2_rcvPlugC from one to one
+
+ on serverC2_rcvPlugC from one to one
+
+ on serverC2_msglost from one to one
+
+ on serverC2_msglost from one to one
+
+ on serverC2_sendServer from one to one
+
+ on serverC2_sendServer from one to one
+
+ on serverC2_rcvServer from one to one
+
+ on serverC2_rcvServer from one to one
+
+ on serverC2_rcvServer from one to one
+
+ on serverC2_sendPlug from one to one
+
+ on serverC2_sendPlug from one to one
+
+ on serverC2_sendPlug from one to one
+
+end 
+
+atomic type ServerConnector2D
+ extern data int serverC2_serverId
+ extern data int serverC2_proposed
+ extern data int serverC2_decided
+ extern data int serverC2_clientIdSend
+ extern data int serverC2_clientIdRcv
+ extern data int state7
+
+ export port ThirdType16D serverC2_rcvPlugCD(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+ export port ThirdType17D serverC2_sendServerD(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+ export port ThirdType18D serverC2_rcvServerD(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+ export port ForthType4D serverC2_sendPlugD(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+ export port FirstType15D serverC2_looseD(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+ export port FirstType16D serverC2_msglostD(serverC2_serverId,serverC2_proposed,serverC2_decided,serverC2_clientIdSend,serverC2_clientIdRcv,state7)
+
+ place one
+ initial to one
+ on serverC2_rcvPlugCD from one to one
+
+ on serverC2_rcvPlugCD from one to one
+
+ on serverC2_looseD from one to one
+
+ on serverC2_looseD from one to one
+
+ on serverC2_rcvPlugCD from one to one
+
+ on serverC2_rcvPlugCD from one to one
+
+ on serverC2_msglostD from one to one
+
+ on serverC2_msglostD from one to one
+
+ on serverC2_sendServerD from one to one
+
+ on serverC2_sendServerD from one to one
+
+ on serverC2_rcvServerD from one to one
+
+ on serverC2_rcvServerD from one to one
+
+ on serverC2_rcvServerD from one to one
+
+ on serverC2_sendPlugD from one to one
+
+ on serverC2_sendPlugD from one to one
+
+ on serverC2_sendPlugD from one to one
+
+end 
+
+atomic type Server1(int s1_id
+)
+ extern data int s1_decidedValue
+ extern data int s1_proposedValue
+ extern data int s1_serverId
+ extern data int s1_ClientId
+ extern data int state2
+
+ export port ThirdType3 s1_RcvFromChannel(s1_decidedValue,s1_proposedValue,s1_serverId,s1_ClientId,state2)
+ export port ThirdType4 s1_SendToServerC(s1_decidedValue,s1_proposedValue,s1_serverId,s1_ClientId,state2)
+ export port FirstType11 s1_singleton1(s1_decidedValue,s1_proposedValue,s1_serverId,s1_ClientId,state2)
+
+ place one
+ initial to one do { state2 = 0;
+s1_serverId=s1_id;
+s1_decidedValue=0;}
+ on s1_RcvFromChannel from one to one
+
+ on s1_singleton1 from one to one
+
+ on s1_RcvFromChannel from one to one
+
+ on s1_RcvFromChannel from one to one
+
+ on s1_SendToServerC from one to one
+
+end 
+
+atomic type Server1D
+ extern data int s1_decidedValue
+ extern data int s1_proposedValue
+ extern data int s1_serverId
+ extern data int s1_ClientId
+ extern data int state2
+
+ export port ThirdType3D s1_RcvFromChannelD(s1_decidedValue,s1_proposedValue,s1_serverId,s1_ClientId,state2)
+ export port ThirdType4D s1_SendToServerCD(s1_decidedValue,s1_proposedValue,s1_serverId,s1_ClientId,state2)
+ export port FirstType11D s1_singleton1D(s1_decidedValue,s1_proposedValue,s1_serverId,s1_ClientId,state2)
+
+ place one
+ initial to one
+ on s1_RcvFromChannelD from one to one
+
+ on s1_singleton1D from one to one
+
+ on s1_RcvFromChannelD from one to one
+
+ on s1_RcvFromChannelD from one to one
+
+ on s1_SendToServerCD from one to one
+
+end 
+
+atomic type Server2(int s2_id
+)
+ extern data int s2_decidedValue
+ extern data int s2_proposedValue
+ extern data int s2_serverId
+ extern data int s2_ClientId
+ extern data int state3
+
+ export port ThirdType5 s2_RcvFromChannel(s2_decidedValue,s2_proposedValue,s2_serverId,s2_ClientId,state3)
+ export port ThirdType6 s2_SendToServerC(s2_decidedValue,s2_proposedValue,s2_serverId,s2_ClientId,state3)
+ export port FirstType12 s2_singleton1(s2_decidedValue,s2_proposedValue,s2_serverId,s2_ClientId,state3)
+
+ place one
+ initial to one do { state3 = 0;
+s2_serverId=s2_id;
+s2_decidedValue=0;}
+ on s2_RcvFromChannel from one to one
+
+ on s2_singleton1 from one to one
+
+ on s2_RcvFromChannel from one to one
+
+ on s2_RcvFromChannel from one to one
+
+ on s2_SendToServerC from one to one
+
+end 
+
+atomic type Server2D
+ extern data int s2_decidedValue
+ extern data int s2_proposedValue
+ extern data int s2_serverId
+ extern data int s2_ClientId
+ extern data int state3
+
+ export port ThirdType5D s2_RcvFromChannelD(s2_decidedValue,s2_proposedValue,s2_serverId,s2_ClientId,state3)
+ export port ThirdType6D s2_SendToServerCD(s2_decidedValue,s2_proposedValue,s2_serverId,s2_ClientId,state3)
+ export port FirstType12D s2_singleton1D(s2_decidedValue,s2_proposedValue,s2_serverId,s2_ClientId,state3)
+
+ place one
+ initial to one
+ on s2_RcvFromChannelD from one to one
+
+ on s2_singleton1D from one to one
+
+ on s2_RcvFromChannelD from one to one
+
+ on s2_RcvFromChannelD from one to one
+
+ on s2_SendToServerCD from one to one
+
+end 
+
+connector type Singleton1(FirstType1 plug1_sendToClient, FirstType1D plug1_sendToClientD)
+ define plug1_sendToClient plug1_sendToClientD 
+ data int plug1_proposedValue
+ data int plug1_decidedValueS
+ data int plug1_decidedValue
+ data bool plug1_trigger
+ data int plug1_serverId
+ data int plug1_sendToClient_state0
+
+ on plug1_sendToClient  provided (((plug1_sendToClient.plug1_trigger && plug1_sendToClient.state0==4 ) ))
+  up{  if( plug1_sendToClient.state0==4 ){
+  plug1_proposedValue= plug1_sendToClient.plug1_proposedValue;
+  plug1_decidedValueS= plug1_sendToClient.plug1_decidedValueS;
+  plug1_decidedValue= plug1_sendToClient.plug1_decidedValue;
+  plug1_trigger= plug1_sendToClient.plug1_trigger;
+  plug1_serverId= plug1_sendToClient.plug1_serverId;
+  plug1_sendToClient_state0= plug1_sendToClient.state0;
+  }
+  }
+
+  down{  if( plug1_sendToClient.state0==4 ){
+  plug1_sendToClientD.state0=6;
+  }
+  }
+
+end 
+
+connector type Singleton2(FirstType6 plug2_sendToClient, FirstType6D plug2_sendToClientD)
+ define plug2_sendToClient plug2_sendToClientD 
+ data int plug2_proposedValue
+ data int plug2_decidedValueS
+ data int plug2_decidedValue
+ data bool plug2_trigger
+ data int plug2_serverId
+ data int plug2_sendToClient_state1
+
+ on plug2_sendToClient  provided (((plug2_sendToClient.plug2_trigger && plug2_sendToClient.state1==4 ) ))
+  up{  if( plug2_sendToClient.state1==4 ){
+  plug2_proposedValue= plug2_sendToClient.plug2_proposedValue;
+  plug2_decidedValueS= plug2_sendToClient.plug2_decidedValueS;
+  plug2_decidedValue= plug2_sendToClient.plug2_decidedValue;
+  plug2_trigger= plug2_sendToClient.plug2_trigger;
+  plug2_serverId= plug2_sendToClient.plug2_serverId;
+  plug2_sendToClient_state1= plug2_sendToClient.state1;
+  }
+  }
+
+  down{  if( plug2_sendToClient.state1==4 ){
+  plug2_sendToClientD.state1=6;
+  }
+  }
+
+end 
+
+connector type Singleton5(FirstType2 plug1_switchB, FirstType2D plug1_switchBD)
+ define plug1_switchB plug1_switchBD 
+ data int plug1_proposedValue
+ data int plug1_decidedValueS
+ data int plug1_decidedValue
+ data bool plug1_trigger
+ data int plug1_serverId
+ data int plug1_switchB_state0
+
+ on plug1_switchB  provided ((((plug1_switchB.state0==5) || (!plug1_switchB.plug1_trigger && plug1_switchB.state0==4) ) ))
+  up{  if( plug1_switchB.state0==5 ){
+  plug1_proposedValue= plug1_switchB.plug1_proposedValue;
+  plug1_decidedValueS= plug1_switchB.plug1_decidedValueS;
+  plug1_decidedValue= plug1_switchB.plug1_decidedValue;
+  plug1_trigger= plug1_switchB.plug1_trigger;
+  plug1_serverId= plug1_switchB.plug1_serverId;
+  plug1_switchB_state0= plug1_switchB.state0;
+  }
+  
+
+  if( plug1_switchB.state0==4 ){
+  plug1_proposedValue= plug1_switchB.plug1_proposedValue;
+  plug1_decidedValueS= plug1_switchB.plug1_decidedValueS;
+  plug1_decidedValue= plug1_switchB.plug1_decidedValue;
+  plug1_trigger= plug1_switchB.plug1_trigger;
+  plug1_serverId= plug1_switchB.plug1_serverId;
+  plug1_switchB_state0= plug1_switchB.state0;
+  }
+  }
+
+  down{  if( plug1_switchB.state0==5 ){
+  plug1_switchBD.state0=7;
+  }
+  
+
+  if( plug1_switchB.state0==4 ){
+  plug1_switchBD.state0=7;
+  }
+  }
+
+end 
+
+connector type Singleton6(FirstType7 plug2_switchB, FirstType7D plug2_switchBD)
+ define plug2_switchB plug2_switchBD 
+ data int plug2_proposedValue
+ data int plug2_decidedValueS
+ data int plug2_decidedValue
+ data bool plug2_trigger
+ data int plug2_serverId
+ data int plug2_switchB_state1
+
+ on plug2_switchB  provided ((((plug2_switchB.state1==5) || (!plug2_switchB.plug2_trigger && plug2_switchB.state1==4) ) ))
+  up{  if( plug2_switchB.state1==5 ){
+  plug2_proposedValue= plug2_switchB.plug2_proposedValue;
+  plug2_decidedValueS= plug2_switchB.plug2_decidedValueS;
+  plug2_decidedValue= plug2_switchB.plug2_decidedValue;
+  plug2_trigger= plug2_switchB.plug2_trigger;
+  plug2_serverId= plug2_switchB.plug2_serverId;
+  plug2_switchB_state1= plug2_switchB.state1;
+  }
+  
+
+  if( plug2_switchB.state1==4 ){
+  plug2_proposedValue= plug2_switchB.plug2_proposedValue;
+  plug2_decidedValueS= plug2_switchB.plug2_decidedValueS;
+  plug2_decidedValue= plug2_switchB.plug2_decidedValue;
+  plug2_trigger= plug2_switchB.plug2_trigger;
+  plug2_serverId= plug2_switchB.plug2_serverId;
+  plug2_switchB_state1= plug2_switchB.state1;
+  }
+  }
+
+  down{  if( plug2_switchB.state1==5 ){
+  plug2_switchBD.state1=7;
+  }
+  
+
+  if( plug2_switchB.state1==4 ){
+  plug2_switchBD.state1=7;
+  }
+  }
+
+end 
+
+connector type Singleton9(FirstType3 plug1_ticker, FirstType3D plug1_tickerD)
+ define plug1_ticker plug1_tickerD 
+ data int plug1_proposedValue
+ data int plug1_decidedValueS
+ data int plug1_decidedValue
+ data bool plug1_trigger
+ data int plug1_serverId
+ data int plug1_ticker_state0
+
+ on plug1_ticker  provided (((((((plug1_ticker.state0==1) || (plug1_ticker.state0==2)) || (plug1_ticker.state0==6)) || (plug1_ticker.state0==7)) || (plug1_ticker.state0==3) ) ))
+  up{  if( plug1_ticker.state0==1 ){
+  plug1_proposedValue= plug1_ticker.plug1_proposedValue;
+  plug1_decidedValueS= plug1_ticker.plug1_decidedValueS;
+  plug1_decidedValue= plug1_ticker.plug1_decidedValue;
+  plug1_trigger= plug1_ticker.plug1_trigger;
+  plug1_serverId= plug1_ticker.plug1_serverId;
+  plug1_ticker_state0= plug1_ticker.state0;
+  }
+  
+
+  if( plug1_ticker.state0==2 ){
+  plug1_proposedValue= plug1_ticker.plug1_proposedValue;
+  plug1_decidedValueS= plug1_ticker.plug1_decidedValueS;
+  plug1_decidedValue= plug1_ticker.plug1_decidedValue;
+  plug1_trigger= plug1_ticker.plug1_trigger;
+  plug1_serverId= plug1_ticker.plug1_serverId;
+  plug1_ticker_state0= plug1_ticker.state0;
+  }
+  
+
+  if( plug1_ticker.state0==6 ){
+  plug1_proposedValue= plug1_ticker.plug1_proposedValue;
+  plug1_decidedValueS= plug1_ticker.plug1_decidedValueS;
+  plug1_decidedValue= plug1_ticker.plug1_decidedValue;
+  plug1_trigger= plug1_ticker.plug1_trigger;
+  plug1_serverId= plug1_ticker.plug1_serverId;
+  plug1_ticker_state0= plug1_ticker.state0;
+  }
+  
+
+  if( plug1_ticker.state0==7 ){
+  plug1_proposedValue= plug1_ticker.plug1_proposedValue;
+  plug1_decidedValueS= plug1_ticker.plug1_decidedValueS;
+  plug1_decidedValue= plug1_ticker.plug1_decidedValue;
+  plug1_trigger= plug1_ticker.plug1_trigger;
+  plug1_serverId= plug1_ticker.plug1_serverId;
+  plug1_ticker_state0= plug1_ticker.state0;
+  }
+  
+
+  if( plug1_ticker.state0==3 ){
+  plug1_proposedValue= plug1_ticker.plug1_proposedValue;
+  plug1_decidedValueS= plug1_ticker.plug1_decidedValueS;
+  plug1_decidedValue= plug1_ticker.plug1_decidedValue;
+  plug1_trigger= plug1_ticker.plug1_trigger;
+  plug1_serverId= plug1_ticker.plug1_serverId;
+  plug1_ticker_state0= plug1_ticker.state0;
+  }
+  }
+
+  down{  if( plug1_ticker.state0==1 ){
+  plug1_tickerD.state0=3;
+  }
+  
+
+  if( plug1_ticker.state0==2 ){
+  plug1_tickerD.state0=5;
+  }
+  
+
+  if( plug1_ticker.state0==6 ){
+  plug1_tickerD.state0=6;
+  }
+  
+
+  if( plug1_ticker.state0==7 ){
+  plug1_tickerD.state0=7;
+  }
+  
+
+  if( plug1_ticker.state0==3 ){
+  plug1_tickerD.state0=3;
+  }
+  }
+
+end 
+
+connector type Singleton10(FirstType8 plug2_ticker, FirstType8D plug2_tickerD)
+ define plug2_ticker plug2_tickerD 
+ data int plug2_proposedValue
+ data int plug2_decidedValueS
+ data int plug2_decidedValue
+ data bool plug2_trigger
+ data int plug2_serverId
+ data int plug2_ticker_state1
+
+ on plug2_ticker  provided (((((((plug2_ticker.state1==1) || (plug2_ticker.state1==2)) || (plug2_ticker.state1==6)) || (plug2_ticker.state1==7)) || (plug2_ticker.state1==3) ) ))
+  up{  if( plug2_ticker.state1==1 ){
+  plug2_proposedValue= plug2_ticker.plug2_proposedValue;
+  plug2_decidedValueS= plug2_ticker.plug2_decidedValueS;
+  plug2_decidedValue= plug2_ticker.plug2_decidedValue;
+  plug2_trigger= plug2_ticker.plug2_trigger;
+  plug2_serverId= plug2_ticker.plug2_serverId;
+  plug2_ticker_state1= plug2_ticker.state1;
+  }
+  
+
+  if( plug2_ticker.state1==2 ){
+  plug2_proposedValue= plug2_ticker.plug2_proposedValue;
+  plug2_decidedValueS= plug2_ticker.plug2_decidedValueS;
+  plug2_decidedValue= plug2_ticker.plug2_decidedValue;
+  plug2_trigger= plug2_ticker.plug2_trigger;
+  plug2_serverId= plug2_ticker.plug2_serverId;
+  plug2_ticker_state1= plug2_ticker.state1;
+  }
+  
+
+  if( plug2_ticker.state1==6 ){
+  plug2_proposedValue= plug2_ticker.plug2_proposedValue;
+  plug2_decidedValueS= plug2_ticker.plug2_decidedValueS;
+  plug2_decidedValue= plug2_ticker.plug2_decidedValue;
+  plug2_trigger= plug2_ticker.plug2_trigger;
+  plug2_serverId= plug2_ticker.plug2_serverId;
+  plug2_ticker_state1= plug2_ticker.state1;
+  }
+  
+
+  if( plug2_ticker.state1==7 ){
+  plug2_proposedValue= plug2_ticker.plug2_proposedValue;
+  plug2_decidedValueS= plug2_ticker.plug2_decidedValueS;
+  plug2_decidedValue= plug2_ticker.plug2_decidedValue;
+  plug2_trigger= plug2_ticker.plug2_trigger;
+  plug2_serverId= plug2_ticker.plug2_serverId;
+  plug2_ticker_state1= plug2_ticker.state1;
+  }
+  
+
+  if( plug2_ticker.state1==3 ){
+  plug2_proposedValue= plug2_ticker.plug2_proposedValue;
+  plug2_decidedValueS= plug2_ticker.plug2_decidedValueS;
+  plug2_decidedValue= plug2_ticker.plug2_decidedValue;
+  plug2_trigger= plug2_ticker.plug2_trigger;
+  plug2_serverId= plug2_ticker.plug2_serverId;
+  plug2_ticker_state1= plug2_ticker.state1;
+  }
+  }
+
+  down{  if( plug2_ticker.state1==1 ){
+  plug2_tickerD.state1=3;
+  }
+  
+
+  if( plug2_ticker.state1==2 ){
+  plug2_tickerD.state1=5;
+  }
+  
+
+  if( plug2_ticker.state1==6 ){
+  plug2_tickerD.state1=6;
+  }
+  
+
+  if( plug2_ticker.state1==7 ){
+  plug2_tickerD.state1=7;
+  }
+  
+
+  if( plug2_ticker.state1==3 ){
+  plug2_tickerD.state1=3;
+  }
+  }
+
+end 
+
+connector type Singleton17(FirstType13 serverC1_loose, FirstType13D serverC1_looseD)
+ define serverC1_loose serverC1_looseD 
+ data int serverC1_serverId
+ data int serverC1_proposed
+ data int serverC1_decided
+ data int serverC1_clientIdSend
+ data int serverC1_clientIdRcv
+ data int serverC1_loose_state6
+
+ on serverC1_loose  provided ((((serverC1_loose.state6==1) || (serverC1_loose.state6==4) ) ))
+  up{  if( serverC1_loose.state6==1 ){
+  serverC1_serverId= serverC1_loose.serverC1_serverId;
+  serverC1_proposed= serverC1_loose.serverC1_proposed;
+  serverC1_decided= serverC1_loose.serverC1_decided;
+  serverC1_clientIdSend= serverC1_loose.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_loose.serverC1_clientIdRcv;
+  serverC1_loose_state6= serverC1_loose.state6;
+  }
+  
+
+  if( serverC1_loose.state6==4 ){
+  serverC1_serverId= serverC1_loose.serverC1_serverId;
+  serverC1_proposed= serverC1_loose.serverC1_proposed;
+  serverC1_decided= serverC1_loose.serverC1_decided;
+  serverC1_clientIdSend= serverC1_loose.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_loose.serverC1_clientIdRcv;
+  serverC1_loose_state6= serverC1_loose.state6;
+  }
+  }
+
+  down{  if( serverC1_loose.state6==1 ){
+  serverC1_looseD.state6=2;
+  }
+  
+
+  if( serverC1_loose.state6==4 ){
+  serverC1_looseD.state6=5;
+  }
+  }
+
+end 
+
+connector type Singleton18(FirstType14 serverC1_msglost, FirstType14D serverC1_msglostD)
+ define serverC1_msglost serverC1_msglostD 
+ data int serverC1_serverId
+ data int serverC1_proposed
+ data int serverC1_decided
+ data int serverC1_clientIdSend
+ data int serverC1_clientIdRcv
+ data int serverC1_msglost_state6
+
+ on serverC1_msglost  provided ((((serverC1_msglost.state6==1) || (serverC1_msglost.state6==4) ) ))
+  up{  if( serverC1_msglost.state6==1 ){
+  serverC1_serverId= serverC1_msglost.serverC1_serverId;
+  serverC1_proposed= serverC1_msglost.serverC1_proposed;
+  serverC1_decided= serverC1_msglost.serverC1_decided;
+  serverC1_clientIdSend= serverC1_msglost.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_msglost.serverC1_clientIdRcv;
+  serverC1_msglost_state6= serverC1_msglost.state6;
+  }
+  
+
+  if( serverC1_msglost.state6==4 ){
+  serverC1_serverId= serverC1_msglost.serverC1_serverId;
+  serverC1_proposed= serverC1_msglost.serverC1_proposed;
+  serverC1_decided= serverC1_msglost.serverC1_decided;
+  serverC1_clientIdSend= serverC1_msglost.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_msglost.serverC1_clientIdRcv;
+  serverC1_msglost_state6= serverC1_msglost.state6;
+  }
+  }
+
+  down{  if( serverC1_msglost.state6==1 ){
+  serverC1_msglostD.state6=0;
+  }
+  
+
+  if( serverC1_msglost.state6==4 ){
+  serverC1_msglostD.state6=3;
+  }
+  }
+
+end 
+
+connector type Singleton19(FirstType15 serverC2_loose, FirstType15D serverC2_looseD)
+ define serverC2_loose serverC2_looseD 
+ data int serverC2_serverId
+ data int serverC2_proposed
+ data int serverC2_decided
+ data int serverC2_clientIdSend
+ data int serverC2_clientIdRcv
+ data int serverC2_loose_state7
+
+ on serverC2_loose  provided ((((serverC2_loose.state7==1) || (serverC2_loose.state7==4) ) ))
+  up{  if( serverC2_loose.state7==1 ){
+  serverC2_serverId= serverC2_loose.serverC2_serverId;
+  serverC2_proposed= serverC2_loose.serverC2_proposed;
+  serverC2_decided= serverC2_loose.serverC2_decided;
+  serverC2_clientIdSend= serverC2_loose.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_loose.serverC2_clientIdRcv;
+  serverC2_loose_state7= serverC2_loose.state7;
+  }
+  
+
+  if( serverC2_loose.state7==4 ){
+  serverC2_serverId= serverC2_loose.serverC2_serverId;
+  serverC2_proposed= serverC2_loose.serverC2_proposed;
+  serverC2_decided= serverC2_loose.serverC2_decided;
+  serverC2_clientIdSend= serverC2_loose.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_loose.serverC2_clientIdRcv;
+  serverC2_loose_state7= serverC2_loose.state7;
+  }
+  }
+
+  down{  if( serverC2_loose.state7==1 ){
+  serverC2_looseD.state7=2;
+  }
+  
+
+  if( serverC2_loose.state7==4 ){
+  serverC2_looseD.state7=5;
+  }
+  }
+
+end 
+
+connector type Singleton20(FirstType16 serverC2_msglost, FirstType16D serverC2_msglostD)
+ define serverC2_msglost serverC2_msglostD 
+ data int serverC2_serverId
+ data int serverC2_proposed
+ data int serverC2_decided
+ data int serverC2_clientIdSend
+ data int serverC2_clientIdRcv
+ data int serverC2_msglost_state7
+
+ on serverC2_msglost  provided ((((serverC2_msglost.state7==1) || (serverC2_msglost.state7==4) ) ))
+  up{  if( serverC2_msglost.state7==1 ){
+  serverC2_serverId= serverC2_msglost.serverC2_serverId;
+  serverC2_proposed= serverC2_msglost.serverC2_proposed;
+  serverC2_decided= serverC2_msglost.serverC2_decided;
+  serverC2_clientIdSend= serverC2_msglost.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_msglost.serverC2_clientIdRcv;
+  serverC2_msglost_state7= serverC2_msglost.state7;
+  }
+  
+
+  if( serverC2_msglost.state7==4 ){
+  serverC2_serverId= serverC2_msglost.serverC2_serverId;
+  serverC2_proposed= serverC2_msglost.serverC2_proposed;
+  serverC2_decided= serverC2_msglost.serverC2_decided;
+  serverC2_clientIdSend= serverC2_msglost.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_msglost.serverC2_clientIdRcv;
+  serverC2_msglost_state7= serverC2_msglost.state7;
+  }
+  }
+
+  down{  if( serverC2_msglost.state7==1 ){
+  serverC2_msglostD.state7=0;
+  }
+  
+
+  if( serverC2_msglost.state7==4 ){
+  serverC2_msglostD.state7=3;
+  }
+  }
+
+end 
+
+connector type Singleton51(FirstType4 plug1_singleton1, FirstType4D plug1_singleton1D)
+ define plug1_singleton1 plug1_singleton1D 
+ data int plug1_proposedValue
+ data int plug1_decidedValueS
+ data int plug1_decidedValue
+ data bool plug1_trigger
+ data int plug1_serverId
+ data int plug1_singleton1_state0
+
+ on plug1_singleton1  provided (((((plug1_singleton1.state0==10) || (plug1_singleton1.state0==9)) || (plug1_singleton1.plug1_decidedValue != plug1_decidedValueS && plug1_singleton1.state0==8) ) ))
+  up{  if( plug1_singleton1.state0==10 ){
+  plug1_proposedValue= plug1_singleton1.plug1_proposedValue;
+  plug1_decidedValueS= plug1_singleton1.plug1_decidedValueS;
+  plug1_decidedValue= plug1_singleton1.plug1_decidedValue;
+  plug1_trigger= plug1_singleton1.plug1_trigger;
+  plug1_serverId= plug1_singleton1.plug1_serverId;
+  plug1_singleton1_state0= plug1_singleton1.state0;
+  }
+  
+
+  if( plug1_singleton1.state0==9 ){
+  plug1_proposedValue= plug1_singleton1.plug1_proposedValue;
+  plug1_decidedValueS= plug1_singleton1.plug1_decidedValueS;
+  plug1_decidedValue= plug1_singleton1.plug1_decidedValue;
+  plug1_trigger= plug1_singleton1.plug1_trigger;
+  plug1_serverId= plug1_singleton1.plug1_serverId;
+  plug1_singleton1_state0= plug1_singleton1.state0;
+  }
+  
+
+  if( plug1_singleton1.state0==8 ){
+  plug1_proposedValue= plug1_singleton1.plug1_proposedValue;
+  plug1_decidedValueS= plug1_singleton1.plug1_decidedValueS;
+  plug1_decidedValue= plug1_singleton1.plug1_decidedValue;
+  plug1_trigger= plug1_singleton1.plug1_trigger;
+  plug1_serverId= plug1_singleton1.plug1_serverId;
+  plug1_singleton1_state0= plug1_singleton1.state0;
+  }
+  }
+
+  down{  if( plug1_singleton1.state0==10 ){
+  plug1_singleton1D.plug1_decidedValue=plug1_decidedValueS;
+  plug1_singleton1D.state0=2;
+  }
+  
+
+  if( plug1_singleton1.state0==9 ){
+  plug1_singleton1D.plug1_decidedValue=plug1_decidedValueS;
+  plug1_singleton1D.state0=5;
+  }
+  
+
+  if( plug1_singleton1.state0==8 ){
+  plug1_singleton1D.plug1_trigger=false;
+  plug1_singleton1D.plug1_decidedValue=plug1_proposedValue;
+  plug1_singleton1D.state0=4;
+  }
+  }
+
+end 
+
+connector type Singleton61(FirstType9 plug2_singleton1, FirstType9D plug2_singleton1D)
+ define plug2_singleton1 plug2_singleton1D 
+ data int plug2_proposedValue
+ data int plug2_decidedValueS
+ data int plug2_decidedValue
+ data bool plug2_trigger
+ data int plug2_serverId
+ data int plug2_singleton1_state1
+
+ on plug2_singleton1  provided (((((plug2_singleton1.state1==10) || (plug2_singleton1.state1==9)) || (plug2_singleton1.plug2_decidedValue != plug2_decidedValueS && plug2_singleton1.state1==8) ) ))
+  up{  if( plug2_singleton1.state1==10 ){
+  plug2_proposedValue= plug2_singleton1.plug2_proposedValue;
+  plug2_decidedValueS= plug2_singleton1.plug2_decidedValueS;
+  plug2_decidedValue= plug2_singleton1.plug2_decidedValue;
+  plug2_trigger= plug2_singleton1.plug2_trigger;
+  plug2_serverId= plug2_singleton1.plug2_serverId;
+  plug2_singleton1_state1= plug2_singleton1.state1;
+  }
+  
+
+  if( plug2_singleton1.state1==9 ){
+  plug2_proposedValue= plug2_singleton1.plug2_proposedValue;
+  plug2_decidedValueS= plug2_singleton1.plug2_decidedValueS;
+  plug2_decidedValue= plug2_singleton1.plug2_decidedValue;
+  plug2_trigger= plug2_singleton1.plug2_trigger;
+  plug2_serverId= plug2_singleton1.plug2_serverId;
+  plug2_singleton1_state1= plug2_singleton1.state1;
+  }
+  
+
+  if( plug2_singleton1.state1==8 ){
+  plug2_proposedValue= plug2_singleton1.plug2_proposedValue;
+  plug2_decidedValueS= plug2_singleton1.plug2_decidedValueS;
+  plug2_decidedValue= plug2_singleton1.plug2_decidedValue;
+  plug2_trigger= plug2_singleton1.plug2_trigger;
+  plug2_serverId= plug2_singleton1.plug2_serverId;
+  plug2_singleton1_state1= plug2_singleton1.state1;
+  }
+  }
+
+  down{  if( plug2_singleton1.state1==10 ){
+  plug2_singleton1D.plug2_decidedValue=plug2_decidedValueS;
+  plug2_singleton1D.state1=2;
+  }
+  
+
+  if( plug2_singleton1.state1==9 ){
+  plug2_singleton1D.plug2_decidedValue=plug2_decidedValueS;
+  plug2_singleton1D.state1=5;
+  }
+  
+
+  if( plug2_singleton1.state1==8 ){
+  plug2_singleton1D.plug2_trigger=false;
+  plug2_singleton1D.plug2_decidedValue=plug2_proposedValue;
+  plug2_singleton1D.state1=4;
+  }
+  }
+
+end 
+
+connector type Singleton71(FirstType11 s1_singleton1, FirstType11D s1_singleton1D)
+ define s1_singleton1 s1_singleton1D 
+ data int s1_decidedValue
+ data int s1_proposedValue
+ data int s1_serverId
+ data int s1_ClientId
+ data int s1_singleton1_state2
+
+ on s1_singleton1  provided (((s1_singleton1.state2==2 ) ))
+  up{  if( s1_singleton1.state2==2 ){
+  s1_decidedValue= s1_singleton1.s1_decidedValue;
+  s1_proposedValue= s1_singleton1.s1_proposedValue;
+  s1_serverId= s1_singleton1.s1_serverId;
+  s1_ClientId= s1_singleton1.s1_ClientId;
+  s1_singleton1_state2= s1_singleton1.state2;
+  }
+  }
+
+  down{  if( s1_singleton1.state2==2 ){
+  s1_singleton1D.s1_decidedValue=s1_proposedValue;
+  s1_singleton1D.state2=1;
+  }
+  }
+
+end 
+
+connector type Singleton81(FirstType12 s2_singleton1, FirstType12D s2_singleton1D)
+ define s2_singleton1 s2_singleton1D 
+ data int s2_decidedValue
+ data int s2_proposedValue
+ data int s2_serverId
+ data int s2_ClientId
+ data int s2_singleton1_state3
+
+ on s2_singleton1  provided (((s2_singleton1.state3==2 ) ))
+  up{  if( s2_singleton1.state3==2 ){
+  s2_decidedValue= s2_singleton1.s2_decidedValue;
+  s2_proposedValue= s2_singleton1.s2_proposedValue;
+  s2_serverId= s2_singleton1.s2_serverId;
+  s2_ClientId= s2_singleton1.s2_ClientId;
+  s2_singleton1_state3= s2_singleton1.state3;
+  }
+  }
+
+  down{  if( s2_singleton1.state3==2 ){
+  s2_singleton1D.s2_decidedValue=s2_proposedValue;
+  s2_singleton1D.state3=1;
+  }
+  }
+
+end 
+
+connector type Singleton52(FirstType5 plug1_singleton2, FirstType5D plug1_singleton2D)
+ define plug1_singleton2 plug1_singleton2D 
+ data int plug1_proposedValue
+ data int plug1_decidedValueS
+ data int plug1_decidedValue
+ data bool plug1_trigger
+ data int plug1_serverId
+ data int plug1_singleton2_state0
+
+ on plug1_singleton2  provided (((plug1_singleton2.plug1_decidedValue == plug1_decidedValueS && plug1_singleton2.state0==8 ) ))
+  up{  if( plug1_singleton2.state0==8 ){
+  plug1_proposedValue= plug1_singleton2.plug1_proposedValue;
+  plug1_decidedValueS= plug1_singleton2.plug1_decidedValueS;
+  plug1_decidedValue= plug1_singleton2.plug1_decidedValue;
+  plug1_trigger= plug1_singleton2.plug1_trigger;
+  plug1_serverId= plug1_singleton2.plug1_serverId;
+  plug1_singleton2_state0= plug1_singleton2.state0;
+  }
+  }
+
+  down{  if( plug1_singleton2.state0==8 ){
+  plug1_singleton2D.plug1_trigger = true;
+  plug1_singleton2D.state0=4;
+  }
+  }
+
+end 
+
+connector type Singleton62(FirstType10 plug2_singleton2, FirstType10D plug2_singleton2D)
+ define plug2_singleton2 plug2_singleton2D 
+ data int plug2_proposedValue
+ data int plug2_decidedValueS
+ data int plug2_decidedValue
+ data bool plug2_trigger
+ data int plug2_serverId
+ data int plug2_singleton2_state1
+
+ on plug2_singleton2  provided (((plug2_singleton2.plug2_decidedValue == plug2_decidedValueS && plug2_singleton2.state1==8 ) ))
+  up{  if( plug2_singleton2.state1==8 ){
+  plug2_proposedValue= plug2_singleton2.plug2_proposedValue;
+  plug2_decidedValueS= plug2_singleton2.plug2_decidedValueS;
+  plug2_decidedValue= plug2_singleton2.plug2_decidedValue;
+  plug2_trigger= plug2_singleton2.plug2_trigger;
+  plug2_serverId= plug2_singleton2.plug2_serverId;
+  plug2_singleton2_state1= plug2_singleton2.state1;
+  }
+  }
+
+  down{  if( plug2_singleton2.state1==8 ){
+  plug2_singleton2D.plug2_trigger = true;
+  plug2_singleton2D.state1=4;
+  }
+  }
+
+end 
+
+connector type SendFromPlugToPlugConnector1(SecondType1 plug1_sendToChannel, SecondType2 plugC1_rcvPlug, SecondType1D plug1_sendToChannelD, SecondType2D plugC1_rcvPlugD)
+ define plug1_sendToChannel plugC1_rcvPlug plug1_sendToChannelD plugC1_rcvPlugD 
+ data int plug1_proposedValue
+ data int plug1_decidedValueS
+ data int plug1_decidedValue
+ data bool plug1_trigger
+ data int plug1_serverId
+ data int plug1_sendToChannel_state0
+ data int plugC1_clientId
+ data int plugC1_serverId
+ data bool plugC1_server1
+ data bool plugC1_server2
+ data int plugC1_proposedValue
+ data int plugC1_decidedValue
+ data int plugC1_rcvPlug_state4
+
+ on plug1_sendToChannel plugC1_rcvPlug  provided (((plug1_sendToChannel.state0==0 ) && ((plugC1_rcvPlug.state4==0) || (plugC1_rcvPlug.state4==2) ) ))
+  up{  if( plug1_sendToChannel.state0==0 ){
+  plug1_proposedValue= plug1_sendToChannel.plug1_proposedValue;
+  plug1_decidedValueS= plug1_sendToChannel.plug1_decidedValueS;
+  plug1_decidedValue= plug1_sendToChannel.plug1_decidedValue;
+  plug1_trigger= plug1_sendToChannel.plug1_trigger;
+  plug1_serverId= plug1_sendToChannel.plug1_serverId;
+  plug1_sendToChannel_state0= plug1_sendToChannel.state0;
+  }
+  if( plugC1_rcvPlug.state4==0 ){
+  plugC1_clientId= plugC1_rcvPlug.plugC1_clientId;
+  plugC1_serverId= plugC1_rcvPlug.plugC1_serverId;
+  plugC1_server1= plugC1_rcvPlug.plugC1_server1;
+  plugC1_server2= plugC1_rcvPlug.plugC1_server2;
+  plugC1_proposedValue= plugC1_rcvPlug.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_rcvPlug.plugC1_decidedValue;
+  plugC1_rcvPlug_state4= plugC1_rcvPlug.state4;
+  }
+  
+
+  if( plugC1_rcvPlug.state4==2 ){
+  plugC1_clientId= plugC1_rcvPlug.plugC1_clientId;
+  plugC1_serverId= plugC1_rcvPlug.plugC1_serverId;
+  plugC1_server1= plugC1_rcvPlug.plugC1_server1;
+  plugC1_server2= plugC1_rcvPlug.plugC1_server2;
+  plugC1_proposedValue= plugC1_rcvPlug.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_rcvPlug.plugC1_decidedValue;
+  plugC1_rcvPlug_state4= plugC1_rcvPlug.state4;
+  }
+  }
+
+  down{  plugC1_rcvPlug.plugC1_proposedValue=plug1_sendToChannel.plug1_proposedValue;
+  if( plug1_sendToChannel.state0==0 ){
+  plug1_sendToChannelD.state0=1;
+  }
+  if( plugC1_rcvPlug.state4==0 ){
+  plugC1_rcvPlugD.state4=1;
+  }
+  
+
+  if( plugC1_rcvPlug.state4==2 ){
+  plugC1_rcvPlugD.state4=3;
+  }
+  }
+
+end 
+
+connector type SendFromPlugConToServerCon1(ThirdType8 plugC1_SendS1, ThirdType13 serverC1_rcvPlugC, ThirdType8D plugC1_SendS1D, ThirdType13D serverC1_rcvPlugCD)
+ define plugC1_SendS1 serverC1_rcvPlugC plugC1_SendS1D serverC1_rcvPlugCD 
+ data int plugC1_clientId
+ data int plugC1_serverId
+ data bool plugC1_server1
+ data bool plugC1_server2
+ data int plugC1_proposedValue
+ data int plugC1_decidedValue
+ data int plugC1_SendS1_state4
+ data int serverC1_serverId
+ data int serverC1_proposed
+ data int serverC1_decided
+ data int serverC1_clientIdSend
+ data int serverC1_clientIdRcv
+ data int serverC1_rcvPlugC_state6
+
+ on plugC1_SendS1 serverC1_rcvPlugC  provided ((((!plugC1_SendS1.plugC1_server1 && plugC1_SendS1.state4==1) || (!plugC1_SendS1.plugC1_server1 && plugC1_SendS1.state4==3) ) && ((((serverC1_rcvPlugC.state6==0) || (serverC1_rcvPlugC.state6==3)) || (serverC1_rcvPlugC.state6==2)) || (serverC1_rcvPlugC.state6==5) ) ))
+  up{  if( plugC1_SendS1.state4==1 ){
+  plugC1_clientId= plugC1_SendS1.plugC1_clientId;
+  plugC1_serverId= plugC1_SendS1.plugC1_serverId;
+  plugC1_server1= plugC1_SendS1.plugC1_server1;
+  plugC1_server2= plugC1_SendS1.plugC1_server2;
+  plugC1_proposedValue= plugC1_SendS1.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_SendS1.plugC1_decidedValue;
+  plugC1_SendS1_state4= plugC1_SendS1.state4;
+  }
+  
+
+  if( plugC1_SendS1.state4==3 ){
+  plugC1_clientId= plugC1_SendS1.plugC1_clientId;
+  plugC1_serverId= plugC1_SendS1.plugC1_serverId;
+  plugC1_server1= plugC1_SendS1.plugC1_server1;
+  plugC1_server2= plugC1_SendS1.plugC1_server2;
+  plugC1_proposedValue= plugC1_SendS1.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_SendS1.plugC1_decidedValue;
+  plugC1_SendS1_state4= plugC1_SendS1.state4;
+  }
+  if( serverC1_rcvPlugC.state6==0 ){
+  serverC1_serverId= serverC1_rcvPlugC.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvPlugC.serverC1_proposed;
+  serverC1_decided= serverC1_rcvPlugC.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvPlugC.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvPlugC.serverC1_clientIdRcv;
+  serverC1_rcvPlugC_state6= serverC1_rcvPlugC.state6;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==3 ){
+  serverC1_serverId= serverC1_rcvPlugC.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvPlugC.serverC1_proposed;
+  serverC1_decided= serverC1_rcvPlugC.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvPlugC.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvPlugC.serverC1_clientIdRcv;
+  serverC1_rcvPlugC_state6= serverC1_rcvPlugC.state6;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==2 ){
+  serverC1_serverId= serverC1_rcvPlugC.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvPlugC.serverC1_proposed;
+  serverC1_decided= serverC1_rcvPlugC.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvPlugC.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvPlugC.serverC1_clientIdRcv;
+  serverC1_rcvPlugC_state6= serverC1_rcvPlugC.state6;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==5 ){
+  serverC1_serverId= serverC1_rcvPlugC.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvPlugC.serverC1_proposed;
+  serverC1_decided= serverC1_rcvPlugC.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvPlugC.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvPlugC.serverC1_clientIdRcv;
+  serverC1_rcvPlugC_state6= serverC1_rcvPlugC.state6;
+  }
+  }
+
+  down{  serverC1_rcvPlugC.serverC1_clientIdRcv=plugC1_SendS1.plugC1_clientId;
+  serverC1_rcvPlugC.serverC1_proposed=plugC1_SendS1.plugC1_proposedValue;
+  if( plugC1_SendS1.state4==1 ){
+  plugC1_SendS1D.plugC1_server1=true;
+  plugC1_SendS1D.state4=1;
+  }
+  
+
+  if( plugC1_SendS1.state4==3 ){
+  plugC1_SendS1D.plugC1_server1=true;
+  plugC1_SendS1D.state4=3;
+  }
+  if( serverC1_rcvPlugC.state6==0 ){
+  serverC1_rcvPlugCD.state6=1;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==3 ){
+  serverC1_rcvPlugCD.state6=4;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==2 ){
+  serverC1_rcvPlugCD.state6=2;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==5 ){
+  serverC1_rcvPlugCD.state6=5;
+  }
+  }
+
+end 
+
+connector type SendFromPlugConToServerCon2(ThirdType9 plugC1_SendS2, ThirdType16 serverC2_rcvPlugC, ThirdType9D plugC1_SendS2D, ThirdType16D serverC2_rcvPlugCD)
+ define plugC1_SendS2 serverC2_rcvPlugC plugC1_SendS2D serverC2_rcvPlugCD 
+ data int plugC1_clientId
+ data int plugC1_serverId
+ data bool plugC1_server1
+ data bool plugC1_server2
+ data int plugC1_proposedValue
+ data int plugC1_decidedValue
+ data int plugC1_SendS2_state4
+ data int serverC2_serverId
+ data int serverC2_proposed
+ data int serverC2_decided
+ data int serverC2_clientIdSend
+ data int serverC2_clientIdRcv
+ data int serverC2_rcvPlugC_state7
+
+ on plugC1_SendS2 serverC2_rcvPlugC  provided ((((!plugC1_SendS2.plugC1_server2 && plugC1_SendS2.state4==1) || (!plugC1_SendS2.plugC1_server2 && plugC1_SendS2.state4==3) ) && ((((serverC2_rcvPlugC.state7==0) || (serverC2_rcvPlugC.state7==3)) || (serverC2_rcvPlugC.state7==2)) || (serverC2_rcvPlugC.state7==5) ) ))
+  up{  if( plugC1_SendS2.state4==1 ){
+  plugC1_clientId= plugC1_SendS2.plugC1_clientId;
+  plugC1_serverId= plugC1_SendS2.plugC1_serverId;
+  plugC1_server1= plugC1_SendS2.plugC1_server1;
+  plugC1_server2= plugC1_SendS2.plugC1_server2;
+  plugC1_proposedValue= plugC1_SendS2.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_SendS2.plugC1_decidedValue;
+  plugC1_SendS2_state4= plugC1_SendS2.state4;
+  }
+  
+
+  if( plugC1_SendS2.state4==3 ){
+  plugC1_clientId= plugC1_SendS2.plugC1_clientId;
+  plugC1_serverId= plugC1_SendS2.plugC1_serverId;
+  plugC1_server1= plugC1_SendS2.plugC1_server1;
+  plugC1_server2= plugC1_SendS2.plugC1_server2;
+  plugC1_proposedValue= plugC1_SendS2.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_SendS2.plugC1_decidedValue;
+  plugC1_SendS2_state4= plugC1_SendS2.state4;
+  }
+  if( serverC2_rcvPlugC.state7==0 ){
+  serverC2_serverId= serverC2_rcvPlugC.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvPlugC.serverC2_proposed;
+  serverC2_decided= serverC2_rcvPlugC.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvPlugC.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvPlugC.serverC2_clientIdRcv;
+  serverC2_rcvPlugC_state7= serverC2_rcvPlugC.state7;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==3 ){
+  serverC2_serverId= serverC2_rcvPlugC.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvPlugC.serverC2_proposed;
+  serverC2_decided= serverC2_rcvPlugC.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvPlugC.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvPlugC.serverC2_clientIdRcv;
+  serverC2_rcvPlugC_state7= serverC2_rcvPlugC.state7;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==2 ){
+  serverC2_serverId= serverC2_rcvPlugC.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvPlugC.serverC2_proposed;
+  serverC2_decided= serverC2_rcvPlugC.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvPlugC.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvPlugC.serverC2_clientIdRcv;
+  serverC2_rcvPlugC_state7= serverC2_rcvPlugC.state7;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==5 ){
+  serverC2_serverId= serverC2_rcvPlugC.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvPlugC.serverC2_proposed;
+  serverC2_decided= serverC2_rcvPlugC.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvPlugC.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvPlugC.serverC2_clientIdRcv;
+  serverC2_rcvPlugC_state7= serverC2_rcvPlugC.state7;
+  }
+  }
+
+  down{  serverC2_rcvPlugC.serverC2_clientIdRcv=plugC1_SendS2.plugC1_clientId;
+  serverC2_rcvPlugC.serverC2_proposed=plugC1_SendS2.plugC1_proposedValue;
+  if( plugC1_SendS2.state4==1 ){
+  plugC1_SendS2D.plugC1_server2=true;
+  plugC1_SendS2D.plugC1_server2=true;
+  plugC1_SendS2D.state4=1;
+  }
+  
+
+  if( plugC1_SendS2.state4==3 ){
+  plugC1_SendS2D.state4=3;
+  }
+  if( serverC2_rcvPlugC.state7==0 ){
+  serverC2_rcvPlugCD.state7=1;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==3 ){
+  serverC2_rcvPlugCD.state7=4;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==2 ){
+  serverC2_rcvPlugCD.state7=2;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==5 ){
+  serverC2_rcvPlugCD.state7=5;
+  }
+  }
+
+end 
+
+connector type SendFromServerConnToServer1(ThirdType14 serverC1_sendServer, ThirdType3 s1_RcvFromChannel, ThirdType14D serverC1_sendServerD, ThirdType3D s1_RcvFromChannelD)
+ define serverC1_sendServer s1_RcvFromChannel serverC1_sendServerD s1_RcvFromChannelD 
+ data int serverC1_serverId
+ data int serverC1_proposed
+ data int serverC1_decided
+ data int serverC1_clientIdSend
+ data int serverC1_clientIdRcv
+ data int serverC1_sendServer_state6
+ data int s1_decidedValue
+ data int s1_proposedValue
+ data int s1_serverId
+ data int s1_ClientId
+ data int s1_RcvFromChannel_state2
+
+ on serverC1_sendServer s1_RcvFromChannel  provided ((((serverC1_sendServer.state6==1) || (serverC1_sendServer.state6==4) ) && (((s1_RcvFromChannel.state2==0) || (s1_RcvFromChannel.s1_decidedValue==0 && s1_RcvFromChannel.state2==0)) || (s1_RcvFromChannel.s1_decidedValue!=0 && s1_RcvFromChannel.state2==0) ) ))
+  up{  if( serverC1_sendServer.state6==1 ){
+  serverC1_serverId= serverC1_sendServer.serverC1_serverId;
+  serverC1_proposed= serverC1_sendServer.serverC1_proposed;
+  serverC1_decided= serverC1_sendServer.serverC1_decided;
+  serverC1_clientIdSend= serverC1_sendServer.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_sendServer.serverC1_clientIdRcv;
+  serverC1_sendServer_state6= serverC1_sendServer.state6;
+  }
+  
+
+  if( serverC1_sendServer.state6==4 ){
+  serverC1_serverId= serverC1_sendServer.serverC1_serverId;
+  serverC1_proposed= serverC1_sendServer.serverC1_proposed;
+  serverC1_decided= serverC1_sendServer.serverC1_decided;
+  serverC1_clientIdSend= serverC1_sendServer.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_sendServer.serverC1_clientIdRcv;
+  serverC1_sendServer_state6= serverC1_sendServer.state6;
+  }
+  if( s1_RcvFromChannel.state2==0 ){
+  s1_decidedValue= s1_RcvFromChannel.s1_decidedValue;
+  s1_proposedValue= s1_RcvFromChannel.s1_proposedValue;
+  s1_serverId= s1_RcvFromChannel.s1_serverId;
+  s1_ClientId= s1_RcvFromChannel.s1_ClientId;
+  s1_RcvFromChannel_state2= s1_RcvFromChannel.state2;
+  }
+  
+
+  if( s1_RcvFromChannel.state2==0 ){
+  s1_decidedValue= s1_RcvFromChannel.s1_decidedValue;
+  s1_proposedValue= s1_RcvFromChannel.s1_proposedValue;
+  s1_serverId= s1_RcvFromChannel.s1_serverId;
+  s1_ClientId= s1_RcvFromChannel.s1_ClientId;
+  s1_RcvFromChannel_state2= s1_RcvFromChannel.state2;
+  }
+  
+
+  if( s1_RcvFromChannel.state2==0 ){
+  s1_decidedValue= s1_RcvFromChannel.s1_decidedValue;
+  s1_proposedValue= s1_RcvFromChannel.s1_proposedValue;
+  s1_serverId= s1_RcvFromChannel.s1_serverId;
+  s1_ClientId= s1_RcvFromChannel.s1_ClientId;
+  s1_RcvFromChannel_state2= s1_RcvFromChannel.state2;
+  }
+  }
+
+  down{  s1_RcvFromChannel.s1_ClientId=serverC1_sendServer.serverC1_clientIdRcv;
+  s1_RcvFromChannel.s1_proposedValue=serverC1_sendServer.serverC1_proposed;
+  if( serverC1_sendServer.state6==1 ){
+  serverC1_sendServerD.state6=0;
+  }
+  
+
+  if( serverC1_sendServer.state6==4 ){
+  serverC1_sendServerD.state6=3;
+  }
+  if( s1_RcvFromChannel.state2==0 ){
+  s1_RcvFromChannelD.state2=2;
+  }
+  
+
+  if( s1_RcvFromChannel.state2==0 ){
+  s1_RcvFromChannelD.s1_decidedValue=s1_proposedValue;
+  s1_RcvFromChannelD.state2=1;
+  }
+  
+
+  if( s1_RcvFromChannel.state2==0 ){
+  s1_RcvFromChannelD.state2=1;
+  }
+  }
+
+end 
+
+connector type SendFromServerToServerC1(ThirdType4 s1_SendToServerC, ThirdType15 serverC1_rcvServer, ThirdType15D serverC1_rcvServerD, ThirdType4D s1_SendToServerCD)
+ define s1_SendToServerC serverC1_rcvServer serverC1_rcvServerD s1_SendToServerCD 
+ data int s1_decidedValue
+ data int s1_proposedValue
+ data int s1_serverId
+ data int s1_ClientId
+ data int s1_SendToServerC_state2
+ data int serverC1_serverId
+ data int serverC1_proposed
+ data int serverC1_decided
+ data int serverC1_clientIdSend
+ data int serverC1_clientIdRcv
+ data int serverC1_rcvServer_state6
+
+ on s1_SendToServerC serverC1_rcvServer  provided (((((serverC1_rcvServer.state6==0) || (serverC1_rcvServer.state6==1)) || (serverC1_rcvServer.state6==2) ) && (s1_SendToServerC.state2==1 ) ))
+  up{  if( serverC1_rcvServer.state6==0 ){
+  serverC1_serverId= serverC1_rcvServer.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvServer.serverC1_proposed;
+  serverC1_decided= serverC1_rcvServer.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvServer.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvServer.serverC1_clientIdRcv;
+  serverC1_rcvServer_state6= serverC1_rcvServer.state6;
+  }
+  
+
+  if( serverC1_rcvServer.state6==1 ){
+  serverC1_serverId= serverC1_rcvServer.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvServer.serverC1_proposed;
+  serverC1_decided= serverC1_rcvServer.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvServer.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvServer.serverC1_clientIdRcv;
+  serverC1_rcvServer_state6= serverC1_rcvServer.state6;
+  }
+  
+
+  if( serverC1_rcvServer.state6==2 ){
+  serverC1_serverId= serverC1_rcvServer.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvServer.serverC1_proposed;
+  serverC1_decided= serverC1_rcvServer.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvServer.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvServer.serverC1_clientIdRcv;
+  serverC1_rcvServer_state6= serverC1_rcvServer.state6;
+  }
+  if( s1_SendToServerC.state2==1 ){
+  s1_decidedValue= s1_SendToServerC.s1_decidedValue;
+  s1_proposedValue= s1_SendToServerC.s1_proposedValue;
+  s1_serverId= s1_SendToServerC.s1_serverId;
+  s1_ClientId= s1_SendToServerC.s1_ClientId;
+  s1_SendToServerC_state2= s1_SendToServerC.state2;
+  }
+  }
+
+  down{  serverC1_rcvServer.serverC1_clientIdSend=s1_SendToServerC.s1_ClientId;
+  serverC1_rcvServer.serverC1_decided=s1_SendToServerC.s1_decidedValue;
+  if( serverC1_rcvServer.state6==0 ){
+  serverC1_rcvServerD.state6=3;
+  }
+  
+
+  if( serverC1_rcvServer.state6==1 ){
+  serverC1_rcvServerD.state6=4;
+  }
+  
+
+  if( serverC1_rcvServer.state6==2 ){
+  serverC1_rcvServerD.state6=5;
+  }
+  if( s1_SendToServerC.state2==1 ){
+  s1_SendToServerCD.state2=0;
+  }
+  }
+
+end 
+
+connector type ServerCPlugC1(ForthType3 serverC1_sendPlug, ForthType1 plugC1_rcvServer, ForthType1D plugC1_rcvServerD, ForthType3D serverC1_sendPlugD)
+ define serverC1_sendPlug plugC1_rcvServer plugC1_rcvServerD serverC1_sendPlugD 
+ data int serverC1_serverId
+ data int serverC1_proposed
+ data int serverC1_decided
+ data int serverC1_clientIdSend
+ data int serverC1_clientIdRcv
+ data int serverC1_sendPlug_state6
+ data int plugC1_clientId
+ data int plugC1_serverId
+ data bool plugC1_server1
+ data bool plugC1_server2
+ data int plugC1_proposedValue
+ data int plugC1_decidedValue
+ data int plugC1_rcvServer_state4
+
+ on serverC1_sendPlug plugC1_rcvServer  provided (serverC1_sendPlug.serverC1_clientIdSend==plugC1_rcvServer.plugC1_clientId && (((plugC1_rcvServer.state4==0) || (plugC1_rcvServer.state4==1) ) && (((serverC1_sendPlug.state6==3) || (serverC1_sendPlug.state6==4)) || (serverC1_sendPlug.state6==5) ) ))
+  up{  if( plugC1_rcvServer.state4==0 ){
+  plugC1_clientId= plugC1_rcvServer.plugC1_clientId;
+  plugC1_serverId= plugC1_rcvServer.plugC1_serverId;
+  plugC1_server1= plugC1_rcvServer.plugC1_server1;
+  plugC1_server2= plugC1_rcvServer.plugC1_server2;
+  plugC1_proposedValue= plugC1_rcvServer.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_rcvServer.plugC1_decidedValue;
+  plugC1_rcvServer_state4= plugC1_rcvServer.state4;
+  }
+  
+
+  if( plugC1_rcvServer.state4==1 ){
+  plugC1_clientId= plugC1_rcvServer.plugC1_clientId;
+  plugC1_serverId= plugC1_rcvServer.plugC1_serverId;
+  plugC1_server1= plugC1_rcvServer.plugC1_server1;
+  plugC1_server2= plugC1_rcvServer.plugC1_server2;
+  plugC1_proposedValue= plugC1_rcvServer.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_rcvServer.plugC1_decidedValue;
+  plugC1_rcvServer_state4= plugC1_rcvServer.state4;
+  }
+  if( serverC1_sendPlug.state6==3 ){
+  serverC1_serverId= serverC1_sendPlug.serverC1_serverId;
+  serverC1_proposed= serverC1_sendPlug.serverC1_proposed;
+  serverC1_decided= serverC1_sendPlug.serverC1_decided;
+  serverC1_clientIdSend= serverC1_sendPlug.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_sendPlug.serverC1_clientIdRcv;
+  serverC1_sendPlug_state6= serverC1_sendPlug.state6;
+  }
+  
+
+  if( serverC1_sendPlug.state6==4 ){
+  serverC1_serverId= serverC1_sendPlug.serverC1_serverId;
+  serverC1_proposed= serverC1_sendPlug.serverC1_proposed;
+  serverC1_decided= serverC1_sendPlug.serverC1_decided;
+  serverC1_clientIdSend= serverC1_sendPlug.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_sendPlug.serverC1_clientIdRcv;
+  serverC1_sendPlug_state6= serverC1_sendPlug.state6;
+  }
+  
+
+  if( serverC1_sendPlug.state6==5 ){
+  serverC1_serverId= serverC1_sendPlug.serverC1_serverId;
+  serverC1_proposed= serverC1_sendPlug.serverC1_proposed;
+  serverC1_decided= serverC1_sendPlug.serverC1_decided;
+  serverC1_clientIdSend= serverC1_sendPlug.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_sendPlug.serverC1_clientIdRcv;
+  serverC1_sendPlug_state6= serverC1_sendPlug.state6;
+  }
+  }
+
+  down{  plugC1_rcvServer.plugC1_serverId=serverC1_sendPlug.serverC1_serverId;
+  plugC1_rcvServer.plugC1_decidedValue=serverC1_sendPlug.serverC1_decided;
+  if( plugC1_rcvServer.state4==0 ){
+  plugC1_rcvServerD.state4=2;
+  }
+  
+
+  if( plugC1_rcvServer.state4==1 ){
+  plugC1_rcvServerD.state4=3;
+  }
+  if( serverC1_sendPlug.state6==3 ){
+  serverC1_sendPlugD.state6=0;
+  }
+  
+
+  if( serverC1_sendPlug.state6==4 ){
+  serverC1_sendPlugD.state6=1;
+  }
+  
+
+  if( serverC1_sendPlug.state6==5 ){
+  serverC1_sendPlugD.state6=2;
+  }
+  }
+
+end 
+
+connector type ServerCPlugC2(ForthType3 serverC1_sendPlug, ForthType2 plugC2_rcvServer, ForthType2D plugC2_rcvServerD, ForthType3D serverC1_sendPlugD)
+ define serverC1_sendPlug plugC2_rcvServer plugC2_rcvServerD serverC1_sendPlugD 
+ data int serverC1_serverId
+ data int serverC1_proposed
+ data int serverC1_decided
+ data int serverC1_clientIdSend
+ data int serverC1_clientIdRcv
+ data int serverC1_sendPlug_state6
+ data int plugC2_clientId
+ data int plugC2_serverId
+ data bool plugC2_server1
+ data bool plugC2_server2
+ data int plugC2_proposedValue
+ data int plugC2_decidedValue
+ data int plugC2_rcvServer_state5
+
+ on serverC1_sendPlug plugC2_rcvServer  provided (serverC1_sendPlug.serverC1_clientIdSend==plugC2_rcvServer.plugC2_clientId && (((plugC2_rcvServer.state5==0) || (plugC2_rcvServer.state5==1) ) && (((serverC1_sendPlug.state6==3) || (serverC1_sendPlug.state6==4)) || (serverC1_sendPlug.state6==5) ) ))
+  up{  if( plugC2_rcvServer.state5==0 ){
+  plugC2_clientId= plugC2_rcvServer.plugC2_clientId;
+  plugC2_serverId= plugC2_rcvServer.plugC2_serverId;
+  plugC2_server1= plugC2_rcvServer.plugC2_server1;
+  plugC2_server2= plugC2_rcvServer.plugC2_server2;
+  plugC2_proposedValue= plugC2_rcvServer.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_rcvServer.plugC2_decidedValue;
+  plugC2_rcvServer_state5= plugC2_rcvServer.state5;
+  }
+  
+
+  if( plugC2_rcvServer.state5==1 ){
+  plugC2_clientId= plugC2_rcvServer.plugC2_clientId;
+  plugC2_serverId= plugC2_rcvServer.plugC2_serverId;
+  plugC2_server1= plugC2_rcvServer.plugC2_server1;
+  plugC2_server2= plugC2_rcvServer.plugC2_server2;
+  plugC2_proposedValue= plugC2_rcvServer.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_rcvServer.plugC2_decidedValue;
+  plugC2_rcvServer_state5= plugC2_rcvServer.state5;
+  }
+  if( serverC1_sendPlug.state6==3 ){
+  serverC1_serverId= serverC1_sendPlug.serverC1_serverId;
+  serverC1_proposed= serverC1_sendPlug.serverC1_proposed;
+  serverC1_decided= serverC1_sendPlug.serverC1_decided;
+  serverC1_clientIdSend= serverC1_sendPlug.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_sendPlug.serverC1_clientIdRcv;
+  serverC1_sendPlug_state6= serverC1_sendPlug.state6;
+  }
+  
+
+  if( serverC1_sendPlug.state6==4 ){
+  serverC1_serverId= serverC1_sendPlug.serverC1_serverId;
+  serverC1_proposed= serverC1_sendPlug.serverC1_proposed;
+  serverC1_decided= serverC1_sendPlug.serverC1_decided;
+  serverC1_clientIdSend= serverC1_sendPlug.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_sendPlug.serverC1_clientIdRcv;
+  serverC1_sendPlug_state6= serverC1_sendPlug.state6;
+  }
+  
+
+  if( serverC1_sendPlug.state6==5 ){
+  serverC1_serverId= serverC1_sendPlug.serverC1_serverId;
+  serverC1_proposed= serverC1_sendPlug.serverC1_proposed;
+  serverC1_decided= serverC1_sendPlug.serverC1_decided;
+  serverC1_clientIdSend= serverC1_sendPlug.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_sendPlug.serverC1_clientIdRcv;
+  serverC1_sendPlug_state6= serverC1_sendPlug.state6;
+  }
+  }
+
+  down{  plugC2_rcvServer.plugC2_serverId=serverC1_sendPlug.serverC1_serverId;
+  plugC2_rcvServer.plugC2_decidedValue=serverC1_sendPlug.serverC1_decided;
+  if( plugC2_rcvServer.state5==0 ){
+  plugC2_rcvServerD.state5=2;
+  }
+  
+
+  if( plugC2_rcvServer.state5==1 ){
+  plugC2_rcvServerD.state5=3;
+  }
+  if( serverC1_sendPlug.state6==3 ){
+  serverC1_sendPlugD.state6=0;
+  }
+  
+
+  if( serverC1_sendPlug.state6==4 ){
+  serverC1_sendPlugD.state6=1;
+  }
+  
+
+  if( serverC1_sendPlug.state6==5 ){
+  serverC1_sendPlugD.state6=2;
+  }
+  }
+
+end 
+
+connector type PlugCToPlug1(ThirdType7 plugC1_sendClient, ThirdType1 plug1_recieveFromServer, ThirdType1D plug1_recieveFromServerD, ThirdType7D plugC1_sendClientD)
+ define plugC1_sendClient plug1_recieveFromServer plug1_recieveFromServerD plugC1_sendClientD 
+ data int plugC1_clientId
+ data int plugC1_serverId
+ data bool plugC1_server1
+ data bool plugC1_server2
+ data int plugC1_proposedValue
+ data int plugC1_decidedValue
+ data int plugC1_sendClient_state4
+ data int plug1_proposedValue
+ data int plug1_decidedValueS
+ data int plug1_decidedValue
+ data bool plug1_trigger
+ data int plug1_serverId
+ data int plug1_recieveFromServer_state0
+
+ on plugC1_sendClient plug1_recieveFromServer  provided (((((plug1_recieveFromServer.state0==1) || (plug1_recieveFromServer.state0==3)) || (plug1_recieveFromServer.state0==2) ) && ((plugC1_sendClient.state4==2) || (plugC1_sendClient.state4==3) ) ))
+  up{  if( plug1_recieveFromServer.state0==1 ){
+  plug1_proposedValue= plug1_recieveFromServer.plug1_proposedValue;
+  plug1_decidedValueS= plug1_recieveFromServer.plug1_decidedValueS;
+  plug1_decidedValue= plug1_recieveFromServer.plug1_decidedValue;
+  plug1_trigger= plug1_recieveFromServer.plug1_trigger;
+  plug1_serverId= plug1_recieveFromServer.plug1_serverId;
+  plug1_recieveFromServer_state0= plug1_recieveFromServer.state0;
+  }
+  
+
+  if( plug1_recieveFromServer.state0==3 ){
+  plug1_proposedValue= plug1_recieveFromServer.plug1_proposedValue;
+  plug1_decidedValueS= plug1_recieveFromServer.plug1_decidedValueS;
+  plug1_decidedValue= plug1_recieveFromServer.plug1_decidedValue;
+  plug1_trigger= plug1_recieveFromServer.plug1_trigger;
+  plug1_serverId= plug1_recieveFromServer.plug1_serverId;
+  plug1_recieveFromServer_state0= plug1_recieveFromServer.state0;
+  }
+  
+
+  if( plug1_recieveFromServer.state0==2 ){
+  plug1_proposedValue= plug1_recieveFromServer.plug1_proposedValue;
+  plug1_decidedValueS= plug1_recieveFromServer.plug1_decidedValueS;
+  plug1_decidedValue= plug1_recieveFromServer.plug1_decidedValue;
+  plug1_trigger= plug1_recieveFromServer.plug1_trigger;
+  plug1_serverId= plug1_recieveFromServer.plug1_serverId;
+  plug1_recieveFromServer_state0= plug1_recieveFromServer.state0;
+  }
+  if( plugC1_sendClient.state4==2 ){
+  plugC1_clientId= plugC1_sendClient.plugC1_clientId;
+  plugC1_serverId= plugC1_sendClient.plugC1_serverId;
+  plugC1_server1= plugC1_sendClient.plugC1_server1;
+  plugC1_server2= plugC1_sendClient.plugC1_server2;
+  plugC1_proposedValue= plugC1_sendClient.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_sendClient.plugC1_decidedValue;
+  plugC1_sendClient_state4= plugC1_sendClient.state4;
+  }
+  
+
+  if( plugC1_sendClient.state4==3 ){
+  plugC1_clientId= plugC1_sendClient.plugC1_clientId;
+  plugC1_serverId= plugC1_sendClient.plugC1_serverId;
+  plugC1_server1= plugC1_sendClient.plugC1_server1;
+  plugC1_server2= plugC1_sendClient.plugC1_server2;
+  plugC1_proposedValue= plugC1_sendClient.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_sendClient.plugC1_decidedValue;
+  plugC1_sendClient_state4= plugC1_sendClient.state4;
+  }
+  }
+
+  down{  plug1_recieveFromServer.plug1_serverId=plugC1_sendClient.plugC1_serverId;
+  plug1_recieveFromServer.plug1_decidedValueS=plugC1_sendClient.plugC1_decidedValue;
+  if( plug1_recieveFromServer.state0==1 ){
+  plug1_recieveFromServerD.state0=10;
+  }
+  
+
+  if( plug1_recieveFromServer.state0==3 ){
+  plug1_recieveFromServerD.state0=9;
+  }
+  
+
+  if( plug1_recieveFromServer.state0==2 ){
+  plug1_recieveFromServerD.state0=8;
+  }
+  if( plugC1_sendClient.state4==2 ){
+  plugC1_sendClientD.state4=0;
+  }
+  
+
+  if( plugC1_sendClient.state4==3 ){
+  plugC1_sendClientD.state4=1;
+  }
+  }
+
+end 
+
+connector type SendFromPlugToPlugConnector2(plug2_SecondType plug2_sendToChannel, SecondType3 plugC2_rcvPlug, plug2_SecondTypeD plug2_sendToChannelD, SecondType3D plugC2_rcvPlugD)
+ define plug2_sendToChannel plugC2_rcvPlug plug2_sendToChannelD plugC2_rcvPlugD 
+ data int plug2_proposedValue
+ data int plug2_decidedValueS
+ data int plug2_decidedValue
+ data bool plug2_trigger
+ data int plug2_serverId
+ data int plug2_sendToChannel_state1
+ data int plugC2_clientId
+ data int plugC2_serverId
+ data bool plugC2_server1
+ data bool plugC2_server2
+ data int plugC2_proposedValue
+ data int plugC2_decidedValue
+ data int plugC2_rcvPlug_state5
+
+ on plug2_sendToChannel plugC2_rcvPlug  provided (((plug2_sendToChannel.state1==0 ) && ((plugC2_rcvPlug.state5==0) || (plugC2_rcvPlug.state5==2) ) ))
+  up{  if( plug2_sendToChannel.state1==0 ){
+  plug2_proposedValue= plug2_sendToChannel.plug2_proposedValue;
+  plug2_decidedValueS= plug2_sendToChannel.plug2_decidedValueS;
+  plug2_decidedValue= plug2_sendToChannel.plug2_decidedValue;
+  plug2_trigger= plug2_sendToChannel.plug2_trigger;
+  plug2_serverId= plug2_sendToChannel.plug2_serverId;
+  plug2_sendToChannel_state1= plug2_sendToChannel.state1;
+  }
+  if( plugC2_rcvPlug.state5==0 ){
+  plugC2_clientId= plugC2_rcvPlug.plugC2_clientId;
+  plugC2_serverId= plugC2_rcvPlug.plugC2_serverId;
+  plugC2_server1= plugC2_rcvPlug.plugC2_server1;
+  plugC2_server2= plugC2_rcvPlug.plugC2_server2;
+  plugC2_proposedValue= plugC2_rcvPlug.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_rcvPlug.plugC2_decidedValue;
+  plugC2_rcvPlug_state5= plugC2_rcvPlug.state5;
+  }
+  
+
+  if( plugC2_rcvPlug.state5==2 ){
+  plugC2_clientId= plugC2_rcvPlug.plugC2_clientId;
+  plugC2_serverId= plugC2_rcvPlug.plugC2_serverId;
+  plugC2_server1= plugC2_rcvPlug.plugC2_server1;
+  plugC2_server2= plugC2_rcvPlug.plugC2_server2;
+  plugC2_proposedValue= plugC2_rcvPlug.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_rcvPlug.plugC2_decidedValue;
+  plugC2_rcvPlug_state5= plugC2_rcvPlug.state5;
+  }
+  }
+
+  down{  plugC2_rcvPlug.plugC2_proposedValue=plug2_sendToChannel.plug2_proposedValue;
+  if( plug2_sendToChannel.state1==0 ){
+  plug2_sendToChannelD.state1=1;
+  }
+  if( plugC2_rcvPlug.state5==0 ){
+  plugC2_rcvPlugD.state5=1;
+  }
+  
+
+  if( plugC2_rcvPlug.state5==2 ){
+  plugC2_rcvPlugD.state5=3;
+  }
+  }
+
+end 
+
+connector type SendFromPlugConToServerCon3(ThirdType11 plugC2_SendS1, ThirdType13 serverC1_rcvPlugC, ThirdType11D plugC2_SendS1D, ThirdType13D serverC1_rcvPlugCD)
+ define plugC2_SendS1 serverC1_rcvPlugC plugC2_SendS1D serverC1_rcvPlugCD 
+ data int plugC2_clientId
+ data int plugC2_serverId
+ data bool plugC2_server1
+ data bool plugC2_server2
+ data int plugC2_proposedValue
+ data int plugC2_decidedValue
+ data int plugC2_SendS1_state5
+ data int serverC1_serverId
+ data int serverC1_proposed
+ data int serverC1_decided
+ data int serverC1_clientIdSend
+ data int serverC1_clientIdRcv
+ data int serverC1_rcvPlugC_state6
+
+ on plugC2_SendS1 serverC1_rcvPlugC  provided ((((!plugC2_SendS1.plugC2_server1 && plugC2_SendS1.state5==1) || (!plugC2_SendS1.plugC2_server1 && plugC2_SendS1.state5==3) ) && ((((serverC1_rcvPlugC.state6==0) || (serverC1_rcvPlugC.state6==3)) || (serverC1_rcvPlugC.state6==2)) || (serverC1_rcvPlugC.state6==5) ) ))
+  up{  if( plugC2_SendS1.state5==1 ){
+  plugC2_clientId= plugC2_SendS1.plugC2_clientId;
+  plugC2_serverId= plugC2_SendS1.plugC2_serverId;
+  plugC2_server1= plugC2_SendS1.plugC2_server1;
+  plugC2_server2= plugC2_SendS1.plugC2_server2;
+  plugC2_proposedValue= plugC2_SendS1.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_SendS1.plugC2_decidedValue;
+  plugC2_SendS1_state5= plugC2_SendS1.state5;
+  }
+  
+
+  if( plugC2_SendS1.state5==3 ){
+  plugC2_clientId= plugC2_SendS1.plugC2_clientId;
+  plugC2_serverId= plugC2_SendS1.plugC2_serverId;
+  plugC2_server1= plugC2_SendS1.plugC2_server1;
+  plugC2_server2= plugC2_SendS1.plugC2_server2;
+  plugC2_proposedValue= plugC2_SendS1.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_SendS1.plugC2_decidedValue;
+  plugC2_SendS1_state5= plugC2_SendS1.state5;
+  }
+  if( serverC1_rcvPlugC.state6==0 ){
+  serverC1_serverId= serverC1_rcvPlugC.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvPlugC.serverC1_proposed;
+  serverC1_decided= serverC1_rcvPlugC.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvPlugC.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvPlugC.serverC1_clientIdRcv;
+  serverC1_rcvPlugC_state6= serverC1_rcvPlugC.state6;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==3 ){
+  serverC1_serverId= serverC1_rcvPlugC.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvPlugC.serverC1_proposed;
+  serverC1_decided= serverC1_rcvPlugC.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvPlugC.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvPlugC.serverC1_clientIdRcv;
+  serverC1_rcvPlugC_state6= serverC1_rcvPlugC.state6;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==2 ){
+  serverC1_serverId= serverC1_rcvPlugC.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvPlugC.serverC1_proposed;
+  serverC1_decided= serverC1_rcvPlugC.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvPlugC.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvPlugC.serverC1_clientIdRcv;
+  serverC1_rcvPlugC_state6= serverC1_rcvPlugC.state6;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==5 ){
+  serverC1_serverId= serverC1_rcvPlugC.serverC1_serverId;
+  serverC1_proposed= serverC1_rcvPlugC.serverC1_proposed;
+  serverC1_decided= serverC1_rcvPlugC.serverC1_decided;
+  serverC1_clientIdSend= serverC1_rcvPlugC.serverC1_clientIdSend;
+  serverC1_clientIdRcv= serverC1_rcvPlugC.serverC1_clientIdRcv;
+  serverC1_rcvPlugC_state6= serverC1_rcvPlugC.state6;
+  }
+  }
+
+  down{  serverC1_rcvPlugC.serverC1_clientIdRcv=plugC2_SendS1.plugC2_clientId;
+  serverC1_rcvPlugC.serverC1_proposed=plugC2_SendS1.plugC2_proposedValue;
+  if( plugC2_SendS1.state5==1 ){
+  plugC2_SendS1D.plugC2_server1=true;
+  plugC2_SendS1D.state5=1;
+  }
+  
+
+  if( plugC2_SendS1.state5==3 ){
+  plugC2_SendS1D.plugC2_server1=true;
+  plugC2_SendS1D.state5=3;
+  }
+  if( serverC1_rcvPlugC.state6==0 ){
+  serverC1_rcvPlugCD.state6=1;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==3 ){
+  serverC1_rcvPlugCD.state6=4;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==2 ){
+  serverC1_rcvPlugCD.state6=2;
+  }
+  
+
+  if( serverC1_rcvPlugC.state6==5 ){
+  serverC1_rcvPlugCD.state6=5;
+  }
+  }
+
+end 
+
+connector type SendFromPlugConToServerCon4(ThirdType12 plugC2_SendS2, ThirdType16 serverC2_rcvPlugC, ThirdType12D plugC2_SendS2D, ThirdType16D serverC2_rcvPlugCD)
+ define plugC2_SendS2 serverC2_rcvPlugC plugC2_SendS2D serverC2_rcvPlugCD 
+ data int plugC2_clientId
+ data int plugC2_serverId
+ data bool plugC2_server1
+ data bool plugC2_server2
+ data int plugC2_proposedValue
+ data int plugC2_decidedValue
+ data int plugC2_SendS2_state5
+ data int serverC2_serverId
+ data int serverC2_proposed
+ data int serverC2_decided
+ data int serverC2_clientIdSend
+ data int serverC2_clientIdRcv
+ data int serverC2_rcvPlugC_state7
+
+ on plugC2_SendS2 serverC2_rcvPlugC  provided ((((!plugC2_SendS2.plugC2_server2 && plugC2_SendS2.state5==1) || (!plugC2_SendS2.plugC2_server2 && plugC2_SendS2.state5==3) ) && ((((serverC2_rcvPlugC.state7==0) || (serverC2_rcvPlugC.state7==3)) || (serverC2_rcvPlugC.state7==2)) || (serverC2_rcvPlugC.state7==5) ) ))
+  up{  if( plugC2_SendS2.state5==1 ){
+  plugC2_clientId= plugC2_SendS2.plugC2_clientId;
+  plugC2_serverId= plugC2_SendS2.plugC2_serverId;
+  plugC2_server1= plugC2_SendS2.plugC2_server1;
+  plugC2_server2= plugC2_SendS2.plugC2_server2;
+  plugC2_proposedValue= plugC2_SendS2.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_SendS2.plugC2_decidedValue;
+  plugC2_SendS2_state5= plugC2_SendS2.state5;
+  }
+  
+
+  if( plugC2_SendS2.state5==3 ){
+  plugC2_clientId= plugC2_SendS2.plugC2_clientId;
+  plugC2_serverId= plugC2_SendS2.plugC2_serverId;
+  plugC2_server1= plugC2_SendS2.plugC2_server1;
+  plugC2_server2= plugC2_SendS2.plugC2_server2;
+  plugC2_proposedValue= plugC2_SendS2.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_SendS2.plugC2_decidedValue;
+  plugC2_SendS2_state5= plugC2_SendS2.state5;
+  }
+  if( serverC2_rcvPlugC.state7==0 ){
+  serverC2_serverId= serverC2_rcvPlugC.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvPlugC.serverC2_proposed;
+  serverC2_decided= serverC2_rcvPlugC.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvPlugC.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvPlugC.serverC2_clientIdRcv;
+  serverC2_rcvPlugC_state7= serverC2_rcvPlugC.state7;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==3 ){
+  serverC2_serverId= serverC2_rcvPlugC.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvPlugC.serverC2_proposed;
+  serverC2_decided= serverC2_rcvPlugC.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvPlugC.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvPlugC.serverC2_clientIdRcv;
+  serverC2_rcvPlugC_state7= serverC2_rcvPlugC.state7;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==2 ){
+  serverC2_serverId= serverC2_rcvPlugC.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvPlugC.serverC2_proposed;
+  serverC2_decided= serverC2_rcvPlugC.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvPlugC.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvPlugC.serverC2_clientIdRcv;
+  serverC2_rcvPlugC_state7= serverC2_rcvPlugC.state7;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==5 ){
+  serverC2_serverId= serverC2_rcvPlugC.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvPlugC.serverC2_proposed;
+  serverC2_decided= serverC2_rcvPlugC.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvPlugC.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvPlugC.serverC2_clientIdRcv;
+  serverC2_rcvPlugC_state7= serverC2_rcvPlugC.state7;
+  }
+  }
+
+  down{  serverC2_rcvPlugC.serverC2_clientIdRcv=plugC2_SendS2.plugC2_clientId;
+  serverC2_rcvPlugC.serverC2_proposed=plugC2_SendS2.plugC2_proposedValue;
+  if( plugC2_SendS2.state5==1 ){
+  plugC2_SendS2D.plugC2_server2=true;
+  plugC2_SendS2D.plugC2_server2=true;
+  plugC2_SendS2D.state5=1;
+  }
+  
+
+  if( plugC2_SendS2.state5==3 ){
+  plugC2_SendS2D.state5=3;
+  }
+  if( serverC2_rcvPlugC.state7==0 ){
+  serverC2_rcvPlugCD.state7=1;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==3 ){
+  serverC2_rcvPlugCD.state7=4;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==2 ){
+  serverC2_rcvPlugCD.state7=2;
+  }
+  
+
+  if( serverC2_rcvPlugC.state7==5 ){
+  serverC2_rcvPlugCD.state7=5;
+  }
+  }
+
+end 
+
+connector type SendFromServerConnToServer2(ThirdType17 serverC2_sendServer, ThirdType5 s2_RcvFromChannel, ThirdType17D serverC2_sendServerD, ThirdType5D s2_RcvFromChannelD)
+ define serverC2_sendServer s2_RcvFromChannel serverC2_sendServerD s2_RcvFromChannelD 
+ data int serverC2_serverId
+ data int serverC2_proposed
+ data int serverC2_decided
+ data int serverC2_clientIdSend
+ data int serverC2_clientIdRcv
+ data int serverC2_sendServer_state7
+ data int s2_decidedValue
+ data int s2_proposedValue
+ data int s2_serverId
+ data int s2_ClientId
+ data int s2_RcvFromChannel_state3
+
+ on serverC2_sendServer s2_RcvFromChannel  provided ((((serverC2_sendServer.state7==1) || (serverC2_sendServer.state7==4) ) && (((s2_RcvFromChannel.state3==0) || (s2_RcvFromChannel.s2_decidedValue==0 && s2_RcvFromChannel.state3==0)) || (s2_RcvFromChannel.s2_decidedValue!=0 && s2_RcvFromChannel.state3==0) ) ))
+  up{  if( serverC2_sendServer.state7==1 ){
+  serverC2_serverId= serverC2_sendServer.serverC2_serverId;
+  serverC2_proposed= serverC2_sendServer.serverC2_proposed;
+  serverC2_decided= serverC2_sendServer.serverC2_decided;
+  serverC2_clientIdSend= serverC2_sendServer.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_sendServer.serverC2_clientIdRcv;
+  serverC2_sendServer_state7= serverC2_sendServer.state7;
+  }
+  
+
+  if( serverC2_sendServer.state7==4 ){
+  serverC2_serverId= serverC2_sendServer.serverC2_serverId;
+  serverC2_proposed= serverC2_sendServer.serverC2_proposed;
+  serverC2_decided= serverC2_sendServer.serverC2_decided;
+  serverC2_clientIdSend= serverC2_sendServer.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_sendServer.serverC2_clientIdRcv;
+  serverC2_sendServer_state7= serverC2_sendServer.state7;
+  }
+  if( s2_RcvFromChannel.state3==0 ){
+  s2_decidedValue= s2_RcvFromChannel.s2_decidedValue;
+  s2_proposedValue= s2_RcvFromChannel.s2_proposedValue;
+  s2_serverId= s2_RcvFromChannel.s2_serverId;
+  s2_ClientId= s2_RcvFromChannel.s2_ClientId;
+  s2_RcvFromChannel_state3= s2_RcvFromChannel.state3;
+  }
+  
+
+  if( s2_RcvFromChannel.state3==0 ){
+  s2_decidedValue= s2_RcvFromChannel.s2_decidedValue;
+  s2_proposedValue= s2_RcvFromChannel.s2_proposedValue;
+  s2_serverId= s2_RcvFromChannel.s2_serverId;
+  s2_ClientId= s2_RcvFromChannel.s2_ClientId;
+  s2_RcvFromChannel_state3= s2_RcvFromChannel.state3;
+  }
+  
+
+  if( s2_RcvFromChannel.state3==0 ){
+  s2_decidedValue= s2_RcvFromChannel.s2_decidedValue;
+  s2_proposedValue= s2_RcvFromChannel.s2_proposedValue;
+  s2_serverId= s2_RcvFromChannel.s2_serverId;
+  s2_ClientId= s2_RcvFromChannel.s2_ClientId;
+  s2_RcvFromChannel_state3= s2_RcvFromChannel.state3;
+  }
+  }
+
+  down{  s2_RcvFromChannel.s2_ClientId=serverC2_sendServer.serverC2_clientIdRcv;
+  s2_RcvFromChannel.s2_proposedValue=serverC2_sendServer.serverC2_proposed;
+  if( serverC2_sendServer.state7==1 ){
+  serverC2_sendServerD.state7=0;
+  }
+  
+
+  if( serverC2_sendServer.state7==4 ){
+  serverC2_sendServerD.state7=3;
+  }
+  if( s2_RcvFromChannel.state3==0 ){
+  s2_RcvFromChannelD.state3=2;
+  }
+  
+
+  if( s2_RcvFromChannel.state3==0 ){
+  s2_RcvFromChannelD.s2_decidedValue=s2_proposedValue;
+  s2_RcvFromChannelD.state3=1;
+  }
+  
+
+  if( s2_RcvFromChannel.state3==0 ){
+  s2_RcvFromChannelD.state3=1;
+  }
+  }
+
+end 
+
+connector type SendFromServerToServerC2(ThirdType6 s2_SendToServerC, ThirdType18 serverC2_rcvServer, ThirdType18D serverC2_rcvServerD, ThirdType6D s2_SendToServerCD)
+ define s2_SendToServerC serverC2_rcvServer serverC2_rcvServerD s2_SendToServerCD 
+ data int s2_decidedValue
+ data int s2_proposedValue
+ data int s2_serverId
+ data int s2_ClientId
+ data int s2_SendToServerC_state3
+ data int serverC2_serverId
+ data int serverC2_proposed
+ data int serverC2_decided
+ data int serverC2_clientIdSend
+ data int serverC2_clientIdRcv
+ data int serverC2_rcvServer_state7
+
+ on s2_SendToServerC serverC2_rcvServer  provided (((((serverC2_rcvServer.state7==0) || (serverC2_rcvServer.state7==1)) || (serverC2_rcvServer.state7==2) ) && (s2_SendToServerC.state3==1 ) ))
+  up{  if( serverC2_rcvServer.state7==0 ){
+  serverC2_serverId= serverC2_rcvServer.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvServer.serverC2_proposed;
+  serverC2_decided= serverC2_rcvServer.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvServer.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvServer.serverC2_clientIdRcv;
+  serverC2_rcvServer_state7= serverC2_rcvServer.state7;
+  }
+  
+
+  if( serverC2_rcvServer.state7==1 ){
+  serverC2_serverId= serverC2_rcvServer.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvServer.serverC2_proposed;
+  serverC2_decided= serverC2_rcvServer.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvServer.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvServer.serverC2_clientIdRcv;
+  serverC2_rcvServer_state7= serverC2_rcvServer.state7;
+  }
+  
+
+  if( serverC2_rcvServer.state7==2 ){
+  serverC2_serverId= serverC2_rcvServer.serverC2_serverId;
+  serverC2_proposed= serverC2_rcvServer.serverC2_proposed;
+  serverC2_decided= serverC2_rcvServer.serverC2_decided;
+  serverC2_clientIdSend= serverC2_rcvServer.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_rcvServer.serverC2_clientIdRcv;
+  serverC2_rcvServer_state7= serverC2_rcvServer.state7;
+  }
+  if( s2_SendToServerC.state3==1 ){
+  s2_decidedValue= s2_SendToServerC.s2_decidedValue;
+  s2_proposedValue= s2_SendToServerC.s2_proposedValue;
+  s2_serverId= s2_SendToServerC.s2_serverId;
+  s2_ClientId= s2_SendToServerC.s2_ClientId;
+  s2_SendToServerC_state3= s2_SendToServerC.state3;
+  }
+  }
+
+  down{  s2_SendToServerC.s2_ClientId=serverC2_rcvServer.serverC2_clientIdSend;
+  s2_SendToServerC.s2_decidedValue=serverC2_rcvServer.serverC2_decided;
+  if( serverC2_rcvServer.state7==0 ){
+  serverC2_rcvServerD.state7=3;
+  }
+  
+
+  if( serverC2_rcvServer.state7==1 ){
+  serverC2_rcvServerD.state7=4;
+  }
+  
+
+  if( serverC2_rcvServer.state7==2 ){
+  serverC2_rcvServerD.state7=5;
+  }
+  if( s2_SendToServerC.state3==1 ){
+  s2_SendToServerCD.state3=0;
+  }
+  }
+
+end 
+
+connector type ServerCPlugC3(ForthType4 serverC2_sendPlug, ForthType1 plugC1_rcvServer, ForthType1D plugC1_rcvServerD, ForthType4D serverC2_sendPlugD)
+ define serverC2_sendPlug plugC1_rcvServer plugC1_rcvServerD serverC2_sendPlugD 
+ data int serverC2_serverId
+ data int serverC2_proposed
+ data int serverC2_decided
+ data int serverC2_clientIdSend
+ data int serverC2_clientIdRcv
+ data int serverC2_sendPlug_state7
+ data int plugC1_clientId
+ data int plugC1_serverId
+ data bool plugC1_server1
+ data bool plugC1_server2
+ data int plugC1_proposedValue
+ data int plugC1_decidedValue
+ data int plugC1_rcvServer_state4
+
+ on serverC2_sendPlug plugC1_rcvServer  provided (serverC2_sendPlug.serverC2_clientIdSend==plugC1_rcvServer.plugC1_clientId && (((plugC1_rcvServer.state4==0) || (plugC1_rcvServer.state4==1) ) && (((serverC2_sendPlug.state7==3) || (serverC2_sendPlug.state7==4)) || (serverC2_sendPlug.state7==5) ) ))
+  up{  if( plugC1_rcvServer.state4==0 ){
+  plugC1_clientId= plugC1_rcvServer.plugC1_clientId;
+  plugC1_serverId= plugC1_rcvServer.plugC1_serverId;
+  plugC1_server1= plugC1_rcvServer.plugC1_server1;
+  plugC1_server2= plugC1_rcvServer.plugC1_server2;
+  plugC1_proposedValue= plugC1_rcvServer.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_rcvServer.plugC1_decidedValue;
+  plugC1_rcvServer_state4= plugC1_rcvServer.state4;
+  }
+  
+
+  if( plugC1_rcvServer.state4==1 ){
+  plugC1_clientId= plugC1_rcvServer.plugC1_clientId;
+  plugC1_serverId= plugC1_rcvServer.plugC1_serverId;
+  plugC1_server1= plugC1_rcvServer.plugC1_server1;
+  plugC1_server2= plugC1_rcvServer.plugC1_server2;
+  plugC1_proposedValue= plugC1_rcvServer.plugC1_proposedValue;
+  plugC1_decidedValue= plugC1_rcvServer.plugC1_decidedValue;
+  plugC1_rcvServer_state4= plugC1_rcvServer.state4;
+  }
+  if( serverC2_sendPlug.state7==3 ){
+  serverC2_serverId= serverC2_sendPlug.serverC2_serverId;
+  serverC2_proposed= serverC2_sendPlug.serverC2_proposed;
+  serverC2_decided= serverC2_sendPlug.serverC2_decided;
+  serverC2_clientIdSend= serverC2_sendPlug.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_sendPlug.serverC2_clientIdRcv;
+  serverC2_sendPlug_state7= serverC2_sendPlug.state7;
+  }
+  
+
+  if( serverC2_sendPlug.state7==4 ){
+  serverC2_serverId= serverC2_sendPlug.serverC2_serverId;
+  serverC2_proposed= serverC2_sendPlug.serverC2_proposed;
+  serverC2_decided= serverC2_sendPlug.serverC2_decided;
+  serverC2_clientIdSend= serverC2_sendPlug.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_sendPlug.serverC2_clientIdRcv;
+  serverC2_sendPlug_state7= serverC2_sendPlug.state7;
+  }
+  
+
+  if( serverC2_sendPlug.state7==5 ){
+  serverC2_serverId= serverC2_sendPlug.serverC2_serverId;
+  serverC2_proposed= serverC2_sendPlug.serverC2_proposed;
+  serverC2_decided= serverC2_sendPlug.serverC2_decided;
+  serverC2_clientIdSend= serverC2_sendPlug.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_sendPlug.serverC2_clientIdRcv;
+  serverC2_sendPlug_state7= serverC2_sendPlug.state7;
+  }
+  }
+
+  down{  plugC1_rcvServer.plugC1_serverId=serverC2_sendPlug.serverC2_serverId;
+  plugC1_rcvServer.plugC1_decidedValue=serverC2_sendPlug.serverC2_decided;
+  if( plugC1_rcvServer.state4==0 ){
+  plugC1_rcvServerD.state4=2;
+  }
+  
+
+  if( plugC1_rcvServer.state4==1 ){
+  plugC1_rcvServerD.state4=3;
+  }
+  if( serverC2_sendPlug.state7==3 ){
+  serverC2_sendPlugD.state7=0;
+  }
+  
+
+  if( serverC2_sendPlug.state7==4 ){
+  serverC2_sendPlugD.state7=1;
+  }
+  
+
+  if( serverC2_sendPlug.state7==5 ){
+  serverC2_sendPlugD.state7=2;
+  }
+  }
+
+end 
+
+connector type ServerCPlugC4(ForthType4 serverC2_sendPlug, ForthType2 plugC2_rcvServer, ForthType2D plugC2_rcvServerD, ForthType4D serverC2_sendPlugD)
+ define serverC2_sendPlug plugC2_rcvServer plugC2_rcvServerD serverC2_sendPlugD 
+ data int serverC2_serverId
+ data int serverC2_proposed
+ data int serverC2_decided
+ data int serverC2_clientIdSend
+ data int serverC2_clientIdRcv
+ data int serverC2_sendPlug_state7
+ data int plugC2_clientId
+ data int plugC2_serverId
+ data bool plugC2_server1
+ data bool plugC2_server2
+ data int plugC2_proposedValue
+ data int plugC2_decidedValue
+ data int plugC2_rcvServer_state5
+
+ on serverC2_sendPlug plugC2_rcvServer  provided (serverC2_sendPlug.serverC2_clientIdSend==plugC2_rcvServer.plugC2_clientId && (((plugC2_rcvServer.state5==0) || (plugC2_rcvServer.state5==1) ) && (((serverC2_sendPlug.state7==3) || (serverC2_sendPlug.state7==4)) || (serverC2_sendPlug.state7==5) ) ))
+  up{  if( plugC2_rcvServer.state5==0 ){
+  plugC2_clientId= plugC2_rcvServer.plugC2_clientId;
+  plugC2_serverId= plugC2_rcvServer.plugC2_serverId;
+  plugC2_server1= plugC2_rcvServer.plugC2_server1;
+  plugC2_server2= plugC2_rcvServer.plugC2_server2;
+  plugC2_proposedValue= plugC2_rcvServer.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_rcvServer.plugC2_decidedValue;
+  plugC2_rcvServer_state5= plugC2_rcvServer.state5;
+  }
+  
+
+  if( plugC2_rcvServer.state5==1 ){
+  plugC2_clientId= plugC2_rcvServer.plugC2_clientId;
+  plugC2_serverId= plugC2_rcvServer.plugC2_serverId;
+  plugC2_server1= plugC2_rcvServer.plugC2_server1;
+  plugC2_server2= plugC2_rcvServer.plugC2_server2;
+  plugC2_proposedValue= plugC2_rcvServer.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_rcvServer.plugC2_decidedValue;
+  plugC2_rcvServer_state5= plugC2_rcvServer.state5;
+  }
+  if( serverC2_sendPlug.state7==3 ){
+  serverC2_serverId= serverC2_sendPlug.serverC2_serverId;
+  serverC2_proposed= serverC2_sendPlug.serverC2_proposed;
+  serverC2_decided= serverC2_sendPlug.serverC2_decided;
+  serverC2_clientIdSend= serverC2_sendPlug.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_sendPlug.serverC2_clientIdRcv;
+  serverC2_sendPlug_state7= serverC2_sendPlug.state7;
+  }
+  
+
+  if( serverC2_sendPlug.state7==4 ){
+  serverC2_serverId= serverC2_sendPlug.serverC2_serverId;
+  serverC2_proposed= serverC2_sendPlug.serverC2_proposed;
+  serverC2_decided= serverC2_sendPlug.serverC2_decided;
+  serverC2_clientIdSend= serverC2_sendPlug.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_sendPlug.serverC2_clientIdRcv;
+  serverC2_sendPlug_state7= serverC2_sendPlug.state7;
+  }
+  
+
+  if( serverC2_sendPlug.state7==5 ){
+  serverC2_serverId= serverC2_sendPlug.serverC2_serverId;
+  serverC2_proposed= serverC2_sendPlug.serverC2_proposed;
+  serverC2_decided= serverC2_sendPlug.serverC2_decided;
+  serverC2_clientIdSend= serverC2_sendPlug.serverC2_clientIdSend;
+  serverC2_clientIdRcv= serverC2_sendPlug.serverC2_clientIdRcv;
+  serverC2_sendPlug_state7= serverC2_sendPlug.state7;
+  }
+  }
+
+  down{  plugC2_rcvServer.plugC2_serverId=serverC2_sendPlug.serverC2_serverId;
+  plugC2_rcvServer.plugC2_decidedValue=serverC2_sendPlug.serverC2_decided;
+  if( plugC2_rcvServer.state5==0 ){
+  plugC2_rcvServerD.state5=2;
+  }
+  
+
+  if( plugC2_rcvServer.state5==1 ){
+  plugC2_rcvServerD.state5=3;
+  }
+  if( serverC2_sendPlug.state7==3 ){
+  serverC2_sendPlugD.state7=0;
+  }
+  
+
+  if( serverC2_sendPlug.state7==4 ){
+  serverC2_sendPlugD.state7=1;
+  }
+  
+
+  if( serverC2_sendPlug.state7==5 ){
+  serverC2_sendPlugD.state7=2;
+  }
+  }
+
+end 
+
+connector type PlugCToPlug2(ThirdType10 plugC2_sendClient, ThirdType2 plug2_recieveFromServer, ThirdType2D plug2_recieveFromServerD, ThirdType10D plugC2_sendClientD)
+ define plugC2_sendClient plug2_recieveFromServer plug2_recieveFromServerD plugC2_sendClientD 
+ data int plugC2_clientId
+ data int plugC2_serverId
+ data bool plugC2_server1
+ data bool plugC2_server2
+ data int plugC2_proposedValue
+ data int plugC2_decidedValue
+ data int plugC2_sendClient_state5
+ data int plug2_proposedValue
+ data int plug2_decidedValueS
+ data int plug2_decidedValue
+ data bool plug2_trigger
+ data int plug2_serverId
+ data int plug2_recieveFromServer_state1
+
+ on plugC2_sendClient plug2_recieveFromServer  provided (((((plug2_recieveFromServer.state1==1) || (plug2_recieveFromServer.state1==3)) || (plug2_recieveFromServer.state1==2) ) && ((plugC2_sendClient.state5==2) || (plugC2_sendClient.state5==3) ) ))
+  up{  if( plug2_recieveFromServer.state1==1 ){
+  plug2_proposedValue= plug2_recieveFromServer.plug2_proposedValue;
+  plug2_decidedValueS= plug2_recieveFromServer.plug2_decidedValueS;
+  plug2_decidedValue= plug2_recieveFromServer.plug2_decidedValue;
+  plug2_trigger= plug2_recieveFromServer.plug2_trigger;
+  plug2_serverId= plug2_recieveFromServer.plug2_serverId;
+  plug2_recieveFromServer_state1= plug2_recieveFromServer.state1;
+  }
+  
+
+  if( plug2_recieveFromServer.state1==3 ){
+  plug2_proposedValue= plug2_recieveFromServer.plug2_proposedValue;
+  plug2_decidedValueS= plug2_recieveFromServer.plug2_decidedValueS;
+  plug2_decidedValue= plug2_recieveFromServer.plug2_decidedValue;
+  plug2_trigger= plug2_recieveFromServer.plug2_trigger;
+  plug2_serverId= plug2_recieveFromServer.plug2_serverId;
+  plug2_recieveFromServer_state1= plug2_recieveFromServer.state1;
+  }
+  
+
+  if( plug2_recieveFromServer.state1==2 ){
+  plug2_proposedValue= plug2_recieveFromServer.plug2_proposedValue;
+  plug2_decidedValueS= plug2_recieveFromServer.plug2_decidedValueS;
+  plug2_decidedValue= plug2_recieveFromServer.plug2_decidedValue;
+  plug2_trigger= plug2_recieveFromServer.plug2_trigger;
+  plug2_serverId= plug2_recieveFromServer.plug2_serverId;
+  plug2_recieveFromServer_state1= plug2_recieveFromServer.state1;
+  }
+  if( plugC2_sendClient.state5==2 ){
+  plugC2_clientId= plugC2_sendClient.plugC2_clientId;
+  plugC2_serverId= plugC2_sendClient.plugC2_serverId;
+  plugC2_server1= plugC2_sendClient.plugC2_server1;
+  plugC2_server2= plugC2_sendClient.plugC2_server2;
+  plugC2_proposedValue= plugC2_sendClient.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_sendClient.plugC2_decidedValue;
+  plugC2_sendClient_state5= plugC2_sendClient.state5;
+  }
+  
+
+  if( plugC2_sendClient.state5==3 ){
+  plugC2_clientId= plugC2_sendClient.plugC2_clientId;
+  plugC2_serverId= plugC2_sendClient.plugC2_serverId;
+  plugC2_server1= plugC2_sendClient.plugC2_server1;
+  plugC2_server2= plugC2_sendClient.plugC2_server2;
+  plugC2_proposedValue= plugC2_sendClient.plugC2_proposedValue;
+  plugC2_decidedValue= plugC2_sendClient.plugC2_decidedValue;
+  plugC2_sendClient_state5= plugC2_sendClient.state5;
+  }
+  }
+
+  down{  plug2_recieveFromServer.plug2_serverId=plugC2_sendClient.plugC2_serverId;
+  plug2_recieveFromServer.plug2_decidedValueS=plugC2_sendClient.plugC2_decidedValue;
+  if( plug2_recieveFromServer.state1==1 ){
+  plug2_recieveFromServerD.state1=10;
+  }
+  
+
+  if( plug2_recieveFromServer.state1==3 ){
+  plug2_recieveFromServerD.state1=9;
+  }
+  
+
+  if( plug2_recieveFromServer.state1==2 ){
+  plug2_recieveFromServerD.state1=8;
+  }
+  if( plugC2_sendClient.state5==2 ){
+  plugC2_sendClientD.state5=0;
+  }
+  
+
+  if( plugC2_sendClient.state5==3 ){
+  plugC2_sendClientD.state5=1;
+  }
+  }
+
+end 
+
+compound type Root
+ component CustomerPlugQuorum2 plug1(1)
+ component CustomerPlugQuorum2D plug1D
+ component CustomerPlugQuorum1 plug2(2)
+ component CustomerPlugQuorum1D plug2D
+ component plugConnector1 plugC1(1)
+ component plugConnector1D plugC1D
+ component plugConnector2 plugC2(2)
+ component plugConnector2D plugC2D
+ component ServerConnector1 serverC1(1)
+ component ServerConnector1D serverC1D
+ component ServerConnector2 serverC2(2)
+ component ServerConnector2D serverC2D
+ component Server1 s1(1)
+ component Server1D s1D
+ component Server2 s2(2)
+ component Server2D s2D
+
+ connector Singleton1 c1(plug1.plug1_sendToClient, plug1D.plug1_sendToClientD)
+ connector Singleton2 c2(plug2.plug2_sendToClient, plug2D.plug2_sendToClientD)
+ connector Singleton5 c5(plug1.plug1_switchB, plug1D.plug1_switchBD)
+ connector Singleton6 c6(plug2.plug2_switchB, plug2D.plug2_switchBD)
+ connector Singleton9 c9(plug1.plug1_ticker, plug1D.plug1_tickerD)
+ connector Singleton10 c10(plug2.plug2_ticker, plug2D.plug2_tickerD)
+ connector Singleton17 c17(serverC1.serverC1_loose, serverC1D.serverC1_looseD)
+ connector Singleton18 c18(serverC1.serverC1_msglost, serverC1D.serverC1_msglostD)
+ connector Singleton19 c19(serverC2.serverC2_loose, serverC2D.serverC2_looseD)
+ connector Singleton20 c20(serverC2.serverC2_msglost, serverC2D.serverC2_msglostD)
+ connector Singleton51 c51(plug1.plug1_singleton1, plug1D.plug1_singleton1D)
+ connector Singleton61 c61(plug2.plug2_singleton1, plug2D.plug2_singleton1D)
+ connector Singleton71 c71(s1.s1_singleton1, s1D.s1_singleton1D)
+ connector Singleton81 c81(s2.s2_singleton1, s2D.s2_singleton1D)
+ connector Singleton52 c52(plug1.plug1_singleton2, plug1D.plug1_singleton2D)
+ connector Singleton62 c62(plug2.plug2_singleton2, plug2D.plug2_singleton2D)
+ connector SendFromPlugToPlugConnector1 PlugToPlugConn1(plug1.plug1_sendToChannel, plugC1.plugC1_rcvPlug, plug1D.plug1_sendToChannelD, plugC1D.plugC1_rcvPlugD)
+ connector SendFromPlugConToServerCon1 plugConn1Toserv1Conn(plugC1.plugC1_SendS1, serverC1.serverC1_rcvPlugC, plugC1D.plugC1_SendS1D, serverC1D.serverC1_rcvPlugCD)
+ connector SendFromPlugConToServerCon2 plugConn1Toserv2Conn(plugC1.plugC1_SendS2, serverC2.serverC2_rcvPlugC, plugC1D.plugC1_SendS2D, serverC2D.serverC2_rcvPlugCD)
+ connector SendFromServerConnToServer1 serverConnToServer(serverC1.serverC1_sendServer, s1.s1_RcvFromChannel, serverC1D.serverC1_sendServerD, s1D.s1_RcvFromChannelD)
+ connector SendFromServerToServerC1 server1ToserverC1(s1.s1_SendToServerC, serverC1.serverC1_rcvServer, serverC1D.serverC1_rcvServerD, s1D.s1_SendToServerCD)
+ connector ServerCPlugC1 serverC1ToplugC1(serverC1.serverC1_sendPlug, plugC1.plugC1_rcvServer, plugC1D.plugC1_rcvServerD, serverC1D.serverC1_sendPlugD)
+ connector ServerCPlugC2 serverC1ToplugC2(serverC1.serverC1_sendPlug, plugC2.plugC2_rcvServer, plugC2D.plugC2_rcvServerD, serverC1D.serverC1_sendPlugD)
+ connector PlugCToPlug1 plugC1Toplug1(plugC1.plugC1_sendClient, plug1.plug1_recieveFromServer, plug1D.plug1_recieveFromServerD, plugC1D.plugC1_sendClientD)
+ connector SendFromPlugToPlugConnector2 PlugToPlugConn2(plug2.plug2_sendToChannel, plugC2.plugC2_rcvPlug, plug2D.plug2_sendToChannelD, plugC2D.plugC2_rcvPlugD)
+ connector SendFromPlugConToServerCon3 plugConn2Toserv1Conn(plugC2.plugC2_SendS1, serverC1.serverC1_rcvPlugC, plugC2D.plugC2_SendS1D, serverC1D.serverC1_rcvPlugCD)
+ connector SendFromPlugConToServerCon4 plugConn2Toserv2Conn(plugC2.plugC2_SendS2, serverC2.serverC2_rcvPlugC, plugC2D.plugC2_SendS2D, serverC2D.serverC2_rcvPlugCD)
+ connector SendFromServerConnToServer2 serverConn2ToServer2(serverC2.serverC2_sendServer, s2.s2_RcvFromChannel, serverC2D.serverC2_sendServerD, s2D.s2_RcvFromChannelD)
+ connector SendFromServerToServerC2 server2ToserverC2(s2.s2_SendToServerC, serverC2.serverC2_rcvServer, serverC2D.serverC2_rcvServerD, s2D.s2_SendToServerCD)
+ connector ServerCPlugC3 serverC2ToplugC1(serverC2.serverC2_sendPlug, plugC1.plugC1_rcvServer, plugC1D.plugC1_rcvServerD, serverC2D.serverC2_sendPlugD)
+ connector ServerCPlugC4 serverC2ToplugC2(serverC2.serverC2_sendPlug, plugC2.plugC2_rcvServer, plugC2D.plugC2_rcvServerD, serverC2D.serverC2_sendPlugD)
+ connector PlugCToPlug2 plugC2Toplug2(plugC2.plugC2_sendClient, plug2.plug2_recieveFromServer, plug2D.plug2_recieveFromServerD, plugC2D.plugC2_sendClientD)
+end 
+
+
+component Root r 
+
+end
+

@@ -1,0 +1,143 @@
+% Macros needed for comprehensive examination presentation
+% December 18, 2012
+
+\RequirePackage{xspace}
+
+% -- For code manipulation -- %
+\newcommand{\cci}[1]{{\small\texttt{#1}}}
+\newcommand{\chci}[1]{\cci{#1}}
+\newcommand{\CodeIn}[1]{{\small\texttt{#1}}}
+\newcommand{\todo}[1]{{\bf TODO }\textcolor{red}{#1}}
+\newcommand{\numberIn}[1]{{\bf (#1)}}
+
+% -- Simplifications for definitions -- %
+\newcommand{\ap}{$\mathbb{A}$}
+\newcommand{\map}{\mathbb{A}}
+\newcommand{\eval}{$\mathbb{V}$}
+\newcommand{\meval}{\mathbb{V}}
+\newcommand{\mphi}{M_{\phi}}
+\newcommand{\mpsi}{M_{\psi}}
+
+% -- tool name -- %
+\newcommand{\mytool}{\ensuremath{\{\mathcal{P}\}\mathcal{S}\{\mathcal{Q}\}}} % the name of our tool
+\newcommand{\thislanguage}{\ensuremath{\mathcal{AIG-C}} }
+\newcommand{\biptool}{\ensuremath{\mathcal{BIP\{I\}}}}
+\newcommand{\psqlanguage}{\ensuremath{\mathcal{TINY}}}
+\newcommand{\aigcircuit}{\ensuremath{\mathcal{C}}}
+
+\newcommand{\pair}[2]{\ensuremath{(#1, #2)}}
+%% formulae
+\newcommand{\Pm}{\ensuremath{\mathcal{S}}\xspace}         % program
+\newcommand{\Sp}{\ensuremath{\mathcal{S}}\xspace}         % specification
+\newcommand{\cfor}[1]{\MATH{\mathit{cfor}[#1]}}               % correction formula for inadequate vocabulary
+\newcommand{\for}[1]{\MATH{\mathit{fm}(#1)}}                     % formula corresponding to an assignment
+\newcommand{\Fo}{\ensuremath{\mathcal{F}}\xspace}
+\newcommand{\Pre}{\ensuremath{\mathcal{P}}}                                % precondition
+\newcommand{\Post}{\ensuremath{\mathcal{Q}}}                              % postcondition
+
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{darkgreen}{rgb}{0.0,0.6,0.0}
+
+\usepackage{listings}
+\lstset{ %
+language=C,                % choose the language of the code
+basicstyle=\tiny,       % the size of the fonts that are used for the code
+%numberstyle=\tiny,      % the size of the fonts that are used for the line-numbers
+frame=tb,
+rulesep=.4pt,
+mathescape, % Allows escaping to (La)TeX mode within $$,
+stringstyle=\color{redb},
+morekeywords={Boolean, dotogether, foreach, endfor, endif, elsif, Let},
+showstringspaces = false,
+basicstyle=\scriptsize\ttfamily,
+keywordstyle=\color{darkblue}\bf,
+commentstyle=\color{darkgreen},
+%numbers=left,
+stepnumber=1,
+%
+breaklines=true
+}
+
+
+
+% -- For continuing enumerations -- %
+\newcounter{savedenum}
+\newcommand*{\saveenum}{\setcounter{savedenum}{\theenumi}}
+\newcommand*{\resume}{\setcounter{enumi}{\thesavedenum}}
+
+%-------------- Dr. Zaraket's macros ------------------%
+%%%%%%%%%%%%%%%%%%%%%%% GENERAL MATH SYMBOLS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Adj}{\mathop{\rm Adj}\nolimits}
+\newcommand{\abs}[1]{\left| #1\right|}
+\newcommand{\card}[1]{\left| #1\right|}
+\newcommand{\ar}{\rightarrow}
+%\newcommand{\ar}{\longrightarrow}
+\newcommand{\al}{\alpha}
+\renewcommand{\b}[1]{\overline{#1}}
+\newcommand{\cat}{\mathbin{\frown}}
+\newcommand{\choice}{\mbox{$[\hspace*{-1.0pt}]$}}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\renewcommand{\d}{\, . \,}      % separator in quantified formulae
+\newcommand{\df}{\triangleq}
+%\newcommand{\df}{\mbox{$\:\stackrel{\rm df}{=\!\!=}\:$}}
+\newcommand{\dn}{\mbox{$\hspace{-0.1em}\downarrow\hspace{-0.1em}$}}
+\newcommand{\Ex}{\mathop{\rm Ex}}
+\newcommand{\es}{``"}   %empty string
+\newcommand{\expect}[1]{{\rm E}\left[ #1 \right]}
+\newcommand{\expectsq}[1]{{\rm E}^2\left[ #1 \right]}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\renewcommand{\ge}{\geqslant}
+\newcommand{\given}{\mid}
+\newcommand{\halfind}{\hspace*{1.5em}}
+\newcommand{\ifof}{\Longleftrightarrow} % logical equivalence
+\newcommand{\img}{\mathrm{Image}}
+\newcommand{\ints}{\cap}
+\renewcommand{\l}{\ell}
+\newcommand{\la}[1]{\mbox{$\, \stackrel{#1}{\rightarrow} \,$}}
+\renewcommand{\le}{\leqslant}
+\newcommand{\lra}{\mbox{$\longrightarrow$}}
+%\newcommand{\mod}{\ \mathrm{mod}\ }
+\newcommand{\oneton}{\{1,\,\ldots, n\}}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\prob}[1]{\Pr\left\{ #1 \right\}}
+\newcommand{\pind}{\hspace*{3.0em}}
+\newcommand{\pj}{\!\upharpoonright\!}
+\newcommand{\proj}{\pj}
+\newcommand{\preimg}{\mathrm{PreImage}}
+\newcommand{\pl}{\!\parallel\!}
+\newcommand{\s}{\mbox{$\hspace{-1pt}-\hspace{-2pt}$}}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+%\newcommand{\set}[1]{\{#1\}}
+\newcommand{\seq}{\approx}
+\newcommand{\spc}{\mbox{\vspace{-0.25in}}}
+\newcommand{\st}[2]{\mbox{$\stackrel{#1}{#2}$}} % abbreviated stackrel
+%\newcommand{\st}{\ | \ }
+\newcommand{\sub}{\subseteq}
+\newcommand{\twodots}{\mathinner{\ldotp\ldotp}}
+\newcommand{\tiff}{\textup{\ iff\ }}
+\newcommand{\tl}[1]{\mbox{$\tilde{#1}$}}% abbreviated tilde
+\newcommand{\tpl}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\un}{\cup}
+\newcommand{\union}{\bigcup}
+\newcommand{\up}{\mbox{$\hspace{-0.1em}\uparrow\hspace{-0.1em}$}}
+\newcommand{\Var}{\mathop{\rm Var}\nolimits}
+\newcommand{\variance}[1]{{\rm Var}\left[ #1 \right]}
+\newcommand{\w}{\omega}
+
+
+%%%%%%%%%%%%%%%%%%% Ints, Reals, etc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\reals}{{\mathbb R}}
+\newcommand{\integers}{{\mathbb Z}}
+\newcommand{\naturals}{{\mathbb N}}
+\newcommand{\nat}{\naturals}
+\newcommand{\nats}{\naturals}
+\newcommand{\rationals}{{\mathbb Q}}
+\newcommand{\complex}{{\mathbb C}}
+\newcommand{\complexes}{{\mathbb C}}
+
+\renewcommand{\iff}{\equiv}
+%\renewcommand{\iff}{\Leftrightarrow}
+\newcommand{\imp}{\Rightarrow}
+\newcommand{\ev}{\equiv}

@@ -1,0 +1,33 @@
+\begin{table}[tb]
+\caption{SVCOMP'13 results}
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\Pm & status & time (s) & gold  & silver & bronze \\ \hline
+locks\_5\_safe & \color{green}{safe} & 0.28 & 0.4 & 1.2 & 1.3 \\ \hline
+locks\_6\_safe & \color{green}{safe} & 0.32 & 0.43 & 1.3 & 1.6 \\ \hline
+locks\_7\_safe & \color{green}{safe} & 0.52 & 0.4 & 1.3 & 1.9 \\ \hline
+locks\_8\_safe & \color{green}{safe} & 0.62 & 0.4 & 1.3 & 2.3 \\ \hline
+locks\_9\_safe & \color{green}{safe} & 1.05 & 0.39 & 1.3 & 3.5 \\ \hline
+locks\_10\_safe & \color{green}{safe} & 0.88 & 0.4 & 1.3 & 6.4 \\ \hline
+locks\_11\_safe & \color{green}{safe} & 3.42 & 0.39 & 1.4 & 24 \\ \hline
+locks\_12\_safe & \color{green}{safe} & 4.21 & 0.4 & 1.4 & 110 \\ \hline
+locks\_13\_safe & \color{green}{safe} & 4.18 & 0.43 & 1.4 & 100 \\ \hline
+locks\_14\_safe & \color{green}{safe} & 5.9 & 0.4 & 1.4 & 100 \\ \hline
+locks\_15\_safe & \color{green}{safe} & 6.83 & 0.4 & 1.4 & 100 \\ \hline
+locks\_14\_unsafe & \color{green}{unsafe} & 0.99 & 3.2 & 1.6 & 1.8 \\ \hline
+locks\_15\_unsafe & \color{green}{unsafe} & 0.91 & 4.2 & 1.6 & 1.8 \\ \hline
+\hline
+Average & N/A & 2.316 & 0.911 & 1.377 & 34.969 \\ \hline
+\hline
+array\_safe & \color{green}{safe} & 0.116 & 0.05 & 0.15 & 0.48 \\ \hline
+array\_unsafe & \color{green}{unsafe} & 0.091 & 0.09 & 0.47 & 0.46 \\ \hline
+count\_up\_down\_s & \color{green}{safe} & 0.137 & 0.28 & {\bf \color{red}{450}} & 0.39 \\ \hline
+count\_up\_down\_u & \color{green}{unsafe} & 0.095 & 0.04 & 0.15 & 0.43 \\ \hline
+invert\_string\_s & \color{green}{safe} & 1.808 & 0.03 & 14 & {\bf \color{red}{0.56}} \\ \hline
+invert\_string\_u & \color{green}{unsafe} & 0.266 & 0.11 & 10 & 0.68 \\ \hline
+\hline
+Average & N/A & 0.419 & 0.100 & 79.128 & 0.500 \\ \hline
+\end{tabular}
+\label{tb:svcomp}
+\end{table}

@@ -1,0 +1,130 @@
+% First Order Logic
+\begin{frame}{First Order Logic}
+  \begin{itemize}
+    \item Terms: \begin{itemize} \item constants (0,1), \item scalar variables (x,y), \item arithmetic and functional operations over terms (x+y, f(x,y))
+      \end{itemize}
+    \item Atomic propositions: Boolean variables (b), predicate operations over terms (f(x,y) <y-1)
+    \item Propositions: 
+    \begin{itemize}\item Atomic propositions, 
+        \item Boolean operations over Propositions (x< y and b),
+        \item Universal and existential quantifiers over scalar and Boolean variables ($\forall x,y,z. (x\le y \wedge y\le z) \implies (x \le z)$)
+   \end{itemize}
+  \end{itemize}  
+%%  
+%%  \begin{itemize}
+%%  	\item
+%%	 Scalars.
+%%	\item 
+%%	 Boolean formulas over:
+%%	 \begin{enumerate}
+%%	  \item 
+%%	   Binary and unary arithmetic and boolean operators.
+%%	  \item
+%%	   Universal and Existential quantifiers of scalar variables~\cite{bradley2007calculus}.
+%%	 \end{enumerate}
+%%	\item e.g. $\forall{i} \in [0\dots10], i < n \imp a[i] == e$
+%%  \end{itemize}
+\end{frame}
+
+\begin{frame}{AIG and sequential circuits}
+\begin{definition}
+  A {\em sequential circuit } is a tuple $C = \left((V,E),G,O)\right)$ where
+\begin{itemize}
+ \item $(V,E)$ is a directed acyclic graph 
+ \item $G: V \mapsto types$ maps vertices to their types 
+ \begin{itemize} \item {\em primary inputs, registers} and {\em logic gates}\end{itemize}
+ \item $O \subseteq V$ primary outputs of $C$
+ \item An AIG is sequential circuit such as
+ \begin{itemize}
+  \item $types = \set{primary~input, register, 2~bit~AND~gate, inverter}$
+ \end{itemize}
+\end{itemize}
+\end{definition}
+\end{frame}
+
+\begin{frame}{AIG registers and gates}
+\begin{itemize}
+ \item An AIG register node has two fan-ins
+ \begin{enumerate}
+  \item initial value function (can be $true$, $false$, dont-care)
+  \item a next state function
+ \end{enumerate}
+ \item An AIG AND gate has two input fan-ins
+ \item An AIG Inverter has one input fan-in
+\end{itemize}
+\end{frame}
+
+%%\begin{frame}{AIG}
+%% \begin{definition}
+%%  An AIG is a sequential circuit $C = \left((V,E),G,O)\right)$ such that
+%% \end{definition}
+%% \begin{itemize}
+%%  \item $(V,E)$ is acyclic
+%%  \item $types = \set{primary~input, register, 2~bit~AND~gate, inverter}$
+%%  \item For simplicity, inverters are labels on the edges 
+%% \end{itemize}
+%%\end{frame}
+
+\begin{frame}{Advantages of AIG encoding}
+\begin{enumerate}
+  \item More succinct than CNF
+  \item State-holding while CNF is state free
+  \begin{itemize}
+   \item preserves the structure of the program
+   \item removes the necessity to unroll loops
+  \end{itemize}
+  \item Allows the reuse of subcomponents of the AIG 
+  \item There is a wide range of automatic analysis techniques for AIG not applicable to CNF
+ \end{enumerate}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Software encoding}
+\begin{itemize}
+ \item \thislanguage{} is a software interpretation of an AIG
+\end{itemize}
+\begin{Verbatim}[frame=single,fontsize=\relsize{-2.5}]
+declarations of variables //registers
+declarations of wires //named intermediate results, outputs
+
+definition of wires 
+  //assignment statements binding wire values to expressions
+
+initial value definitions 
+ //assignment statements binding variables to their initial value gates
+
+while (true) {
+    next state function definitions 
+      //assignment statements binding variables to their next state 
+      //value fucntions
+}
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Example}
+\begin{itemize}
+ \item Consider the following example of a two bits counter
+\end{itemize}
+\begin{Verbatim}[frame=single,fontsize=\relsize{-2.5}]
+// Block 1:
+int x; // this represents two registers
+
+// Block 2: skipped since no wires
+
+// Block 3: initial value for registers
+x = 0; 
+
+// Block 4: next state computation 
+while (true) {
+   // this statement signals that everything inside it is done
+   // at the same clock cycle
+   @dotogether {
+      x = (x == 0)? 1 :
+          (x == 1)? 2 :
+          (x == 2)? 3 :
+          0;
+   }
+}
+\end{Verbatim}
+\end{frame}

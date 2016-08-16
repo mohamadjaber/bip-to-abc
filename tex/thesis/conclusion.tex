@@ -1,0 +1,40 @@
+In this thesis, we presented two techniques with supporting tools, \mytool{} and \biptool{}, that target the verification of the imperative
+programs and embedded systems.
+\mytool~is a tool that takes 
+an imperative program \Pm with a specification,
+a precondition and postcondition pair \pair{\Pre}{\Post},
+and checks
+whether \Pm satisfies the specification. This check 
+is performed  within a 
+bound $b$ on the domain of the program and specification
+variables (\prob);
+i.e. when the bounded inputs of \Pm satisfy \Pre, 
+the outputs of \Pm satisfy \Post. 
+The tool translates the problem \prob~
+into an equisatisfiable AIG.
+\biptool{} is a tool that 
+takes an input 
+BIP design with a set of optional specifications, 
+and translates it in an equisatisfiable AIG, having 
+its own customized execution engine. 
+
+Both tools pass the generated AIGs to the AIG synthesis
+and verification tool ABC for
+reduction and model checking. ABC employs several reduction 
+algorithms that can be used to reduce the size of the 
+AIG and thus the size of the decision problem. 
+ABC also includes a set of different proof algorithms
+that can be used to efficiently verify the AIGs generated
+by \mytool{} and \biptool{}. 
+
+As future work, we plan to extend \mytool{} with support 
+for LTL specifications, specifically {\em System Verilog
+Assertions} SVA. We will devise a synthesis algorithm
+that generates AIGs from SVAs and use ABC to model check
+designs annotated with SVAs. Furthermore, 
+we plan to extend \biptool{} with more customization
+to the execution engine, specifically by allowing the engine
+to execute multiple interactions in parallel. We envision
+that this parallelism will allow for the generation 
+of more efficient AIGs, and thus improve the 
+verification results.
