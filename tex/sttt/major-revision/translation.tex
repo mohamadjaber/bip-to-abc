@@ -78,7 +78,9 @@ The enable wire $B_i.p_j.e$ is \true when there exists a transition $\tau$ label
 
 Array element $\mathit{ie}[j]$ corresponding to interaction $a_j$ is evaluated to \true when the guard of $a_j$ is \true and all its ports are enabled.
 Array element $ip[j]$ is evaluated to \true when $ie[j]$ is \true and $a_j$ has higher priority than other enabled interactions. 
-Array element $is[j]$ is evaluated to \true when $ip[j]$ is true either $a_j$ is selected ($selector$ equals to $j$) or the selected interaction is not enabled and $j$ is the first enabled interaction greater with an index greater than $j$. 
+\redbox{
+Array element $is[j]$ is evaluated to \true when $ip[j]$ is true and either (1) $a_j$ is selected ($selector$ equals to $j$), or (2) the selected interaction is not enabled and all interactions with index greater than $j$ are not enabled. 
+}
 The Boolean bit-vector $b$ is redundant with wire $is$ and is declared to simplify the proof of Theorem \ref{theorem:correct}. 
 The use of a non-deterministic selector is added for fairness. 
 The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction $a_k$ (i.e., $is[k]$ is \true) involving $B_i.p_j$.
@@ -98,7 +100,7 @@ The selected wire $B_i.p_j.s$ is \true when there exists a selected interaction 
   foreach $j \in [1..|J|]$ 
     append $ie[j] := a_j.guard \wedge \bigwedge_{p\in a_i.P} component(p).p.e$ to  wiredef-list 
     append $ip[j] := ie[j] \wedge \,(\forall k \neq j: ie[k] \Rightarrow a_k < a_j)$ to  wiredef-list 
-    append $is[j] := ip[j] \wedge \,(selector = j \vee$ $(\lnot ip[selector] \land \forall k > j: \neg ip[k])$ to  wiredef-list 
+    append $is[j] := ip[j] \wedge \,\big(selector = j \, \vee$ $(\lnot ip[selector] \land \forall k > j: \neg ip[k])\big)$ to  wiredef-list 
   endfor
   
   // iterate over components

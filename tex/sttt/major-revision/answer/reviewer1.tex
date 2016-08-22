@@ -23,14 +23,12 @@ but as explained by the authors, since the current implementation of DFinder
 does not consider transfer of data between components it is only applicable 
 to a restricted class of systems.
 
-\done
-\answer{TODO}
+
+\answer{add a sentence, add reference Simon, Mohamad}
 
 As shown by the experimental results, the verification with ABC on the AIGs 
 generated from BIP scaled better to large systems than existing NuSMV-based 
 model-checking approaches for BIP.
-
-\answer{TODO}
 
 However, such results are mainly due existing reduction algorithms 
 implemented in ABC, the contribution of the paper regarding verification of 
@@ -40,8 +38,7 @@ Moreover, these transformations are the core results of the paper, but their
 presentation should be improved as they lack too many details (apart from 
 Section 2).
 
-\answer{TODO}
-
+\answer{TODO - Fadi will include a paragraph on selecting and running ABC algorithms}
 
 For instance, Section 3 is too short and I would expect it to include a 
 proper (formal) definition of the semantics of one loop programs.
@@ -50,10 +47,10 @@ informally and without the necessary details, which make them not very
 convincing and strongly limits their interest.
 For these reasons I think the paper cannot be accepted in its present form, 
 and can only be considered for publication if (i) better definitions of the 
-semantics of OLP and AID are provided, and if (ii) proofs are updated w.r.t. 
+semantics of OLP and AIG are provided, and if (ii) proofs are updated w.r.t. 
 these semantics and properly formalized.
 
-\answer{TODO}
+\answer{TODO - Fadi re-structure section 3 to clearly separate syntax and semantics and include semantics with definition - And Update section 5.1 (Proof)}
 
 
 My other comments and suggestions are provided below.
@@ -61,6 +58,7 @@ My other comments and suggestions are provided below.
 \begin{itemize}
 \item p.1: "Runtime verification [...] exhibit expensive [...]." $\rightarrow$ "Runtime 
 verification [...] exhibitS expensive [...]"
+\done
 \item p.2: "However, DFinder [...] only the verification of deadlock-freedom.": 
 This is not correct, the method is applicable to the verification of any 
 safety property, although being based on abstractions it performs better for 
@@ -130,9 +128,13 @@ thing.
 \item p.7: "fanouts": There is no proper definition of fanouts whereas there is 
 one for fanins. Please add one (definitions of fanins and fanouts could be 
 factorized using "resp.").
+\answer{TODO Fadi}
+
 \item p.8, Th.1: "[...] the set of traces of P is equal to the set of traces of 
 A.": Technically, traces of P and traces of A are different mathematical 
 objects, please establish correspondence between the two.
+\answer{TODO Fadi}
+
 \item p.8, Sec.5: "[...] with its own customized execution engine." $\rightarrow$ "[...] 
 including an encoding of the semantics of interactions and priorities."
 \item p.9, 1.: "Currently, [...] to avoid executing conflicting interactions. Two 

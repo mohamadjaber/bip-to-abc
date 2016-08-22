@@ -18,7 +18,7 @@ translations have already been developed for several high level models, such
 as the synchronous languages. For instance, Esterel can be compiled to Verilog
 or BLIF (see the Columbia Esterel Compiler). How does your method differ?
 
-\answer{TODO}
+\answer{TODO Fadi}
 
 I think the interesting part is the generation of the scheduler and the
 detection of the properties, which I think should be expanded at the expense
@@ -29,7 +29,7 @@ you use DFinder to generate the corresponding invariant? Also, it is not clear
 how you define the invariants. You show them in the benchmarks. But are these
 part of the BIP specification, or are they defined separately?
 
-\answer{TODO}
+\answer{TODO Jaber - user defined invariant or predefined patterns such as deadlock (no interaction is enabled)}
 
 
 Regarding the scheduler, you describe the procedure in Section 5. Here, it
@@ -37,7 +37,12 @@ would be easier for the reader if you explained the method by which you
 activate the interactions, rather than dividing the procedure into the various
 steps. Essentially you need to select an interaction, and you build a circuit
 to do so. Describe the circuit, and perhaps put a picture showing how the
-different arrays are related. I was in particular struck by this statement:
+different arrays are related.
+
+\answer{TODO Fadi and Mohamad} 
+
+
+I was in particular struck by this statement:
 
 "Currently, one interaction is selected to avoid executing conflicting
 interactions."
@@ -51,7 +56,7 @@ verification account for all possible selections? But still, not for
 concurrent selections?
 
 
-\answer{TODO}
+\answer{Jaber TODO}
 
 
 It would be extremely interesting to compare the OLP to the code that is
@@ -69,7 +74,8 @@ you were to generate NuSMV code out of the OLP? How would NuSMV perform
 compared to the original code? Also, you mention you perform certain
 reductions outside ABC. Do you include these reductions also for NuSMV?
 
-\answer{TODO}
+\answer{TODO, extend the related work, 
+as we indicated in the related work section our technique could benefit from the translation from BIP to NuSMV however, we have already done a tool that does translation from olp to aig...}
 
 A few minor things:
 
