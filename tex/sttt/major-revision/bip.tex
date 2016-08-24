@@ -4,7 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 We recall the necessary concepts of the BIP framework~\cite{bip11}.
-BIP allows to construct systems by superposing three layers of desin: Behavior, Interaction, and Priority.
+BIP allows to construct systems by superposing three layers of \redbox{design}: Behavior, Interaction, and Priority.
 The \emph{behavior} layer consists of a set of atomic components represented by transition systems. 
 The \emph{interaction} layer provides the collaboration between components. 
 Interactions are described using sets of ports. 
@@ -51,7 +51,7 @@ destination) location and $p$ is a port through which an interaction with anothe
 
 In the sequel we use the dot notation.
 Given a transition $\tau = (l,p,g_\tau,f_\tau,l')$, $\tau.\source$, $\tau.\port$, $\tau.\guard$, $\tau.\func$, and $\tau.dest$ denote $l$, $p$, $g_\tau$, $f_\tau$, and $l'$, respectively.
-Also, the set of variables used in a transition is defined as $\var(f_\tau) = \{x \in X \mid x:= f^x(X) \in f_\tau\}$.
+Also, the set of variables used in a transition is defined as $\var(f_\tau) = \{x \in X \mid \redbox{(x,f^x(X)) \in f_\tau}\}$
 Given an atomic component $B$, $B.P$ denotes the set of ports of the atomic component $B$, $B.L$ denotes its set of locations, etc.
 
 Given a set $X$ of variables, we denote by $\valu{X}$ the set of valuations
@@ -59,8 +59,8 @@ defined on $X$. Formally, $\valu{X} = \{ \sigma : X \rightarrow \mathit{\Data}\}
 $\mathit{\Data}$ is the set of all values possibly taken by variables in $X$.
 
 %
-\paragraph{Semantics of Atomic Components.}
-The semantics of an atomic component is an LTS over configurations and ports, formally defined as follows:
+%\paragraph{Semantics of Atomic Components.}
+%The semantics of an atomic component is an LTS over configurations and ports, formally defined as follows:
 %
 \begin{definition}[Semantics of Atomic Components]
 \label{def:semantic-atom}

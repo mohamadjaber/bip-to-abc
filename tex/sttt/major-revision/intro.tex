@@ -53,8 +53,8 @@ atomic components~\cite{bip11}.
 BIP makes use of (1) DFinder~\cite{dfinder}, a compositional  
 and incremental verification tool-set, and (2) NuSMV~\cite{nusmv}
 to model-check the correctness of BIP systems. 
-However, DFinder~\cite{BBL14} does not handle data transfer between components, 
-and it supports only the verification of deadlock-freedom. 
+\redbox{However, DFinder~\cite{BBL14} does not handle data transfer between components~\cite{QiangB15}, 
+and the available online version only supports deadlock-freedom check.} 
 Additionally, for complex systems, NuSMV often suffers from the state-explosion problem~\cite{sipser2006introduction}, and fails to perform its verification tasks.
 
 ABC~\cite{brayton2010abc} is a transformation-based 
@@ -133,7 +133,7 @@ Our results show that \biptool{} successfully verifies large systems that are no
 The method also achieves significant reductions in FPGA size and depth reported as the 
 number of gates and logic levels before and after the reductions.
 
-BIP is based on the generation of modular code and a dedicated platform, the so-called BIP \emph{engine}, which simulates BIP semantics and orchestrates the computation of atomic components. This modularity favors the clarity of models but implies a prohibitive inefficiency. The main loop of the BIP engine consists of the following steps:
+BIP is based on the generation of modular code and a dedicated platform, the so-called BIP \emph{engine}, which \redbox{interprets the} BIP semantics and orchestrates the computation of atomic components. This modularity favors the clarity of models but implies a prohibitive inefficiency. The main loop of the BIP engine consists of the following steps:
 %
 \begin{enumerate}
 \item Each atomic component sends to the engine its current location.

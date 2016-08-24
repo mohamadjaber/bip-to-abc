@@ -24,7 +24,9 @@ does not consider transfer of data between components it is only applicable
 to a restricted class of systems.
 
 
-\answer{add a sentence, add reference Simon, Mohamad}
+\answer{Exactly. DFinder does not handle system models with data transfer. 
+This limitation hampers the practical application of DFinder and of the BIP framework, since data transfer is necessary and common in the design of real-life systems~\cite{QiangB15}. We have modified the text to elaborate more on this.}
+
 
 As shown by the experimental results, the verification with ABC on the AIGs 
 generated from BIP scaled better to large systems than existing NuSMV-based 
@@ -63,23 +65,42 @@ verification [...] exhibitS expensive [...]"
 This is not correct, the method is applicable to the verification of any 
 safety property, although being based on abstractions it performs better for 
 a sub-class of safety properties, e.g. deadlock-freedom.
+
+\answer{We agree with the reviewer's comment. The internal implementation of DFinder is based on the computation of invariants, and the method is application to the verification of any safety property. However, the available tool (online) does only support deadlock freedom detection. 
+In order to verify safety property, we need to manually instrument the system so that it enters a deadlock state when the property is violated. We modified the text to reflect this. 
+Moreover, as we mentioned before, DFinder does not handle system models with data transfer. We have built several simple examples with data transfer and an obvious deadlock where DFinder failed to detect them.}
+
 \item p.3: "BIP is based on the generation [...] and the so-called BIP engine, 
 which simulates BIP semantics [...]" $\rightarrow$ I would prefer "BIP is based on the 
 generation [...] and the so-called BIP engine, which interprets the BIP 
 semantics [...]"
+\done
+
 \item p.3: "1. Each atomic component sends [...] its current location.": 
 Technically in engine-based execution of BIP models are shared-memory 
 execution, i.e. states of components are not sent nor duplicated but simply 
 accessed (read) by the engine. In multi-thread execution, components only 
 send notification massages (without data) when they complete a transition 
 execution.
+
+\answer{We agree with the reviewer's comment. However, from the semantics point of view atomic components send their states. 
+The send is simply read (by the engine) in case of the single-thread (shared-memory) implementation, however, in case of distributed implementation the send will be implemented as an actual send. For this, we preferred to use "send".}
+
+
 \item p.3: "We recall the necessary concepts [...] desin:[...]" $\rightarrow$ "We recall the 
 necessary concepts [...] design:[...]"
+\done
+
 \item p.4, §2: $"x := f^x(X) \in f_{\tau}" \rightarrow "(x,f^x(X)) \in f_{\tau}"$
+\done
+
 \item p.4: "The semantics [...] is an LTS over configurations [...]": At this 
 stage of the paper configurations are not defined. It would be good to either 
 give an informal definition of them here, or to move their formal definition 
 (the one after Def. 3) here.
+\done
+
+
 \item p.4, Def.3: This presentation of the semantics using $v_p$ is useful for 
 further composition of components including transfer of data, but it should 
 be commented otherwise it is very hard to understand. It would be good to 
@@ -88,6 +109,8 @@ composing components w.r.t. data transfer functions considered for
 connectors, and to cite existing papers which have the same presentation of 
 the BIP semantics. Moreover, in Definition 3 the notation $v/v_p$ is not 
 defined which brings additional fuzziness.
+
+
 \item p.4, § after Def.3: Explanations provided here do not provide any 
 clarification to Def.3. I would expect more here, as explained in the 
 previous point.
