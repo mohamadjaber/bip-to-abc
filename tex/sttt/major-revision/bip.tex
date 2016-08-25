@@ -1,3 +1,39 @@
+% !TEX root = main.tex
+%
+\section{Preliminaries and Notation}
+\label{sec:prelim}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\redbox{
+We introduce some preliminary concepts and notations.
+%
+\paragraph{Functions.} For two functions $v\in [ X \rightarrow Y]$ and $v'\in [X' \rightarrow Y']$, the substitution function noted $v/v'$, where $v/v' \in [X \cup X' \rightarrow Y \cup Y']$, is defined as: $v/v'(x) = v'(x)$ if $x \in X'$ and $v(x)$ otherwise.
+%
+}
+
+\redbox{
+\paragraph{Transition Systems.}
+%
+Labeled Transition System (LTS) are used to define the semantics of BIP systems.
+An LTS defined over an alphabet $\Sigma$ is a 3-tuple $\tuple{\mathrm{Lab},\mathrm{Sta},\mathrm{Trans}}$ where $\mathrm{Lab}$ is a set of labels, $\mathrm{Sta}$ is a non-empty set of states and $\mathrm{Trans}\subseteq \mathrm{Sta}\times \mathrm{Lab} \times \mathrm{Sta}$ is the transition relation.
+A transition $\tuple{s,e,s'}\in\mathrm{Trans}$ means that the LTS can move from state $s$ to state $s'$ by consuming label $e$.
+We abbreviate $\tuple{s,e,s'}\in\mathrm{Trans}$ by $s \stackrel{e}{\rightarrow}_\mathrm{Trans} s'$ or by $s\stackrel{e}{\rightarrow} s'$ when clear from context.
+Moreover, $s \stackrel{e}{\rightarrow}$ is a short for $\exists s'\in\mathrm{Sta}: s\stackrel{e}{\rightarrow} s'$.
+%
+The \emph{traces} of LTS $L=\tuple{\mathrm{Lab},\mathrm{Sta},\mathrm{Trans}}$, noted $\traces(L)$, are the finite sequences over $\mathrm{Lab} \cup \mathrm{Sta}$ of the form
+\[
+\mathit{s_0} \cdot \mathit{e_0} \cdot \mathit{s_1} \cdots \mathit{s_n},
+\]
+for some $n\in\mathbb{N}$, where $s_i \in \mathrm{Sta}$ and $e_i \in \mathrm{Lab}$.
+A trace starts from the initial state $\mathit{s_0}$, and follows  transition relation $\mathrm{Trans}$.
+%
+A state $s \in \mathrm{Sta}$ is \emph{reachable} in $L$ if $s$ occurs in one of the traces of $L$.
+%
+%
+%
+}
+
 \section{BIP - Behavior Interaction Priority}
 \label{sec:bip}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,11 +108,18 @@ The semantics of the atomic component $B = (P,L, T, X, \{g_{\tau}\}_{\tau \in T}
 \end{itemize}
 \end{definition}
 %
-A configuration is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of configurations $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to the port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in configuration $(l, v)$. Execution of port $p$ results in updated the valuation of $v$ to $v'=f_\tau(v/v_p)$
+A configuration is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of configurations $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in configuration $(l, v)$. Execution of port $p$ results in updated the valuation of $v$ to $v'=f_\tau(v/v_p)$
+\redbox{
+Note that valuation of the variables attached to port $p$ are further instantiated when composing components with respect to data transfer functions of interactions~\cite{jaberthesis,FalconeJNBB15}.
+}
+ 
 %As a result, the valuation $v'$ of variables is modified to $v=f_\tau(v'/v_p)$.
 %
-\subsubsection{Creating composite components.} Assuming some available atomic components $B_1,$ $\ldots,B_n$, we show how to connect the components in the set $\{B_i\}_{i\in I}$ with $I\subseteq [1,n]$ using an \emph{interaction}. An interaction $a$ is used to specify the sets of ports that have to be jointly executed.
 
+
+\subsubsection{Composing Atomic Components.} 
+\redbox{Assuming some available atomic components $B_1,$ $\ldots,B_n$, we show how to connect a subset $\{B_i\}_{i\in I}, I\subseteq [1,n]$, of the components using an \emph{interaction}. An interaction $a$ is used to specify the sets of ports that have to be jointly executed.
+}
 
 \begin{definition}[Interaction]
 \label{def:connector}
