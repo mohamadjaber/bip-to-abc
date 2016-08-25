@@ -144,7 +144,7 @@ The connection of the components in $\{B_i\}_{i\in I}$ using the set $\gamma$ of
 %
 \begin{definition}[Semantics of Composite Components]
 \label{def-runtimesemanticscomposite}
-A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gamma$ connects the $B_i$'s for $i\in [1,n]$, is an $n$-tuple $q=(q_1,\ldots,q_n)$ where $q_i=(l_i,v_i)$ is a state of $B_i$. Thus, the semantics of $\gamma(\{B_1, \ldots, B_n\})$ is precisely defined as the labeled  transition system $S = (Q,\gamma,\goesto)$, where:
+A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gamma$ connects the $B_i$'s for $i\in [1,n]$, is an $n$-tuple $q=(q_1,\ldots,q_n)$ where $q_i=(l_i,v_i)$ \redbox{is a configuration} of $B_i$. Thus, the semantics of $\gamma(\{B_1, \ldots, B_n\})$ is precisely defined as the labeled  transition system $S = (Q,\gamma,\goesto)$, where:
 \begin{itemize}
 \item $Q= B_1.Q\times \ldots\times B_n.Q$, 
 \item $\goesto$ is the least set of transitions satisfying the rule defined in Figure \ref{fig:bip-rule}.
@@ -153,7 +153,7 @@ A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gam
 \inferrule*
 {
     a = (\{p_i\}_{i \in I},G_a,F_a) \in \gamma \and G_a(\{v_{p_i}\}_{i \in I}) \hva\\
-    \forall i\in I:\ q_i \goesto[p_i(v_i)]_i q'_i \wedge v_i = F^i_{a}(\{v_{p_i}\}_{i \in I}) \and
+    \forall i\in I:\ q_i \goesto[p_i(\mu_i)]_i q'_i \wedge \mu_i = F^i_{a}(\{v_{p_i}\}_{i \in I}) \and
     \forall i\not\in I:\ q_i = q'_i
 }
 {
@@ -163,11 +163,11 @@ A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gam
 \caption{Semantics Rule of Composite Component}
 \label{fig:bip-rule}
 \end{figure*}
-Where $v_{p_i}$ denotes the valuation of the variables attached to the port $p_i$ and $F^i_{a}$ is the partial function derived from $F_a$ restricted to the variables associated with $p_i$.
+\redbox{Where $v_{p_i}$ denotes the valuation of the variables attached to the port $p_i$ and $F^i_{a}$ is the partial function derived from $F_a$ restricted to the variables associated with $p_i$. $\mu_i$ denotes the valuation of the variables attached to port $p_i$ after executing function $F_{a}$ of interaction $a$.}
 \end{itemize}
 \end{definition}
 %
-The meaning of the above rule is the following: if there exists an interaction $a$ such that all its ports are enabled in the current state and its guard evaluates to \true, then the interaction can be fired. When $a$ is fired, all involved components evolve according to the interaction and uninvolved components remain in the same state. 
+\redbox{The meaning of the rule defined in Figure \ref{fig:bip-rule} is the following}: if there exists an interaction $a$ such that all its ports are enabled in the current state and its guard evaluates to \true, then the interaction can be fired. When $a$ is fired, all involved components evolve according to the interaction and uninvolved components remain in the same state. 
 
 Notice that several distinct interactions can be enabled at the same time, thus introducing non-determinism in the product behavior.
 One can add priorities to reduce non-determinism. In this case, one of the interactions with the highest priority is chosen non-deterministically.\footnote{The BIP engine implementing this semantics chooses one interaction at random, when faced with several enabled interactions.}
