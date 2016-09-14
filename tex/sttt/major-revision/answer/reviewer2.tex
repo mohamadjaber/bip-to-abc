@@ -29,7 +29,8 @@ you use DFinder to generate the corresponding invariant? Also, it is not clear
 how you define the invariants. You show them in the benchmarks. But are these
 part of the BIP specification, or are they defined separately?
 
-\answer{TODO Jaber - user defined invariant or predefined patterns such as deadlock (no interaction is enabled)}
+\done
+\answer{We have added a paragraph in the implementation section that explains how invariants are defined.}
 
 
 Regarding the scheduler, you describe the procedure in Section 5. Here, it
@@ -55,8 +56,11 @@ possible values during verification. Is this right? I.e., does the
 verification account for all possible selections? But still, not for
 concurrent selections?
 
-
-\answer{Jaber TODO}
+\done
+\answer{We have added a discussion to elaborate more on this. In fact, 
+the centralized Engine allows only to execute one interaction at a time. 
+BIP also allows the generation of distributed implementations~\cite{BonakdarpourBJQS12} where non-conflicting interactions can be executed in parallel. However, an additional layer is added to resolve conflict, which may introduce a huge overhead due to the communication between the layers. Additionally, when the interactions do not contain big computations, which is the case in general (only data transfer), executing non-conflicting interactions may not be useful at the cost of the communication overhead.
+Nonetheless, in our case, it is possible to simply add a circuit to select all non-conflicting interactions, which is ongoing work.}
 
 
 It would be extremely interesting to compare the OLP to the code that is

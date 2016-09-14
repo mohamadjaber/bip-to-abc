@@ -84,7 +84,7 @@ send notification massages (without data) when they complete a transition
 execution.
 
 \answer{We agree with the reviewer's comment. However, from the semantics point of view atomic components send their states. 
-The send is simply read (by the engine) in case of the single-thread (shared-memory) implementation, however, in case of distributed implementation the send will be implemented as an actual send. For this, we preferred to use "send".}
+The send is simply read (by the engine) in case of the single-thread (shared-memory) implementation, however, in case of distributed implementation the send will be implemented as an actual send. For this, we preferred (and to be consistent with the BIP related work) to use "send".}
 
 
 \item p.3: "We recall the necessary concepts [...] desin:[...]" $\rightarrow$ "We recall the 
@@ -147,7 +147,9 @@ the result of the transfer of data $F_a({ v_{p_i} }_{i \in I})$!
 true"
 \item p.5 "[...] execute simultaneously [...]": I would prefer "[...] can execute 
 simultaneously [...]" since parallel execution is a matter of implementation.
-- p.6, Fig.4: This syntax is ambiguous, which is especially annoying for 
+\done
+\answer{We have restructured this section. to discuss with fadi...}
+\item p.6, Fig.4: This syntax is ambiguous, which is especially annoying for 
 ternary choices (a? b : c). Please add parenthesis in expressions of Fig.5 
 otherwise there is no way we can guess how to interpret them.
 \item p.6, Fig.5: "timer.timer.e = is[0]" $\rightarrow$ "timer.timer.s = is[0]"
@@ -183,19 +185,30 @@ cite some of them here.
 "Array element is[j] [...] when ip[j] is true and either [...]"
 \item p.9, 2.: "[...] and j is the first enabled interaction greater with an 
 index greater than j": This does not make sense, please reformulate.
+\done
 \item p.9, 4.: "[...] when cycle is equal to zero [...]" $\rightarrow$ "[...] when cycle is 
 equal to true [...]"
+\done
 \item p.9, 4.: "[...] when cycle is equal to one [...]" $\rightarrow$ "[...] when cycle is 
 equal to false [...]"
+\done
 \item p.10, Sec 5.1: "[...] where cycle is equal to zero [...]" $\rightarrow$ "[...] where 
 cycle is equal to false [...]"
+\done
 \item p.10: "[...] sets cycle to zero [...]" $\rightarrow$ "[...] sets cycle to true [...]"
+\done
 \item p.11: "Otherwise, let $a_j$ be the interaction [...]" $\rightarrow$ "Otherwise, let $a_j$ 
 be an interaction [...]"
+\done
 \item p.11, Sec.5.2: "The operational semantic [...]" $\rightarrow$ "The operational 
 semantics [...]"
+\done
 \item p.11, Sec.5.2: Why can't you simply compose the effect of data transfer 
 transition execution to have one-cycle implementations in any case?
+\answer{
+Yes, it is possible to do source-to-source transformations to compose the effect of data transfer, and hence one cycle-based implementations could be always generated. This is pure technical and we are working on integrating it on our tool.
+}
 \item p.11, Sec.6.1: "The module [...] the generate AIG [...]" $\rightarrow$ "The module 
 [...] the generated AIG [...]"
+\done
 \end{itemize}
