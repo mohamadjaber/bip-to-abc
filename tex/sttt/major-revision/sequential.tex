@@ -135,10 +135,10 @@ $s_0,s_1,\ldots,s_{\ell-1}$.
 }
 
 We will refer to the transition from one valuation
-to the next one as a {\em step}.  A node in the circuit is
+to the next one as a {\em step}.  A vertex in the circuit is
 said to be justifiable if there is an input sequence which, when
-applied to an initial state, will result in that node
-taking value $\true$.  A node in the circuit is
+applied to an initial state, will result in that vertex
+taking value $\true$.  A vertex in the circuit is
 valid if its negation is not justifiable.  We will refer
 to targets and invariants in the circuit; these are simply
 vertices in the circuit whose justifiability and validity
@@ -280,7 +280,7 @@ the \cci{library} routine finds an equivalent circuit for it with the adequate b
 width in a complete table of circuits.
 For example, if the expression is a ternary conditional statement of the
 form $b?~e_1:e_2$, then routine \cci{library} instantiates a multiplexer, 
-connects its two data fanins to the nodes corresponding to $e_1$ and $e_2$, connects its control fanins to the nodes corresponding to $b$,
+connects its two data fanins to the vertices corresponding to $e_1$ and $e_2$, connects its control fanins to the vertices corresponding to $b$,
 and returns its fanouts. 
 %
 \begin{lstlisting}

@@ -62,7 +62,7 @@ Composite components are obtained from atomic components by specifying interacti
 An atomic component is endowed with a finite set of local variables $X$ taking values in a domain $\mathit{\Data}$. Atomic components synchronize and exchange data with each others through \emph{ports}.
 %
 \begin{definition}[Port]
-A port $p[x_p]$, where $x_p\subseteq X$, is defined by a port identifier $p$ and some data variables in a set $x_p$ (referred to as the support set). We denote by $p.X$ the set of variables assigned to the port $p$, that is, $x_p$.
+A port $p[x_p]$, where $x_p\subseteq X$, is defined by a port identifier $p$ and some data variables in a set $x_p$ (referred to as the support set). %We denote by $p.X$ the set of variables assigned to the port $p$, that is, $x_p$.
 \end{definition}
 %
 %
@@ -126,7 +126,7 @@ Note that valuation of the variables attached to port $p$ are further instantiat
 An interaction $a$ is a tuple $(P_a, G_a,F_a)$, where:
 \begin{itemize}
 \item $P_a \subseteq \cup_{i = 1} ^ { n } B_i.P$ is a nonempty set of ports that contains
-at most one port of every component, that is, $\forall i: 1 \leq i \leq n: |B_i.P \cap P_a| \leq 1 $. We denote by $X_a = \cup_{p \in P_a} p.X$ the set of variables available to $a$,
+at most one port of every component, that is, $\forall i: 1 \leq i \leq n: |B_i.P \cap P_a| \leq 1 $. We denote by $X_a = \cup_{p \in P_a} x_p$ the set of variables available to $a$,
 \item $G_a : \valu{X_a} \rightarrow \{\true, \false\}$ is a guard, 
 \item $F_a : \valu{X_a} \rightarrow \valu{X_a}$ is an update function. 
 \end{itemize}
