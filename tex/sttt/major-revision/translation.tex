@@ -5,7 +5,7 @@
 %
 Given a BIP system $\Pm = (B, Init, v)$, \biptool~
 calls function \cci{BIP-to-OLP} (see \figref{fig:bip-to-abc-function}) to translate \Pm into 
-an \caig~program with its own customized execution engine. 
+an \caig~program \redbox{including an encoding of the semantics of interactions and priorities}. 
 It calls four functions that fill \cci{decl-list}, \cci{wiredef-list}, \cci{init-list}, \cci{next-list}. 
 All these functions use the \cci{append} call to add code fragments to lists. 
 %

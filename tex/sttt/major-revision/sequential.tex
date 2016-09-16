@@ -10,7 +10,7 @@ A {\em sequential circuit} is a tuple $\left( (V, E),G,
 O\right)$.
 Pair $(V,E)$ represents a directed graph on
 vertices $V$ and edges $E \subseteq V\times V$, where $E$
-is a total order.  Function $G: V \mapsto
+is a total order.  Function $G: V \to
 \mathit{Types}$ maps vertices to $\mathit{Types}$.
 There are three disjoint types: {\em primary inputs}, {\em
 bit-registers} (which we often simply refer to as {\em
@@ -37,7 +37,7 @@ $\set{v \mid (u,v) \in E}$, i.e.,
 to $u$ in $E$.}
 The {\em support} of $u$ 
 is $\mathit{Fanins}(u) \cap (I \cup R)$, i.e., the set of all 
-  source vertices in $R$ or $I$ that are connected to $u$.
+  \redbox{source vertices which are either primary inputs or registers that are connected to $u$}.
 %with $E^+$, the transitive closure of $E$.
 \label{def:back:fanins} 
 \end{definition}

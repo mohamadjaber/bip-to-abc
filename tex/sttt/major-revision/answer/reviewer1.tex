@@ -187,30 +187,60 @@ Figure 2 [...]"
 \item p.4, Def.6: "[...] is a state of $B_i$." $\rightarrow$ "[...] is a configuration of 
 $B_i$.". In general avoid using different words for the same thing, especially 
 if you properly defined one of them in your context.
+\done
+\answer{We updated the paper to only use state.}
+
+
 \item p.5, Fig.2: According to Def.6, variables $v_i$ correspond valuations 
 associated to configurations $q_i = (l_i, v_i)$. Use another symbol to denote 
 the result of the transfer of data $F_a({ v_{p_i} }_{i \in I})$!
+\done
+
 \item p.5, Def.10: "$\exists a_i$ [...]" $\rightarrow$ "$\exists a_i$ [...] and $b_i(index(a_i))$ is 
 true"
+\done
+
 \item p.5 "[...] execute simultaneously [...]": I would prefer "[...] can execute 
 simultaneously [...]" since parallel execution is a matter of implementation.
 \done
 \answer{We have restructured this section. to discuss with fadi...}
+
 \item p.6, Fig.4: This syntax is ambiguous, which is especially annoying for 
 ternary choices (a? b : c). Please add parenthesis in expressions of Fig.5 
 otherwise there is no way we can guess how to interpret them.
+\done
+
 \item p.6, Fig.5: "timer.timer.e = is[0]" $\rightarrow$ "timer.timer.s = is[0]"
+\done
+
 \item p.6, Fig.5: "timer.done.e = is[1]" $\rightarrow$ "timer.done.s = is[0]"
+\done
+
 \item p.6, Fig.5: "light.done.e = is[1]" $\rightarrow$ "light.done.s = is[0]"
+\done
+
 \item p.6, Fig.5: In the next-list, replace also ".e" by ".s".
+\done
+
 \item p.6 "Function G : V $\mapsto$ Types [...]" $\rightarrow$ "Function G : V $\to$ Types 
 [...]"
+\done
+
 \item p.7: "[...] vertices in R or I [...]" $\rightarrow$ "[...] vertices which are either 
 inputs or registers [...]"
+\done
 \item p.7, Def.15: This definition is not complete and should mention Figure 6. 
 Moreover, the next paragraph is not useful.
+
+
+TODO - TODO
+
+
 \item p.7: "node" $\rightarrow$ "vertex": Again, avoid using different words for the same 
 thing.
+
+TODO - TODO
+
 \item p.7: "fanouts": There is no proper definition of fanouts whereas there is 
 one for fanins. Please add one (definitions of fanins and fanouts could be 
 factorized using "resp.").
@@ -227,13 +257,17 @@ states in both traces. }
 
 \item p.8, Sec.5: "[...] with its own customized execution engine." $\rightarrow$ "[...] 
 including an encoding of the semantics of interactions and priorities."
+\done 
 \item p.9, 1.: "Currently, [...] to avoid executing conflicting interactions. Two 
 interactions [...].": This is misleading: the parallel execution of 
 interactions is not only restricted by conflicts when priorities are 
 considered. This is a topic in itself addressed by existing papers, please 
 cite some of them here.
+\done
+
 \item p.9, 2.: "Array element is[j] [...] when ip[j] is true either [...]" $\rightarrow$ 
 "Array element is[j] [...] when ip[j] is true and either [...]"
+\done
 \item p.9, 2.: "[...] and j is the first enabled interaction greater with an 
 index greater than j": This does not make sense, please reformulate.
 \done

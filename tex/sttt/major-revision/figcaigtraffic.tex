@@ -25,7 +25,6 @@ wire bool is[2];
 \begin{lstlisting}
 /*** wiredef-list ***/
 timer.timer.e = (0 == timer.$\ell$) && (timer.t < timer.n);
-
 timer.done.e  = (0 == timer.$\ell$) && (timer.t == timer.n);
 light.done.e  = (0 == light.$\ell$)  || (1 == light.$\ell$) || (2 == light.$\ell$);
 
@@ -38,9 +37,9 @@ ip[1] = ie[1];
 is[0] = (ip[0] && ( selector == 0 || (!ip[selector]  && !ip[1]);
 is[1] = (ip[1] && ( selector == 1 || (!ip[selector]);
 
-timer.timer.e = is[0];
-timer.done.e  = is[1];
-light.done.e  = is[1] ;
+timer.timer.s = is[0];
+timer.done.s  = is[1];
+light.done.s  = is[1] ;
 \end{lstlisting}
 \\
 \vspace{-2em}
@@ -65,20 +64,47 @@ while(true) {
     /*** next-list ***/    
     timer.n = cycle? is[1]? light.m : timer.n : timer.n; 
     
-    timer.$\ell$ = cycle? timer.$\ell$: timer.timer.e && timer.$\ell$ == 0? 0 : 
-                timer.timer.e && timer.$\ell$ == 0? 0 : timer.$\ell$;
-    
-    timer.t = cycle? timer.t : timer.$\ell$ == 0 && timer.timer.e? 
-                (timer.t + 1) : timer.$\ell$ == 0 && timer.done.e? 0 :
-                    timer.t; 
+    timer.$\ell$ = (cycle)? 
+                      (timer.$\ell$): 
+                      ((timer.timer.e && timer.$\ell$ == 0)? 
+                          (0) : 
+                          ((timer.timer.s && timer.$\ell$ == 0)? 
+                              (0) : (timer.$\ell$)
+                          )
+                      );
+                
+    timer.t = (cycle)? 
+                 (timer.t) : 
+                 ((timer.$\ell$ == 0 && timer.timer.s)? 
+                    (timer.t + 1) : 
+                    ((timer.$\ell$ == 0 && timer.done.s)? 
+                       (0) : (timer.t)
+                    )
+                 ); 
               
-    light.$\ell$ = cycle? light.$\ell$ : light.$\ell$ == 2 && light.done.e? 0: 
-                light.$\ell$ == 1 && light.done.e? 0 : light.$\ell$ == 0 && 
-                    light.done.e? 1 : light.$\ell$; 
+    light.$\ell$ = (cycle)? 
+                      (light.$\ell$) : 
+                      ((light.$\ell$ == 2 && light.done.s)? 
+                         (0) : 
+                         ((light.$\ell$ == 1 && light.done.s)? 
+                            (0) : 
+                            ((light.$\ell$ == 0 && light.done.s)? 
+                               (1) : (light.$\ell$)
+                            )
+                         )
+                      );
               
-    light.m = cycle? light.m : light.$\ell$ == 0 && light.done.e? 3: 
-                light.$\ell$ == 1 && light.done.e? 10: light.$\ell$ == 2 &&
-                    light.done.e? 5 : light.m; 
+    light.m = (cycle)? 
+                 (light.m) : 
+                 ((light.$\ell$ == 0 && light.done.s)? 
+                    (3) : 
+                    ((light.$\ell$ == 1 && light.done.s)? 
+                       (10) : 
+                       ((light.$\ell$ == 2 && light.done.s)? 
+                          (5) : (light.m)
+                        );
+                     )
+                  );
     
     cycle = !cycle; 
   } /*end do-together*/ 
