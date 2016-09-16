@@ -18,7 +18,27 @@ translations have already been developed for several high level models, such
 as the synchronous languages. For instance, Esterel can be compiled to Verilog
 or BLIF (see the Columbia Esterel Compiler). How does your method differ?
 
-\answer{TODO Fadi}
+\done
+\answer{
+Up to our knowledge, our contribution is the first to enable 
+translating BIP into a sequential circuit such that synthesis 
+and verification techniques can be applied to it to optimize it
+and verify it. 
+
+That said, Esterel and BIP differ in several ways.
+For example, Esterel is less expressive as it does not allow for multipart 
+interactions with non-deterministic behaviors while BIP does. 
+
+In addition,
+our translation takes a high level model directly into a bit-level circuit
+by embedding built-in scheduling into the design. 
+This allows for avoiding use of compilers to interpret models in Verilog.
+of BLIF. 
+which avoids the need for other compilers and 
+
+Aside from the differences between Esterel and BIP, 
+our translation takes a BIP model TODO Fadi
+}
 
 I think the interesting part is the generation of the scheduler and the
 detection of the properties, which I think should be expanded at the expense
