@@ -40,9 +40,42 @@ Moreover, these transformations are the core results of the paper, but their
 presentation should be improved as they lack too many details (apart from 
 Section 2).
 
-\answer{TODO - Fadi will include a paragraph on selecting and running ABC algorithms}
+\answer{
+%
+The transformation from BIP to OLP is discussed in 
+Section 6 (BIP to OLP) 
+with detailed source to source algorithms that are ready 
+to be implemented. 
+For example, algorithm generateDeclarationList in Figure 9 
+takes a BIP system and generates the declaration list. 
+Similarly, algorithms generateWireDefList, generateInitList, 
+and generateNextList in Figures 10, 11 and 12, respectively 
+generate the other components of the OLP program. 
+They are all called from the transformation algorithm in 
+Figure 8. 
+%
+The transformation from OLP to AIG is also detailed in 
+source to source algorithms. Algorithm {\bf variable} 
+creates that primary inputs, the registers and the wires. 
+Algorithm {\bf traverse} recursively traverses the expressions
+and builds corresponding circuits for them based on a 
+{\bf library}
+of gates that correspond to the primitive unary 
+and binary operations. 
+Algorithm {\bf olp-to-aig}  uses the {\bf variables} and 
+{\bf traverse} algorithms to instantiate the registers
+and primary inputs and then connect the initial state and 
+next state functions to their corresponding registers. 
+%
+We added details with formal definitions of OLP 
+syntax and semantics to further address this point. 
+%
+In case the reviewer is referring to the ABC algorithms, 
+we provide now a description of some of them in the Appendix.
+}
 
-For instance, Section 3 is too short and I would expect it to include a 
+For instance, 
+Section 3 is too short and I would expect it to include a 
 proper (formal) definition of the semantics of one loop programs.
 My main concern regards proofs of both theorems: they are established 
 informally and without the necessary details, which make them not very 
@@ -52,8 +85,22 @@ and can only be considered for publication if (i) better definitions of the
 semantics of OLP and AIG are provided, and if (ii) proofs are updated w.r.t. 
 these semantics and properly formalized.
 
-\answer{TODO - Fadi re-structure section 3 to clearly separate syntax and semantics and include semantics with definition - And Update section 5.1 (Proof)}
-
+\answer{
+  We restructured the section to separate OLP syntax
+  and semantics and provided formal definitions for OLP 
+  constructs and semantics. 
+  We also modified the definition of AIG traces. 
+  We added a definition for a {\em full AIG trace} that is 
+  a sequence of valuation of all gates. 
+  We defined an {\em AIG trace} to be a sequence of AIG states. 
+  We modified the AIG OLP equivalence theorem to claim 
+  trace equivalence between the OLP program and the corresponding
+  AIG. The proof is now by induction on the length of the traces. 
+  The BIP OLP equivalence proof is still based on full semantic 
+  equivalence. We modified it slightly to highlight both proof
+  directions: traces of OLP include traces of BIP and
+  traces of BIP include traces of OLP. 
+}
 
 My other comments and suggestions are provided below.
 
@@ -167,12 +214,16 @@ thing.
 \item p.7: "fanouts": There is no proper definition of fanouts whereas there is 
 one for fanins. Please add one (definitions of fanins and fanouts could be 
 factorized using "resp.").
-\answer{TODO Fadi}
+\done
+\answer{We modified the definition of fanins to include fanouts
+as well.}
 
 \item p.8, Th.1: "[...] the set of traces of P is equal to the set of traces of 
 A.": Technically, traces of P and traces of A are different mathematical 
 objects, please establish correspondence between the two.
-\answer{TODO Fadi}
+\done
+\answer{The trace equivalence proof now considers single
+states in both traces. }
 
 \item p.8, Sec.5: "[...] with its own customized execution engine." $\rightarrow$ "[...] 
 including an encoding of the semantics of interactions and priorities."

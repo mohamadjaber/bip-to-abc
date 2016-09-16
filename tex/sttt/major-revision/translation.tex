@@ -227,36 +227,58 @@ Intuitively, $T'$ represents the semantics of the original BIP model regardless 
 %
 \begin{theorem}[BIP \caig Equivalence]
 \label{theorem:correct}
-The BIP system $S$ is semantically equivalent to $P$: $Tr_s=T'$.  
+The BIP system $S$ is semantically equivalent to $P$: $Tr_s=T'$. 
 \end{theorem}
 \begin{proof}
 \label{proof:equi-correct}
 %
-The proof is done by induction on the length of traces and on the structure of $S$ and $P$.
+The proof is done by induction on the length of traces and 
+on the structure of $S$ and $P$.
 
+{\bf Left case: $Tr_s \subseteq T'$.~~}
 Consider $t \in Tr_s$, there exists $t' \in T'$ and $t = t'$. 
 \begin{itemize}
 \item
 \textit{Induction basis.}
-Consider the initial state: $t[0]$ and $t'[0]$. \cci{generateInitList()} sets \cci{cycle} to $\true$ and assigns each location to \textit{Init} and each variable to its initial value. Thus, $t[0]$ is equal $t'[0]$. 
+Consider the initial state: $t[0]$ and $t'[0]$. 
+\cci{generateInitList()} sets \cci{cycle} to $\true$ and 
+assigns each location to \textit{Init} and each variable 
+to its initial value. Thus, $t[0]$ is equal to $t'[0]$. 
 \item
-Let $t[0..k]$ be the prefix of $t$ of length $k+1$ where $k\ge 0$, using the induction hypothesis, there exists at least one trace 
-  $t'[0..k] \in T'$ and $t[0..k]=t'[0..k]$. 
-  Consider valuations $t[k]$ and $t'[k]$ that corresponds to the firing interactions.
-  Since they are equal, the next state of locations
-  and data variables will be the same at $t[k+1]$ and $t[k+1]$ as enforced by \cci{generateNextList()}. 
+Let $t[0..k]$ be the prefix of $t$ of length $k+1$ where 
+$k\ge 0$, using the induction hypothesis, 
+there exists at least one trace 
+$t'[0..k] \in T'$ and $t[0..k]=t'[0..k]$. 
 
-  In case no interactions are enabled at step $k+1$, both $P$ and $S$ will preserve the same state at step $k+1$ and thus $t[0..k+1] =t'[0..k+1]$. 
-  Otherwise, let $a_j$ be \redbox{an} interaction that is enabled according to state $t[k+1]$, 
-  then according to BIP semantics, interaction $a_j$ must be also enabled and of the highest priority. 
-  This means that $a_j$ is also enabled and of the highest priority under $t'[k]$. 
-  The primary input \cci{selector} wire variable is a nondeterministic variable and can assume all indexes on interactions including the value 
-  $j$, thus setting the enabled interaction $a_j$ in $t'[k+1]$. 
-  Therefore, there exists a setting for \cci{selector} at step $k+1$ such that $P$ executes $a_j$. 
-  Without loss of generality, let that nondeterministic setting be the one in $t'[k+1]$. 
-  Therefore, $t[k+1] = t'[k+1]$. 
+Consider valuations $t[k]$ and $t'[k]$ 
+that correspond to the firing interactions.
+Since they are equal, the next state of locations
+and data variables will be the same at $t[k+1]$ and 
+$t[k+1]$ as enforced by \cci{generateNextList()}. 
+
+In case no interactions are enabled at step $k+1$, 
+both $P$ and $S$ will preserve the same state at step $k+1$ 
+and thus $t[0..k+1] =t'[0..k+1]$. 
+Otherwise, let $a_j$ be \redbox{an} interaction that is enabled 
+according to state $t[k+1]$, 
+then according to BIP semantics, interaction $a_j$ must be 
+also enabled and of the highest priority. 
+This means that $a_j$ is also enabled and of the highest 
+priority under $t'[k]$. 
+The primary input \cci{selector} wire variable is a 
+nondeterministic variable and can assume all indexes on 
+interactions including the value 
+$j$, thus setting the enabled interaction $a_j$ in $t'[k+1]$. 
+Therefore, there exists a setting for \cci{selector} at 
+step $k+1$ such that $P$ executes $a_j$. 
+
+Without loss of generality, 
+let that nondeterministic setting be the one in $t'[k+1]$. 
+Therefore, $t[k+1] = t'[k+1]$. 
 \end{itemize}
 %
+
+{\bf Right case: $T' \subseteq Tr_s$.~~}
 Consider $t' \in T'$ there exists $t \in Tr_s$ and $t = t'$.
 %
 \begin{itemize}
@@ -265,16 +287,28 @@ Consider $t' \in T'$ there exists $t \in Tr_s$ and $t = t'$.
 The base case is similar as before and $t[0]$ is equal $t'[0]$.
 \item
 \textit{Induction case.}
-Let $t'[0..k]$ be the prefix of $t'$ of length $k+1$ where $k\ge 0$, using the induction hypothesis, there exists a trace 
-  $t[0..k] \in Tr_s$ and $t[0..k]=t'[0..k]$. 
-  As for the previous proof, \cci{generateNextList()} guarantees that the state of the locations and the data variables are equal in the next states $t[k+1]$ and $t'[k+1]$ of $S$ and $P$, respectively. Furthermore, the two states are equivalent if no interaction was enabled in $t'[k+1]$. 
+Let $t'[0..k]$ be the prefix of $t'$ of length $k+1$ 
+where $k\ge 0$, using the induction hypothesis, 
+there exists a trace 
+$t[0..k] \in Tr_s$ and $t[0..k]=t'[0..k]$. 
+As for the previous proof, \cci{generateNextList()} 
+guarantees that the state of the locations and the data 
+variables are equal in the next states $t[k+1]$ and 
+$t'[k+1]$ of $S$ and $P$, respectively. 
 
-In case an interaction $a_j$ is selected to execute in $P$ at step $k+1$ as set in state $t'[k+1]$, 
+Furthermore, the two states are equivalent if no interaction 
+was enabled in $t'[k+1]$. 
+
+In case an interaction $a_j$ is selected to execute in $P$ 
+at step $k+1$ as set in state $t'[k+1]$, 
 then it must be enabled and of high priority.
-Thus, it must also be enabled and of high priority in $S$ according to state $t[k+1]$
+Thus, it must also be enabled and of high priority in $S$ 
+according to state $t[k+1]$
 as guaranteed by \cci{generateNextList()}. 
 The semantics of BIP allows the nondeterministic selection of
-one of the enabled and high priority interactions, and without loss of generality let that selection be $a_j$ in $t[k+1]$. 
+one of the enabled and high priority interactions, 
+and without loss of generality let that selection 
+be $a_j$ in $t[k+1]$. 
 Therefore $t[k+1]=t'[k+1]$. 
 \end{itemize}
 %

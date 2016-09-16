@@ -1,4 +1,4 @@
-\paragraph{Syntax of one loop programs.}
+\subsection{Syntax of one loop programs.}
 %
 \redbox{
 Figure~\ref{fig:gr} illustrates the syntax of a 
@@ -12,6 +12,7 @@ the variable is a wire.
 Otherwise, the variable is a register variable. 
 }
 
+\redbox{
 \begin{definition}[\caig variables]
 The set of \caig variables $V$ of an \caig is defined to be 
 the set 
@@ -19,6 +20,7 @@ of all non-wire variables declared in \cci{decl-list}.
 The function $\mathit{type}: V \mapsto \set{int, Boolean, int[1], Boolean[1], int[2], Boolean[2], \ldots}$ maps a variable
 $v \in V$ to its declared type. 
 \end{definition}
+}
 
 \redbox{
 The \cci{wiredef-list} follows \cci{decl-list} and is a list 
@@ -50,14 +52,27 @@ The \cci{next-list} is embodied in a \cci{do-together} construct
 which is in turn embodied in a \cci{while(true)} construct. 
 }
 
+\redbox{
+\begin{definition}[Well formed \caig]
 An \caig is {\em well formed} in case each of 
 the \cci{init-list} and the \cci{next-list}
 contains one assignment per non-wire variable and
-the \cci{wiredef-list} contains one assignment per 
-wire. 
+the \cci{wiredef-list} contains at most 
+one assignment per wire. 
 For brevity, \caig hereafter denotes well 
 formed \caig. 
+\end{definition}
+}
 
+\redbox{
+\begin{definition}[Non-deterministic wires]
+We define the set of {\em non-deterministic wires} of 
+an \caig to be the set of wire variables who are not 
+targets of assignment statements in \cci{wiredef-list}.
+\end{definition}
+}
+
+\redbox{
 \begin{definition}[init and next state functions]
 Consider $v\in V$ and consider $s_{init}$ and $s_{next}$ 
 the assignment statements where $v$ is the target term in 
@@ -68,3 +83,4 @@ $\mathit{next-state}(v)$
 to be the functions corresponding to the right hand side 
 expressions of $s_{init}$ and $s_{next}$, respectively. 
 \end{definition}
+}
