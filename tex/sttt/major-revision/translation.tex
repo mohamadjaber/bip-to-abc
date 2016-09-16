@@ -30,9 +30,17 @@ The elements of array $\mathit{ip}$ denote whether a given interaction is enable
 The elements of array $\mathit{is}$ denote whether an enabled interaction is selected for execution. 
 Currently, one interaction is selected to avoid executing conflicting interactions. 
 Two interactions are conflicting if they involve the same components. 
-\redbox{The centralized Engine allows only to execute one interaction at a time. 
-BIP also allows the generation of distributed implementations~\cite{BonakdarpourBJQS12} where non-conflicting interactions can be executed in parallel. However, an additional layer is added to resolve conflict, which may introduce a huge overhead due to the communication between the layers. Additionally, when the interactions do not contain big computations, which is the case in general (only data transfer), executing non-conflicting interactions may not be useful at the cost of the communication overhead.
-Nonetheless, in our case, it is possible to simply add a circuit to select all non-conflicting interactions, which is ongoing work.  
+\redbox{The centralized engine allows to execute only one interaction at a time. 
+Alternatively, BIP allows the generation of distributed implementations~\cite{BonakdarpourBJQS12} 
+where non-conflicting interactions can be executed simultaneously.
+However, an additional layer is added to resolve conflicts. 
+This may introduce significant overhead due to communication between the layers. 
+%
+The overhead may prove excessive when 
+interactions do not involve heavy computations, which is the case in general since most interactions involve data transfer.
+In our case, it is possible to add a circuit that identifies and enables all non-conflicting interactions with simple a modification
+that merges the consecutive execution cycles of non-conflicting interactions into one cycle. 
+Such transformation is available automatically with the retiming algorithm in ABC~\cite{hurst2007fast}.
 }
 
 Wire $\mathit{selector}$ is a non-deterministic primary input used to select one of the enabled interactions.
@@ -315,6 +323,27 @@ Therefore $t[k+1]=t'[k+1]$.
 Consequently, the claim holds as expected. 
 \end{proof}
 %
+
+\redbox{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Embedding the built-in scheduler}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The logic for the built in scheduler is coupled with the 
+port enable, port select, interaction enable, and interaction
+select circuits. 
+It involves the priority settings of the interactions which 
+translate to constant wires in the AIG.
+It also involves a \cci{selector} primary input that assumes 
+a non-deterministic value. 
+The logic of the scheduler computes the enabled ports, then 
+computes the enabled interactions. 
+In case priority was not enough to select one interaction to 
+execute, the logic of the scheduler uses the non-deterministic
+value of the \cci{selector} to give higher priority to the
+interaction with the nearest index to the \cci{selector}.
+}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{One Cycle Optimization}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%

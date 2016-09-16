@@ -30,14 +30,12 @@ For example, Esterel is less expressive as it does not allow for multipart
 interactions with non-deterministic behaviors while BIP does. 
 
 In addition,
-our translation takes a high level model directly into a bit-level circuit
-by embedding built-in scheduling into the design. 
-This allows for avoiding use of compilers to interpret models in Verilog.
-of BLIF. 
-which avoids the need for other compilers and 
-
-Aside from the differences between Esterel and BIP, 
-our translation takes a BIP model TODO Fadi
+our translation takes a high level BIP model directly into a 
+bit-level circuit by embedding built-in scheduling into 
+the design and embeds the properties in question into the 
+generated circuits as designated outputs. 
+This allows for avoiding use of compilers to interpret 
+models in Verilog.
 }
 
 I think the interesting part is the generation of the scheduler and the
@@ -59,9 +57,9 @@ activate the interactions, rather than dividing the procedure into the various
 steps. Essentially you need to select an interaction, and you build a circuit
 to do so. Describe the circuit, and perhaps put a picture showing how the
 different arrays are related.
-
-\answer{TODO Fadi and Mohamad} 
-
+\done
+\answer{We added a paragraph at the end of Section 6 to 
+discuss more the built in scheduler logic.}
 
 I was in particular struck by this statement:
 
@@ -95,11 +93,21 @@ right now, it is difficult to tell whether the improvement in performance is
 because ABC is a lot better than NuSMV, or whether the code that you generate
 for ABC is better than the one you generate for NuSMV. What if, for instance,
 you were to generate NuSMV code out of the OLP? How would NuSMV perform
-compared to the original code? Also, you mention you perform certain
-reductions outside ABC. Do you include these reductions also for NuSMV?
+compared to the original code? 
 
-\answer{TODO, extend the related work, 
-as we indicated in the related work section our technique could benefit from the translation from BIP to NuSMV however, we have already done a tool that does translation from olp to aig...}
+\answer{
+This is an interesting direction for future work. 
+We expect ABC to still outperform NuSMV because of the richer 
+transformations available in ABC.
+}
+
+
+Also, you mention you perform certain
+reductions outside ABC. Do you include these reductions also for NuSMV?
+\answer{
+  The benchmarking against NuSMV includes the once 
+  cycle optimization for both verification paths. 
+}
 
 A few minor things:
 
@@ -111,14 +119,12 @@ revised ("is true either"? "interaction greater with an index greater"?).
 \item On page 3, I don't understand the meaning of: "The interaction bit vector is
 evaluated in real-time". Does the traditional BIP main loop not evaluate the
 interactions in real time?
-\answer{todo}
+\done
+\answer{We restructured the section}
 
 \item There is confusion when you says that you denote by p.X the set of variables
 assigned to the port p. X was previously (two lines above) used to denote
 the set of all variables (I assume), and now you use it to denote $x_p$, which
 was defined as a subset of X. Please change notation.
-\answer{todo}
+\done
 \end{itemize}
-
-
-
