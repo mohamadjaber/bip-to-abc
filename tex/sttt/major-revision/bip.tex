@@ -21,14 +21,14 @@ A transition $\tuple{s,e,s'}\in\mathrm{Trans}$ means that the LTS can move from 
 We abbreviate $\tuple{s,e,s'}\in\mathrm{Trans}$ by $s \stackrel{e}{\rightarrow}_\mathrm{Trans} s'$ or by $s\stackrel{e}{\rightarrow} s'$ when clear from context.
 Moreover, $s \stackrel{e}{\rightarrow}$ is a short for $\exists s'\in\mathrm{Sta}: s\stackrel{e}{\rightarrow} s'$.
 %
-The \emph{traces} of LTS $L=\tuple{\mathrm{Lab},\mathrm{Sta},\mathrm{Trans}}$, noted $\traces(L)$, are the finite sequences over $\mathrm{Lab} \cup \mathrm{Sta}$ of the form
-\[
-\mathit{s_0} \cdot \mathit{e_0} \cdot \mathit{s_1} \cdots \mathit{s_n},
-\]
-for some $n\in\mathbb{N}$, where $s_i \in \mathrm{Sta}$ and $e_i \in \mathrm{Lab}$.
-A trace starts from the initial state $\mathit{s_0}$, and follows  transition relation $\mathrm{Trans}$.
-%
-A state $s \in \mathrm{Sta}$ is \emph{reachable} in $L$ if $s$ occurs in one of the traces of $L$.
+%The \emph{traces} of LTS $L=\tuple{\mathrm{Lab},\mathrm{Sta},\mathrm{Trans}}$, noted $\traces(L)$, are the finite sequences over $\mathrm{Lab} \cup \mathrm{Sta}$ of the form
+%\[
+%\mathit{s_0} \cdot \mathit{e_0} \cdot \mathit{s_1} \cdots \mathit{s_n},
+%\]
+%for some $n\in\mathbb{N}$, where $s_i \in \mathrm{Sta}$ and $e_i \in \mathrm{Lab}$.
+%A trace starts from the initial state $\mathit{s_0}$, and follows  transition relation $\mathrm{Trans}$.
+%%
+%A state $s \in \mathrm{Sta}$ is \emph{reachable} in $L$ if $s$ occurs in one of the traces of $L$.
 %
 %
 %
@@ -87,7 +87,7 @@ destination) location and $p$ is a port through which an interaction with anothe
 
 In the sequel we use the dot notation.
 Given a transition $\tau = (l,p,g_\tau,f_\tau,l')$, $\tau.\source$, $\tau.\port$, $\tau.\guard$, $\tau.\func$, and $\tau.dest$ denote $l$, $p$, $g_\tau$, $f_\tau$, and $l'$, respectively.
-Also, the set of variables used in a transition is defined as $\var(f_\tau) = \{x \in X \mid \redbox{(x,f^x(X)) \in f_\tau}\}$
+Also, the set of variables used in a transition is defined as $\var(f_\tau) = \{x \in X \mid \redbox{(x,f^x(X)) \in f_\tau}\}$.
 Given an atomic component $B$, $B.P$ denotes the set of ports of the atomic component $B$, $B.L$ denotes its set of locations, etc.
 
 Given a set $X$ of variables, we denote by $\valu{X}$ the set of valuations
@@ -108,7 +108,7 @@ The semantics of the atomic component $B = (P,L, T, X, \{g_{\tau}\}_{\tau \in T}
 \end{itemize}
 \end{definition}
 %
-A state is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of states $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in state $(l, v)$. Execution of port $p$ results in updated the valuation of $v$ to $v'=f_\tau(v/v_p)$
+A state is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of states $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in state $(l, v)$. Execution of port $p$ results in updated the valuation of $v$ to $v'=f_\tau(v/v_p)$.
 \redbox{
 Note that valuation of the variables attached to port $p$ are further instantiated when composing components with respect to data transfer functions of interactions~\cite{jaberthesis,FalconeJNBB15}.
 }
@@ -141,13 +141,6 @@ $P_a$ is the set of connected ports called the support set of $a$. For each $i\i
 The connection of the components in $\{B_i\}_{i\in I}$ using the set $\gamma$ of interactions is denoted by $\gamma(\{B_{i}\}_{i\in I})$.
 \end{definition}
 
-%
-\begin{definition}[Semantics of Composite Components]
-\label{def-runtimesemanticscomposite}
-A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gamma$ connects the $B_i$'s for $i\in [1,n]$, is an $n$-tuple $q=(q_1,\ldots,q_n)$ where $q_i=(l_i,v_i)$ \redbox{is a state} of $B_i$. Thus, the semantics of $\gamma(\{B_1, \ldots, B_n\})$ is precisely defined as the labeled  transition system $S = (Q,\gamma,\goesto)$, where:
-\begin{itemize}
-\item $Q= B_1.Q\times \ldots\times B_n.Q$, 
-\item $\goesto$ is the least set of transitions satisfying the rule defined in Figure \ref{fig:bip-rule}.
 \begin{figure*}
 \begin{mathpar}
 \inferrule*
@@ -163,6 +156,15 @@ A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gam
 \caption{Semantics Rule of Composite Component}
 \label{fig:bip-rule}
 \end{figure*}
+
+%
+\begin{definition}[Semantics of Composite Components]
+\label{def-runtimesemanticscomposite}
+A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gamma$ connects the $B_i$'s for $i\in [1,n]$, is an $n$-tuple $q=(q_1,\ldots,q_n)$ where $q_i=(l_i,v_i)$ \redbox{is a state} of $B_i$. Thus, the semantics of $\gamma(\{B_1, \ldots, B_n\})$ is precisely defined as the labeled  transition system $S = (Q,\gamma,\goesto)$, where:
+\begin{itemize}
+\item $Q= B_1.Q\times \ldots\times B_n.Q$, 
+\item $\goesto$ is the least set of transitions satisfying the rule defined in Figure \ref{fig:bip-rule}.
+%
 \redbox{Where $v_{p_i}$ denotes the valuation of the variables attached to the port $p_i$ and $F^i_{a}$ is the partial function derived from $F_a$ restricted to the variables associated with $p_i$. $\mu_i$ denotes the valuation of the variables attached to port $p_i$ after executing function $F_{a}$ of interaction $a$.}
 \end{itemize}
 \end{definition}
