@@ -3,8 +3,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-
-%
 \begin{definition}[Sequential circuit]
 A {\em sequential circuit} is a tuple $\left( (V, E),G,
 O\right)$.
@@ -62,7 +60,6 @@ sequential circuit.
 %negated conjunction. 
 %
 
-
 The ABC synthesis and model checker framework reasons about 
 the And-Inverted-Graph (AIG) representation of a sequential 
 circuit which are sequential circuits with only NAND gates 
@@ -81,10 +78,8 @@ The semantics of a sequential circuit is defined in terms of its states and trac
 %
 \begin{definition}[AIG state]
 An AIG \emph{state} $\sigma: R \rightarrow \mathbb{B}$ is a Boolean valuation of vertices in $R$. 
-%A {\em concrete input} is a Boolean valuation to vertices in $I$.
 \end{definition}
 %
-
 \redbox{
 \begin{definition}[AIG full trace]
 An AIG {\em full trace} is a mapping 
@@ -120,20 +115,19 @@ t(v,i)=
 \end{figure*}
 %
 
-
 Given a sequence of input valuations and an initial state, 
 \figref{fig:gate-value} defines the resulting trace as a 
 sequence of Boolean valuations to all vertices in $V$
 which is consistent with the Boolean functions of the
 gates. 
-
+%
 \redbox{
 \begin{definition}[AIG trace]
 An {\em AIG trace} of length $\ell$ is a sequence of AIG states 
 $s_0,s_1,\ldots,s_{\ell-1}$. 
 \end{definition}
 }
-
+%
 We will refer to the transition from one valuation
 to the next one as a {\em step}.  A vertex in the circuit is
 said to be justifiable if there is an input sequence which, when
@@ -165,7 +159,36 @@ almost all cases of interest~\cite{BuClMcDiHw92}.
 \subsection{Translation from \caig to AIG Circuits}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+Algorithm {\bf olp-to-aig} shown in \figref{fig:olp2aig}  
+takes an \caig $P$ as input and constructs an {\em equivalent}
+AIG. An illustration example is provided in  
+\figref{fig:circuittraffic}.
+%
+\begin{enumerate}
+  \item The algorithm first instantiates AIG 
+registers, wires, and primary
+inputs that correspond to \caig variables 
+using the {\bf variables} method. 
 
+\item It then calls the recursive method {\bf traverse} 
+  to translate the right-hand side expressions 
+of the assignment statements in 
+    \cci{wiredef-list}, \cci{init-list},
+and \cci{next-list} into AIG combinational circuits. 
+\item It connects the resulting vertices of the combinational 
+circuits of the right-hand side expressions to the fanins of the registers corresponding to the left-hand side target variables. 
+    \begin{itemize}
+\item The vertices corresponding to the \cci{init-list} 
+  right-hand side expressions are connected to the  
+  initial value fanins of the registers. 
+\item Similarly, those of the \cci{next-list} are connected to 
+  the next state value fanins. 
+\item Finally, it connects the vertices of the combinational 
+  circuits built for the \cci{wiredef-list} expressions to 
+  the corresponding wires referring to the 
+  variables declared as wire variables in \cci{decl-list}.
+    \end{itemize}
+\end{enumerate}
 \begin{figure}
 \begin{lstlisting}
 // P is an /*@\textcolor{darkgreen}{\caig}@*/ program
@@ -187,43 +210,11 @@ almost all cases of interest~\cite{BuClMcDiHw92}.
     next-state($s$.term) = traverse($s$.expr);  
   endfor
 \end{lstlisting}
+\vspace*{-1em}
 \caption{\caig to AIG transformation }
 \label{fig:olp2aig}
 \end{figure}
-
-Algorithm {\bf olp-to-aig} shown in \figref{fig:olp2aig}  
-takes an \caig $P$ as input and constructs an {\em equivalent}
-AIG. An illustration example is provided in  
-\figref{fig:circuittraffic}.
-
-\begin{enumerate}
-  \item The algorithm first instantiates AIG 
-registers, wires, and primary
-inputs that correspond to \caig variables 
-using the {\bf variables} method. 
-
-\item It then calls the recursive method {\bf traverse} 
-  to translate the right-hand side expressions 
-of the assignment statements in 
-    \cci{wiredef-list}, \cci{init-list},
-and \cci{next-list} into AIG combinational circuits. 
-
-\item It connects the resulting vertices of the combinational 
-circuits of the right-hand side expressions to the fanins of the registers corresponding to the left-hand side target variables. 
-    \begin{itemize}
-
-\item The vertices corresponding to the \cci{init-list} 
-  right-hand side expressions are connected to the  
-  initial value fanins of the registers. 
-\item Similarly, those of the \cci{next-list} are connected to 
-  the next state value fanins. 
-\item Finally, it connects the vertices of the combinational 
-  circuits built for the \cci{wiredef-list} expressions to 
-  the corresponding wires referring to the 
-  variables declared as wire variables in \cci{decl-list}.
-    \end{itemize}
-\end{enumerate}
-
+%
 \paragraph{Variables.} 
 %
 We consider each variable not declared as a wire 
@@ -253,7 +244,7 @@ where the fanouts correspond to the wire variable and the fanins correspond to
 the expression defining the wire variable in \cci{wiredef-list}. 
 %
 We denote the gates corresponding to each variable $v$ by the function \cci{vargates}$(v)$. 
-
+%
 \begin{lstlisting}
 /*@\textbf{variables}@*/(decl-list)
   foreach variable $v$ in decl-list
@@ -308,7 +299,6 @@ and returns its fanouts.
 %of the assignment statements in the \cci{wiredef-list} expressions to the 
 %fanins of the corresponding wire identity gates.
 %Below we define \texttt{olp-to-aig} method that takes an \caig program as input and generates its corresponding AIG circuit. 
-
 
 \paragraph{Invariants.}
 %

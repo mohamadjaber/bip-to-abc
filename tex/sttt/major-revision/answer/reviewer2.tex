@@ -18,17 +18,19 @@ translations have already been developed for several high level models, such
 as the synchronous languages. For instance, Esterel can be compiled to Verilog
 or BLIF (see the Columbia Esterel Compiler). How does your method differ?
 
+~
+
 \done
 \answer{
 Up to our knowledge, our contribution is the first to enable 
 translating BIP into a sequential circuit such that synthesis 
 and verification techniques can be applied to it to optimize it
 and verify it. 
-
+%
 That said, Esterel and BIP differ in several ways.
 For example, Esterel is less expressive as it does not allow for multipart 
 interactions with non-deterministic behaviors while BIP does. 
-
+%
 In addition,
 our translation takes a high level BIP model directly into a 
 bit-level circuit by embedding built-in scheduling into 
@@ -47,6 +49,9 @@ you use DFinder to generate the corresponding invariant? Also, it is not clear
 how you define the invariants. You show them in the benchmarks. But are these
 part of the BIP specification, or are they defined separately?
 
+
+~
+
 \done
 \answer{We have added a paragraph in the implementation section that explains how invariants are defined.}
 
@@ -57,6 +62,9 @@ activate the interactions, rather than dividing the procedure into the various
 steps. Essentially you need to select an interaction, and you build a circuit
 to do so. Describe the circuit, and perhaps put a picture showing how the
 different arrays are related.
+
+~
+
 \done
 \answer{We added a paragraph at the end of Section 6 to 
 discuss more the built in scheduler logic.}
@@ -73,6 +81,9 @@ that your semantics is slightly different? To my understanding, wire
 possible values during verification. Is this right? I.e., does the
 verification account for all possible selections? But still, not for
 concurrent selections?
+
+
+~
 
 \done
 \answer{We have added a discussion to elaborate more on this. In fact, 
@@ -95,6 +106,9 @@ for ABC is better than the one you generate for NuSMV. What if, for instance,
 you were to generate NuSMV code out of the OLP? How would NuSMV perform
 compared to the original code? 
 
+
+~
+
 \answer{
 This is an interesting direction for future work. 
 We expect ABC to still outperform NuSMV because of the richer 
@@ -104,6 +118,9 @@ transformations available in ABC.
 
 Also, you mention you perform certain
 reductions outside ABC. Do you include these reductions also for NuSMV?
+
+~
+
 \answer{
   The benchmarking against NuSMV includes the once 
   cycle optimization for both verification paths. 
@@ -114,18 +131,27 @@ A few minor things:
 \begin{itemize}
 \item The text of the second paragraph of step 2 (section 5, page 9) must be
 revised ("is true either"? "interaction greater with an index greater"?).
+
+~
+
 \done
 \answer{We restructured this paragraph to make it clearer.}
 
 \item On page 3, I don't understand the meaning of: "The interaction bit vector is
 evaluated in real-time". Does the traditional BIP main loop not evaluate the
 interactions in real time?
+
+~
+
 \done
-\answer{We restructured the section}
+\answer{We made this clear in the paper.}
 
 \item There is confusion when you says that you denote by p.X the set of variables
 assigned to the port p. X was previously (two lines above) used to denote
 the set of all variables (I assume), and now you use it to denote $x_p$, which
 was defined as a subset of X. Please change notation.
+
+~
+
 \done
 \end{itemize}
