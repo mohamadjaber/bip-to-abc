@@ -108,7 +108,7 @@ The semantics of the atomic component $B = (P,L, T, X, \{g_{\tau}\}_{\tau \in T}
 \end{itemize}
 \end{definition}
 %
-A configuration is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of configurations $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in configuration $(l, v)$. Execution of port $p$ results in updated the valuation of $v$ to $v'=f_\tau(v/v_p)$
+A state is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of states $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in state $(l, v)$. Execution of port $p$ results in updated the valuation of $v$ to $v'=f_\tau(v/v_p)$
 \redbox{
 Note that valuation of the variables attached to port $p$ are further instantiated when composing components with respect to data transfer functions of interactions~\cite{jaberthesis,FalconeJNBB15}.
 }
@@ -144,7 +144,7 @@ The connection of the components in $\{B_i\}_{i\in I}$ using the set $\gamma$ of
 %
 \begin{definition}[Semantics of Composite Components]
 \label{def-runtimesemanticscomposite}
-A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gamma$ connects the $B_i$'s for $i\in [1,n]$, is an $n$-tuple $q=(q_1,\ldots,q_n)$ where $q_i=(l_i,v_i)$ \redbox{is a configuration} of $B_i$. Thus, the semantics of $\gamma(\{B_1, \ldots, B_n\})$ is precisely defined as the labeled  transition system $S = (Q,\gamma,\goesto)$, where:
+A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gamma$ connects the $B_i$'s for $i\in [1,n]$, is an $n$-tuple $q=(q_1,\ldots,q_n)$ where $q_i=(l_i,v_i)$ \redbox{is a state} of $B_i$. Thus, the semantics of $\gamma(\{B_1, \ldots, B_n\})$ is precisely defined as the labeled  transition system $S = (Q,\gamma,\goesto)$, where:
 \begin{itemize}
 \item $Q= B_1.Q\times \ldots\times B_n.Q$, 
 \item $\goesto$ is the least set of transitions satisfying the rule defined in Figure \ref{fig:bip-rule}.
@@ -205,16 +205,16 @@ Given a port $p$ from the system \Pm, we denote by (1) $interaction(p)$ to be th
 
 We define the function $\mathtt{index}$ that assigns for each interaction $a \in \gamma$ a positive integer in $\big[0,|\gamma| - 1\big]$, i.e., $\mathtt{index}: \gamma \rightarrow \big[0,|\gamma| - 1\big]$. 
 
-\begin{definition}[Configuration]
-A configuration of a BIP system ${\cal S}$ is a tuple $(q,b)$ where $q\in Q$ and $b$ is a Boolean bit-vector of size $|\gamma|$ 
-that indicates which interaction is selected to execute in the next step. 
-Formally, let $a \in \gamma$ be the interaction governing the transition $q_i \goesto[a]_\pi q_{i+1}$, 
-$b[i]$ is $\true$ when $i = \mathtt{index}(a)$ and is $\false$ for all $i \in [1, |\gamma|], i\not=\mathtt{index}(a)$. 
-\end{definition}
+%\begin{definition}[Global State]
+%A state of a BIP system ${\cal S}$ is a tuple $(q,b)$ where $q\in Q$ and $b$ is a Boolean bit-vector of size $|\gamma|$ 
+%that indicates which interaction is selected to execute in the next step. 
+%Formally, let $a \in \gamma$ be the interaction governing the transition $q_i \goesto[a]_\pi q_{i+1}$, 
+%$b[i]$ is $\true$ when $i = \mathtt{index}(a)$ and is $\false$ for all $i \in [1, |\gamma|], i\not=\mathtt{index}(a)$. 
+%\end{definition}
 
 \begin{definition}[Trace]
-  A trace $t$ of length $\ell$ of a system $(B,\mathit{Init}, v)$ is the sequence of configurations 
-  $(q_0,b_0) \cdot (q_1,b_1) \cdots (q_{\ell-1}, b_{\ell-1})$ 
+  A trace $t$ of length $\ell$ of a system $(B,\mathit{Init}, v)$ is the sequence of global states  
+  $q_0 \cdot q_1 \cdots q_{\ell-1}$ 
   such that: $q_0$ = $(\mathit{Init}, v)$, and 
   $\forall i\in [0,l-1]: q_i\in Q \wedge \exists a_i\in A: q_i \goesto[a_i]_\pi q_{i+1}$.
 %
@@ -226,14 +226,14 @@ $b[i]$ is $\true$ when $i = \mathtt{index}(a)$ and is $\false$ for all $i \in [1
 %    \false & \quad \text{otherwise}
   %\end{array} \right.\]
 That is, $a_i$ is an interaction enabled on $q_i$ and its execution results in state $q_{i+1}$. 
-We denote by (1) $t[i]$ the $i^{\text{th}}$ configuration in the trace, i.e., configuration $(q_i,b_i)$,
-and (2) $t_b[i]$ the index of the $i^{\text{th}}$ interaction executed in the trace, i.e., $k$ where $b_i[k] = \true$.
+We denote by $t[i]$ the $i^{\text{th}}$ state in the trace, i.e., state $q_i$.
 \end{definition}
 
 \begin{example}
 Figure \ref{fig:traffic:bip} shows a traffic light controller system modeled in BIP. 
 It is composed of two atomic components, \cci{timer} and \cci{light}. The timer counts
 the amount of time for which the light must stay in a specific state (i.e. a specific
+
 color of the light). The light component determines the color of the traffic light. Additionally, it
 informs the timer about the amount of time to spend in each location through a data transfer on the interaction between the two components. 
 
