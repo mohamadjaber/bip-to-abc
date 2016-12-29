@@ -1,0 +1,78 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\subsection{Semantics of one loop programs.}
+%
+
+
+A variable can be either a register
+denoting a memory element, 
+or a wire denoting a functional macro. 
+Memory variables are initialized simultaneously using the 
+\cci{do-together} construct. 
+After initialization, an infinite loop keeps updating the 
+value of memory variables simultaneously. 
+The listings in Figure \ref{fig:gr} shows the syntax of 
+an \caig. 
+
+
+
+If a wire is not assigned, then it is said to be a 
+non-deterministic {\em primary input}. 
+It takes a new non-deterministic value at each iteration of 
+the loop.
+The list of statements \cci{init-list} assigns initial values to 
+the register variables.
+Similarly, the \cci{next-list} list of statements updates 
+the values of the register variables. 
+The semantics of \caig expressions are defined by the typical 
+valuation rules of the corresponding unary and binary operators. 
+The ternary choice \cci{(a? b : c)} returns $b$ if $a$ 
+is \true and $c$ otherwise. 
+
+
+
+Formal semantics for \caig semantics that are given 
+in terms of \caig state and trace follow. 
+
+
+
+\begin{definition}[\caig state]
+The state of an \caig program $P$ ranging over a set of 
+non-wire variables $V=\set{v_1,v_2\ldots,v_n}$ is defined as 
+the valuation 
+$\sigma: V \mapsto D$. 
+The valuation $\sigma$ maps variables in 
+$V$ to $D=D_1\times D_2 \times \ldots \times D_n$. 
+Domain $D_i$ is $\mathbb{B}$, $Data$,
+$\mathbb{B}^k$ and $Data^k$ 
+when 
+$\mathit{type}(v_i)$ is \cci{Boolean}, \cci{int}, 
+\cci{Boolean[k]}, and \cci{int[k]}, respectively 
+where $1 \le i \le n$ and $k >0$.
+\end{definition}
+
+
+
+\begin{definition}[\cci{do-together} semantics]
+All the assignment statements within \cci{init-list} and 
+\cci{next-list} can execute
+simultaneously as indicated with the \cci{do-together} 
+construct.
+\end{definition}
+
+
+
+\begin{definition}[\caig trace]
+A trace $\pi$ of length $\ell$ of an \caig with variables 
+$V=\set{v_1,v_2,\ldots,v_n}$ is a sequence 
+of \caig states $\sigma_0,\sigma_1,\ldots,\sigma_{\ell -1}$. 
+State $\sigma_0$ is defined as the valuations given by 
+the $\mathit{init-state}(v_i)$ functions, $1\le i \le n$. 
+State $\sigma_{k+1}$ corresponds to the valuations 
+given by functions $\mathit{next-state}(v_i)$ 
+where references to variables $v_j\in V$ are substituted by 
+the corresponding valuations from $\sigma_{k}$, 
+$0\le k \le \ell$. 
+\end{definition}
+

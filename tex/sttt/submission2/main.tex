@@ -1,0 +1,42 @@
+\documentclass[sttt]{svjour}
+\input{packages}
+\input{macros}
+%
+
+% Component-based systems, Embedded Systems, Sequential Circuit, Verification. 
+\begin{document}
+\sloppy
+\graphicspath{{figures/}}
+\title{From High-Level Modeling Towards Efficient and Trustworthy Circuits}
+\author{Fadi A. Zaraket\inst{1} \and Mohamad Jaber\inst{1} \and Mohamad Noureddine\inst{2} \and Yli\`es Falcone\inst{3}}
+\institute{American University of Beirut, Beirut, Lebanon \\ \email{\{fz11,mj54\}@aub.edu.lb}
+\and 
+University of Illinois at Urbana-Champaign, Performability Engineering Research Group, Urbana, IL, USA\\ \email{nouredd2@illinois.edu}
+\and 
+Laboratoire d'Informatique de Grenoble, Universit\'e Grenoble-Alpes, Grenoble, France \\ \email{Ylies.Falcone@ujf-grenoble.fr} 
+}
+%
+\maketitle
+%
+% File inclusion
+%
+\input{abstract}
+\input{intro}
+\input{bip}
+\input{this}
+\input{sequential}
+\input{translation}
+\input{implem}
+\input{rw}
+\input{conclusion}
+%
+%%%%%%
+%
+\bibliographystyle{plain}
+\bibliography{biblio}
+%
+
+\appendix
+\input{abc}
+
+\end{document}

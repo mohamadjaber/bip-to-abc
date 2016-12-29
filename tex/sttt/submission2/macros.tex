@@ -1,0 +1,194 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% General macros
+%%%%%%%%%%%%%%%%%%%%%%%
+% \newcommand{\question}[1]{{\textcolor{red}{\textsc{QUESTION:} #1}}}
+\newcommand{\probleme}[1]{{\textcolor{red}{\textsc{PB:} #1}}}
+%\newcommand{\question}[1]{\textbf{\textsc{QUESTION :} #1}}
+%\newcommand{\modified}[1]{\textcolor{red}{#1}}
+%\newcommand{\mmodified}[1]{\textcolor{red}{#1}}
+\newcommand{\setof}[1]{\ensuremath{\left \{ #1 \right \}}}
+\newcommand{\tuple}[1]{\ensuremath{(#1)}}
+% Maths
+\DeclareMathOperator{\codom}{codom}
+\DeclareMathOperator{\traces}{traces}
+\DeclareMathOperator{\runs}{runs}
+\newcommand{\bbb}{\mathbb{B}}
+
+\newcommand{\cci}[1]{\texttt{#1}}
+
+\newcommand{\Data}{\mathrm{Data}}
+\newcommand{\func}{\mathit{func}}
+\newcommand{\port}{\mathit{port}}
+\newcommand{\export}{\mathit{export}}
+
+\newcommand{\guard}{\mathit{guard}}
+\newcommand{\source}{\mathit{src}}
+\newcommand{\dest}{\mathit{dest}}
+
+\newcommand{\ignore}[1]{}
+\newcommand{\ie}{i.e.,}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\defas}{\stackrel{\mathrm{\scriptscriptstyle def}}{=}}
+
+\newcommand{\true}{\ensuremath{\mathtt{true}}\xspace}
+\newcommand{\false}{\ensuremath{\mathtt{false}}\xspace}
+\newcommand{\goesto}[1][]{\stackrel{#1}{\longrightarrow}} % -->
+
+\newcommand{\valu}[1]{\mathbf{#1}}
+
+
+
+
+%% formulae
+\newcommand{\Pm}{\ensuremath{\mathcal{S}}\xspace}         % program
+\newcommand{\Sp}{\ensuremath{\mathcal{S}}\xspace}         % specification
+\newcommand{\cfor}[1]{\MATH{\mathit{cfor}[#1]}}               % correction formula for inadequate vocabulary
+\newcommand{\for}[1]{\MATH{\mathit{fm}(#1)}}                     % formula corresponding to an assignment
+\newcommand{\Fo}{\ensuremath{\mathcal{F}}\xspace}
+\newcommand{\Pre}{\ensuremath{\mathcal{P}}}                                % precondition
+\newcommand{\Post}{\ensuremath{\mathcal{Q}}}                              % postcondition
+
+%% tool
+\newcommand{\mytool}{\ensuremath{\{\mathcal{P}\}\mathcal{S}\{\mathcal{Q}\}}} % the name of our tool
+\newcommand{\caig}{\ensuremath{\mathcal{OLP}}\xspace}
+\newcommand{\biptool}{\ensuremath{\mathcal{B}ip\mathcal{SV}}}
+\newcommand{\psqlanguage}{\ensuremath{\mathcal{T}iny}}
+\newcommand{\aigcircuit}{\ensuremath{\mathcal{C}}}
+
+\newcommand{\lft}{\ensuremath{\mathcal{left}}\xspace}
+\newcommand{\rgt}{\ensuremath{\mathcal{right}}\xspace}
+\newcommand{\eina}{\ensuremath{\mathcal{eina}}\xspace}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% GENERAL MATH SYMBOLS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Adj}{\mathop{\rm Adj}\nolimits}
+\newcommand{\abs}[1]{\left| #1\right|}
+\newcommand{\card}[1]{\left| #1\right|}
+\newcommand{\ar}{\rightarrow}
+%\newcommand{\ar}{\longrightarrow}
+\newcommand{\al}{\alpha}
+\renewcommand{\b}[1]{\overline{#1}}
+\newcommand{\cat}{\mathbin{\frown}}
+\newcommand{\choice}{\mbox{$[\hspace*{-1.0pt}]$}}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\renewcommand{\d}{\, . \,}      % separator in quantified formulae
+\newcommand{\df}{\triangleq}
+%\newcommand{\df}{\mbox{$\:\stackrel{\rm df}{=\!\!=}\:$}}
+\newcommand{\dn}{\mbox{$\hspace{-0.1em}\downarrow\hspace{-0.1em}$}}
+\newcommand{\Ex}{\mathop{\rm Ex}}
+\newcommand{\es}{``"}   %empty string
+\newcommand{\expect}[1]{{\rm E}\left[ #1 \right]}
+\newcommand{\expectsq}[1]{{\rm E}^2\left[ #1 \right]}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\renewcommand{\ge}{\geqslant}
+\newcommand{\given}{\mid}
+\newcommand{\halfind}{\hspace*{1.5em}}
+\newcommand{\ifof}{\Longleftrightarrow} % logical equivalence
+\newcommand{\img}{\mathrm{Image}}
+\newcommand{\ints}{\cap}
+\renewcommand{\l}{\ell}
+\newcommand{\la}[1]{\mbox{$\, \stackrel{#1}{\rightarrow} \,$}}
+\renewcommand{\le}{\leqslant}
+\newcommand{\lra}{\mbox{$\longrightarrow$}}
+%\newcommand{\mod}{\ \mathrm{mod}\ }
+\newcommand{\oneton}{\{1,\,\ldots, n\}}
+\newcommand{\n}{\ensuremath{[1:n]}} 
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\pair}[2]{\ensuremath{(#1, #2)}}
+\newcommand{\pind}{\hspace*{3.0em}}
+\newcommand{\pj}{\!\upharpoonright\!}
+\newcommand{\proj}{\pj}
+\newcommand{\preimg}{\mathrm{PreImage}}
+\newcommand{\pl}{\!\parallel\!}
+\newcommand{\s}{\mbox{$\hspace{-1pt}-\hspace{-2pt}$}}
+\newcommand{\set}[1]{\ensuremath{\{ #1 \}}\xspace}
+%\newcommand{\set}[1]{\{#1\}}
+\newcommand{\seq}{\approx}
+\newcommand{\spc}{\mbox{\vspace{-0.25in}}}
+\newcommand{\stt}{\ | \ }
+%\newcommand{\st}[1]{\ensuremath{[ #1 ]}\xspace}
+\newcommand{\sub}{\subseteq}
+\newcommand{\twodots}{\mathinner{\ldotp\ldotp}}
+\newcommand{\tiff}{\textup{\ iff\ }}
+\newcommand{\tl}[1]{\mbox{$\tilde{#1}$}}% abbreviated tilde
+\newcommand{\tpl}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\un}{\cup}
+\newcommand{\union}{\bigcup}
+\newcommand{\up}{\mbox{$\hspace{-0.1em}\uparrow\hspace{-0.1em}$}}
+\newcommand{\Var}{\mathop{\rm Var}\nolimits}
+\newcommand{\variance}[1]{{\rm Var}\left[ #1 \right]}
+\newcommand{\w}{\omega}
+
+
+%%%%%%%%%%%%%%%%%%% Ints, Reals, etc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\reals}{{\mathbb R}}
+\newcommand{\integers}{{\mathbb Z}}
+\newcommand{\naturals}{{\mathbb N}}
+\newcommand{\nat}{\naturals}
+\newcommand{\nats}{\naturals}
+\newcommand{\rationals}{{\mathbb Q}}
+\newcommand{\complex}{{\mathbb C}}
+\newcommand{\complexes}{{\mathbb C}}
+\newcommand{\prob}{\ensuremath{\Pm \sat \pair{\Pre}{\Post}|_b }}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Hoare Logic Symbols
+\newcommand{\lng}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\htp}[3]{\ensuremath{\{#1\}\,#2\,\{#3\}}}
+\newcommand{\htptc}[3]{\ensuremath{\langle#1\rangle\,#2\,\langle#3\rangle}}
+\newcommand{\var}{\ensuremath{\varphi}}
+
+\newcommand{\as}[1]{\ensuremath{\{#1\}}}               % partial correctness asserion
+%\newcommand{\ts}[1]{\ensuremath{\langle #1 \rangle}}   % termination correctness asserion
+
+\newcommand{\ch}{\mbox{[\hspace{-0.15ex}]}}
+
+\newcommand{\pa}[1]{\{\ensuremath{#1}\}}
+%\newcommand{\ta}[1]{$<$#1$>$}
+\newcommand{\ta}[1]{$\langle$\ensuremath{#1}$\rangle$}
+
+\newcommand{\pre}[1]{\textsf{Precondition: #1}}
+\newcommand{\post}[1]{\textsf{Postcondition: #1}}
+
+\newcommand{\satt}{\equiv}
+\newcommand{\sat}{\models}
+\newcommand{\satf}{\mbox{\ensuremath{=\hspace*{-5pt}|}}}   % satisfiable - backward turnstile
+%\newcommand{\satf}{\mbox{\ensuremath{=\!\!\!\!|}}}   % satisfiable - backward turnstile
+
+
+\newcommand{\yld}{\vdash}
+\newcommand{\yldd}{\equiv}
+%\newcommand{\yldd}{\dashv \vdash}
+
+
+
+
+\newcommand{\pc}[1]{{#1}}    %% font for pseudocode
+%\newcommand{\pc}[1]{\codetext{#1}}    %% font for pseudocode
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% Lists
+\newcommand{\be}{\begin{itemize}}
+\newcommand{\ee}{\end{itemize}}
+\newcommand{\bdn}{\begin{description}}
+\newcommand{\edn}{\end{description}}
+\newcommand{\bn}{\begin{enumerate}}
+\newcommand{\en}{\end{enumerate}}
+\renewcommand{\i}{\item}
+
+\newenvironment{closeitemize}{\begin{list}%
+{$\bullet$}%
+{\setlength{\itemsep}{-0.2\baselineskip}%
+\setlength{\topsep}{0.2\baselineskip}}}%
+{\end{list}}
+
+%\newcommand{\redbox}[1]{ \textcolor{red}{#1} }
+
+

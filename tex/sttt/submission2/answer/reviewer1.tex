@@ -1,0 +1,38 @@
+\section{Reviewer 1 - Report 101-RV-1-R-492}
+The paper has been slightly modified with respect to its original version, so I
+will only comment the modified parts.
+Please refer to my initial review for the rest of the paper, when applicable.
+Most of my remarks has been taken into account by the authors, but I still have
+the following observations that should be considered for the final version
+before its publication.
+
+\begin{itemize}
+\item p.3, Sec.3: "[...] of design : Behavior, Interaction [...]" $\rightarrow$ "[...] of
+design: Behavior, Interaction [...]" (in English there is no white space before ":")
+\item p.4, Def.6: "Where $v_{p_i}$ denotes [...] interaction a." $\rightarrow$ "In this rule,
+$v_{p_i}$ denotes [...] interaction a."
+\item p.4, after Def.6: "The meaning [...] is the following : [...]" $\rightarrow$ "The meaning
+[...] is the following: [...]" (again, no white space before ":")
+\item p.6, Def.13\&16: "init - state(v)" and "next - state(v)": It is not a good idea
+to use "-" in function names here, since it could be interpreted as a minus
+operation. I think it is better to use "\_" instead of "-".
+\item p.7, Def.20: Definition 20 is disconnected from Definitions 19 and 21, and
+there are redundancies between all these definitions.
+Moreover, its formulation should be improved: "Term $u_j$ denotes the j-th
+incoming edge [...], implying that $(u_j,v) \in E$." $\rightarrow$ "Term $u_j$ denotes the j-th
+incoming edge [...], that is, $(u_j,v) \in E$.".
+"The mapping [...] in the following sense." This sentence is incorrectly
+placed, the notion of consistency being explained in the next paragraph.
+Also, please explain how rules of Fig.6 can be used in practice, since in
+principle there might be ordering issues related to them (this works only
+because you assume well-formed circuits, but you need to explain precisely why).
+\item p.12: "This can be detected by doing a static data dependency [...]" $\rightarrow$ "This
+can be detected by doing a static data dependency analysis [...]"
+\item p.13: "property.txt [...]" $\rightarrow$ "The file property.txt [...]"
+\end{itemize}
+
+
+
+
+% \done
+% \answer{}

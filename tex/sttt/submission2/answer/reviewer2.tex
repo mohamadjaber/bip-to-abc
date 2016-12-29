@@ -1,0 +1,94 @@
+% !TEX root = answers.tex
+\section{Reviewer 2 - Report 101-RV-1-R-486}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+The paper has certainly improved since the first revision, however there are
+still aspects that I think should be addressed. In particular, the following
+two:
+
+\begin{itemize}
+\item I appreciate the author's discussion of the differences between BIP and the
+Esterel flow in the answer to reviewers. However, apparently this discussion
+did not make it into the paper. I think it would be useful to add a paragraph
+in the related work explaining your point of view.
+
+\item The relationship between the NuSMV code generated from BIP and the OLP code
+is still unclear. In the answer, you mention this is an interesting direction
+for future work. However, I think it is very important to discuss some of the
+aspects in *this* paper, otherwise the introduction of the OLP appears
+unmotivated. The cycle-based semantics of OLP is apparently the same as that
+of NuSMV, and I don't see any differences in how the transition relation is
+generated. Differences may lie in the way you account for interactions. This
+has to be explained, to give the reader a sense of what may cause the
+different performance between the two tools. If instead there are no
+differences in how you account for interactions, then you have to explain why
+you need the OLP, since a lot of the paper is concerned with describing how it
+works (even more now, as another reviewer asked you add more details!).
+
+
+\item Then, there are some other minor corrections that could improve readability.
+\begin{itemize}
+\item  Page 5. "The wire modifier keyword is used the variable is a wire"
+Rephrase this sentence.
+\item  Explain earlier the difference between a wire and a register. Is it the same
+as in Verilog? This comes only later, in Section 4.2. Plus, there is some
+confusion in the added text. For instance, initially, bottom of Page 5, you
+say that init-list is a list of assignments where the target terms are wire
+variables ("The init-list and the next-list are lists of assignment
+statements where the target terms are wire and register variables,
+respectively."). Later on, on Page 6, you say "The list of statements
+init-list assigns initial values to the register variables". This seems like
+a contradiction. Is it wires or registers that get assigned in the
+init-list?
+
+\item Is "non-wire" the same as "register"?
+
+\item What is a do-together construct, and what does a while(true) construct do?
+
+\item On page 9, you do not define what it means for two traces to be "equivalent".
+
+\item On page 10, you mention the "centralized" engine, but you never discussed
+what the centralized engine is (or, at least, you didn't name it that way, I
+understand it must be the BIP default simulation engine).
+
+\item I understand the file property.txt represents the conditions to be verified.
+You introduce this by starting a sentence with the name of the file. This is
+not so easy to read. First explain that you need to express these
+verification conditions, then give examples of these conditions, then say
+that these conditions are stored in a file called property.txt. Perhaps
+give examples.
+
+The paragraph is followed by a picture with the invocation of the tool, with
+no explanation.
+
+\item This sentence is an overstatement: "Using ABC’s synthesis and reduction
+algorithms, BipSV was able to reduce the size of the generated AIGs for all
+designs by a factor larger than 50%". It isn't BipSV that was able to reduce
+the size of the generated AIGs, but rather ABC, unless you have driven the
+ABC engine is some non-obvious way. In that case, I would expect the paper
+to discuss the proper way to drive the ABC reduction techniques in order to
+obtain better results (and perhaps a comparison of those ways in terms of
+reduction to see what the real improvement is). The same in the following
+sentences: you should compare ABC to NuSMV.
+
+\end{itemize}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

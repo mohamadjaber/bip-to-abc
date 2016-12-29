@@ -26,7 +26,7 @@ import ujf.verimag.bip.Core.Behaviors.Transition;
 import ujf.verimag.bip.Core.Behaviors.Variable;
 import ujf.verimag.bip.Core.Interactions.Component;
 
-public class TComponent extends TNamedElement{
+public class TComponent extends TNamedElement {
 	
 	private Component component; 
 	private TCompound tCompound; 
