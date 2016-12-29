@@ -9,26 +9,61 @@ before its publication.
 \begin{itemize}
 \item p.3, Sec.3: "[...] of design : Behavior, Interaction [...]" $\rightarrow$ "[...] of
 design: Behavior, Interaction [...]" (in English there is no white space before ":")
+\answer{
+The space was an artifact of the color highlighting for the changes in the document. It is fixed now. 
+}
+
 \item p.4, Def.6: "Where $v_{p_i}$ denotes [...] interaction a." $\rightarrow$ "In this rule,
 $v_{p_i}$ denotes [...] interaction a."
+
+\done
+
 \item p.4, after Def.6: "The meaning [...] is the following : [...]" $\rightarrow$ "The meaning
 [...] is the following: [...]" (again, no white space before ":")
+
+\done
+
+
 \item p.6, Def.13\&16: "init - state(v)" and "next - state(v)": It is not a good idea
 to use "-" in function names here, since it could be interpreted as a minus
 operation. I think it is better to use "\_" instead of "-".
+
+\answer{ We used another style with the dash such that it does not look like a minus sign. }
+
 \item p.7, Def.20: Definition 20 is disconnected from Definitions 19 and 21, and
 there are redundancies between all these definitions.
-Moreover, its formulation should be improved: "Term $u_j$ denotes the j-th
+
+    \answer{ We added a sentence to definition 20 that relates to definitions 19 and 21. Note that 
+    definition 20 was added in the first review to tend to a reviewer's request.}     
+
+\item Moreover, its formulation should be improved: "Term $u_j$ denotes the j-th
 incoming edge [...], implying that $(u_j,v) \in E$." $\rightarrow$ "Term $u_j$ denotes the j-th
 incoming edge [...], that is, $(u_j,v) \in E$.".
+\done
+
+\item 
 "The mapping [...] in the following sense." This sentence is incorrectly
 placed, the notion of consistency being explained in the next paragraph.
-Also, please explain how rules of Fig.6 can be used in practice, since in
+
+\answer{The definition is rearranged. We moved part of the paragraph inside the figure. }
+
+\item Also, please explain how rules of Fig.6 can be used in practice, since in
 principle there might be ordering issues related to them (this works only
 because you assume well-formed circuits, but you need to explain precisely why).
+
+\answer{ We related the well-formed constraint that results in no combinational 
+    cycles to the valuation directly after the definitions where
+we discuss Figure 6.}
+
 \item p.12: "This can be detected by doing a static data dependency [...]" $\rightarrow$ "This
 can be detected by doing a static data dependency analysis [...]"
+
+\done
+
 \item p.13: "property.txt [...]" $\rightarrow$ "The file property.txt [...]"
+
+\done
+
 \end{itemize}
 
 

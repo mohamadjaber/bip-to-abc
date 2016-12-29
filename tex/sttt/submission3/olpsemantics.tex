@@ -68,9 +68,11 @@ A trace $\pi$ of length $\ell$ of an \caig with variables
 $V=\set{v_1,v_2,\ldots,v_n}$ is a sequence 
 of \caig states $\sigma_0,\sigma_1,\ldots,\sigma_{\ell -1}$. 
 State $\sigma_0$ is defined as the valuations given by 
-the $\mathit{init-state}(v_i)$ functions, $1\le i \le n$. 
+%the $\mathit{init-state}(v_i)$ functions, $1\le i \le n$. 
+the \cci{init-state($v_i$)} functions, $1\le i \le n$. 
 State $\sigma_{k+1}$ corresponds to the valuations 
-given by functions $\mathit{next-state}(v_i)$ 
+%given by functions $\mathit{next-state}(v_i)$ 
+given by functions \cci{next-state($v_i$)} 
 where references to variables $v_j\in V$ are substituted by 
 the corresponding valuations from $\sigma_{k}$, 
 $0\le k \le \ell$. 
