@@ -79,7 +79,7 @@ It either proves correctness or produces a counter example where the system viol
 of configuration options. 
 It takes the name of the input BIP file and optional flags (e.g., debugging).
  
-\texttt{property.txt} contains pre and post conditions over atomic propositions to be verified. Atomic propositions express conditions on components (e.g., a condition on the lastly executed port, current locations of atomic components, values of variables). Additionally, we have built some predefined patterns such as deadlock expressed as an invariant denoting the set of the states from which all interactions are disabled.
+The file \texttt{property.txt} contains pre and post conditions over atomic propositions to be verified. Atomic propositions express conditions on components (e.g., a condition on the lastly executed port, current locations of atomic components, values of variables). Additionally, we have built some predefined patterns such as deadlock expressed as an invariant denoting the set of the states from which all interactions are disabled.
 
 \begin{lstlisting}[language=Bash]
 > java -jar bip-to-abc.jar [options] input.bip \

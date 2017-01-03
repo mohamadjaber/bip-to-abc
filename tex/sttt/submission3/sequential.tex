@@ -80,6 +80,7 @@ An AIG \emph{state} $\sigma: R \rightarrow \mathbb{B}$ is a Boolean valuation of
 \end{definition}
 %
 
+\redbox{
 \begin{definition}[AIG full trace]
 An AIG {\em full trace} is a mapping 
 $t: V \times \mathbb{N} \rightarrow
@@ -88,14 +89,11 @@ $V$ across time {\em steps} denoted as indexes from
 $\mathbb{N}$.
 The mapping must be consistent with $E$ and
 $G$ in the following sense.
-Term $u_{j}$ denotes the source vertex of
-the $j$-th incoming edge to $v$, implying that
-$(u_{j},v)\in E$.
 The value of gate $v$ at time $i$ in
 full trace $t$ is denoted by $t(v,i)$ as defined in 
 Figure~\ref{fig:gate-value}.
 \end{definition}
-
+}
 
 %
 \begin{figure*}
@@ -109,21 +107,39 @@ t(v,i)=
    \end{cases} \newline
 \]
 \caption{Semantics of sequential circuits given in terms of 
-  full traces. $t(v,i)$ denotes the valuation of gate $v$ at step $i$ in trace $t$}
+  full traces. $t(v,i)$ denotes the valuation of gate $v$ at step $i$ in trace $t$.
+Term $u_{j}$ denotes the source vertex of the $j$-th incoming edge to $v$, that is, %implying that
+$(u_{j},v)\in E$.
+  }
 \label{fig:gate-value}
 \end{figure*}
 %
 
-Given a sequence of input valuations and an initial state, 
+\redbox{
+  The well-formed constraint guarantees no combinational cycles in the 
+AIG. Therefore, 
+given a sequence of input valuations and an initial state, 
 \figref{fig:gate-value} defines the resulting trace as a 
 sequence of Boolean valuations to all vertices in $V$
 which is consistent with the Boolean functions of the
 gates. 
+}
+
+
 %
+\redbox{
 \begin{definition}[AIG trace]
 An {\em AIG trace} of length $\ell$ is a sequence of AIG states 
-$s_0,s_1,\ldots,s_{\ell-1}$. 
+$\rho = s_0,s_1,\ldots,s_{\ell-1}$. 
+Given a full AIG trace $t$, 
+we can compute $\rho=s_0,s_1,\ldots,s_{\ell-1}$ where 
+$s_i=\{ (r_0,b_0^i), \ldots, (r_{|R|-1}, b_{|R|-1}^i)\}$, 
+$r_j\in R$, $b_j^i \in \mathbb{B}$, $0\le i < \ell$ and $0\le j < |R|$ 
+and $( (r_j, i), b_j^i) \in t$. 
 \end{definition}
+}
+
+%
 
 %
 We will refer to the transition from one valuation

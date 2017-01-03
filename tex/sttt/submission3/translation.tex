@@ -352,7 +352,8 @@ Data transfer can take place during such synchronization.
 The operational semantics of BIP requires to (1) first execute the data transfer of the selected interaction, and then to (2) execute the functions of the corresponding transitions of atomic components.
 For this purpose, in the above translation, we used $\mathit{cycle}$ Boolean register to denote whether the system is executing actions corresponding to either interaction or transition.
 However, in some cases, data transfers of all interactions modify some variables that are not assigned in the corresponding transitions of those interactions.
-This can be detected by doing a static data dependency between interactions and their transitions. 
+This can be detected by doing a static data dependency analysis
+between interactions and their transitions. 
 This may drastically improve the performance of the system since data transfers as well as functions of transitions may be executed in one cycle. Note that, our implementation supports this optimization. 
 Moreover, it is possible to do source-to-source transformations to compose the effect of data transfer, and hence one cycle-based implementations could be always generated.
 %

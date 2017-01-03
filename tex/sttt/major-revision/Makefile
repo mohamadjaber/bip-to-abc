@@ -5,7 +5,7 @@ all:
 	pdflatex ${name}
 	pdflatex ${name}
 
-ans: answer/answers.tex
+ans: answer/answers.tex answer/reviewer2.tex answer/reviewer1.tex answer/reviewer3.tex 
 	cd answer;pdflatex answers.tex;bibtex answers
 	cd answer;pdflatex answers.tex
 	cd answer;pdflatex answers.tex
