@@ -14,24 +14,49 @@ Esterel flow in the answer to reviewers. However, apparently this discussion
 did not make it into the paper. I think it would be useful to add a paragraph
 in the related work explaining your point of view.
 
+\answer{
+We included a comparison in the Related Work Section.
+}
+
 \item The relationship between the NuSMV code generated from BIP and the OLP code
 is still unclear. In the answer, you mention this is an interesting direction
 for future work. However, I think it is very important to discuss some of the
 aspects in *this* paper, otherwise the introduction of the OLP appears
-unmotivated. The cycle-based semantics of OLP is apparently the same as that
+unmotivated. 
+The cycle-based semantics of OLP is apparently the same as that
 of NuSMV, and I don't see any differences in how the transition relation is
 generated. Differences may lie in the way you account for interactions. This
 has to be explained, to give the reader a sense of what may cause the
-different performance between the two tools. If instead there are no
+different performance between the two tools. 
+
+\answer{
+  We address this concern by clarifying two main differences in the
+  translations. 
+}
+    
+\item If instead there are no
 differences in how you account for interactions, then you have to explain why
 you need the OLP, since a lot of the paper is concerned with describing how it
 works (even more now, as another reviewer asked you add more details!).
 
+\answer{
+  The OLP program is a direct concurrent C implementation of the design. 
+  It can be directly executed on CPUs. 
+  Furthermore, in case the design was partitioned and parts needed to be run on CPUs, 
+  the OLP is readily available to do that. 
+  We already discuss this in the Introduction and in the Implementation and Evaluation Sections. 
+  We address the concern of the reviewer by modifying the paragraph in the Introduction Section to 
+  clarify the utility of the OLP.
+  We also added a comparison between the OLP and the NuSMV translation in the Related Work Section.
+}
 
 \item Then, there are some other minor corrections that could improve readability.
 \begin{itemize}
 \item  Page 5. "The wire modifier keyword is used the variable is a wire"
 Rephrase this sentence.
+
+\done
+
 \item  Explain earlier the difference between a wire and a register. Is it the same
 as in Verilog? This comes only later, in Section 4.2. Plus, there is some
 confusion in the added text. For instance, initially, bottom of Page 5, you
@@ -42,10 +67,14 @@ respectively."). Later on, on Page 6, you say "The list of statements
 init-list assigns initial values to the register variables". This seems like
 a contradiction. Is it wires or registers that get assigned in the
 init-list?
+    \answer{xxxxxxx}
 
 \item Is "non-wire" the same as "register"?
 
+  \answer{yes. we clarify this in the text.} 
+
 \item What is a do-together construct, and what does a while(true) construct do?
+  \answer{ The semantic of the do-together construct is defined in Definition 15. We added two clarifying sentences to address this concern}
 
 \item On page 9, you do not define what it means for two traces to be "equivalent".
 

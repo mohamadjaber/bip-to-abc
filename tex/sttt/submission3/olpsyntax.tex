@@ -7,7 +7,7 @@ An \caig starts with
 a list of variable declaration statements \cci{decl-list}. 
 \caig declarations allow Boolean, integer, array of Boolean 
 and array of integer types.
-The \cci{wire} modifier keyword is used
+The \cci{wire} modifier keyword is used to denote that 
 the variable is a wire. 
 Otherwise, the variable is a register variable. 
 
@@ -16,7 +16,7 @@ Otherwise, the variable is a register variable.
 \begin{definition}[\caig variables]
 The set of \caig variables $V$ of an \caig is defined to be 
 the set 
-of all non-wire variables declared in \cci{decl-list}.
+of all non-wire, i.e. register,  variables declared in \cci{decl-list}.
 The function $\mathit{type}: V \mapsto \set{int, Boolean, int[1], Boolean[1], int[2], Boolean[2], \ldots}$ maps a variable
 $v \in V$ to its declared type. 
 \end{definition}
@@ -43,13 +43,15 @@ expression $e$; expression $e$ must not refer to target $t$.
 The \cci{init-list} and the \cci{next-list} are lists 
 of assignment statements where the target terms are wire and
 register variables, respectively. 
+\redbox{
 The \cci{init-list} is embodied in a \cci{do-together} 
-construct. 
+construct, which implies concurrent execution of all its statements. }
 Expressions in \cci{init-list} assignments 
 must not refer to non-wire
 variables. 
 The \cci{next-list} is embodied in a \cci{do-together} construct
-which is in turn embodied in a \cci{while(true)} construct. 
+which is in turn embodied in a \cci{while(true)} loop construct. 
+\redbox{The loop makes sure that the design runs indefinitely.}
 
 
 
