@@ -140,8 +140,6 @@ and $( (r_j, i), b_j^i) \in t$.
 }
 
 %
-
-%
 We will refer to the transition from one valuation
 to the next one as a {\em step}.  A vertex in the circuit is
 said to be justifiable if there is an input sequence which, when
@@ -319,18 +317,34 @@ and returns its fanouts.
 A special variable in the \caig program denotes the conjunction of all the invariants of the system in addition to the deadlock freedom property. This variable is the designated output of the resulting 
 AIG circuit. ABC verifies that the designated output is always $\true$. 
 %
+
+%
+\redbox{
+\begin{definition}[AIG \caig state equivalence]
+  An \caig state $\sigma=\{(v_0,d_0),\ldots,(v_{|V|-1},d_{|V|-1}\}$, 
+  an AIG state $s=\{(r_0,b_0),\ldots,(r_{|R|-1}, b_{|R|-1})\}$, 
+  are said to be equivalent iff
+  $s(vargates(v_i))$ is equal to the binary representation of $\sigma(v_i)$, $0\le i < |V|$. 
+\end{definition}
+}
+
+
+
 \begin{theorem}[AIG \caig trace equivalence]
 Let $P$ be an \caig and $A$ be the AIG circuit generated from it (i.e., $A$ = \texttt{olp-to-aig($P$)}). 
 Let $I$ be the set of non-deterministic wires of $P$. 
 Set $I$ also corresponds to the set of corresponding primary 
 inputs of $A$. 
 Given a sequence $\rho$ of length $\ell$ 
-of input valuations of $I$, traces i
+of input valuations of $I$, traces 
 $\pi_p=\sigma^p_{0}, \sigma^p_{1}, \ldots, \sigma^p_{\ell-1}$ 
 and 
 $\pi_a=\sigma^a_{0}, \sigma^a_{1}, \ldots, \sigma^a_{\ell-1}$ 
 produced by $P$ and $A$, 
-respectively, are equivalent. 
+  \redbox{
+respectively, are equivalent, i.e. $\sigma^p_{i}$ and $\sigma^a_i$ are
+equivalent for all $0\le i < ell$. 
+}
 \end{theorem}
 
 
