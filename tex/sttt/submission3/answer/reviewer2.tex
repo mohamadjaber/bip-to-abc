@@ -14,8 +14,10 @@ Esterel flow in the answer to reviewers. However, apparently this discussion
 did not make it into the paper. I think it would be useful to add a paragraph
 in the related work explaining your point of view.
 
+~
+
 \answer{
-We included a comparison in the Related Work Section.
+We included a comparison in the related work Section.
 }
 
 \item The relationship between the NuSMV code generated from BIP and the OLP code
@@ -29,8 +31,10 @@ generated. Differences may lie in the way you account for interactions. This
 has to be explained, to give the reader a sense of what may cause the
 different performance between the two tools. 
 
+~
+
 \answer{
-  We address this concern by clarifying two main differences in the
+  We addressed this concern by clarifying the two main differences in the
   translations. 
 }
     
@@ -39,15 +43,17 @@ differences in how you account for interactions, then you have to explain why
 you need the OLP, since a lot of the paper is concerned with describing how it
 works (even more now, as another reviewer asked you add more details!).
 
+~
+
 \answer{
   The OLP program is a direct concurrent C implementation of the design. 
   It can be directly executed on CPUs. 
-  Furthermore, in case the design was partitioned and parts needed to be run on CPUs, 
+  Furthermore, in case if the design was partitioned and parts needed to be run on CPUs, 
   the OLP is readily available to do that. 
-  We already discuss this in the Introduction and in the Implementation and Evaluation Sections. 
+  We already discuss this in the introduction and in the implementation and evaluation Sections. 
   We address the concern of the reviewer by modifying the paragraph in the Introduction Section to 
   clarify the utility of the OLP.
-  We also added a comparison between the OLP and the NuSMV translation in the Related Work Section.
+  We also added a comparison between the OLP and the NuSMV translation in the related work Section.
 }
 
 \item Then, there are some other minor corrections that could improve readability.
@@ -67,23 +73,36 @@ respectively."). Later on, on Page 6, you say "The list of statements
 init-list assigns initial values to the register variables". This seems like
 a contradiction. Is it wires or registers that get assigned in the
 init-list?
-    \answer{xxxxxxx}
+
+~
+
+    \answer{We added an explanation to wire and register at the beginning of Section 4. As for the init-list, this was a typo. Both init-list and next-list assign initial values to the register variables. We fixed this.}
 
 \item Is "non-wire" the same as "register"?
 
-  \answer{yes. we clarify this in the text.} 
+~
+
+  \answer{The reviewer is correct. We clarified this in the text.} 
 
 \item What is a do-together construct, and what does a while(true) construct do?
-  \answer{ The semantic of the do-together construct is defined in Definition 15. We added two clarifying sentences to address this concern}
+
+~
+
+  \answer{The semantics of the do-together construct is defined in Definition 15. We added two sentences to clarify the meanings of do-together and while(true) constructs.}
 
 \item On page 9, you do not define what it means for two traces to be "equivalent".
+
+~
 
   \answer{We provided an AIG/OLP state equivalence definition and edited the AIG/OLP trace equivalence definition to refer to that.}
 
 \item On page 10, you mention the "centralized" engine, but you never discussed
 what the centralized engine is (or, at least, you didn't name it that way, I
 understand it must be the BIP default simulation engine).
-    \answer{xxxxxxx}
+
+~
+
+    \answer{We modified the paragraph to explain the implementations (centralized and distributed) provided by the BIP framework.}
 
 \item I understand the file property.txt represents the conditions to be verified.
 You introduce this by starting a sentence with the name of the file. This is
@@ -94,7 +113,10 @@ give examples.
 
 The paragraph is followed by a picture with the invocation of the tool, with
 no explanation.
-    \answer{xxxxxxx}
+
+~
+
+    \answer{We re-structured the paragraph following your suggestion: we added more explanation about the tool and gave an example of pre and post conditions.}
 
 \item This sentence is an overstatement: "Using ABC’s synthesis and reduction
 algorithms, BipSV was able to reduce the size of the generated AIGs for all
@@ -106,6 +128,9 @@ obtain better results (and perhaps a comparison of those ways in terms of
 reduction to see what the real improvement is). The same in the following
 sentences: you should compare ABC to NuSMV.
 
+~
+
+\answer{We clarified that we used ABC to reduce the generated AIGs (from BIPSV). As for NuSMV, we have already added a comparative study w.r.t. our methodology. }
 \end{itemize}
 \end{itemize}
 

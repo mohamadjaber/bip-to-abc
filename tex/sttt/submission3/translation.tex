@@ -30,9 +30,10 @@ The elements of array $\mathit{ip}$ denote whether a given interaction is enable
 The elements of array $\mathit{is}$ denote whether an enabled interaction is selected for execution. 
 Currently, one interaction is selected to avoid executing conflicting interactions. 
 Two interactions are conflicting if they involve the same components. 
-The centralized engine allows to execute only one interaction at a time. 
+\redbox{In order to avoid concurrently-executing conflicting interactions, BIP provides both centralized and distributed implementations. 
+In the centralized implementation, the engine executes only one interaction at a time.  
 Alternatively, BIP allows the generation of distributed implementations~\cite{BonakdarpourBJQS12} 
-where non-conflicting interactions can be executed simultaneously.
+where non-conflicting interactions can be simultaneously executed.}
 However, an additional layer is added to resolve conflicts. 
 This may introduce significant overhead due to communication between the layers. 
 %

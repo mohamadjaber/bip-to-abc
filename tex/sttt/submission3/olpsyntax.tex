@@ -3,6 +3,7 @@
 
 Figure~\ref{fig:gr} illustrates the syntax of a 
 {\em one loop program} (\caig).
+\redbox{
 An \caig starts with 
 a list of variable declaration statements \cci{decl-list}. 
 \caig declarations allow Boolean, integer, array of Boolean 
@@ -10,17 +11,16 @@ and array of integer types.
 The \cci{wire} modifier keyword is used to denote that 
 the variable is a wire. 
 Otherwise, the variable is a register variable. 
-
+A register variable represents a data storage/memory element. A wire represents a functional macro, which is used 
+to connect different elements (wires or registers).}
 
 
 \begin{definition}[\caig variables]
 The set of \caig variables $V$ of an \caig is defined to be 
-the set 
-of all non-wire, i.e. register,  variables declared in \cci{decl-list}.
+the set of all non-wire, i.e. register,  variables declared in \cci{decl-list}.
 The function $\mathit{type}: V \mapsto \set{int, Boolean, int[1], Boolean[1], int[2], Boolean[2], \ldots}$ maps a variable
 $v \in V$ to its declared type. 
 \end{definition}
-
 
 
 The \cci{wiredef-list} follows \cci{decl-list} and is a list 
@@ -41,8 +41,7 @@ expression $e$; expression $e$ must not refer to target $t$.
 
 
 The \cci{init-list} and the \cci{next-list} are lists 
-of assignment statements where the target terms are wire and
-register variables, respectively. 
+of assignment statements where the target terms are register variables.
 \redbox{
 The \cci{init-list} is embodied in a \cci{do-together} 
 construct, which implies concurrent execution of all its statements. }

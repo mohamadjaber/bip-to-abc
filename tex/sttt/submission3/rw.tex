@@ -63,12 +63,12 @@ The \caig translation differs from the NuSMV translation as follows.
   \item
 Only BIP variables and locations are encoded into registers in 
 \caig and all 
-other elements such as interaction and port enablement elements 
+other elements such as interaction and port enablement  
 are encoded using wires. 
-The NuSMV translation uses registers for all BIP elements. 
-Thus, implying a larger state space. 
-Performing the same encoding in NuSMV requires using redundant 
-expressions which may cause redundant logic. 
+The NuSMV translation uses registers for all BIP elements;
+thus, implying a larger state space. 
+Performing the same encoding in NuSMV requires the use of redundant 
+expressions, which may cause redundant logic. 
 %In both cases, taking the NuSMV design into ABC requires redundancy
 %removal to remove the redundant logic, or re-timing to remove the 
 %additional registers. 
@@ -76,17 +76,17 @@ expressions which may cause redundant logic.
  The \caig program is a concurrent C 
  implementation of the BIP system with a minor modification involving 
  replacing the \cci{do-together} directives with OpenMP API directives. 
- The implementation can be used for runtime verification as well as a direct
- software implementation. 
+ The implementation can be used for runtime verification (c.f.~\cite{FalconeHR13}) as well as a direct
+ software implementation.  
  Moreover, in case the design was to be partitioned into software and hardware, 
  parts of the implementation are readily available to execute on CPUs. 
- Performing the same with the NuSMV implementation requires developing 
+ Performing the same with the NuSMV implementation would require developing 
  a new source-to-source translator. 
 \end{itemize}
 }
 
 
-The work in \cite{facs14} uses bisimulation-based abstraction to reduce the state-space and then uses NuSMV for model-checking. Our technique can directly benefit from the abstraction of \cite{facs14}. However, our experiments show that counterpart bit-level transformation were more effective. Moreover, our \caig to AIG transformation uses compact timing since it implements the built-in scheduler in the AIG circuit; while in \cite{facs14}, the transformation from the abstracted model to the NuSMV model enumerates all symbolic states. That is, with \biptool bounded model checking can use lower time bound than \cite{facs14}. Moreover, our method enables the use of a plethora of reduction and abstraction algorithms readily available at bit-level \cite{brayton2010abc}. 
+The work in \cite{facs14} uses bisimulation-based abstraction to reduce the state-space and then uses NuSMV for model-checking. Our technique can directly benefit from the abstraction of \cite{facs14}. However, our experiments show that counterpart bit-level transformation were more effective. Moreover, our \caig to AIG transformation uses compact timing since it implements the built-in scheduler in the AIG circuit; while in \cite{facs14}, the transformation from the abstracted model to the NuSMV model enumerates all symbolic states. That is, with \biptool{} bounded model checking can use lower time bound than \cite{facs14}. Moreover, our method enables the use of a plethora of reduction and abstraction algorithms readily available at bit-level \cite{brayton2010abc}. 
 Since our transformation is time-exact the \caig program and the AIG circuit we generate can be used for runtime verification as well as real implementations. 
 
 \redbox{

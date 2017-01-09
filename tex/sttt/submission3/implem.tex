@@ -75,16 +75,27 @@ It either proves correctness or produces a counter example where the system viol
 %The debugging tool is integrated with wave form visualization 
 %tool \cite{bybell2010gtkwave}.  
 
+
 \biptool~ is equipped with a command line interface that accepts a set 
 of configuration options. 
 It takes the name of the input BIP file and optional flags (e.g., debugging).
- 
-The file \texttt{property.txt} contains pre and post conditions over atomic propositions to be verified. Atomic propositions express conditions on components (e.g., a condition on the lastly executed port, current locations of atomic components, values of variables). Additionally, we have built some predefined patterns such as deadlock expressed as an invariant denoting the set of the states from which all interactions are disabled.
 
 \begin{lstlisting}[language=Bash]
 > java -jar bip-to-abc.jar [options] input.bip \
 >    output.abc [property.txt]
 \end{lstlisting}
+
+\redbox{Moreover, \biptool{} takes a property to be verified expressed by pre and post conditions over atomic components. Atomic propositions are conditions on components (e.g., a condition on the lastly-executed port, current locations of atomic components, values of variables). The pre and post conditions are stored in a file to be parsed by \biptool{}. 
+For instance, the following file defines a property where: (1) the precondition is the condition that always holds (i.e., $\true$); and (2) the post condition requires that when component $comp_1$ is at location $s_0$ and component $comp_2$ is at location $s_1$, then the variable $x$ of $comp_1$ should be equal to the variable $y$ of $comp_2$.}
+ %
+\begin{lstlisting}[language=Bash]
+@pre inv { true; }
+@post inv {((comp1_currentState == comp1_state_s0) && (comp2_currentState == comp2_state_s1)) -> (comp1_var_x == comp2_var_decidedValue);}
+\end{lstlisting}
+
+Additionally, we have built some predefined patterns such as deadlock expressed as an invariant denoting the set of the states from which all interactions are disabled. 
+
+
 
 %% bip results
 We evaluated \biptool{} against two benchmarks used to evaluate BIP verification techniques, 
@@ -239,12 +250,11 @@ Design & latches & NAND-gates & levels & latches & NAND-gates & levels & \biptoo
 \label{tb:bip:qrm}
 \end{table*}
 
-Using ABC's synthesis and reduction algorithms, \biptool{} was able to
-reduce the size of the generated AIGs for all designs by a factor larger
-than $50\%$. Furthermore,
+\redbox{
+Using ABC's synthesis and reduction algorithms, we reduce the size of the generated AIGs (from \biptool{})  for all designs by a factor larger than $50\%$. Furthermore,
 \biptool{} was able to give conclusive results about all four designs, unlike
 NuSMV which failed to give any decision about the designs having
-$4$ clients and $2$ servers. For example, \biptool{} found a counter example for the erroneous 
+$4$ clients and $2$ servers.} For example, \biptool{} found a counter example for the erroneous 
 design having $4$ clients and $2$ servers in $0.24$ sec while NuSMV failed to do so.
 Figure~\ref{fig:res:counter} shows a snippet of the generated counter example for the erroneous design, visualized using the Gtkwave~\cite{bybell2010gtkwave} waveform viewer. 
 The variables presented in the counterexample are the current control locations and the value of the variables of the different components in the design. Red arrows points to the values that implies a violation of the invariant. 
