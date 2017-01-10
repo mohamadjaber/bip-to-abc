@@ -1,11 +1,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection{Semantics of one loop programs.}
+\subsection{Semantics of one loop programs}
 %
 
 
-A variable can be either a register
+Recall that a variable can be either a register
 denoting a memory element, 
 or a wire denoting a functional macro. 
 Memory variables are initialized simultaneously using the 
@@ -32,30 +32,26 @@ is \true and $c$ otherwise.
 
 
 
-Formal semantics for \caig semantics that are given 
-in terms of \caig state and trace follow. 
-
+Formal semantics of \caig are given in terms of \caig state and trace as follows. 
+%
+For this purpose, we consider an \caig $P$ ranging over a set of 
+non-wire variables $V=\set{v_1,v_2\ldots,v_n}$.
 
 
 \begin{definition}[\caig state]
-The state of an \caig program $P$ ranging over a set of 
-non-wire variables $V=\set{v_1,v_2\ldots,v_n}$ is defined as 
+The state of $P$ is defined as 
 the valuation 
-$\sigma: V \mapsto D$. 
+$\sigma: V \rightarrow D$. 
 The valuation $\sigma$ maps variables in 
-$V$ to $D=D_1\times D_2 \times \ldots \times D_n$. 
-Domain $D_i$ is $\mathbb{B}$, $Data$,
-$\mathbb{B}^k$ and $Data^k$ 
-when 
-$\mathit{type}(v_i)$ is \cci{Boolean}, \cci{int}, 
-\cci{Boolean[k]}, and \cci{int[k]}, respectively 
-where $1 \le i \le n$ and $k >0$.
+$V$ to $ D = \mathbb{B} \cup \mathit{Data} \cup \mathbb{B}^k \cup \mathit{Data}^k$ 
+such that $\sigma(v_i) \in \mathbb{B}$ (resp. $Data$, $\mathbb{B}^k$, $Data^k$) when $\mathit{type}(v_i)$ is \cci{Boolean} (resp. \cci{int}, 
+\cci{Boolean[k]}, and \cci{int[k]}), where $1 \le i \le n$ and $k >0$.
 \end{definition}
 
 
 
 \begin{definition}[\cci{do-together} semantics]
-All the assignment statements within \cci{init-list} and 
+All the assignment statements \cci{init-list} and 
 \cci{next-list} can execute
 simultaneously as indicated with the \cci{do-together} 
 construct.
@@ -64,12 +60,11 @@ construct.
 
 
 \begin{definition}[\caig trace]
-A trace $\pi$ of length $\ell$ of an \caig with variables 
-$V=\set{v_1,v_2,\ldots,v_n}$ is a sequence 
+A trace $\pi$ of length $\ell$ of $P$ is a sequence 
 of \caig states $\sigma_0,\sigma_1,\ldots,\sigma_{\ell -1}$. 
-State $\sigma_0$ is defined as the valuations given by 
+State $\sigma_0$ is defined as the valuation given by 
 %the $\mathit{init-state}(v_i)$ functions, $1\le i \le n$. 
-the \cci{init-state($v_i$)} functions, $1\le i \le n$. 
+the \cci{init-state($v_i$)} functions, with $1 \le i \le n$. 
 State $\sigma_{k+1}$ corresponds to the valuations 
 %given by functions $\mathit{next-state}(v_i)$ 
 given by functions \cci{next-state($v_i$)} 

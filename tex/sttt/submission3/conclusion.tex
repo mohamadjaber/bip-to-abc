@@ -1,7 +1,7 @@
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
-
-In this paper we present a method for embedded system synthesis, runtime verification,
+%
+We present a method for embedded system synthesis, runtime verification,
 and model checking with supporting tools for the BIP framework. 
 The method takes a BIP system and generates a concurrent C program with a system 
 specific scheduler embedded therein. 
@@ -25,7 +25,9 @@ We successfully used the system to verify and debug several case studies.
 %dependency analysis so that the system specific scheduler allows for more concurrent
 %behaviors. 
 
-%For future work, we are considering several research directions. 
+For future work, we consider several research directions.
+% 
 Currently, the system-specific scheduler makes conservative decisions to avoid interaction conflicts. Two interactions conflict if they share a port or they use conflicting ports of the same component.
-An important extension is to allow parallel execution of non-conflicting interactions using techniques presented in \cite{BonakdarpourBJQS12}. Another interesting direction is to generate correct and efficient sequential circuit given real-time software (i.e., with real-time constraints) modeled using the real-time version of BIP~\cite{AbdellatifCS13}. 
+An important extension is to allow parallel execution of non-conflicting interactions using techniques presented in~\cite{BonakdarpourBJQS12}. Another interesting direction is to generate correct and efficient sequential circuit given real-time software (i.e., with real-time constraints) modeled using the real-time version of BIP~\cite{AbdellatifCS13}. 
 %
+Finally, we will study the efficiency and the effectiveness of the generated \caig programs aligned with automated test case generation techniques such as~\cite{kbse-BurnimS08}.

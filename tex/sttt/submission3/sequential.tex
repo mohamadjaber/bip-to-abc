@@ -1,7 +1,9 @@
-\section{Sequential Circuit}
+\section{From \caig to sequential circuit}
 \label{sec:sequential}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+We define the translation of \caig to sequential circuits.
 %
 \begin{definition}[Sequential circuit]
 A {\em sequential circuit} is a tuple $\left( (V, E),G,
@@ -26,7 +28,7 @@ and the set of bit-register variables by $R$.
 \begin{definition}[Fanins and fanouts]
 The direct \emph{fanin}s of a gate $u$ 
 are defined as
-$\{v \mid (v,u)\in E\}$, i.e., the set of source vertices connected
+$\{v \in V \mid (v,u)\in E\}$, i.e., the set of source vertices connected
 to $u$ in $E$.  
 
 The direct {\em fanout}s of a gate $u$ are defined as 
@@ -34,7 +36,7 @@ $\set{v \mid (u,v) \in E}$, i.e.,
   the set of sink vertices connected
 to $u$ in $E$.
 The {\em support} of $u$ 
-is $\mathit{Fanins}(u) \cap (I \cup R)$, i.e., the set of all source vertices which are either primary inputs or registers that are connected to $u$.
+is $\mathit{Fanins}(u) \cap (I \cup R)$, i.e., the set of all source vertices that are either primary inputs or registers that are connected to $u$.
 %with $E^+$, the transitive closure of $E$.
 \label{def:back:fanins} 
 \end{definition}
@@ -62,10 +64,10 @@ sequential circuit.
 The ABC synthesis and model checker framework reasons about 
 the And-Inverted-Graph (AIG) representation of a sequential 
 circuit which are sequential circuits with only NAND gates 
-with exactly two fanins.~\cite{brayton2010abc}. 
+with exactly two fanins~\cite{brayton2010abc}. 
 
-We provide a description of useful reduction
-and verification ABC algorithms in appendix~\ref{app:abc}. 
+We describe useful reduction
+and verification ABC algorithms in Appendix~\ref{app:abc}. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,7 +88,7 @@ An AIG {\em full trace} is a mapping
 $t: V \times \mathbb{N} \rightarrow
 \mathbb{B}$ that gives a value to vertices in
 $V$ across time {\em steps} denoted as indexes from
-$\mathbb{N}$.
+$\mathbb{N}$:
 The mapping must be consistent with $E$ and
 $G$ in the following sense.
 The value of gate $v$ at time $i$ in
@@ -100,10 +102,10 @@ Figure~\ref{fig:gate-value}.
 \[
 t(v,i)=
    \begin{cases}
-      s^i_{v}            &:v \in I \ \text{with sampled value $s_{v}^i$}\\
-      t(u_1, 0)       &:v \in R,i=0,u_1:=\ \text{initial-state of $v$}\\
-      t(u_2, i-1)        &:v \in R,i>0,u_2:=\ \text{next-state of $v$}\\
-      G_v\big(t(u_{1},i),...,t(u_{n},i)\big) &: v \ \text{is a combinational gate with function $G_v$}
+      s^i_{v}            & \text{if } v \in I \ \text{with sampled value $s_{v}^i$}\\
+      t(u_1, 0)       & \text{if } v \in R,i=0,u_1:=\ \text{initial-state of $v$}\\
+      t(u_2, i-1)        & \text{if } v \in R,i>0,u_2:=\ \text{next-state of $v$}\\
+      G_v\big(t(u_{1},i),...,t(u_{n},i)\big) & \text{if } v \ \text{is a combinational gate with function $G_v$}
    \end{cases} \newline
 \]
 \caption{Semantics of sequential circuits given in terms of 
@@ -116,7 +118,7 @@ $(u_{j},v)\in E$.
 %
 
 \redbox{
-  The well-formed constraint guarantees no combinational cycles in the 
+  The well-formed constraint guarantees the absence of combinational cycles in the 
 AIG. Therefore, 
 given a sequence of input valuations and an initial state, 
 \figref{fig:gate-value} defines the resulting trace as a 
@@ -142,13 +144,13 @@ and $( (r_j, i), b_j^i) \in t$.
 %
 We will refer to the transition from one valuation
 to the next one as a {\em step}.  A vertex in the circuit is
-said to be justifiable if there is an input sequence which, when
+said to be \emph{justifiable} if there is an input sequence which, when
 applied to an initial state, will result in that vertex
 taking value $\true$.  A vertex in the circuit is
-valid if its negation is not justifiable.  We will refer
+\emph{valid} if its negation is not justifiable.  We will refer
 to targets and invariants in the circuit; these are simply
 vertices in the circuit whose justifiability and validity
-is of interest respectively.
+is of interest, respectively.
 A sequential circuit can naturally
 be associated with a finite-state machine (FSM),
 which is a graph on the reachable states.  However, the 
@@ -176,20 +178,22 @@ takes an \caig $P$ as input and constructs an {\em equivalent}
 AIG. An illustration example is provided in  
 \figref{fig:circuittraffic}.
 %
+The steps of the algorithm are as follows.
+%
 \begin{enumerate}
-  \item The algorithm first instantiates AIG 
+  \item It first instantiates AIG 
 registers, wires, and primary
 inputs that correspond to \caig variables 
-using the {\bf variables} method. 
+using the {\bf variables} routine.
 
-\item It then calls the recursive method {\bf traverse} 
+\item It then calls the recursive routine {\bf traverse} 
   to translate the right-hand side expressions 
 of the assignment statements in 
     \cci{wiredef-list}, \cci{init-list},
 and \cci{next-list} into AIG combinational circuits. 
 \item It connects the resulting vertices of the combinational 
 circuits of the right-hand side expressions to the fanins of the registers corresponding to the left-hand side target variables. 
-    \begin{itemize}
+    \begin{enumerate}
 \item The vertices corresponding to the \cci{init-list} 
   right-hand side expressions are connected to the  
   initial value fanins of the registers. 
@@ -199,7 +203,7 @@ circuits of the right-hand side expressions to the fanins of the registers corre
   circuits built for the \cci{wiredef-list} expressions to 
   the corresponding wires referring to the 
   variables declared as wire variables in \cci{decl-list}.
-    \end{itemize}
+    \end{enumerate}
 \end{enumerate}
 \begin{figure}
 \begin{lstlisting}
@@ -240,7 +244,7 @@ Typically the default values for the bit width are
 finite two dimensional bit vector for an array. 
 In our case, and for \caig programs generated from BIP systems, 
 we will not have arrays of register variables
-and we will only have fixed size arrays of Boolean wires as 
+and we will only have fixed-size arrays of Boolean wires as 
 discussed in \secref{sec:bip2aig}.
 %
 We say that a variable declared as wire in \cci{decl-list}
@@ -321,14 +325,13 @@ AIG circuit. ABC verifies that the designated output is always $\true$.
 %
 \redbox{
 \begin{definition}[AIG \caig state equivalence]
-  An \caig state $\sigma=\{(v_0,d_0),\ldots,(v_{|V|-1},d_{|V|-1}\}$, 
-  an AIG state $s=\{(r_0,b_0),\ldots,(r_{|R|-1}, b_{|R|-1})\}$, 
+  An \caig state $\sigma=\{(v_0,d_0),\ldots,(v_{|V|-1},d_{|V|-1}\}$ and an AIG state $s=\{(r_0,b_0),\ldots,(r_{|R|-1}, b_{|R|-1})\}$, 
   are said to be equivalent iff
-  $s(vargates(v_i))$ is equal to the binary representation of $\sigma(v_i)$, $0\le i < |V|$. 
+  $s(vargates(v_i))$ is equal to the binary representation of $\sigma(v_i)$, for each $0\le i < |V|$. 
 \end{definition}
 }
 
-
+We are now ready to state the (trace) equivalence between AIG and \caig.
 
 \begin{theorem}[AIG \caig trace equivalence]
 Let $P$ be an \caig and $A$ be the AIG circuit generated from it (i.e., $A$ = \texttt{olp-to-aig($P$)}). 
@@ -391,11 +394,11 @@ $P$ and $A$ are trace equivalent.
 %
 
 \begin{example}[Generated AIG circuit]
-Figure~\ref{fig:circuittraffic} shows a sample circuit generated 
+Figure~\ref{fig:circuittraffic} shows a circuit generated 
 by traversing the right-hand side expressions of the initial 
-value and next state function assignment statement corresponding to variable
+value and next state function assignment corresponding to variable
 $timer.\ell$. 
-The sample circuit shows AND, $=$, $<$ and multiplexer gates for simplicity; 
+The sample circuit shows only the AND, $=$, $<$ and multiplexer gates for simplicity; 
 all those gates can be readily implemented using NAND gates. 
 A multiplexer takes a Boolean control input, and uses its value to 
 choose one of its two data inputs. 
@@ -405,9 +408,9 @@ the wire variable $timer.timer.e$.
 The registers of the variables are connected directly to the circuit. 
 The circuit for the wire variable $timer.timer.e$ is constructed by traversing 
 the right-hand side expression of its 
-assignment statement in the wire definition list. 
+assignment in the wire definition list. 
 Then, the constructed circuit is connected to the input of the corresponding AND gate. 
 
-Note that (1) the initial value of $timer.\ell$ registers is $0$, and  (2) the next state fanins of $timer.\ell$ are connected to a multiplexer whose data inputs are equal to $0$ or $timer.\ell$. Thus the constant propagation algorithm replaces $timer.\ell$ with $0$ and propagates that effect. 
+Note that (1) the initial value of $timer.\ell$ registers is $0$, and  (2) the next state fanins of $timer.\ell$ are connected to a multiplexer whose data inputs are equal to $0$ or $timer.\ell$. Thus, the constant propagation algorithm replaces $timer.\ell$ with $0$ and propagates that effect. 
 \input{figcircuittraffic}
 \end{example}

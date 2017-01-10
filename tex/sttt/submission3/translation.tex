@@ -5,7 +5,7 @@
 %
 Given a BIP system $\Pm = (B, Init, v)$, \biptool~
 calls function \cci{BIP-to-OLP} (see \figref{fig:bip-to-abc-function}) to translate \Pm into 
-an \caig~program including an encoding of the semantics of interactions and priorities. 
+an \caig including an encoding of the semantics of interactions and priorities. 
 It calls four functions that fill \cci{decl-list}, \cci{wiredef-list}, \cci{init-list}, \cci{next-list}. 
 All these functions use the \cci{append} call to add code fragments to lists. 
 %
@@ -45,7 +45,7 @@ Such transformation is available automatically with the retiming algorithm in AB
 
 
 Wire $\mathit{selector}$ is a non-deterministic primary input used to select one of the enabled interactions.
-Boolean register $\mathit{cycle}$ is used to denote whether the system is executing actions corresponding to either interaction or transition. 
+Boolean register $\mathit{cycle}$ is used to denote whether the system is executing actions corresponding to either interaction or transitions. 
 Function \cci{generateDeclarationList()} also declares two wires ($B_i.p_j.e$ and $B_i.p_j.s$) for each port $p_j$. 
 For a port $p_j$, wire $B_i.p_j.e$ indicates whether the port is enabled and wire $B_i.p_j.s$ indicates whether the port is selected by the interaction for execution. 
 Moreover, for each component $B_i$ the function declares a register variable $B_i.\ell$ denoting the current location of $B_i$. 
@@ -88,9 +88,9 @@ Similarly, the function declares a variable register $B_i.x_j$ for each variable
 \end{figure}
 %
 \item Function \cci{generateWireDefList()} (see \figref{fig:generate-wire-list}) fills \cci{wiredef-list} with functional macro definitions as follows.
-The enable wire $B_i.p_j.e$ is \true when there exists a transition $\tau$ labeled with port $p$, its source ($\tau.\mathit{src}$) is the current location ($B_i.\ell$), and its guard is \true. 
+The enable wire $B_i.p_j.e$ is \true when there exists a transition $\tau$ labeled with port $p$, its source ($\tau.\mathit{src}$) is the current location ($B_i.\ell$), and its guard holds. 
 
-Array element $\mathit{ie}[j]$ corresponding to interaction $a_j$ is evaluated to \true when the guard of $a_j$ is \true and all its ports are enabled.
+Array element $\mathit{ie}[j]$, corresponding to interaction $a_j$, evaluates to \true when the guard of $a_j$ holds and all its ports are enabled.
 Array element $ip[j]$ is evaluated to \true when $ie[j]$ is \true and $a_j$ has higher priority than other enabled interactions. 
 Array element $is[j]$ is evaluated to \true when $ip[j]$ is true and either (1) $a_j$ is selected ($selector$ equals to $j$), or (2) the selected interaction is not enabled and all interactions with index greater than $j$ are not enabled. 
 
@@ -160,7 +160,7 @@ In the interaction mode (when $\mathit{cycle}$ is equal to $\false$), the functi
 The function appends a conditional clause requiring $a_k$ to be selected for execution so that the target variable $B_i.x_j$ of $\sigma$ is assigned to the expression of $\sigma$ ($\sigma.\mathit{expr}$). 
 The sequence of conditional clauses forms a nested ternary conditional expression where the last expression retains the previous value of the variable. 
 
-Similarly, in the transition mode ($\mathit{cycle}$ equals to $\true$), the function considers each assignment statement $\sigma$ from the action of transition $\tau$. The function appends a conditional clause requiring the port of the transition $\tau$ to be selected for execution and the location of the component to be equal to the source of the transition. The target variable $B_i.x_j$ of $\sigma$ is assigned to the expression of $\sigma$ ($\sigma.expr$). 
+Similarly, in the transition execution mode ($\mathit{cycle}$ equals to $\true$), the function considers each assignment $\sigma$ from the action of transition $\tau$. The function appends a conditional clause requiring the port of the transition $\tau$ to be selected for execution and the location of the component to be equal to the source of the transition. The target variable $B_i.x_j$ of $\sigma$ is assigned to the expression of $\sigma$ ($\sigma.expr$). 
 
 In the transition mode, the function considers the current location of each component $B_i.\ell$ and appends a conditional clause requiring the transition source to be equal to the current location and the port of the transition to be selected. The expression corresponding to the conditional clause updates the current location to be the destination of the transition ($\tau.dest$).  In the interaction mode, the location retains its value.
 Finally, variable $\mathit{cycle}$ is toggled. 
@@ -226,8 +226,8 @@ Finally, variable $\mathit{cycle}$ is toggled.
 \subsection{Correctness}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-Given a BIP system $S$ and its corresponding \caig program $P = \cci{BIP-to-OLP(S)}$. 
-Let $Tr_s$ be the set of traces of $S$ and let $Tr_p$ be the set of traces of $P$. 
+Given a BIP system $\Pm$ and its corresponding \caig program $P = \cci{BIP-to-OLP(\Pm)}$. 
+Let $Tr_s$ be the set of traces of $\Pm$ and let $Tr_p$ be the set of traces of $P$. 
 Consider $T'$ the projection of $Tr_p$ constrained by omitting the states where \cci{cycle} is equal to $\false$. 
 Formally, $T'  = \{t' \,\mid\, t'[i] = t[2\times i] \wedge t \in Tr_P \wedge i \in \mathbb{N}\}$. 
 Intuitively, $T'$ represents the semantics of the original BIP model regardless of the built-in scheduler details 
@@ -292,7 +292,7 @@ Consider $t' \in T'$ there exists $t \in Tr_s$ and $t = t'$.
 \begin{itemize}
 \item
 \textit{Base case.}
-The base case is similar as before and $t[0]$ is equal $t'[0]$.
+The base case is as before and $t[0]$ is equal to $t'[0]$.
 \item
 \textit{Induction case.}
 Let $t'[0..k]$ be the prefix of $t'$ of length $k+1$ 
@@ -328,7 +328,7 @@ Consequently, the claim holds as expected.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Embedding the built-in scheduler}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The logic for the built in scheduler is coupled with the 
+The logic for the builtin scheduler is coupled with the 
 port enable, port select, interaction enable, and interaction
 select circuits. 
 It involves the priority settings of the interactions which 
@@ -351,7 +351,7 @@ interaction with the nearest index to the \cci{selector}.
 Recall that an interaction specifies a strong synchronization among its involved components.
 Data transfer can take place during such synchronization.
 The operational semantics of BIP requires to (1) first execute the data transfer of the selected interaction, and then to (2) execute the functions of the corresponding transitions of atomic components.
-For this purpose, in the above translation, we used $\mathit{cycle}$ Boolean register to denote whether the system is executing actions corresponding to either interaction or transition.
+For this purpose, in the above translation, we used the $\mathit{cycle}$ Boolean register to indicate whether the system is executing actions corresponding to either interaction or transition.
 However, in some cases, data transfers of all interactions modify some variables that are not assigned in the corresponding transitions of those interactions.
 This can be detected by doing a static data dependency analysis
 between interactions and their transitions. 
