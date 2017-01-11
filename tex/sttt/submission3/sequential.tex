@@ -234,7 +234,7 @@ circuits of the right-hand side expressions to the fanins of the registers corre
 \paragraph{Variables.} 
 %
 We consider each variable not declared as a wire 
-in \cci{decl-list}.
+in \cci{decl-list}  (see \figref{fig:variables-listing}).
 We instantiate a corresponding 
 vector of AIG registers with an adequate bit width. 
 The width of the bit vector can be selected by the user, 
@@ -261,6 +261,7 @@ the expression defining the wire variable in \cci{wiredef-list}.
 %
 We denote the gates corresponding to each variable $v$ by the function \cci{vargates}$(v)$. 
 %
+\begin{figure}
 \begin{lstlisting}
 /*@\textbf{variables}@*/(decl-list)
   foreach variable $v$ in decl-list
@@ -273,11 +274,14 @@ We denote the gates corresponding to each variable $v$ by the function \cci{varg
     endif
   endfor
 \end{lstlisting}
+\caption{Routine variables}
+\label{fig:variables-listing}
+\end{figure}
 %
 \paragraph{Assignment statements.}
 We consider each assignment statement in \cci{wiredef-list}, \cci{init-list},
 and \cci{next-list} and traverse the right-hand side expressions of
-each assignment with the recursive \cci{traverse} routine. 
+each assignment with the recursive \cci{traverse} routine (see \figref{fig:traverse-listing}).
 %
 If the expression refers to a variable $v$ (base case), 
 then the traversal returns \cci{vargates(v)}. 
@@ -290,6 +294,7 @@ form $b?~e_1:e_2$, then routine \cci{library} instantiates a multiplexer,
 connects its two data fanins to the vertices corresponding to $e_1$ and $e_2$, connects its control fanins to the vertices corresponding to $b$,
 and returns its fanouts. 
 %
+\begin{figure}
 \begin{lstlisting}
 /*@\textbf{traverse}@*/($exp$)
   if ($exp$ is a variable) 
@@ -302,6 +307,9 @@ and returns its fanouts.
 
   return library($exp.operation$, $wirevec$)
 \end{lstlisting}
+\caption{Routine traverse}
+\label{fig:traverse-listing}
+\end{figure}
 %
 %\paragraph{Connections.}
 %
