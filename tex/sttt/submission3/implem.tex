@@ -85,7 +85,7 @@ It takes the name of the input BIP file and optional flags (e.g., debugging).
 >    output.abc [property.txt]
 \end{lstlisting}
 
-\redbox{Moreover, \biptool{} takes as input a property to be verified expressed by pre and post conditions over atomic components. Atomic propositions are conditions on components (e.g., a condition on the lastly-executed port, current locations of atomic components, values of variables). The pre and post conditions are stored in a file to be parsed by \biptool{}. 
+\redbox{Moreover, \biptool{} takes as input a property to be verified expressed by pre and post conditions over atomic propositions. Atomic propositions are conditions on components (e.g., a condition on the lastly-executed port, current locations of atomic components, values of variables). The pre and post conditions are stored in a file to be parsed by \biptool{}. 
 For instance, the following file defines a property where: (1) the precondition is the condition that always holds (i.e., $\true$); and (2) the post condition requires that when component $comp_1$ is at location $s_0$ and component $comp_2$ is at location $s_1$, then the variable $x$ of $comp_1$ should be equal to the variable $y$ of $comp_2$.}
  %
 \begin{lstlisting}[language=Bash]
