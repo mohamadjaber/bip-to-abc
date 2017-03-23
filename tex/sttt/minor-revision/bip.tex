@@ -1,10 +1,46 @@
+% !TEX root = main.tex
+%
+\section{Preliminaries and Notation}
+\label{sec:prelim}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\redbox{
+We introduce some preliminary concepts and notations.
+%
+\paragraph{Functions.} For two functions $v\in [ X \rightarrow Y]$ and $v'\in [X' \rightarrow Y']$, the substitution function noted $v/v'$, where $v/v' \in [X \cup X' \rightarrow Y \cup Y']$, is defined as: $v/v'(x) = v'(x)$ if $x \in X'$ and $v(x)$ otherwise.
+%
+}
+
+\redbox{
+\paragraph{Transition Systems.}
+%
+Labeled Transition System (LTS) are used to define the semantics of BIP systems.
+An LTS defined over an alphabet $\Sigma$ is a 3-tuple $\tuple{\mathrm{Lab},\mathrm{Sta},\mathrm{Trans}}$ where $\mathrm{Lab}$ is a set of labels, $\mathrm{Sta}$ is a non-empty set of states and $\mathrm{Trans}\subseteq \mathrm{Sta}\times \mathrm{Lab} \times \mathrm{Sta}$ is the transition relation.
+A transition $\tuple{s,e,s'}\in\mathrm{Trans}$ means that the LTS can move from state $s$ to state $s'$ by consuming label $e$.
+We abbreviate $\tuple{s,e,s'}\in\mathrm{Trans}$ by $s \stackrel{e}{\rightarrow}_\mathrm{Trans} s'$ or by $s\stackrel{e}{\rightarrow} s'$ when clear from context.
+Moreover, $s \stackrel{e}{\rightarrow}$ is a short for $\exists s'\in\mathrm{Sta}: s\stackrel{e}{\rightarrow} s'$.
+%
+%The \emph{traces} of LTS $L=\tuple{\mathrm{Lab},\mathrm{Sta},\mathrm{Trans}}$, noted $\traces(L)$, are the finite sequences over $\mathrm{Lab} \cup \mathrm{Sta}$ of the form
+%\[
+%\mathit{s_0} \cdot \mathit{e_0} \cdot \mathit{s_1} \cdots \mathit{s_n},
+%\]
+%for some $n\in\mathbb{N}$, where $s_i \in \mathrm{Sta}$ and $e_i \in \mathrm{Lab}$.
+%A trace starts from the initial state $\mathit{s_0}$, and follows  transition relation $\mathrm{Trans}$.
+%%
+%A state $s \in \mathrm{Sta}$ is \emph{reachable} in $L$ if $s$ occurs in one of the traces of $L$.
+%
+%
+%
+}
+
 \section{BIP - Behavior Interaction Priority}
 \label{sec:bip}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 We recall the necessary concepts of the BIP framework~\cite{bip11}.
-BIP allows to construct systems by superposing three layers of design: Behavior, Interaction, and Priority.
+BIP allows to construct systems by superposing three layers of \redbox{design}: Behavior, Interaction, and Priority.
 The \emph{behavior} layer consists of a set of atomic components represented by transition systems. 
 The \emph{interaction} layer provides the collaboration between components. 
 Interactions are described using sets of ports. 
@@ -26,7 +62,7 @@ Composite components are obtained from atomic components by specifying interacti
 An atomic component is endowed with a finite set of local variables $X$ taking values in a domain $\mathit{\Data}$. Atomic components synchronize and exchange data with each others through \emph{ports}.
 %
 \begin{definition}[Port]
-A port $p[x_p]$, where $x_p\subseteq X$, is defined by a port identifier $p$ and some data variables in a set $x_p$ (referred to as the support set). We denote by $p.X$ the set of variables assigned to the port $p$, that is, $x_p$.
+A port $p[x_p]$, where $x_p\subseteq X$, is defined by a port identifier $p$ and some data variables in a set $x_p$ (referred to as the support set). %We denote by $p.X$ the set of variables assigned to the port $p$, that is, $x_p$.
 \end{definition}
 %
 %
@@ -51,7 +87,7 @@ destination) location and $p$ is a port through which an interaction with anothe
 
 In the sequel we use the dot notation.
 Given a transition $\tau = (l,p,g_\tau,f_\tau,l')$, $\tau.\source$, $\tau.\port$, $\tau.\guard$, $\tau.\func$, and $\tau.dest$ denote $l$, $p$, $g_\tau$, $f_\tau$, and $l'$, respectively.
-Also, the set of variables used in a transition is defined as $\var(f_\tau) = \{x \in X \mid x:= f^x(X) \in f_\tau\}$.
+Also, the set of variables used in a transition is defined as $\var(f_\tau) = \{x \in X \mid \redbox{(x,f^x(X)) \in f_\tau}\}$.
 Given an atomic component $B$, $B.P$ denotes the set of ports of the atomic component $B$, $B.L$ denotes its set of locations, etc.
 
 Given a set $X$ of variables, we denote by $\valu{X}$ the set of valuations
@@ -59,8 +95,8 @@ defined on $X$. Formally, $\valu{X} = \{ \sigma : X \rightarrow \mathit{\Data}\}
 $\mathit{\Data}$ is the set of all values possibly taken by variables in $X$.
 
 %
-\paragraph{Semantics of Atomic Components.}
-The semantics of an atomic component is an LTS over configurations and ports, formally defined as follows:
+%\paragraph{Semantics of Atomic Components.}
+%The semantics of an atomic component is an LTS over configurations and ports, formally defined as follows:
 %
 \begin{definition}[Semantics of Atomic Components]
 \label{def:semantic-atom}
@@ -72,18 +108,25 @@ The semantics of the atomic component $B = (P,L, T, X, \{g_{\tau}\}_{\tau \in T}
 \end{itemize}
 \end{definition}
 %
-A configuration is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of configurations $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to the port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in configuration $(l, v)$. Execution of port $p$ results in updated the valuation of $v$ to $v'=f_\tau(v/v_p)$
+A state is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of states $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in state $(l, v)$. Execution of port $p$ results in updated the valuation of $v$ to $v'=f_\tau(v/v_p)$.
+\redbox{
+Note that valuation of the variables attached to port $p$ are further instantiated when composing components with respect to data transfer functions of interactions~\cite{jaberthesis,FalconeJNBB15}.
+}
+ 
 %As a result, the valuation $v'$ of variables is modified to $v=f_\tau(v'/v_p)$.
 %
-\subsubsection{Creating composite components.} Assuming some available atomic components $B_1,$ $\ldots,B_n$, we show how to connect the components in the set $\{B_i\}_{i\in I}$ with $I\subseteq [1,n]$ using an \emph{interaction}. An interaction $a$ is used to specify the sets of ports that have to be jointly executed.
 
+
+\subsubsection{Composing Atomic Components.} 
+\redbox{Assuming some available atomic components $B_1,$ $\ldots,B_n$, we show how to connect a subset $\{B_i\}_{i\in I}, I\subseteq [1,n]$, of the components using an \emph{interaction}. An interaction $a$ is used to specify the sets of ports that have to be jointly executed.
+}
 
 \begin{definition}[Interaction]
 \label{def:connector}
 An interaction $a$ is a tuple $(P_a, G_a,F_a)$, where:
 \begin{itemize}
 \item $P_a \subseteq \cup_{i = 1} ^ { n } B_i.P$ is a nonempty set of ports that contains
-at most one port of every component, that is, $\forall i: 1 \leq i \leq n: |B_i.P \cap P_a| \leq 1 $. We denote by $X_a = \cup_{p \in P_a} p.X$ the set of variables available to $a$,
+at most one port of every component, that is, $\forall i: 1 \leq i \leq n: |B_i.P \cap P_a| \leq 1 $. We denote by $X_a = \cup_{p \in P_a} x_p$ the set of variables available to $a$,
 \item $G_a : \valu{X_a} \rightarrow \{\true, \false\}$ is a guard, 
 \item $F_a : \valu{X_a} \rightarrow \valu{X_a}$ is an update function. 
 \end{itemize}
@@ -98,19 +141,12 @@ $P_a$ is the set of connected ports called the support set of $a$. For each $i\i
 The connection of the components in $\{B_i\}_{i\in I}$ using the set $\gamma$ of interactions is denoted by $\gamma(\{B_{i}\}_{i\in I})$.
 \end{definition}
 
-%
-\begin{definition}[Semantics of Composite Components]
-\label{def-runtimesemanticscomposite}
-A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gamma$ connects the $B_i$'s for $i\in [1,n]$, is an $n$-tuple $q=(q_1,\ldots,q_n)$ where $q_i=(l_i,v_i)$ is a state of $B_i$. Thus, the semantics of $\gamma(\{B_1, \ldots, B_n\})$ is precisely defined as the labeled  transition system $S = (Q,\gamma,\goesto)$, where:
-\begin{itemize}
-\item $Q= B_1.Q\times \ldots\times B_n.Q$, 
-\item $\goesto$ is the least set of transitions satisfying the rule defined in Figure \ref{fig:bip-rule}.
 \begin{figure*}
 \begin{mathpar}
 \inferrule*
 {
     a = (\{p_i\}_{i \in I},G_a,F_a) \in \gamma \and G_a(\{v_{p_i}\}_{i \in I}) \hva\\
-    \forall i\in I:\ q_i \goesto[p_i(v_i)]_i q'_i \wedge v_i = F^i_{a}(\{v_{p_i}\}_{i \in I}) \and
+    \forall i\in I:\ q_i \goesto[p_i(\mu_i)]_i q'_i \wedge \mu_i = F^i_{a}(\{v_{p_i}\}_{i \in I}) \and
     \forall i\not\in I:\ q_i = q'_i
 }
 {
@@ -120,11 +156,20 @@ A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gam
 \caption{Semantics Rule of Composite Component}
 \label{fig:bip-rule}
 \end{figure*}
-Where $v_{p_i}$ denotes the valuation of the variables attached to the port $p_i$ and $F^i_{a}$ is the partial function derived from $F_a$ restricted to the variables associated with $p_i$.
+
+%
+\begin{definition}[Semantics of Composite Components]
+\label{def-runtimesemanticscomposite}
+A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gamma$ connects the $B_i$'s for $i\in [1,n]$, is an $n$-tuple $q=(q_1,\ldots,q_n)$ where $q_i=(l_i,v_i)$ \redbox{is a state} of $B_i$. Thus, the semantics of $\gamma(\{B_1, \ldots, B_n\})$ is precisely defined as the labeled  transition system $S = (Q,\gamma,\goesto)$, where:
+\begin{itemize}
+\item $Q= B_1.Q\times \ldots\times B_n.Q$, 
+\item $\goesto$ is the least set of transitions satisfying the rule defined in Figure \ref{fig:bip-rule}.
+%
+\redbox{Where $v_{p_i}$ denotes the valuation of the variables attached to the port $p_i$ and $F^i_{a}$ is the partial function derived from $F_a$ restricted to the variables associated with $p_i$. $\mu_i$ denotes the valuation of the variables attached to port $p_i$ after executing function $F_{a}$ of interaction $a$.}
 \end{itemize}
 \end{definition}
 %
-The meaning of the above rule is the following: if there exists an interaction $a$ such that all its ports are enabled in the current state and its guard evaluates to \true, then the interaction can be fired. When $a$ is fired, all involved components evolve according to the interaction and uninvolved components remain in the same state. 
+\redbox{The meaning of the rule defined in Figure \ref{fig:bip-rule} is the following}: if there exists an interaction $a$ such that all its ports are enabled in the current state and its guard evaluates to \true, then the interaction can be fired. When $a$ is fired, all involved components evolve according to the interaction and uninvolved components remain in the same state. 
 
 Notice that several distinct interactions can be enabled at the same time, thus introducing non-determinism in the product behavior.
 One can add priorities to reduce non-determinism. In this case, one of the interactions with the highest priority is chosen non-deterministically.\footnote{The BIP engine implementing this semantics chooses one interaction at random, when faced with several enabled interactions.}
@@ -162,16 +207,16 @@ Given a port $p$ from the system \Pm, we denote by (1) $interaction(p)$ to be th
 
 We define the function $\mathtt{index}$ that assigns for each interaction $a \in \gamma$ a positive integer in $\big[0,|\gamma| - 1\big]$, i.e., $\mathtt{index}: \gamma \rightarrow \big[0,|\gamma| - 1\big]$. 
 
-\begin{definition}[Configuration]
-A configuration of a BIP system ${\cal S}$ is a tuple $(q,b)$ where $q\in Q$ and $b$ is a Boolean bit-vector of size $|\gamma|$ 
-that indicates which interaction is selected to execute in the next step. 
-Formally, let $a \in \gamma$ be the interaction governing the transition $q_i \goesto[a]_\pi q_{i+1}$, 
-$b[i]$ is $\true$ when $i = \mathtt{index}(a)$ and is $\false$ for all $i \in [1, |\gamma|], i\not=\mathtt{index}(a)$. 
-\end{definition}
+%\begin{definition}[Global State]
+%A state of a BIP system ${\cal S}$ is a tuple $(q,b)$ where $q\in Q$ and $b$ is a Boolean bit-vector of size $|\gamma|$ 
+%that indicates which interaction is selected to execute in the next step. 
+%Formally, let $a \in \gamma$ be the interaction governing the transition $q_i \goesto[a]_\pi q_{i+1}$, 
+%$b[i]$ is $\true$ when $i = \mathtt{index}(a)$ and is $\false$ for all $i \in [1, |\gamma|], i\not=\mathtt{index}(a)$. 
+%\end{definition}
 
 \begin{definition}[Trace]
-  A trace $t$ of length $\ell$ of a system $(B,\mathit{Init}, v)$ is the sequence of configurations 
-  $(q_0,b_0) \cdot (q_1,b_1) \cdots (q_{\ell-1}, b_{\ell-1})$ 
+  A trace $t$ of length $\ell$ of a system $(B,\mathit{Init}, v)$ is the sequence of global states  
+  $q_0 \cdot q_1 \cdots q_{\ell-1}$ 
   such that: $q_0$ = $(\mathit{Init}, v)$, and 
   $\forall i\in [0,l-1]: q_i\in Q \wedge \exists a_i\in A: q_i \goesto[a_i]_\pi q_{i+1}$.
 %
@@ -183,14 +228,14 @@ $b[i]$ is $\true$ when $i = \mathtt{index}(a)$ and is $\false$ for all $i \in [1
 %    \false & \quad \text{otherwise}
   %\end{array} \right.\]
 That is, $a_i$ is an interaction enabled on $q_i$ and its execution results in state $q_{i+1}$. 
-We denote by (1) $t[i]$ the $i^{\text{th}}$ configuration in the trace, i.e., configuration $(q_i,b_i)$,
-and (2) $t_b[i]$ the index of the $i^{\text{th}}$ interaction executed in the trace, i.e., $k$ where $b_i[k] = \true$.
+We denote by $t[i]$ the $i^{\text{th}}$ state in the trace, i.e., state $q_i$.
 \end{definition}
 
 \begin{example}
 Figure \ref{fig:traffic:bip} shows a traffic light controller system modeled in BIP. 
 It is composed of two atomic components, \cci{timer} and \cci{light}. The timer counts
 the amount of time for which the light must stay in a specific state (i.e. a specific
+
 color of the light). The light component determines the color of the traffic light. Additionally, it
 informs the timer about the amount of time to spend in each location through a data transfer on the interaction between the two components. 
 
