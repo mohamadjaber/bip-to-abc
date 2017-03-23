@@ -30,8 +30,22 @@ The elements of array $\mathit{ip}$ denote whether a given interaction is enable
 The elements of array $\mathit{is}$ denote whether an enabled interaction is selected for execution. 
 Currently, one interaction is selected to avoid executing conflicting interactions. 
 Two interactions are conflicting if they involve the same components. 
-In order to avoid concurrently-executing conflicting interactions, BIP provides both centralized and distributed implementations. 
+%
+In order to avoid concurrently-executing conflicting interactions, BIP provides centralized, multithreaded  and distributed implementations. 
+%
+\redbox{
 In the centralized implementation, the engine executes only one interaction at a time.  
+%
+In the multi-threaded implementation~\cite{BasuBBS08}, 
+the involved components in the non-conflicting interactions execute simultaneously with no overhead
+except the classical thread synchronization overhead. 
+However, while each component executes in a separate thread, the engine executes in a single engine thread.
+The single engine thread is responsible for sequentially 
+(1) selecting an interaction for execution, 
+(2) executing the corresponding action, and
+(3) signaling the static threads associated with the involved components for execution. 
+}
+%
 Alternatively, BIP allows the generation of distributed implementations~\cite{BonakdarpourBJQS12} 
 where non-conflicting interactions can be simultaneously executed.
 However, an additional layer is added to resolve conflicts. 
@@ -39,9 +53,29 @@ This may introduce significant overhead due to communication between the layers.
 %
 The overhead may prove excessive when 
 interactions do not involve heavy computations, which is the case in general since most interactions involve data transfer.
+
 In our case, it is possible to add a circuit that identifies and enables all non-conflicting interactions with simple a modification
 that merges the consecutive execution cycles of non-conflicting interactions into one cycle. 
-Such transformation is available automatically with the retiming algorithm in ABC~\cite{hurst2007fast}.
+Such transformation is available automatically with the retiming algorithm 
+in ABC~\cite{hurst2007fast}
+\redbox{ 
+    and allows us to compare well with the distributed implementation in~\cite{BonakdarpourBJQS12}.
+}
+
+    \redbox{
+Furthermore, the selection of non-conflicting interactions can happen simultaneously with \biptool~
+As opposed to sequential as in the multi-threaded BIP implementation~\cite{BasuBBS08}.
+The multi-threaded implementation does not have to wait for all non-conflicting interactions to complete before 
+executing new interactions. 
+\biptool is currently restricted to a cycle implementation since this is a necessary constraint for generating code that can be synthesized into FPGAs. 
+This constraint can be relaxed by allowing longer interactions to span multiple cycles and introducing a busy state in the involved components. 
+As for software execution, 
+in the current model of execution, the one loop in \biptool iterates once all the assignments inside it are done. 
+We can relax that to have the loop iterate when the first interaction is done and guard the assignments involved in the busy interactions with the necessary
+conditional logic. 
+}
+
+
 
 
 Wire $\mathit{selector}$ is a non-deterministic primary input used to select one of the enabled interactions.

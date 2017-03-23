@@ -8,12 +8,47 @@ models. There exist 3 different implementations: a single-threaded, a multi-thre
 one. The multi-threaded version executes components and [non conflicting] interactions in parallel, 
 without any specific overhead (except classical overheads due to threads synchronisation).
 
+\answer{
+Thank you for referring us to the multi-threaded code generation for BIP models. 
+We added the following discussion in the paper. 
+%
+In the multi-threaded implementation~\cite{BasuBBS08}, 
+the involved components in the non-conflicting interactions 
+execute simultaneously with no overhead
+except the classical thread synchronization overhead. 
+However, while each component executes in a separate thread, the engine executes in a single engine thread.
+The single engine thread is responsible for sequentially 
+(1) selecting an interaction for execution, 
+(2) executing the corresponding action, and
+(3) signaling the static threads associated with the involved components for execution. 
+}
+
 \item Moreover, I think the degree of parallelism offered by the multi-threaded version is greater than the 
 one obtained by merging cycles as proposed in the paper. In the case of merging of cycles in OLPs a 
 cycle has to be fully completed before executing a new one (e.g. all non conflicting interactions 
 enabled initially has to be completed before starting new interactions) whereas the multi-thread 
 implementation of BIP can start new interactions at any type (e.g. after the completion of only a 
 subset of the initially non conflicting interactions).
+
+\answer{
+First, we would like to note that the selection of non-conflicting interactions can happen 
+simultaneously 
+in \biptool as opposed to sequentially in ~\cite{BasuBBS08}. 
+%
+Second, the reviewer is correct in the sense that merging cycles allows only the execution 
+of non-conflicting interactions and other 
+interactions need to wait until the cycle ends. 
+%
+When generating code for FPGAs, the cycle synchronization is a necessary constraint to abide with. 
+% 
+This may be relaxed by allowing longer interactions to span multiple cycles and introducing a busy state in the involved components. 
+%
+As for software execution, our current model of computation for the one loop is that it iterates once all the assignment statements 
+inside it are done. 
+We can relax that to have the loop iterate when an interaction is done and guard the interactions that are in progress with the 
+necessary logic.
+We reflect this in the paper, and we thank the reviewer for this feedback as we plan to include it in future work. 
+}
 
 \item p.15: ``The OLP program is a concurrent C implementation of the BIP system with a minor 
 modification involving replacing the do-together directives with OpenMP API directives.'': I think this 
