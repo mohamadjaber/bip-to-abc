@@ -1,86 +1,89 @@
-\subsection{Syntax of one loop programs.}
+\subsection{Syntax of One Loop Programs}
 %
-\redbox{
+
 Figure~\ref{fig:gr} illustrates the syntax of a 
 {\em one loop program} (\caig).
+\redbox{
 An \caig starts with 
-a list of variable declaration statements \cci{decl-list}. 
+a list of variable declarations \cci{decl-list}. 
 \caig declarations allow Boolean, integer, array of Boolean 
 and array of integer types.
-The \cci{wire} modifier keyword is used
+The \cci{wire} modifier keyword is used to denote that 
 the variable is a wire. 
 Otherwise, the variable is a register variable. 
-}
+A register variable represents a data storage/memory element. A wire represents a functional macro, which is used 
+to connect different elements (wires or registers).}
 
-\redbox{
+
 \begin{definition}[\caig variables]
-The set of \caig variables $V$ of an \caig is defined to be 
-the set 
-of all non-wire variables declared in \cci{decl-list}.
+The set of variables $V$ of an \caig is defined to be 
+the set of all non-wire, i.e., register variables declared in \cci{decl-list}.
 The function $\mathit{type}: V \mapsto \set{int, Boolean, int[1], Boolean[1], int[2], Boolean[2], \ldots}$ maps a variable
 $v \in V$ to its declared type. 
 \end{definition}
-}
 
-\redbox{
+
 The \cci{wiredef-list} follows \cci{decl-list} and is a list 
 of assignment statements where the target term is a wire 
 variable. 
-An assignment statement has a left hand side \cci{term} and 
-a right hand side expression \cci{expr}. 
+An assignment has a left-hand side \cci{term} and 
+a right-hand side expression \cci{expr}. 
 The term is either an identifier \cci{id} or an array 
 access expression \cci{id[expr]} where \cci{id} is the name
 of the array and \cci{expr} is an expression. 
-\caig expressions can be either terms, expressions with unary
+\caig expressions are built with terms, expressions with unary
 operators (\cci{-,!}), expressions with binary operators (\cci{+,-,*,/,<,>,<=,>=,==,\&\&,||}), 
 or expressions with a ternary choice operator 
 (\cci{~?~:~}). 
 Let $s$ be a \cci{wiredef-list} assignment with target $t$ and 
 expression $e$; expression $e$ must not refer to target $t$. 
-}
 
-\redbox{
+
+
 The \cci{init-list} and the \cci{next-list} are lists 
-of assignment statements where the target terms are wire and
-register variables, respectively. 
+of assignment statements where the target terms are register variables.
+\redbox{
 The \cci{init-list} is embodied in a \cci{do-together} 
-construct. 
+construct, which implies concurrent execution of all its statements. }
 Expressions in \cci{init-list} assignments 
 must not refer to non-wire
 variables. 
 The \cci{next-list} is embodied in a \cci{do-together} construct
-which is in turn embodied in a \cci{while(true)} construct. 
-}
+which is in turn embodied in a \cci{while(true)} loop construct. 
+\redbox{The loop makes sure that the design runs indefinitely.}
 
-\redbox{
+
+
 \begin{definition}[Well formed \caig]
-An \caig is {\em well formed} in case each of 
+An \caig is {\em well formed} when both 
 the \cci{init-list} and the \cci{next-list}
 contains one assignment per non-wire variable and
 the \cci{wiredef-list} contains at most 
 one assignment per wire. 
-For brevity, \caig hereafter denotes well 
-formed \caig. 
 \end{definition}
-}
+%
+Hereafter, we consider only well-formed \caig.
 
-\redbox{
+
 \begin{definition}[Non-deterministic wires]
 We define the set of {\em non-deterministic wires} of 
-an \caig to be the set of wire variables who are not 
+an \caig to be the set of wire variables that are not 
 targets of assignment statements in \cci{wiredef-list}.
 \end{definition}
-}
 
-\redbox{
+
+
 \begin{definition}[init and next state functions]
 Consider $v\in V$ and consider $s_{init}$ and $s_{next}$ 
 the assignment statements where $v$ is the target term in 
 \cci{init-list} and \cci{next-list}, respectively. 
-We defined 
-functions $\mathit{init-state}(v)$ and 
-$\mathit{next-state}(v)$ 
-to be the functions corresponding to the right hand side 
+We define functions \cci{init-state(v)} and \cci{next-state(v)} 
+to be the functions corresponding to the right-hand side 
 expressions of $s_{init}$ and $s_{next}$, respectively. 
 \end{definition}
-}
+
+\begin{example}[Well formed \caig]
+Figure~\ref{fig:caigtraffic} shows an \caig that corresponds to the BIP system for the traffic-light controller shown in \figref{fig:traffic:bip}. 
+\input{figcaigtraffic}
+\end{example}
+

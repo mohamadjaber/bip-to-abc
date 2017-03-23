@@ -16,7 +16,7 @@ The implementation is available at
   \item
   The first module is a Java implementation of the translation from BIP to $\caig$ described in \secref{sec:bip2aig}.
 It takes as input a BIP system and a set of invariants,
-and generates the corresponding \caig{} program with a system-specific execution framework. 
+and generates the corresponding \caig{} with a system-specific execution framework. 
 %
 \item
 The second module generates a concurrent runtime verification 
@@ -25,26 +25,26 @@ The second module generates a concurrent runtime verification
   verification (simulation) of the BIP system. 
   The module sets the primary inputs to random values at each iteration,
   and replaces the \cci{do-together} constructs with OpenMP directives
-  to have the resulting binary run concurrently. 
+  to have the resulting binary running concurrently. 
 %
   \item
-  The third module is a C++ implementation that synthesizes the $\caig$ program to an AIG circuit after preforming word-level constant propagation and cone of influence reductions. 
-    The module also passes the \redbox{generated} AIG circuit to the ABC framework, and drives the synthesis reduction algorithms, and then the verification algorithms.
+  The third module is a C++ implementation that transforms the $\caig$ to an AIG circuit after preforming word-level constant propagation and cone of influence reductions. 
+    The module also passes the generated AIG circuit to the ABC framework, and drives the synthesis reduction algorithms, and then the verification algorithms.
     \biptool{} automatically selects the ABC algorithms to run based on structural
     AIG metrics. Alternatively, the user can 
-    interactively guide the reduction and verification process. 
+    interactively guide the reduction and verification processes. 
 %
 \item Finally, in case a counterexample is found by either the 
 concurrent runtime verification module or by the ABC verification algorithms, 
 a C++ module takes the counterexample, 
-translates it back to BIP, and provides a user friendly interface 
+translates it back to BIP, and provides a user-friendly interface 
 to visualize the counterexample and debug the system with an integrated open source wave form viewer tool~\cite{bybell2010gtkwave}.  
 \end{itemize}
 %
 \biptool{} uses ABC synthesis and reduction algorithms to reduce the area 
 and the critical time of the AIG circuit by 
 removing redundant latches and logic gates.
-Example reduction algorithms are
+Examples of reduction algorithms are
 retiming~\cite{KuBa01}, 
 redundancy removal~\cite{HmBPK05,KuMP01,BjesseC00,aziz-fmsd-00}, 
 logic rewriting~\cite{BjBo04}, interpolation~\cite{McMillan03}, 
@@ -75,16 +75,27 @@ It either proves correctness or produces a counter example where the system viol
 %The debugging tool is integrated with wave form visualization 
 %tool \cite{bybell2010gtkwave}.  
 
-\biptool~ is equipped with a command line interface that accepts a set 
+
+\biptool~ is equipped with a command-line interface that accepts a set 
 of configuration options. 
 It takes the name of the input BIP file and optional flags (e.g., debugging).
- 
-\redbox{\texttt{property.txt} contains pre and post conditions over atomic propositions to be verified. Atomic propositions express conditions on components (e.g., a condition on the lastly executed port, current locations of atomic components, values of variables). Additionally, we have built some predefined patterns such as deadlock expressed as an invariant denoting the set of the states from which all interactions are disabled.} 
 
 \begin{lstlisting}[language=Bash]
 > java -jar bip-to-abc.jar [options] input.bip \
 >    output.abc [property.txt]
 \end{lstlisting}
+
+\redbox{Moreover, \biptool{} takes as input a property to be verified expressed by pre and post conditions over atomic propositions. Atomic propositions are conditions on components (e.g., a condition on the lastly-executed port, current locations of atomic components, values of variables). The pre and post conditions are stored in a file to be parsed by \biptool{}. 
+For instance, the following file defines a property where: (1) the precondition is the condition that always holds (i.e., $\true$); and (2) the post condition requires that when component $comp_1$ is at location $s_0$ and component $comp_2$ is at location $s_1$, then the variable $x$ of $comp_1$ should be equal to the variable $y$ of $comp_2$.}
+ %
+\begin{lstlisting}[language=Bash]
+@pre inv { true; }
+@post inv {((comp1_currentState == comp1_state_s0) && (comp2_currentState == comp2_state_s1)) -> (comp1_var_x == comp2_var_decidedValue);}
+\end{lstlisting}
+
+Additionally, we have built some predefined patterns such as deadlock expressed as an invariant denoting the set of the states from which all interactions are disabled. 
+
+
 
 %% bip results
 We evaluated \biptool{} against two benchmarks used to evaluate BIP verification techniques, 
@@ -103,7 +114,8 @@ Automatic Teller Machine (ATM) is a computerized system that provides financial 
 a public space. Figure~\ref{fig:atm_bip} shows a structured BIP model of an ATM system adapted from the
 description provided in~\cite{atm}.
 The system is composed of four atomic components: (1) the User (2) the ATM (3) the Bank Validation 
-and (4) the Bank Transaction. ATM component handles all interactions between the 
+and (4) the Bank Transaction.
+The ATM component handles all interactions between the 
 users and the bank. No communication between the users and the bank is allowed. 
 
 \begin{figure*}
@@ -129,7 +141,7 @@ the transaction is allowed or not by communicating with the bank transaction uni
 If the transaction is approved, the money is transferred to the user and the card is ejected. 
 If the transaction is rejected, the user is notified and the card is ejected. In all cases, 
 the ATM goes back to the idle location waiting for any additional users. 
-In our model, we assume the presence of a single bank and multiple ATMs and users. 
+In our model, we consider a single bank and multiple ATMs and users. 
 
 \begin{table*}
 \centering
@@ -161,8 +173,9 @@ to make use of several reduction techniques that are able to reach an
 average of $50\%$ reduction in the size of the AIG. Note that for $2$ ATMs 
 and users, NuSMV outperforms \biptool{}. This is due to the fact that when 
 performing verification, ABC tries multiple verification and reduction 
-algorithms before reaching a conclusive result. However, the advantage 
-that \biptool{} presents can be clearly seen for larger number of ATMs and 
+algorithms before reaching a conclusive result.
+However, the advantage 
+of \biptool{} is clearly that it scales with the number of ATMs and 
 users. 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -171,17 +184,17 @@ users.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 The \emph{Quorum} protocol is a consensus protocol proposed in~\cite{guerraoui2012speculative}
-as complementary to the Paxos consensus protocol~\cite{gafni2003disk} under perfect
+complementary to the Paxos consensus protocol~\cite{gafni2003disk} under perfect
 channel conditions. {\em Consensus} allows a set of communicating processes
-(clients and servers in our case) to agree on a common value. Each of clients proposes
+(clients and servers in our case) to agree on a common value. Each client proposes
 a value and receives a common decision value. The authors in~\cite{guerraoui2012speculative}
-propose to use Quorum when no failures occur (perfect channel conditions) and 
+propose to use Quorum when no failure occurs (perfect channel conditions) and 
 Paxos when less than half of the servers may fail. 
 
 The Quorum protocol operates as follows.
 \begin{enumerate}
  \item Upon proposal, a client $c$ broadcasts its proposed value 
- $v$ to all servers. It also saves $v$ in its local memory and starts a local time
+ $v$ to all servers. It also saves $v$ in its local memory and starts a local timer
  $t_c$. 
  \item When a server receives a value $v$ from a client $c$, it performs
  the following check.
@@ -211,7 +224,7 @@ We implemented the Quorum protocol in BIP, and we used \biptool{} to verify two 
  $c' \neq c$ who decide, do so with the same value $v$. 
 \end{enumerate}
 %
-Table~\ref{tb:bip:qrm} shows the results of using \biptool{} to verify the 
+Table~\ref{tb:bip:qrm} shows the verification time and the size of the circuit when using \biptool{} to verify the 
 Quorum protocol for $2$ and $4$ clients with $2$ servers. The designs
 are indexed as \cci{num\_clients}-\cci{num\_servers}-\cci{status} where 
 \cci{num\_clients} is the number of clients, \cci{num\_servers} is the number of 
@@ -239,12 +252,11 @@ Design & latches & NAND-gates & levels & latches & NAND-gates & levels & \biptoo
 \label{tb:bip:qrm}
 \end{table*}
 
-Using ABC's synthesis and reduction algorithms, \biptool{} was able to
-reduce the size of the generated AIGs for all designs by a factor larger
-than $50\%$. Furthermore,
+\redbox{
+Using ABC's synthesis and reduction algorithms, we reduced the size of the generated AIGs (from \biptool{})  for all designs by a factor larger than $50\%$. Furthermore,
 \biptool{} was able to give conclusive results about all four designs, unlike
 NuSMV which failed to give any decision about the designs having
-$4$ clients and $2$ servers. For example, \biptool{} found a counter example for the erroneous 
+$4$ clients and $2$ servers.} For example, \biptool{} found a counter example for the erroneous 
 design having $4$ clients and $2$ servers in $0.24$ sec while NuSMV failed to do so.
 Figure~\ref{fig:res:counter} shows a snippet of the generated counter example for the erroneous design, visualized using the Gtkwave~\cite{bybell2010gtkwave} waveform viewer. 
 The variables presented in the counterexample are the current control locations and the value of the variables of the different components in the design. Red arrows points to the values that implies a violation of the invariant. 
