@@ -55,7 +55,6 @@ Given a system $\Pm$ and a set of specifications $P$, NuSMV first flattens $\Pm$
 resolving all module instantiations and creating modules and processes, thus generating one 
 synchronous design. It then performs a Boolean encoding step to eliminate all scalar variables, 
 arithmetic and set operations and thus encode them as Boolean functions.
-\redbox{
 In Section~\ref{sec:implem}, we benchmark \biptool{} verification tasks 
 against verification tasks using the NuSMV model checker. 
 The \caig translation differs from the NuSMV translation as follows. 
@@ -74,9 +73,15 @@ expressions, which may cause redundant logic.
 %removal to remove the redundant logic, or re-timing to remove the 
 %additional registers. 
 \item 
- The \caig program is a concurrent C 
- implementation of the BIP system with a minor modification involving 
- replacing the \cci{do-together} directives with OpenMP API directives. 
+% The \caig program is a concurrent C 
+% implementation of the BIP system with a minor modification involving 
+% replacing the \cci{do-together} directives with OpenMP API directives. 
+%
+  \redbox{
+ \caig programs generated from BIP systems can be straightforwardly
+ translated into concurrent C implementations with a minor modification (e.g. replacing the \cci{do-together} 
+    directives with OpenMP API directives.}
+%
  The implementation can be used for runtime verification (c.f.~\cite{FalconeHR13}) as well as a direct
  software implementation.  
  Moreover, in case the design was to be partitioned into software and hardware, 
@@ -84,13 +89,12 @@ expressions, which may cause redundant logic.
  Performing the same with the NuSMV implementation would require developing 
  a new source-to-source translator. 
 \end{itemize}
-}
 
 
 The work in \cite{facs14} uses bisimulation-based abstraction to reduce the state-space and then uses NuSMV for model-checking. Our technique can directly benefit from the abstraction of \cite{facs14}. However, our experiments show that counterpart bit-level transformation were more effective. Moreover, our \caig to AIG transformation uses compact timing since it implements the built-in scheduler in the AIG circuit; while in \cite{facs14}, the transformation from the abstracted model to the NuSMV model enumerates all symbolic states. That is, with \biptool{} bounded model checking can use lower time bound than \cite{facs14}. Moreover, our method enables the use of a plethora of reduction and abstraction algorithms readily available at bit-level \cite{brayton2010abc}. 
 Since our transformation is time-exact the \caig program and the AIG circuit we generate can be used for runtime verification as well as real implementations. 
 
-\redbox{
+
 The work in~\cite{CompilingEsterel} takes a design specified in Esterel
 and translates it to a sequential circuit specified in Verilog or BLIF. 
 %
@@ -111,7 +115,7 @@ Moreover, it embeds the given properties into the
 generated circuits as designated outputs.
 This allows to avoid the use of compilers to interpret
 models in Verilog.
-}
+
    
 
 The work in \cite{NiakiDATAS13} uses constraint-based

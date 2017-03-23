@@ -3,7 +3,6 @@
 
 Figure~\ref{fig:gr} illustrates the syntax of a 
 {\em one loop program} (\caig).
-\redbox{
 An \caig starts with 
 a list of variable declarations \cci{decl-list}. 
 \caig declarations allow Boolean, integer, array of Boolean 
@@ -12,7 +11,7 @@ The \cci{wire} modifier keyword is used to denote that
 the variable is a wire. 
 Otherwise, the variable is a register variable. 
 A register variable represents a data storage/memory element. A wire represents a functional macro, which is used 
-to connect different elements (wires or registers).}
+to connect different elements (wires or registers).
 
 
 \begin{definition}[\caig variables]
@@ -42,15 +41,14 @@ expression $e$; expression $e$ must not refer to target $t$.
 
 The \cci{init-list} and the \cci{next-list} are lists 
 of assignment statements where the target terms are register variables.
-\redbox{
 The \cci{init-list} is embodied in a \cci{do-together} 
-construct, which implies concurrent execution of all its statements. }
+construct, which implies concurrent execution of all its statements. 
 Expressions in \cci{init-list} assignments 
 must not refer to non-wire
 variables. 
 The \cci{next-list} is embodied in a \cci{do-together} construct
 which is in turn embodied in a \cci{while(true)} loop construct. 
-\redbox{The loop makes sure that the design runs indefinitely.}
+The loop makes sure that the design runs indefinitely.
 
 
 

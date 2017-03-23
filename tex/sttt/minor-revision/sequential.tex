@@ -82,7 +82,7 @@ An AIG \emph{state} $\sigma: R \rightarrow \mathbb{B}$ is a Boolean valuation of
 \end{definition}
 %
 
-\redbox{
+
 \begin{definition}[AIG full trace]
 An AIG {\em full trace} is a mapping 
 $t: V \times \mathbb{N} \rightarrow
@@ -95,7 +95,7 @@ The value of gate $v$ at time $i$ in
 full trace $t$ is denoted by $t(v,i)$ as defined in 
 Figure~\ref{fig:gate-value}.
 \end{definition}
-}
+
 
 %
 \begin{figure*}
@@ -117,7 +117,7 @@ $(u_{j},v)\in E$.
 \end{figure*}
 %
 
-\redbox{
+
   The well-formed constraint guarantees the absence of combinational cycles in the 
 AIG. Therefore, 
 given a sequence of input valuations and an initial state, 
@@ -125,11 +125,10 @@ given a sequence of input valuations and an initial state,
 sequence of Boolean valuations to all vertices in $V$
 which is consistent with the Boolean functions of the
 gates. 
-}
+
 
 
 %
-\redbox{
 \begin{definition}[AIG trace]
 An {\em AIG trace} of length $\ell$ is a sequence of AIG states 
 $\rho = s_0,s_1,\ldots,s_{\ell-1}$. 
@@ -139,7 +138,7 @@ $s_i=\{ (r_0,b_0^i), \ldots, (r_{|R|-1}, b_{|R|-1}^i)\}$,
 $r_j\in R$, $b_j^i \in \mathbb{B}$, $0\le i < \ell$ and $0\le j < |R|$ 
 and $( (r_j, i), b_j^i) \in t$. 
 \end{definition}
-}
+
 
 %
 We will refer to the transition from one valuation
@@ -331,13 +330,11 @@ AIG circuit. ABC verifies that the designated output is always $\true$.
 %
 
 %
-\redbox{
 \begin{definition}[AIG \caig state equivalence]
   An \caig state $\sigma=\{(v_0,d_0),\ldots,(v_{|V|-1},d_{|V|-1}\}$ and an AIG state $s=\{(r_0,b_0),\ldots,(r_{|R|-1}, b_{|R|-1})\}$, 
   are said to be equivalent iff
   $s(vargates(v_i))$ is equal to the binary representation of $\sigma(v_i)$, for each $0\le i < |V|$. 
 \end{definition}
-}
 
 We are now ready to state the (trace) equivalence between AIG and \caig.
 
@@ -352,10 +349,8 @@ $\pi_p=\sigma^p_{0}, \sigma^p_{1}, \ldots, \sigma^p_{\ell-1}$
 and 
 $\pi_a=\sigma^a_{0}, \sigma^a_{1}, \ldots, \sigma^a_{\ell-1}$ 
 produced by $P$ and $A$, 
-  \redbox{
 respectively, are equivalent, i.e., $\sigma^p_{i}$ and $\sigma^a_i$ are
 equivalent for all $0 \le i < \ell$. 
-}
 \end{theorem}
 
 

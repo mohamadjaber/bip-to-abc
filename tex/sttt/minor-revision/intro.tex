@@ -122,14 +122,14 @@ over atomic propositions on components (e.g., constraints on the current locatio
   The reduction algorithms remove redundant latches and logic gates.  
   To the best of our knowledge, we are the first to directly synthesize a BIP system into an FPGA. 
 
-\item \redbox{
+\item 
     The method translates the \caig program into a concurrent C 
     implementation of the BIP system.
     The implementation can be used for runtime verification as well as a direct
     software implementation. 
     Moreover, in case the design was to be partitioned into software and hardware, 
     parts of the implementation are readily available to execute on CPUs. 
-  }
+  
   % with a system-specific execution framework. More precisely, runtime verification can be done using 
 %test-case generation techniques of typical concurrent C-code \cite{kbse-BurnimS08}.
 \end{enumerate}
