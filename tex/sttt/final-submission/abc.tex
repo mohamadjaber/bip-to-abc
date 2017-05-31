@@ -1,0 +1,98 @@
+\section{ABC reduction and verification techniques}
+\label{app:abc}
+
+The ABC framework provides a set of algorithms that can 
+be applied iteratively to (1) reduce the AIG into 
+an equivalent AIG and (2) verify that a designated 
+output of an AIG is always true. 
+In what follows we provide brief descriptions of several 
+reduction and verification ABC algorithms. 
+
+% -- Synthesis techniques -- %
+\subsection{Structural Register Sweep (SRS)}
+SRS detects registers that are stuck-at-constant and eliminates 
+them from a given sequential AIG circuit. The technique starts by zeroing up all 
+initial values of registers in the circuit. It then uses the ternary simulation
+algorithm in order to detect stuck-at-constant registers. The algorithm starts from 
+the initial values of the registers and simulates the circuit using x values for the
+circuit's primary inputs. The simulation algorithm stops when a new ternary state is 
+equal to a previously computed ternary state. In this case, any register having the 
+same constant value at each reachable ternary state will be declared to be 
+stuck-at-constant and thus eliminated. The structural sweeping algorithm stop when 
+no further reduction in the number of registers is possible~\cite{mishchenko2008scalable}. 
+
+\subsection{Signal Correspondence (Scorr)} 
+Scorr uses $k$-step induction in order to detect and merge sets of classes of 
+sequentially-equivalent nodes~\cite{mishchenko2008scalable}. The base case for this algorithm is that the equivalence
+between the classes holds for the first $k$ frames, and the inductive case is that 
+given the base case, starting from any state, the equivalence holds in the 
+$(k+1)^{st}$ state. Key to the signal correspondence algorithm is the way the candidate
+equivalences are assumed for the base case. Abc implements speculative reduction, 
+originally presented in~\cite{mony2005exploiting}, which merges, but does not remove, any node of an equivalence 
+class onto its representative, in each of the first $k$ time frames. Instead of removing the 
+merged node, a constraint is added to assert that the node and its representative are equal. 
+This technique is claimed to decrease the number of constraints added to the SAT solved for 
+induction. 
+
+\subsection{Rewriting}
+Rewriting aims at finding nodes in a Directed Acyclic Graph (DAG) where by replacing subgraphs rooted 
+at these nodes by pre-computed subgraphs can introduce important reductions in the DAG size, while 
+keeping the functionality of these nodes intact. The algorithm traverses the DAG in depth-first post-order
+and gives a score for each root node. The score represents the number of nodes that would result
+from performing a rewrite at this node. If a rewrite exists such that the size of the DAG is decreased, such 
+a rewrite is performed and scores are recomputed accordingly.  
+Rewriting has been proposed initially in~\cite{bjesse2004dag}, targeted for Reduced Boolean Circuits (RBC); 
+it was later implemented and improved for ABC in~\cite{mishchenko2006dag}. 
+
+%% Retiming
+\subsection{Retiming}
+Retiming a sequential circuit is a standard technique used in sequential synthesis, 
+aiming at the relocation of the registers in the circuit in order to optimize 
+some of the circuit characteristics. Retiming can either targets the minimization of the delay 
+in the circuit, or the minimization of the number of registers given a delay constraint, 
+or the unconstrained minimization of the number of registers in the circuit. It 
+does so while keeping the output functionality of the circuit intact~\cite{hurst2007fast}
+
+% -- Verification techniques -- %
+\subsection{Property Directed Reachability (Pdr)}
+The Pdr algorithm aims at proving that no 
+violating state is reachable from the initial state of a given AIG network. 
+It maintains a trace representing a list of over-approximations of the states
+reachable from the initial state, along with a set of {\em proof-obligations}, 
+which can be a set of bad states or a set of states from which a bad state is
+reachable. Given the trace and the set of obligations, the Pdr algorithm manipulates 
+them and keeps on adding facts to the trace until either an inductive invariant 
+is reached and the property is proved, or a counter example is found (a bad is state
+is proven to be reachable). The algorithm was originally developed by Aaron Bradley 
+in~\cite{bradley2011sat,bradley2007checking} and was later improved by Een et. al in~\cite{een2011efficient}.
+
+\subsection{Temporal Induction}
+Temporal induction carries an inductive proof of the property 
+over the time steps of a sequential circuit.
+Similar to a standard inductive proof, it consists of a base
+case and an inductive hypothesis. These steps are typically 
+expressed as SAT problems to be solved by traditional SAT solvers.  
+$k$-step induction strengthens simple temporal inductive proofs 
+by assuming that the property holds for the first $k$ time steps (states), 
+i.e. a longer base case needs to be proven~\cite{een2003temporal}. Since the target is
+to prove unsatisfiability (proving that the negation of the property 
+is unsatisfiable), if the base case is satisfiable, a counter-example 
+is returned. Otherwise, the induction step is checked by assuming that
+the property holds for all the states except the last one (the $(k+1)$'th 
+state)~\cite{biere2009handbook}.   
+
+\subsection{Interpolation}
+Given an unsatisfiable formula $A \land B$, an interpolant $I$ is
+a formula such that $A \implies I$, $I \land B$ is unsatisfiable and
+$I$ contains only common variables to $A$ and $B$. 
+Given a system $M$, a property $p$ and a bound $k$, interpolation
+based verification starts by attempting bounded model checking (BMC) with the bound $k$. 
+If a counter-example is found, the algorithm returns. Otherwise, it
+partitions the problem into a prefix $pre$ and a suffix $suf$, such that the 
+problem is the conjunction of the two. 
+Then the interpolant $I$ of $pre$ and $suf$ is computed, it represents
+an over-approximation of the set of states reachable in one step from the initial state
+of the algorithm. If $I$ contains no new states, a fixpoint is reached 
+and the property is proved. Otherwise, the algorithm reiterates and replaces
+the initial states with new states added by $I$~\cite{amla2005analysis}. 
+

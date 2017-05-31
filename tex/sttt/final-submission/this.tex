@@ -1,0 +1,54 @@
+\section{One Loop Programs (\caig) - syntax and semantics}
+\label{sec:this}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+This section introduces the syntax and semantics of one loop programs.
+%
+\input{olpsyntax}
+\input{olpsemantics}
+
+
+\begin{figure*}
+\begin{tabular}{p{3cm}p{0.2cm}p{10cm}}
+\begin{lstlisting}
+decl-list
+
+wiredef-list
+
+do-together {
+  init-list 
+}
+
+while(true) {
+  do-together {
+    next-list
+  } 
+}
+\end{lstlisting}
+&
+&
+\begin{lstlisting}
+type: bool | int | bool [NUM] | int [NUM]; 
+declaration: wire type id; | type id;
+
+expr: term | uop expr| expr bop expr | expr ? expr : expr;
+term: id | id[expr]; 
+
+decl-list: declaration+
+assignment: term = expr
+wiredef-list: (assignment)*
+
+init-list: (assignment)* 
+next-list: (assignment)* 
+\end{lstlisting}
+\end{tabular}
+\vspace{-2em}
+\caption{\caig Syntax}
+\label{fig:gr}
+\end{figure*}
+%
+
+%
+In \secref{sec:bip2aig}, we shall see how to automatically translate a BIP system into \caig.

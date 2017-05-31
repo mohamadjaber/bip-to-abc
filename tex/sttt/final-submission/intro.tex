@@ -1,0 +1,189 @@
+\section{Introduction}
+\label{sect-intro}
+
+\begin{figure*}
+\resizebox{1.9\columnwidth}{!}{
+  \input{figures/embddflow.pdf_t}
+}
+\caption{Embedded system specification, refinement, and implementation stages}
+\label{fig:flow}
+\end{figure*}
+
+\emph{Embedded systems} have witnessed a large 
+expansion, especially with  the emergence of automotive 
+electronics, mobile and control devices.
+%
+An embedded system is a composition of intellectual property (IP) components
+of \emph{heterogeneous} computational nature, i.e., some might be implemented as software 
+processor executables while some others as real-time logic circuits. 
+\emph{Field-programmable gate array} (FPGA) logic circuits are popular logic circuit 
+implementations of embedded system components because they are amenable for reconfiguration and can perform several computational tasks simultaneously. 
+%
+Figure~\ref{fig:flow} shows a typical flow of the composition process where the
+components are specified as imperative programs, finite state machines (FSM), labeled 
+transition systems (LTS), data flow networks, and discrete-event based circuits~\cite{henzinger2006embedded}.
+%Computations in embedded systems are subject to several 
+%physical and architectural 
+%constraints that render the separation between software and 
+%hardware design impractical~\cite{henzinger2006embedded}.
+Partitioning, often done manually, is used to decide whether a component is to 
+be implemented as a programmed process or as a real-time logic circuit. 
+A plethora of software, behavioral, and logic compilation and synthesis techniques are
+used in the process~\cite{metropolis2}.
+The end result implementation is then subject to functional verification including 
+model checking and runtime verification. 
+
+The design flow faces three important challenges of relevance to this paper. 
+
+\begin{itemize}
+\item Model checking faces the state-space explosion problem which often renders the results of model checking inconclusive. 
+\item The logical capacity of a reconfigurable FPGA board is limited.
+Thus, the size of the logic circuit implementations corresponding to IP components decide 1) how many components can be loaded simultaneously on the board, and 2) whether IP swapping is needed or not at runtime.
+Moreover, the critical depth of the logic circuit implementation decides how fast the board can be clocked.
+\item Runtime verification of embedded systems with general-purpose runtime verification engines exhibits expensive runtime overhead. 
+\end{itemize}
+
+%
+Behavior-Interaction-Priority (BIP) is a framework for the design of 
+{\em Component-Based Systems} (CBSs). 
+BIP uses a dedicated language and tool-set to support a rigorous 
+and layered design flow for embedded systems. 
+BIP is currently being used in academy and in industry in projects such as 
+ASCENS, COMBEST, PRO3D, SMECY, ACROSS, MARAE, GOAC, MIND and CHAPI \cite{bipwebsite}. 
+BIP allows to build complex systems by coordinating the behavior of a set of 
+atomic components~\cite{bip11}.
+BIP makes use of (1) DFinder~\cite{dfinder}, a compositional  
+and incremental verification tool-set, and (2) NuSMV~\cite{nusmv}
+to model-check the correctness of BIP systems. 
+However, DFinder~\cite{BBL14} does not handle data transfer between components~\cite{QiangB15}, 
+and the available online version only supports deadlock-freedom check.
+Additionally, for complex systems, NuSMV often suffers from the state-explosion problem~\cite{sipser2006introduction}, and fails to perform its verification tasks.
+
+ABC~\cite{brayton2010abc} is a transformation-based 
+verification~\cite{KuBa01} framework that operates on 
+And-Inverter Graphs (AIG); semi-canonical Boolean netlists with
+memory elements. It employs iteratively and synergistically: (1) powerful reduction, (2) abstraction, and (3) decision algorithms; such as
+retiming~\cite{KuBa01}, 
+redundancy removal~\cite{HmBPK05,KuMP01,BjesseC00,aziz-fmsd-00}, 
+logic rewriting~\cite{BjBo04}, interpolation~\cite{McMillan03}, 
+and localization~\cite{Wang03}, 
+symbolic model checking, bounded model checking, induction, 
+interpolation, circuit SAT solving, 
+and target enlargement~\cite{MoGS00,MoMZ01,HoSH00,BaKuAb02,Hari05expert}.
+
+In this paper, we present a method and a supporting tool (\biptool)
+for embedded system synthesis, runtime verification,
+and model checking with a cycle-based execution model.
+The method leverages transformation-based synthesis and verification techniques 
+as follows. 
+%\biptool~ that takes a BIP system and a set of 
+%specifications amd
+%properties and generates the following:
+%
+\begin{enumerate}
+\item The method takes a BIP system and a set of invariants and generates 
+  an intermediate C-like {\em one loop program } \caig. 
+  The \caig step is necessary to allow for runtime verification and for the use
+  of ABC verification algorithms. We consider invariant properties which are Boolean expressions
+over atomic propositions on components (e.g., constraints on the current locations and values of variables).
+
+\item The method then translates the \caig program to 
+  an AIG circuit with an output therein that holds iff the system 
+  is deadlock free, and satisfies the system invariants. 
+  The method passes the generated AIG circuit to ABC for reduction and 
+  verification. 
+  The method drives the ABC reduction and verification algorithms and 
+  either proves correctness or produces a counter example where the 
+  system violates an invariant. 
+  This enabled us to find defects and prove systems that were not 
+  possible using DFinder and NuSMV. 
+
+\item  \biptool~ provides a debugging mechanism where the 
+  counter example is mapped back to the original BIP system. 
+  The debugging tool is integrated with a wave-form visualization tool 
+  \cite{bybell2010gtkwave}.  
+\item The method generates a {\em field-programmable gate array} (FPGA) 
+  implementation of the BIP system with a 
+  system-specific execution framework. 
+  An FPGA implementation is a configuration of 
+  memory elements and lookup-up tables (LUT) provided with an FPGA board
+  that implements a specific logical function
+  and appropriately performs the desired computation. 
+  FPGA implementations are directly mapped to other integrated circuit representations
+  such as {\em application-specific integrated circuits} (ASIC). 
+  %FPGA implementations of computational tasks are desired with embedded 
+  %systems versus other logic circuit implementations 
+  %since an FPGA board can house several computational tasks at once,
+  %and can be automatically reconfigured to perform new computational tasks. 
+
+  \biptool{} constructs the FPGA implementation from the reduced AIG circuit 
+  to benefit from the area and critical-time reduction algorithms 
+  of the ABC framework. 
+  The reduction algorithms remove redundant latches and logic gates.  
+  To the best of our knowledge, we are the first to directly synthesize a BIP system into an FPGA. 
+
+\item 
+    The method translates the \caig program into a concurrent C 
+    implementation of the BIP system.
+    The implementation can be used for runtime verification as well as a direct
+    software implementation. 
+    Moreover, in case the design was to be partitioned into software and hardware, 
+    parts of the implementation are readily available to execute on CPUs. 
+  
+  % with a system-specific execution framework. More precisely, runtime verification can be done using 
+%test-case generation techniques of typical concurrent C-code \cite{kbse-BurnimS08}.
+\end{enumerate}
+%
+
+Our results show that \biptool{} successfully verifies large systems that are not possible to verify with existing techniques. 
+The method also achieves significant reductions in FPGA size and depth reported as the 
+number of gates and logic levels before and after the reductions.
+
+BIP is based on the generation of modular code and a dedicated platform, the so-called BIP \emph{engine}, which interprets the BIP semantics and orchestrates the computation of atomic components. This modularity favors the clarity of models but implies a prohibitive inefficiency. The main loop of the BIP engine consists of the following steps:
+%
+\begin{enumerate}
+\item Each atomic component sends to the engine its current location.
+\item The engine enumerates the list of interactions in the system, 
+  selects the enabled ones based on the current location of the atomic 
+  components and eliminates the ones with low priority.
+\item The engine non-deterministically selects an interaction out of the enabled interactions.
+\item Finally, the engine notifies the corresponding components and schedules their transitions for execution. 
+\end{enumerate}
+%
+Compared to the BIP engine, our method differs in that it directly embeds a system-specific scheduler represented by a bit vector of interactions in the implementation.
+The value of the  interaction bit vector directly depends on the locations and the values of the variables of the input system. 
+The system specific execution framework empirically reduces the space and time requirements for the C simulation and the FPGA execution. 
+
+%Several frameworks for the design and verification of embedded systems exist. 
+%We briefly introduce them here and discuss and compare to them later in 
+%Section~\ref{sec:related}.
+
+Several frameworks for the design and verification of embedded systems exist 
+(see Section~\ref{sec:related} for a detailed comparison with related work).
+%
+Metropolis~\cite{metropolis1,metropolis2} is a design framework that
+takes a Metropolis Meta Model description of an embedded system 
+and generates a SystemC~\cite{systemc} based simulator of the system.
+It uses the SIS toolset~\cite{brayton92sis} for synthesis and the SPIN model checker for verification~\cite{HolzSpin97}. 
+SystemC~\cite{systemc} in turn is a design framework based on C++ that allows
+system components to communicate through ports, interfaces, and channels.
+Extensions to SystemC such as ForSyDe~\cite{SanderJ04} restrict the 
+expressiveness to enable formal verification tools to handle the system. 
+In brief, our method supports the synthesis, model checking, and runtime verification 
+concerns of embedded systems using tool-independent semantics across the three concerns
+by embedding the execution model of the embedded system in the generated systems 
+for each concern. 
+Our method simplifies debugging and design-flow cycle iterations. Furthermore, 
+the use of AIG circuits for synthesis and model-checking allows our method to leverage
+the mature and rich literature of logic synthesis techniques. 
+
+
+%% organization
+The rest of this paper is organized as follows.
+In Section~\ref{sec:bip}, we recall the necessary concepts of the BIP framework. Section \ref{sec:this} defines one loop programs (\caig).
+Section~\ref{sec:sequential} formalizes sequential circuits and shows how to translate a sequential circuit into a \caig.
+Section~\ref{sec:bip2aig} shows how to translate a BIP system into a \caig.
+Section~\ref{sec:implem} describes \biptool{}, a full implementation of our framework and some benchmarks.
+Section~\ref{sec:related} discusses related work.
+Section~\ref{sec:conclusion} draws some conclusions and perspectives.
+%
