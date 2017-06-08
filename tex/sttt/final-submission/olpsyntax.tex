@@ -1,4 +1,4 @@
-\subsection{Syntax of One Loop Programs}
+\subsection{Syntax of one loop Programs}
 %
 
 Figure~\ref{fig:gr} illustrates the syntax of a 
@@ -17,7 +17,7 @@ to connect different elements (wires or registers).
 \begin{definition}[\caig variables]
 The set of variables $V$ of an \caig is defined to be 
 the set of all non-wire, i.e., register variables declared in \cci{decl-list}.
-The function $\mathit{type}: V \mapsto \set{int, Boolean, int[1], Boolean[1], int[2], Boolean[2], \ldots}$ maps a variable
+Function $\mathit{type}: V \mapsto \set{int, Boolean, int[1], Boolean[1], int[2], Boolean[2], \ldots}$ maps a variable
 $v \in V$ to its declared type. 
 \end{definition}
 
@@ -52,8 +52,8 @@ The loop makes sure that the design runs indefinitely.
 
 
 
-\begin{definition}[Well formed \caig]
-An \caig is {\em well formed} when both 
+\begin{definition}[Well-formed \caig]
+An \caig is {\em well-formed} when both 
 the \cci{init-list} and the \cci{next-list}
 contains one assignment per non-wire variable and
 the \cci{wiredef-list} contains at most 
@@ -80,7 +80,7 @@ to be the functions corresponding to the right-hand side
 expressions of $s_{init}$ and $s_{next}$, respectively. 
 \end{definition}
 
-\begin{example}[Well formed \caig]
+\begin{example}[Well-formed \caig]
 Figure~\ref{fig:caigtraffic} shows an \caig that corresponds to the BIP system for the traffic-light controller shown in \figref{fig:traffic:bip}. 
 \input{figcaigtraffic}
 \end{example}

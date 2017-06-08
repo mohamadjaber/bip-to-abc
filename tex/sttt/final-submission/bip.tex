@@ -13,12 +13,12 @@ We introduce some preliminary concepts and notations.
 
 
 
-\paragraph{Transition Systems.}
+\paragraph{Transition systems.}
 %
-Labeled Transition System (LTS) are used to define the semantics of BIP systems.
+Labeled Transition Systems (LTS) are used to define the semantics of BIP systems.
 An LTS defined over an alphabet $\Sigma$ is a 3-tuple $\tuple{\mathrm{Lab},\mathrm{Sta},\mathrm{Trans}}$ where $\mathrm{Lab}$ is a set of labels, $\mathrm{Sta}$ is a non-empty set of states and $\mathrm{Trans}\subseteq \mathrm{Sta}\times \mathrm{Lab} \times \mathrm{Sta}$ is the transition relation.
 A transition $\tuple{s,e,s'}\in\mathrm{Trans}$ means that the LTS can move from state $s$ to state $s'$ by consuming label $e$.
-We abbreviate $\tuple{s,e,s'}\in\mathrm{Trans}$ by $s \stackrel{e}{\rightarrow}_\mathrm{Trans} s'$ or by $s\stackrel{e}{\rightarrow} s'$ when clear from context.
+We abbreviate $\tuple{s,e,s'}\in\mathrm{Trans}$ by $s \stackrel{e}{\rightarrow}_\mathrm{Trans} s'$ or by $s\stackrel{e}{\rightarrow} s'$ when clear from the context.
 Moreover, $s \stackrel{e}{\rightarrow}$ is a short for $\exists s'\in\mathrm{Sta}: s\stackrel{e}{\rightarrow} s'$.
 %
 %The \emph{traces} of LTS $L=\tuple{\mathrm{Lab},\mathrm{Sta},\mathrm{Trans}}$, noted $\traces(L)$, are the finite sequences over $\mathrm{Lab} \cup \mathrm{Sta}$ of the form
@@ -34,7 +34,7 @@ Moreover, $s \stackrel{e}{\rightarrow}$ is a short for $\exists s'\in\mathrm{Sta
 %
 
 
-\section{BIP - Behavior Interaction Priority}
+\section{BIP - Behavior interaction priority}
 \label{sec:bip}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,33 +91,33 @@ Also, the set of variables used in a transition is defined as $\var(f_\tau) = \{
 Given an atomic component $B$, $B.P$ denotes the set of ports of the atomic component $B$, $B.L$ denotes its set of locations, etc.
 
 Given a set $X$ of variables, we denote by $\valu{X}$ the set of valuations
-defined on $X$. Formally, $\valu{X} = \{ \sigma : X \rightarrow \mathit{\Data}\}$, where
+defined on $X$. Formally, $\valu{X} \in [X \rightarrow \mathit{\Data}]$, where
 $\mathit{\Data}$ is the set of all values possibly taken by variables in $X$.
 
 %
 %\paragraph{Semantics of Atomic Components.}
 %The semantics of an atomic component is an LTS over configurations and ports, formally defined as follows:
 %
-\begin{definition}[Semantics of Atomic Components]
+\begin{definition}[Semantics of atomic components]
 \label{def:semantic-atom}
 The semantics of the atomic component $B = (P,L, T, X, \{g_{\tau}\}_{\tau \in T}, \{f_{\tau}\}_{\tau \in T})$ is defined as the labeled transition system  $S_B = (Q_B, P_B, T_B)$, where: 
 \begin{itemize}
-\item $Q_B = L\times \valu{X}$, where $\valu{X}$ denotes the set of valuations on $X$,
+\item $Q_B = L\times \valu{X}$, %where $\valu{X}$ denotes the set of valuations on $X$,
 \item $P_B = P \times \valu{X}$ denotes the set of labels, that is, ports augmented with valuations of variables, 
-\item $T_B$ is the set of transitions defined as follows. $T_B= \{ ((l,v),p(v_{p}), (l',v'))\in Q_B\times P_B\times Q_B \mid \exists \tau = (l, p[x_{p}], l') \in T: g_{\tau}(v) \wedge v'=f_{\tau}(v/v_{p})\}$, where $v_{p}$ is a valuation of the variables of $p$.  
+\item $T_B= \{ ((l,v),p(v_{p}), (l',v'))\in Q_B\times P_B\times Q_B \mid \exists \tau = (l, p[x_{p}], l') \in T: g_{\tau}(v) \wedge v'=f_{\tau}(v/v_{p})\}$, where $v_{p}$ is a valuation of the variables of $p$.  
 \end{itemize}
 \end{definition}
 %
-A state is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$. The evolution of states $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in state $(l, v)$. Execution of port $p$ results in updated the valuation of $v$ to $v'=f_\tau(v/v_p)$.
+A state is a pair $(l,v)\in Q_B$ where $l \in L$ is a control location, $v \in \valu{X}$ is a valuation of the variables in $X$.  $T_B$ is the set of transitions. The evolution of states $(l, v)\stackrel{p(v_{p})}{\rightarrow} (l', v')$, where $v_{p}$ is a valuation of the variables attached to port $p$, is possible if there exists a transition $(l, p[x_p], g_\tau, f_\tau, l')$, such that $g_\tau(v)=\true$. In this case, we say that $p$ is \emph{enabled} in state $(l, v)$. Execution of port $p$ results in updating the valuation of $v$ to $v'=f_\tau(v/v_p)$.
 
-Note that valuation of the variables attached to port $p$ are further instantiated when composing components with respect to data transfer functions of interactions~\cite{jaberthesis,FalconeJNBB15}.
+Note that the valuation of the variables attached to port $p$ are further instantiated when composing components with respect to data transfer functions of interactions~\cite{jaberthesis,FalconeJNBB15}.
 
  
 %As a result, the valuation $v'$ of variables is modified to $v=f_\tau(v'/v_p)$.
 %
 
 
-\subsubsection{Composing Atomic Components.} 
+\subsubsection{Composing atomic components} 
 Assuming some available atomic components $B_1,$ $\ldots,B_n$, we show how to connect a subset $\{B_i\}_{i\in I}, I\subseteq [1,n]$, of the components using an \emph{interaction}. An interaction $a$ is used to specify the sets of ports that have to be jointly executed.
 
 
@@ -126,17 +126,17 @@ Assuming some available atomic components $B_1,$ $\ldots,B_n$, we show how to co
 An interaction $a$ is a tuple $(P_a, G_a,F_a)$, where:
 \begin{itemize}
 \item $P_a \subseteq \cup_{i = 1} ^ { n } B_i.P$ is a nonempty set of ports that contains
-at most one port of every component, that is, $\forall i: 1 \leq i \leq n: |B_i.P \cap P_a| \leq 1 $. We denote by $X_a = \cup_{p \in P_a} x_p$ the set of variables available to $a$,
+at most one port of every component, that is, $\forall i: 1 \leq i \leq n: |B_i.P \cap P_a| \leq 1 $. We denote by $X_a = \cup_{p \in P_a} x_p$ the set of variables available to interaction $a$,
 \item $G_a : \valu{X_a} \rightarrow \{\true, \false\}$ is a guard, 
 \item $F_a : \valu{X_a} \rightarrow \valu{X_a}$ is an update function. 
 \end{itemize}
 \end{definition}
 %
-$P_a$ is the set of connected ports called the support set of $a$. For each $i\in I$, $x_i$ is a set of variables associated with the port $p_i$.
+$P_a$ is the set of connected ports called the support set of $a$. For each $i\in I$, $x_i$ is a set of variables associated with port $p_i$.
 
 
 %
-\begin{definition}[Composite Component]
+\begin{definition}[Composite component]
   A composite component is defined from a set of available atomic components $\{B_i\}_{i\in I}$ and a set of interactions $\gamma=\{a_j\}_{j\in J}$.
 The connection of the components in $\{B_i\}_{i\in I}$ using the set $\gamma$ of interactions is denoted by $\gamma(\{B_{i}\}_{i\in I})$.
 \end{definition}
@@ -158,7 +158,7 @@ The connection of the components in $\{B_i\}_{i\in I}$ using the set $\gamma$ of
 \end{figure*}
 
 %
-\begin{definition}[Semantics of Composite Components]
+\begin{definition}[Semantics of composite components]
 \label{def-runtimesemanticscomposite}
 A state $q$ of a composite component $\gamma(\{B_1, \ldots, B_n\})$, where $\gamma$ connects the $B_i$'s for $i\in [1,n]$, is an $n$-tuple $q=(q_1,\ldots,q_n)$ where $q_i=(l_i,v_i)$ is a state of $B_i$. Thus, the semantics of $\gamma(\{B_1, \ldots, B_n\})$ is precisely defined as the labeled  transition system $S = (Q,\gamma,\goesto)$, where:
 \begin{itemize}

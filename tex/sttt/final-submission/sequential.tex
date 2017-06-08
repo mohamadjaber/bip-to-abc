@@ -1,4 +1,4 @@
-\section{From \caig to sequential circuit}
+\section{From \caig to sequential circuits}
 \label{sec:sequential}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,15 +55,15 @@ at least one vertex from $R$.  The initial-value functions
 of $R$ shall have no register in their support.  
 In the following, 
 we consider only well-formed sequential circuits which can be 
-verified by a structural check linear in the size of the 
+verified by a structural check that is linear in the size of the 
 sequential circuit.
 %This is not a limitation since NAND is {\em functionally complete} as it implements
 %negated conjunction. 
 %
 
-The ABC synthesis and model checker framework reasons about 
+The ABC synthesis and model-checker framework reasons about 
 the And-Inverted-Graph (AIG) representation of a sequential 
-circuit which are sequential circuits with only NAND gates 
+circuit which are sequential circuits with only NAND gates and 
 with exactly two fanins~\cite{brayton2010abc}. 
 
 We describe useful reduction
@@ -71,7 +71,7 @@ and verification ABC algorithms in Appendix~\ref{app:abc}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Semantics of Sequential Circuits}
+\subsection{Semantics of sequential circuits}
 \label{s:back:crct_semantics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -118,7 +118,7 @@ $(u_{j},v)\in E$.
 %
 
 
-  The well-formed constraint guarantees the absence of combinational cycles in the 
+  The well-formedness constraint guarantees the absence of combinational cycles in the 
 AIG. Therefore, 
 given a sequence of input valuations and an initial state, 
 \figref{fig:gate-value} defines the resulting trace as a 
@@ -169,7 +169,7 @@ almost all cases of interest~\cite{BuClMcDiHw92}.
 %clarity of exposition.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Translation from \caig to AIG Circuits}
+\subsection{Translation from \caig to AIG circuits}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 Algorithm {\bf olp-to-aig} shown in \figref{fig:olp2aig}  
@@ -238,12 +238,12 @@ We instantiate a corresponding
 vector of AIG registers with an adequate bit width. 
 The width of the bit vector can be selected by the user, 
 or can be set to match the default width of the declared type. 
-Typically the default values for the bit width are 
+Typically, the default values for the bit width are 
 32 bits for an integer, one bit for a Boolean, and a 
 finite two dimensional bit vector for an array. 
 In our case, and for \caig programs generated from BIP systems, 
 we will not have arrays of register variables
-and we will only have fixed-size arrays of Boolean wires as 
+butl only have fixed-size arrays of Boolean wires as 
 discussed in \secref{sec:bip2aig}.
 %
 We say that a variable declared as wire in \cci{decl-list}
@@ -325,7 +325,7 @@ and returns its fanouts.
 
 \paragraph{Invariants.}
 %
-A special variable in the \caig program denotes the conjunction of all the invariants of the system in addition to the deadlock freedom property. This variable is the designated output of the resulting 
+A special variable in the \caig program denotes the conjunction of all the invariants of the system in addition to the deadlock-freedom property. This variable is the designated output of the resulting 
 AIG circuit. ABC verifies that the designated output is always $\true$. 
 %
 
@@ -355,13 +355,13 @@ equivalent for all $0 \le i < \ell$.
 
 
 \begin{proof}
-The proof is provided by induction on the length of traces. 
+The proof is by induction on the length of traces. 
 
 {\bf Base case:} 
 The initial states $\sigma^p_{0}$ and 
 $\sigma^a_{0}$ are equivalent since the 
 initial state functions of registers $R$ in $A$ and 
-the right hand side expressions of the corresponding
+the right-hand side expressions of the corresponding
 assignments in \cci{init-list} of $P$ are equivalent
 by construction. 
 %This is preserved by library and vargates

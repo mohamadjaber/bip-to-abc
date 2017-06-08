@@ -9,7 +9,7 @@ In what follows we provide brief descriptions of several
 reduction and verification ABC algorithms. 
 
 % -- Synthesis techniques -- %
-\subsection{Structural Register Sweep (SRS)}
+\subsection{Structural register sweep (SRS)}
 SRS detects registers that are stuck-at-constant and eliminates 
 them from a given sequential AIG circuit. The technique starts by zeroing up all 
 initial values of registers in the circuit. It then uses the ternary simulation
@@ -21,7 +21,7 @@ same constant value at each reachable ternary state will be declared to be
 stuck-at-constant and thus eliminated. The structural sweeping algorithm stop when 
 no further reduction in the number of registers is possible~\cite{mishchenko2008scalable}. 
 
-\subsection{Signal Correspondence (Scorr)} 
+\subsection{Signal correspondence (Scorr)} 
 Scorr uses $k$-step induction in order to detect and merge sets of classes of 
 sequentially-equivalent nodes~\cite{mishchenko2008scalable}. The base case for this algorithm is that the equivalence
 between the classes holds for the first $k$ frames, and the inductive case is that 
@@ -54,7 +54,7 @@ or the unconstrained minimization of the number of registers in the circuit. It
 does so while keeping the output functionality of the circuit intact~\cite{hurst2007fast}
 
 % -- Verification techniques -- %
-\subsection{Property Directed Reachability (Pdr)}
+\subsection{Property directed reachability (Pdr)}
 The Pdr algorithm aims at proving that no 
 violating state is reachable from the initial state of a given AIG network. 
 It maintains a trace representing a list of over-approximations of the states
@@ -62,11 +62,11 @@ reachable from the initial state, along with a set of {\em proof-obligations},
 which can be a set of bad states or a set of states from which a bad state is
 reachable. Given the trace and the set of obligations, the Pdr algorithm manipulates 
 them and keeps on adding facts to the trace until either an inductive invariant 
-is reached and the property is proved, or a counter example is found (a bad is state
+is reached and the property is proved, or a counter example is found (a bad state
 is proven to be reachable). The algorithm was originally developed by Aaron Bradley 
 in~\cite{bradley2011sat,bradley2007checking} and was later improved by Een et. al in~\cite{een2011efficient}.
 
-\subsection{Temporal Induction}
+\subsection{Temporal induction}
 Temporal induction carries an inductive proof of the property 
 over the time steps of a sequential circuit.
 Similar to a standard inductive proof, it consists of a base
@@ -86,11 +86,11 @@ Given an unsatisfiable formula $A \land B$, an interpolant $I$ is
 a formula such that $A \implies I$, $I \land B$ is unsatisfiable and
 $I$ contains only common variables to $A$ and $B$. 
 Given a system $M$, a property $p$ and a bound $k$, interpolation
-based verification starts by attempting bounded model checking (BMC) with the bound $k$. 
+based verification starts by attempting bounded model-checking (BMC) with the bound $k$. 
 If a counter-example is found, the algorithm returns. Otherwise, it
 partitions the problem into a prefix $pre$ and a suffix $suf$, such that the 
 problem is the conjunction of the two. 
-Then the interpolant $I$ of $pre$ and $suf$ is computed, it represents
+Then the interpolant $I$ of $\mathit{pre}$ and $\mathit{suf}$ is computed, it represents
 an over-approximation of the set of states reachable in one step from the initial state
 of the algorithm. If $I$ contains no new states, a fixpoint is reached 
 and the property is proved. Otherwise, the algorithm reiterates and replaces

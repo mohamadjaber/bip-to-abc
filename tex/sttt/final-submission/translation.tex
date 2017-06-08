@@ -38,8 +38,8 @@ In the centralized implementation, the engine executes only one interaction at a
 In the multi-threaded implementation~\cite{BasuBBS08}, 
 the involved components in the non-conflicting interactions execute simultaneously with no overhead
 except the classical thread synchronization overhead. 
-However, while each component executes in a separate thread, the engine executes in a single engine thread.
-The single engine thread is responsible for sequentially 
+However, while each component executes in a separate thread, the engine executes in a single-engine thread.
+The single-engine thread is responsible for sequentially 
 (1) selecting an interaction for execution, 
 (2) executing the corresponding action, and
 (3) signaling the static threads associated with the involved components for execution. 
@@ -50,12 +50,12 @@ where non-conflicting interactions can be simultaneously executed.
 However, an additional layer is added to resolve conflicts. 
 This may introduce significant overhead due to communication between the layers. 
 %
-The overhead may prove excessive when 
+The overhead may drastically increase when 
 interactions do not involve heavy computations, which is the case in general since most interactions involve data transfer.
 
-In our case, it is possible to add a circuit that identifies and enables all non-conflicting interactions with simple a modification
-that merges the consecutive execution cycles of non-conflicting interactions into one cycle. 
-Such transformation is available automatically with the retiming algorithm 
+In our case, it is possible to add a circuit that identifies and enables all non-conflicting interactions with a simple modification
+that merges the consecutive execution cycles of non-conflicting interactions into one cycle.
+Such transformation is available for free with the retiming algorithm 
 in ABC~\cite{hurst2007fast} and allows us to compare well with the distributed implementation in~\cite{BonakdarpourBJQS12}.
 
 
@@ -63,10 +63,10 @@ Furthermore, the selection of non-conflicting interactions can happen simultaneo
 As opposed to sequential as in the multi-threaded BIP implementation~\cite{BasuBBS08}.
 The multi-threaded implementation does not have to wait for all non-conflicting interactions to complete before 
 executing new interactions. 
-\biptool is currently restricted to a cycle implementation since this is a necessary constraint for generating code that can be synthesized into FPGAs. 
+\biptool~is currently restricted to a cycle implementation since this is a necessary constraint for generating code that can be synthesized into FPGAs. 
 This constraint can be relaxed by allowing longer interactions to span multiple cycles and introducing a busy state in the involved components. 
 As for software execution, 
-in the current model of execution, the one loop in \biptool iterates once all the assignments inside it are done. 
+in the current model of execution, the one loop in \biptool~iterates once all the assignments inside it are done. 
 We can relax that to have the loop iterate when the first interaction is done and guard the assignments involved in the busy interactions with the necessary
 conditional logic. 
 
@@ -262,7 +262,7 @@ Formally, $T'  = \{t' \,\mid\, t'[i] = t[2\times i] \wedge t \in Tr_P \wedge i \
 Intuitively, $T'$ represents the semantics of the original BIP model regardless of the built-in scheduler details 
 (i.e., the enable exchange, interaction selection, data transfer details). 
 %
-\begin{theorem}[BIP \caig Equivalence]
+\begin{theorem}[BIP \caig equivalence]
 \label{theorem:correct}
 The BIP system $S$ is semantically equivalent to $P$: $Tr_s=T'$. 
 \end{theorem}
@@ -374,7 +374,7 @@ interaction with the nearest index to the \cci{selector}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{One Cycle Optimization}
+\subsection{One-cycle optimization}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 Recall that an interaction specifies a strong synchronization among its involved components.
@@ -382,7 +382,7 @@ Data transfer can take place during such synchronization.
 The operational semantics of BIP requires to (1) first execute the data transfer of the selected interaction, and then to (2) execute the functions of the corresponding transitions of atomic components.
 For this purpose, in the above translation, we used the $\mathit{cycle}$ Boolean register to indicate whether the system is executing actions corresponding to either interaction or transition.
 However, in some cases, data transfers of all interactions modify some variables that are not assigned in the corresponding transitions of those interactions.
-This can be detected by doing a static data dependency analysis
+This can be detected by doing a static data-dependency analysis
 between interactions and their transitions. 
 This may drastically improve the performance of the system since data transfers as well as functions of transitions may be executed in one cycle. Note that, our implementation supports this optimization. 
 Moreover, it is possible to do source-to-source transformations to compose the effect of data transfer, and hence one cycle-based implementations could be always generated.

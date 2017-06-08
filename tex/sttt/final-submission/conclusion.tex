@@ -1,8 +1,8 @@
-\section{Conclusion and Future Work}
+\section{Conclusion and future work}
 \label{sec:conclusion}
 %
 We present a method for embedded system synthesis, runtime verification,
-and model checking with supporting tools for the BIP framework. 
+and model-checking with supporting tools for the BIP framework. 
 The method takes a BIP system and generates a concurrent C program with a system 
 specific scheduler embedded therein. 
 The concurrent C program serves as a software runtime verification simulator for the 
@@ -14,7 +14,7 @@ to simplify and reduce the AIG circuit
 into a smaller and a less complex circuit that can be readily implemented with an 
 FPGA. 
 The method passes the reduced AIG circuit with a designated output that is \true
-when the BIP system invariants are \true to ABC proof and model checking 
+when the BIP system invariants are \true to ABC proof and model-checking 
 algorithms. In case ABC finds a counterexample, the methods maps the values from 
 the counterexample to the original ABC system and provides the user with a debug
 visualization tool. 
@@ -28,6 +28,6 @@ We successfully used the system to verify and debug several case studies.
 For future work, we consider several research directions.
 % 
 Currently, the system-specific scheduler makes conservative decisions to avoid interaction conflicts. Two interactions conflict if they share a port or they use conflicting ports of the same component.
-An important extension is to allow parallel execution of non-conflicting interactions using techniques presented in~\cite{BonakdarpourBJQS12}. Another interesting direction is to generate correct and efficient sequential circuit given real-time software (i.e., with real-time constraints) modeled using the real-time version of BIP~\cite{AbdellatifCS13}. 
+An important extension is to allow for the parallel execution of non-conflicting interactions using techniques presented in~\cite{BonakdarpourBJQS12}. Another interesting direction is to generate correct and efficient sequential circuit given real-time software (i.e., with real-time constraints) modeled using the real-time version of BIP~\cite{AbdellatifCS13}. 
 %
 Finally, we will study the efficiency and the effectiveness of the generated \caig programs aligned with automated test case generation techniques such as~\cite{kbse-BurnimS08}.
